@@ -3,8 +3,9 @@ import { useEffect, useRef, useState } from "react"
 import check from './check.png'
 import alert from './alert.png'
 import deny from './delete-button.png'
+import DateField from "./DateField"
 
-const Übersicht = () => {
+const Overview = ({dates}) => {
     const [abfragen, setAbfragen] = useState(new Array(0))
     const loading = useRef(true)
 
@@ -19,6 +20,7 @@ const Übersicht = () => {
                 if(res.status === 200){
                     res.json().then((json) => {
                         setAbfragen(json)
+                        loading.current=false
                     })
                 }
             })
@@ -29,19 +31,19 @@ const Übersicht = () => {
             } else {
                 setAbfragen([
                     {
-                        Name: "Test",
+                        Name: "Test1",
                         ft_oeling: 1,
                         sf_ennest: 2,
                         timestamp: ""
                     },
                     {
-                        Name: "Test",
+                        Name: "Test2",
                         ft_oeling: 2,
                         sf_ennest: 0,
                         timestamp: ""
                     },
                     {
-                        Name: "Test",
+                        Name: "Test3",
                         ft_oeling: 0,
                         sf_ennest: 1,
                         timestamp: ""
@@ -50,28 +52,29 @@ const Übersicht = () => {
             }
         }
     }, [])
-    console.log(abfragen)
     if(abfragen === undefined) {
-        console.log('undefined')
         return(<>Noch keine Rückmeldungen</>)
     } else {
         return(
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>FT Oelinghauser Heide<br />15. Mai 2022</th>
-                        <th>SF Ennest<br />17. Juli 2022</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {abfragen.map((abfrage) => {
-                        return(
-                            <AbfragenTableRow abfrage={abfrage}/>
-                        )
-                    })}
-                </tbody>
-            </table>
+            <>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            {dates.map(date => {
+                                return(<th key={date.Location}><DateField dateprops={date} /></th>)
+                            })}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {abfragen.map((abfrage) => {
+                            return(
+                                <AbfragenTableRow key={abfrage.Name} abfrage={abfrage}/>
+                            )
+                        })}
+                    </tbody>
+                </table>
+            </>
         )
     }
 }
@@ -98,4 +101,4 @@ const ZusageIcon = ({id}) => {
     }
 }
 
-export default Übersicht
+export default Overview

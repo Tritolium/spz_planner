@@ -1,11 +1,14 @@
 import './App.css';
-import Termineingabe from './Termineingabe';
-import Übersicht from './Übersicht'
-
-import check from './check.png'
-import alert from './alert.png'
-import deny from './delete-button.png'
 import { useState } from 'react';
+import Dateplanner from './components/dateplanner/Dateplanner';
+import MemberAdministration from './components/memberadministration/MemberAdministration';
+import DateAdministration from './components/dateadministration/DateAdministration';
+
+if(process.env.NODE_ENV === 'production'){
+    import('./App.css')
+} else {
+    import('./App_dev.css')
+}
 
 function App() {
 
@@ -14,11 +17,14 @@ function App() {
     const navigate = (e) => {
         switch(e.target.id){
         default:
-        case 'button_0':
+        case 'main_button_0':
             setView(0)
             break
-        case 'button_1':
+        case 'main_button_1':
             setView(1)
+            break
+        case 'main_button_2':
+            setView(2)
             break
         }
     }
@@ -26,12 +32,10 @@ function App() {
     return (
         <div className="App">
             <header className="App-header">
-                <div><img src={check} alt='Zusage'/> Zusage</div>
-                <div><img src={deny} alt='Absage'/> Absage</div>
-                <div><img src={alert} alt='Unsicher'/> Unsicher</div>
                 <nav>
-                    <button id='button_0' onClick={navigate}>Eingabe</button>
-                    <button id='button_1' onClick={navigate}>Übersicht</button>
+                    <button type='button' id='main_button_0' onClick={navigate}>Terminplaner</button>
+                    <button type='button' id='main_button_1' onClick={navigate}>Mitgliederverwaltung</button>
+                    <button type='button' id='main_button_2' onClick={navigate}>Terminverwaltung</button>
                 </nav>
             </header>
             <View view={view}/>
@@ -43,9 +47,11 @@ const View = (props) => {
     switch(props.view){
     default:
     case 0:
-        return(<Termineingabe />)
+        return(<Dateplanner />)
     case 1:
-        return(<Übersicht />)
+        return(<MemberAdministration />)
+    case 2:
+        return(<DateAdministration />)
     }
 }
 

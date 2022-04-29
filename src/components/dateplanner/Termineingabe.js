@@ -1,7 +1,8 @@
 import { useCallback, useState } from 'react'
+import DateField from './DateField'
 import Terminzusage from './Terminzusage'
 
-const Termineingabe = () => {
+const Termineingabe = ({dates}) => {
 
     const [name, setName] = useState("")
     const [ft, setFt] = useState(1)
@@ -32,6 +33,9 @@ const Termineingabe = () => {
                 setFt(1)
                 setSf(1)
                 break
+            case 400:
+                alert("Bitte Namen eintragen und erneut abschicken")
+                break
             default:
             case 404:
                 alert("Server nicht erreicht")
@@ -42,13 +46,14 @@ const Termineingabe = () => {
     }
 
     return(
-        <form onSubmit={sendForm} className="Main">
+        <form onSubmit={sendForm} className="DateInput">
             <table>
                 <thead>
                     <tr>
-                        <td>Name</td>
-                        <th>FT Oelinghauser Heide<br />15. Mai 2022</th>
-                        <th>SF Ennest<br />17. Juli 2022</th>
+                        <td id='date_name_label'>Name:</td>
+                        {dates.map(date => {
+                            return(<th key={date.Location}><DateField dateprops={date} /></th>)
+                        })}
                     </tr>
                 </thead>
                 <tbody>
