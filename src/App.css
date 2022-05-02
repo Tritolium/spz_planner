@@ -8,7 +8,7 @@ header {
   background-color: #282c34;
   min-height: 5vh;
   width: 100vw;
-  display: none;/*flex*/
+  display: flex;/*flex*/
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
@@ -19,7 +19,7 @@ header {
   background-color: #282c34;
   min-height: 5vh;
   width: 100vw;
-  display: none;/*flex*/
+  display: flex;/*flex*/
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
@@ -28,8 +28,4 @@ header {
 
 .App-header img {
   height: calc(10px + 2vmin);
-}
-
-.Dateplanner-header button {
-  display: none;
 }

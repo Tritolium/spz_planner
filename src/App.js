@@ -3,12 +3,12 @@ import { useState } from 'react';
 import Dateplanner from './components/dateplanner/Dateplanner';
 import MemberAdministration from './components/memberadministration/MemberAdministration';
 import DateAdministration from './components/dateadministration/DateAdministration';
-
+/*
 if(process.env.NODE_ENV === 'production'){
     import('./App.css')
 } else {
     import('./App_dev.css')
-}
+}*/import('./App.css')
 
 function App() {
 
