@@ -12,10 +12,9 @@ $data = json_decode(file_get_contents("php://input"));
 
 header('content-type: application/json');
 
-$auth_level = authorize($_GET['api_token']);
-
-if($auth_level == 0)
-{
+if(isset($_SERVER['API_Token'])){
+    $auth_level = authorize($_SERVER['API_Token']);
+} else {
     http_response_code(403);
     exit();
 }
