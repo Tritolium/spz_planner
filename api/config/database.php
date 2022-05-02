@@ -23,7 +23,8 @@ class Database{
 
 function authorize($api_token)
 {
-    $connection = new Database();
+    $db = new Database();
+    $connection = $db->getConnection();
     $statement = $connection->prepare('SELECT auth_level FROM tblMembers WHERE api_token = :token');
     $statement->bindParam(":token", $api_token);
 
