@@ -7,6 +7,7 @@ class Database{
     public $conn;
 
     public function getConnection(){
+
         $this->conn = null;
 
         try{
@@ -18,6 +19,23 @@ class Database{
 
         return $this->conn;
     }
+}
+
+function authorize($api_token)
+{
+    $connection = new Database();
+    $statement = $connection->prepare('SELECT auth_level FROM tblMembers WHERE api_token = :token');
+    $statement->bindParam(":token", $api_token);
+
+    if($statement->execute()){
+        if($statement->rowCount() == 1){
+            $row = $statement->fetch(PDO::FETCH_ASSOC);
+            extract($row);
+            return intval($auth_level);
+        }
+    }
+
+    return 0;
 }
 
 /**

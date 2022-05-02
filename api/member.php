@@ -12,6 +12,14 @@ $data = json_decode(file_get_contents("php://input"));
 
 header('content-type: application/json');
 
+$auth_level = authorize($_SERVER['API_TOKEN']);
+
+if($auth_level == 0)
+{
+    response(403);
+    exit();
+}
+
 switch($_SERVER['REQUEST_METHOD'])
 {
     case 'POST':
