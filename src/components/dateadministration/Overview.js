@@ -6,7 +6,7 @@ const Overview = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            fetch('http://spzroenkhausen.bplaced.net/api/dates.php', {
+            fetch('http://spzroenkhausen.bplaced.net/api/event.php', {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/JSON'
@@ -24,19 +24,27 @@ const Overview = () => {
         } else {
             setDates([
                 {
-                    Type: "Freundschaftstreffen",
-                    Location: "Oelinghauserheide",
-                    Date: "2022-05-14",
-                    Begin: "14:30:00",
-                    Departure: "14:00:00",
-                    Leave: ""
+                    type: "Freundschaftstreffen",
+                    location: "Oelinghauserheide",
+                    date: "2022-05-14",
+                    begin: "14:30:00",
+                    departure: "14:00:00",
+                    leave_dep: "12:34:56"
+                },
+                {
+                    type: "Schützenfest",
+                    location: "Ennest",
+                    date: "2022-07-17",
+                    begin: "12:34:56",
+                    departure: "12:34:56",
+                    leave_dep: "12:34:56"
                 }
             ])
         }
     }, [])
 
     return(
-        <table>
+        <table className="DateAdministrationOverview">
             <thead>
                 <tr>
                     <th></th>
@@ -50,13 +58,13 @@ const Overview = () => {
             <tbody>
                 {dates.map(date => {
                     return (
-                        <tr key={date.Date}>
-                            <td>{date.Type}</td>
-                            <td>{date.Location}</td>
-                            <td>{parseDate(date.Date)}</td>
-                            <td>{parseTime(date.Begin)}</td>
-                            <td>{parseTime(date.Departure)}</td>
-                            <td>{parseTime(date.Leave)}</td>
+                        <tr key={date.date}>
+                            <td>{date.type}</td>
+                            <td>{date.location}</td>
+                            <td className="DateAdministrationDate">{parseDate(date.date)}</td>
+                            <td className="DateAdministrationTime">{parseTime(date.begin)}</td>
+                            <td className="DateAdministrationTime">{parseTime(date.departure)}</td>
+                            <td className="DateAdministrationTime">{parseTime(date.leave_dep)}</td>
                         </tr>
                     )
                 })}
@@ -74,7 +82,7 @@ const parseDate = (datestring) => {
 }
 
 const parseTime = (timestring) => {
-    if(timestring === ''){
+    if(timestring === '12:34:56'){
         return("---")
     }
     var split = timestring.split(':')

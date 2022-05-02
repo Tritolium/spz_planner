@@ -1,0 +1,18 @@
+.DateAdministrationOverview {
+    border-spacing: 1px;
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+
+.DateAdministrationOverview th {
+    border: 1px solid black;
+}
+
+.DateAdministrationOverview td {
+    border-top: 1px solid black;
+    padding: 4px;
+}
+
+.DateAdministrationDate, .DateAdministrationTime {
+    text-align: center;
+}

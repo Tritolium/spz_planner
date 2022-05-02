@@ -1,6 +1,8 @@
 import { useState } from "react"
 import Overview from "./Overview"
 
+import './DateAdministration.css'
+
 const DateAdministration = () => {
 
     const [view, setView] = useState(0)

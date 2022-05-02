@@ -29,3 +29,7 @@ header {
 .App-header img {
   height: calc(10px + 2vmin);
 }
+
+.Dateplanner-header button {
+  display: none;
+}
