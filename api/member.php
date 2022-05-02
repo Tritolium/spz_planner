@@ -16,7 +16,7 @@ $auth_level = authorize($_GET['api_token']);
 
 if($auth_level == 0)
 {
-    response(403);
+    http_response_code(403);
     exit();
 }
 
