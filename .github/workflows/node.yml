@@ -27,6 +27,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Get Code
+        uses: actions/checkout@v2
+        
       - name: Upload files
         uses: SamKirkland/FTP-Deploy-Action@4.1.0
         with:
