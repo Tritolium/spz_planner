@@ -13,7 +13,7 @@ if(!isset($_GET['name'])){
     http_response_code(400);
     exit();
 }
-$name = '%' . $data->name . '%';
+$name = '%' . $_GET['name'] . '%';
 
 $statement = $db_conn->prepare('SELECT * FROM tblMembers WHERE CONCAT(forename, \' \', surname) LIKE :full_name');
 $statement->bindParam(":full_name", $name);

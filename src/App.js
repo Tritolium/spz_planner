@@ -18,6 +18,7 @@ const App = () => {
 
     const [view, setView] = useState(0)
     const [api_token, setApi_Token] = useState()
+    const [fullname, setFullname] = useState("")
 
     useEffect(() => {
         let token = cookies.get('api_token')
@@ -36,6 +37,10 @@ const App = () => {
             if(res.status === 200){
                 res.json().then((json) => {
                     console.log(json)
+                    setFullname(json.Forename + " " + json.Surname)
+                    setView(0)
+                    setApi_Token(json.api_token)
+                    cookies.set('api_token', json.api_token)
                 })
             }
         })
@@ -59,6 +64,7 @@ const App = () => {
     return (
         <div className="App">
             <header className="App-header">
+                <div>{fullname}</div>
                 <nav>
                     <button type='button' id='main_button_0' onClick={navigate}>Terminplaner</button>
                     <button type='button' id='main_button_1' onClick={navigate}>Mitgliederverwaltung</button>
