@@ -6,7 +6,7 @@ const Overview = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            fetch('http://spzroenkhausen.bplaced.net/api/event.php', {
+            fetch('http://spzroenkhausen.bplaced.net/api/event.php?mode=all', {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/JSON'
