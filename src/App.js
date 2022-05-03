@@ -22,7 +22,8 @@ const App = () => {
 
     useEffect(() => {
         let token = cookies.get('api_token')
-        if(token !== undefined){
+        console.log(typeof(token))
+        if(token !== undefined && token !== "undefined"){
             setApi_Token(token)
             let name = cookies.get('fullname')
             if(name !== undefined){
@@ -43,8 +44,8 @@ const App = () => {
                     console.log(json)
                     setFullname(json.Forename + " " + json.Surname)
                     setView(0)
-                    setApi_Token(json.api_token)
-                    cookies.set('api_token', json.api_token)
+                    setApi_Token(json.API_token)
+                    cookies.set('api_token', json.API_token)
                     cookies.set('fullname', json.Forename + " " + json.Surname)
                 })
             }
