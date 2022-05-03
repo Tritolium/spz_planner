@@ -13,6 +13,7 @@
     "react-dom": "^18.0.0",
     "react-scripts": "5.0.1",
     "stream": "^0.0.2",
+    "universal-cookie": "^4.0.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

@@ -9,9 +9,7 @@ if($_SERVER['REQUEST_METHOD'] != 'GET'){
 $database = new Database();
 $db_conn = $database->getConnection();
 
-$data = json_decode(file_get_contents("php://input"));
-
-if(!isset($data->name)){
+if(!isset($_GET['name'])){
     http_response_code(400);
     exit();
 }

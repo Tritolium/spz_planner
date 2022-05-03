@@ -1,8 +1,10 @@
 import './App.css';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Dateplanner from './components/dateplanner/Dateplanner';
 import MemberAdministration from './components/memberadministration/MemberAdministration';
 import DateAdministration from './components/dateadministration/DateAdministration';
+import Login from './components/login/Login';
+import Cookies from 'universal-cookie';
 /*
 if(process.env.NODE_ENV === 'production'){
     import('./App.css')
@@ -10,9 +12,34 @@ if(process.env.NODE_ENV === 'production'){
     import('./App_dev.css')
 }*/import('./App.css')
 
-function App() {
+const cookies = new Cookies()
+
+const App = () => {
 
     const [view, setView] = useState(0)
+    const [api_token, setApi_Token] = useState()
+
+    useEffect(() => {
+        let token = cookies.get('api_token')
+        if(token !== undefined){
+            setApi_Token(token)
+        } else {
+            setView(-1)
+        }
+    }, [api_token])
+
+    const sendLogin = useCallback((name) => {
+        console.log(name)
+        fetch("/api/login.php?name=" + name, {
+            method: "GET"
+        }).then((res) => {
+            if(res.status === 200){
+                res.json().then((json) => {
+                    console.log(json)
+                })
+            }
+        })
+    }, [])
 
     const navigate = (e) => {
         switch(e.target.id){
@@ -38,14 +65,21 @@ function App() {
                     <button type='button' id='main_button_2' onClick={navigate}>Terminverwaltung</button>
                 </nav>
             </header>
-            <View view={view}/>
+            <View view={view} sendLogin={sendLogin}/>
         </div>
     );
 }
 
 const View = (props) => {
+
+    const sendLogin = useCallback((name) => {
+        props.sendLogin(name)
+    }, [props])
+
     switch(props.view){
     default:
+    case -1:
+        return(<Login sendLogin={sendLogin}/>)
     case 0:
         return(<Dateplanner />)
     case 1:
