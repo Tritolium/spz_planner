@@ -2,7 +2,7 @@ import { useState } from 'react'
 import './MemberAdministration.css'
 import Overview from './Overview'
 
-const Memberadministration = () => {
+const Memberadministration = ({api_token}) => {
 
     const [view, setView] = useState(0)
 
@@ -22,7 +22,7 @@ const Memberadministration = () => {
                     <button id="member_button_0" type='button' onClick={navigate}>Übersicht</button>
                 </nav>
             </header>
-            <View view={view} />
+            <View view={view} api_token={api_token}/>
         </>
     )
 }
@@ -31,7 +31,7 @@ const View = (props) => {
     switch(props.view){
     default:
     case 0:
-        return(<Overview />)
+        return(<Overview api_token={props.api_token}/>)
     }
 }
 

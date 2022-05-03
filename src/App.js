@@ -5,12 +5,8 @@ import MemberAdministration from './components/memberadministration/MemberAdmini
 import DateAdministration from './components/dateadministration/DateAdministration';
 import Login from './components/login/Login';
 import Cookies from 'universal-cookie';
-/*
-if(process.env.NODE_ENV === 'production'){
-    import('./App.css')
-} else {
-    import('./App_dev.css')
-}*/import('./App.css')
+
+import('./App.css')
 
 const cookies = new Cookies()
 
@@ -25,10 +21,16 @@ const App = () => {
         console.log(typeof(token))
         if(token !== undefined && token !== "undefined"){
             setApi_Token(token)
-            let name = cookies.get('fullname')
-            if(name !== undefined){
-                setFullname(name)
-            }
+            fetch("/api/login.php?mode=update&api_token=" + token, {
+                method: "GET"
+            }).then((res) => {
+                if(res.status === 200){
+                    res.json().then((json) => {
+                        setFullname(json.Forename + " " + json.Surname)
+                        setView(0)
+                    })
+                }
+            })
         } else {
             setView(-1)
         }
@@ -36,17 +38,15 @@ const App = () => {
 
     const sendLogin = useCallback((name) => {
         console.log(name)
-        fetch("/api/login.php?name=" + name, {
+        fetch("/api/login.php?mode=login&name=" + name, {
             method: "GET"
         }).then((res) => {
             if(res.status === 200){
                 res.json().then((json) => {
-                    console.log(json)
                     setFullname(json.Forename + " " + json.Surname)
-                    setView(0)
                     setApi_Token(json.API_token)
+                    setView(0)
                     cookies.set('api_token', json.API_token)
-                    cookies.set('fullname', json.Forename + " " + json.Surname)
                 })
             }
         })
@@ -77,7 +77,7 @@ const App = () => {
                     <button type='button' id='main_button_2' onClick={navigate}>Terminverwaltung</button>
                 </nav>
             </header>
-            <View view={view} sendLogin={sendLogin} fullname={fullname}/>
+            <View view={view} sendLogin={sendLogin} fullname={fullname} api_token={api_token}/>
         </div>
     );
 }
@@ -95,7 +95,7 @@ const View = (props) => {
     case 0:
         return(<Dateplanner fullname={props.fullname}/>)
     case 1:
-        return(<MemberAdministration />)
+        return(<MemberAdministration api_token={props.api_token}/>)
     case 2:
         return(<DateAdministration />)
     }

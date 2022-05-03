@@ -21,7 +21,11 @@ class Database{
     }
 }
 
-function authorize($api_token)
+/**
+ * @param string $api_token
+ * @return int Level of authorization
+ */
+function authorize($api_token) : int
 {
     $db = new Database();
     $connection = $db->getConnection();

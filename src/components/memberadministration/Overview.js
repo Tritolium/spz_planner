@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react"
 
-const Overview = () => {
+const Overview = (props) => {
 
     const [member, setMember] = useState(new Array(0))
 
     useEffect(() => {
         const fetchData = async () => {
-            fetch('http://spzroenkhausen.bplaced.net/api/member.php', {
+            fetch('http://spzroenkhausen.bplaced.net/api/member.php?api_token=' + props.api_token, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/JSON'
@@ -33,7 +33,7 @@ const Overview = () => {
                 }
             ])
         }
-    }, [])
+    }, [props.api_token])
 
     return(
         <table>
