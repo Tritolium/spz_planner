@@ -22,9 +22,9 @@ const dates = [
     }
 ]
 
-const Dateplanner = () => {
+const Dateplanner = (props) => {
 
-    const [view, setView] = useState(0)
+    const [view, setView] = useState(1)
 
     const navigate = (e) => {
         switch(e.target.id){
@@ -49,7 +49,7 @@ const Dateplanner = () => {
                     <button id='date_button_1' onClick={navigate}>Übersicht</button>
                 </nav>
             </header>
-            <View view={view} />
+            <View view={view} fullname={props.fullname}/>
         </>
     )
 }
@@ -58,7 +58,7 @@ const View = (props) => {
     switch(props.view){
     default:
     case 0:
-        return(<Termineingabe dates={dates}/>)
+        return(<Termineingabe dates={dates} fullname={props.fullname}/>)
     case 1:
         return(<Overview dates={dates}/>)
     }

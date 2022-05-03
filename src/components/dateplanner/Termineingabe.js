@@ -2,9 +2,9 @@ import { useCallback, useState } from 'react'
 import DateField from './DateField'
 import Terminzusage from './Terminzusage'
 
-const Termineingabe = ({dates}) => {
+const Termineingabe = ({dates, fullname}) => {
 
-    const [name, setName] = useState("")
+    //const [name, setName] = useState("")
     const [ft, setFt] = useState(1)
     const [sf, setSf] = useState(1)
 
@@ -15,17 +15,17 @@ const Termineingabe = ({dates}) => {
     const clickSf = useCallback(() => {
         setSf((sf + 1) % 3)
     }, [sf])
-
+/*
     const onNameChange = useCallback((e) => {
         setName(e.target.value)
-    }, [])
+    }, [])*/
 
     const sendForm = (e) => {
         e.preventDefault()
         fetch("/api/abfrage.php", {
             method: "POST",
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({"name": name, "ft_oeling": ft, "sf_ennest": sf})
+            body: JSON.stringify({"name": fullname, "ft_oeling": ft, "sf_ennest": sf})
         }).then((res) => {
             switch(res.status){
             case 201:
@@ -58,7 +58,8 @@ const Termineingabe = ({dates}) => {
                 </thead>
                 <tbody>
                     <tr>
-                        <td><Nameneingabe onChange={onNameChange}/></td>
+                        {/*<td><Nameneingabe onChange={onNameChange}/></td>*/}
+                        <td>{fullname}</td>
                         <td className='Tz'><Terminzusage onClick={clickFt} attendence={ft}/></td>
                         <td className='Tz'><Terminzusage onClick={clickSf} attendence={sf}/></td>
                     </tr>

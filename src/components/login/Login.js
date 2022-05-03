@@ -15,8 +15,8 @@ const Login = (props) => {
 
     return(
         <form onSubmit={sendLogin}>
-            <input type="text" onChange={onChange}></input>
-            <button type="submit">Klick</button>
+            <input type="text" onChange={onChange} placeholder="Namen eingeben"></input>
+            <button type="submit">Login</button>
         </form>
     )
 }

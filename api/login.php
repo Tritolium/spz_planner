@@ -15,7 +15,7 @@ if(!isset($_GET['name'])){
 }
 $name = '%' . $_GET['name'] . '%';
 
-$statement = $db_conn->prepare('SELECT * FROM tblMembers WHERE CONCAT(forename, \' \', surname) LIKE :full_name');
+$statement = $db_conn->prepare('SELECT forename, surname, auth_level, api_token FROM tblMembers WHERE CONCAT(forename, \' \', surname, \' \', nicknames) LIKE :full_name');
 $statement->bindParam(":full_name", $name);
 
 if($statement->execute()){

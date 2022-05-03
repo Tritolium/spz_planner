@@ -24,6 +24,10 @@ const App = () => {
         let token = cookies.get('api_token')
         if(token !== undefined){
             setApi_Token(token)
+            let name = cookies.get('fullname')
+            if(name !== undefined){
+                setFullname(name)
+            }
         } else {
             setView(-1)
         }
@@ -41,6 +45,7 @@ const App = () => {
                     setView(0)
                     setApi_Token(json.api_token)
                     cookies.set('api_token', json.api_token)
+                    cookies.set('fullname', json.Forename + " " + json.Surname)
                 })
             }
         })
@@ -71,7 +76,7 @@ const App = () => {
                     <button type='button' id='main_button_2' onClick={navigate}>Terminverwaltung</button>
                 </nav>
             </header>
-            <View view={view} sendLogin={sendLogin}/>
+            <View view={view} sendLogin={sendLogin} fullname={fullname}/>
         </div>
     );
 }
@@ -87,7 +92,7 @@ const View = (props) => {
     case -1:
         return(<Login sendLogin={sendLogin}/>)
     case 0:
-        return(<Dateplanner />)
+        return(<Dateplanner fullname={props.fullname}/>)
     case 1:
         return(<MemberAdministration />)
     case 2:
