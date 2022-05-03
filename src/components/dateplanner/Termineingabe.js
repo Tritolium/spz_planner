@@ -69,11 +69,11 @@ const Termineingabe = ({dates, fullname}) => {
         </form>
     )
 }
-
+/*
 const Nameneingabe = (props) => {
     return(
         <input type="text" onChange={props.onChange}/>
     )
 }
-
+*/
 export default Termineingabe
