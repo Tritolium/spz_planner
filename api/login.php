@@ -11,10 +11,14 @@ $db_conn = $database->getConnection();
 
 $data = json_decode(file_get_contents("php://input"));
 
-$name = $data->name;
+if(!isset($data->name)){
+    http_response_code(400);
+    exit();
+}
+$name = '%' . $data->name . '%';
 
-$statement = $db_conn->prepare('SELECT api_token, forename, surname WHERE forename + ' ' + surname = %:name%');
-$statement->bindParam(":name", $name);
+$statement = $db_conn->prepare('SELECT * FROM tblMembers WHERE CONCAT(forename, \' \', surname) LIKE :full_name');
+$statement->bindParam(":full_name", $name);
 
 if($statement->execute()){
     if($statement->rowCount() == 1){
@@ -24,7 +28,7 @@ if($statement->execute()){
             "Forename" => $forename,
             "Surname" => $surname,
             "API_token" => $api_token
-        )
+        );
 
         response_with_data(200, $response_body);
     } else {

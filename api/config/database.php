@@ -12,7 +12,7 @@ class Database{
 
         try{
             $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
-            $this->conn->exec("set names utf8");
+            $this->conn->exec("set names utf8mb4");
         } catch(PDOException $exception){
             echo "Connection error: " . $exception->getMessage();
         }
@@ -56,6 +56,6 @@ function response($code, $response)
 function response_with_data($code, $data)
 {
     http_response_code($code);
-    echo json_encode($data);
+    echo json_encode($data, JSON_UNESCAPED_UNICODE);
 }
 ?>
