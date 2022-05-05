@@ -43,33 +43,61 @@ const Overview = () => {
         }
     }, [])
 
+    const options = [
+        {value: "all", label: "Alle"},
+        {value: "current", label: "Aktuell"},
+        {value: "past", label: "Vergangen"},
+        {value: "months", label: "4-Monate"}
+    ]
+
     return(
-        <table className="DateAdministrationOverview">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Ort</th>
-                    <th>Datum</th>
-                    <th>Beginn</th>
-                    <th>Abfahrt</th>
-                    <th>Rückfahrt</th>
-                </tr>
-            </thead>
-            <tbody>
-                {dates.map(date => {
-                    return (
-                        <tr key={date.date}>
-                            <td>{date.type}</td>
-                            <td>{date.location}</td>
-                            <td className="DateAdministrationDate">{parseDate(date.date)}</td>
-                            <td className="DateAdministrationTime">{parseTime(date.begin)}</td>
-                            <td className="DateAdministrationTime">{parseTime(date.departure)}</td>
-                            <td className="DateAdministrationTime">{parseTime(date.leave_dep)}</td>
-                        </tr>
-                    )
-                })}
-            </tbody>
-        </table>
+        <>
+            <select name="date_filter">
+                <option value="all">Alle</option>
+                <option value="current">Aktuell</option>
+                <option value="past">Vergangen</option>
+                <option value="months">4-Monate</option>
+            </select>
+            <Filter options={options}/>
+            <table className="DateAdministrationOverview">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Ort</th>
+                        <th>Datum</th>
+                        <th>Beginn</th>
+                        <th>Abfahrt</th>
+                        <th>Rückfahrt</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {dates.map(date => {
+                        return (
+                            <tr key={date.date}>
+                                <td>{date.type}</td>
+                                <td>{date.location}</td>
+                                <td className="DateAdministrationDate">{parseDate(date.date)}</td>
+                                <td className="DateAdministrationTime">{parseTime(date.begin)}</td>
+                                <td className="DateAdministrationTime">{parseTime(date.departure)}</td>
+                                <td className="DateAdministrationTime">{parseTime(date.leave_dep)}</td>
+                            </tr>
+                        )
+                    })}
+                </tbody>
+            </table>
+        </>
+    )
+}
+
+const Filter = (props) => {
+    return(
+        <select>
+            {props.options.map(option => {
+                return(
+                    <option value={option.value}>{option.label}</option>
+                )
+            })}
+        </select>
     )
 }
 
