@@ -1,8 +1,16 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 
 const Overview = () => {
 
+    const options = [
+        {value: "current", label: "Aktuell"},
+        {value: "past", label: "Vergangen"},
+        {value: "months", label: "4-Monate"},
+        {value: "all", label: "Alle"}
+    ]
+
     const [dates, setDates] = useState(new Array(0))
+    const [filter, setFilter] = useState(options[0].value)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -43,22 +51,14 @@ const Overview = () => {
         }
     }, [])
 
-    const options = [
-        {value: "all", label: "Alle"},
-        {value: "current", label: "Aktuell"},
-        {value: "past", label: "Vergangen"},
-        {value: "months", label: "4-Monate"}
-    ]
+    const filterChange = useCallback((e) => {
+        setFilter(e.target.value)
+        console.log(filter)
+    })
 
     return(
         <>
-            <select name="date_filter">
-                <option value="all">Alle</option>
-                <option value="current">Aktuell</option>
-                <option value="past">Vergangen</option>
-                <option value="months">4-Monate</option>
-            </select>
-            <Filter options={options}/>
+            <Filter options={options} onChange={filterChange}/>
             <table className="DateAdministrationOverview">
                 <thead>
                     <tr>
@@ -90,8 +90,13 @@ const Overview = () => {
 }
 
 const Filter = (props) => {
+
+    const onChange = useCallback((e) => {
+        props.onChange(e)
+    })
+
     return(
-        <select>
+        <select onChange={onChange}>
             {props.options.map(option => {
                 return(
                     <option value={option.value}>{option.label}</option>
