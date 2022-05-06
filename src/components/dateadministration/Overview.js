@@ -54,7 +54,7 @@ const Overview = () => {
     const filterChange = useCallback((e) => {
         setFilter(e.target.value)
         console.log(filter)
-    }, [])
+    }, [filter])
 
     return(
         <>
@@ -93,7 +93,7 @@ const Filter = (props) => {
 
     const onChange = useCallback((e) => {
         props.onChange(e)
-    }, [])
+    }, [props])
 
     return(
         <select onChange={onChange}>
