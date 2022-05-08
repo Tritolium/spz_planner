@@ -37,10 +37,6 @@ const Overview = (props) => {
         }
     }, [props.api_token])
 
-    const edit = (id) => {
-        
-    }
-
     return(
         <table>
             <thead>
@@ -53,7 +49,7 @@ const Overview = (props) => {
             <tbody>
                 {member.map((mem) => {
                     return(
-                        <tr key={mem.Forename+mem.Surname} onDoubleClick={edit(mem.id)}>
+                        <tr key={mem.Forename+mem.Surname}>
                             <td>{mem.Forename}</td>
                             <td>{mem.Surname}</td>
                             <td>{mem.Auth_level}</td>
