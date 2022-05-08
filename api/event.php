@@ -20,7 +20,6 @@ switch($_SERVER['REQUEST_METHOD'])
             exit();
         }
         switch($_GET['mode']){
-        default:
         case 'current':
             $stmt = $event->readCurrent();
             $num = $stmt->rowCount();

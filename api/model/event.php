@@ -18,9 +18,9 @@ class Event {
 
     function readCurrent() : PDOStatement
     {
-        $query = "SELECT * FROM " . $this->table_name . "WHERE date > :today";
+        $query = "SELECT * FROM " . $this->table_name . " WHERE date >= :_now SORT BY date";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":today", date('Y-m-d'))
+        $stmt->bindValue(":_now", date("Y-m-d"));
         $stmt->execute();
         return $stmt;
     }
