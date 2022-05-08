@@ -11,7 +11,7 @@ const Overview = () => {
     const [dates, setDates] = useState(new Array(0))
     const [filter, setFilter] = useState(options[0].value)
 
-    useEffect(() => {console.log('effect')
+    useEffect(() => {
         const fetchData = async () => {
             fetch('http://spzroenkhausen.bplaced.net/api/event.php?mode=' + filter, {
                 method: "GET",
@@ -19,11 +19,14 @@ const Overview = () => {
                     'Content-Type': 'application/JSON'
                 }
             }).then(res => {
-                if(res.status === 200) {
+                switch(res.status){
+                case 200:
                     res.json().then(json => {
                         setDates(json)
-                        console.log(json)
                     })
+                    break;
+                case 204:
+                    setDates(new Array(0))
                 }
             })
         }
@@ -52,9 +55,7 @@ const Overview = () => {
     }, [filter])
 
     const filterChange = useCallback((e) => {
-        console.log(e.target.selected)
-        setFilter(e.target.selected)
-        console.log(filter)
+        setFilter(e.target.value)
     }, [filter])
 
     return(

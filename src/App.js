@@ -18,7 +18,6 @@ const App = () => {
 
     useEffect(() => {
         let token = cookies.get('api_token')
-        console.log(typeof(token))
         if(token !== undefined && token !== "undefined"){
             setApi_Token(token)
             fetch("/api/login.php?mode=update&api_token=" + token, {
@@ -37,7 +36,6 @@ const App = () => {
     }, [api_token])
 
     const sendLogin = useCallback((name) => {
-        console.log(name)
         fetch("/api/login.php?mode=login&name=" + name, {
             method: "GET"
         }).then((res) => {

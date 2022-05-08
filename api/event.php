@@ -46,7 +46,7 @@ switch($_SERVER['REQUEST_METHOD'])
             }
             break;
         case 'past':
-            $stmt = $event->readCurrent();
+            $stmt = $event->readPast();
             $num = $stmt->rowCount();
 
             if($num > 0) {
