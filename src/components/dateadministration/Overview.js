@@ -49,7 +49,7 @@ const Overview = () => {
                 }
             ])
         }
-    }, [])
+    }, [filter])
 
     const filterChange = useCallback((e) => {
         setFilter(e.target.value)
