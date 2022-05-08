@@ -53,7 +53,7 @@ const Overview = (props) => {
                 }
             ])
         }
-    }, [filter, props.filter])
+    }, [filter, props.api_token])
 
     const filterChange = useCallback((e) => {
         setFilter(e.target.value)
