@@ -11,7 +11,7 @@ const Overview = () => {
     const [dates, setDates] = useState(new Array(0))
     const [filter, setFilter] = useState(options[0].value)
 
-    useEffect(() => {
+    useEffect(() => {console.log('effect')
         const fetchData = async () => {
             fetch('http://spzroenkhausen.bplaced.net/api/event.php?mode=' + filter, {
                 method: "GET",
@@ -22,6 +22,7 @@ const Overview = () => {
                 if(res.status === 200) {
                     res.json().then(json => {
                         setDates(json)
+                        console.log(json)
                     })
                 }
             })
