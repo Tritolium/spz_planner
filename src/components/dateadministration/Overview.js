@@ -25,6 +25,7 @@ const Overview = () => {
                         setDates(json)
                     })
                     break;
+                default:
                 case 204:
                     setDates(new Array(0))
                 }
@@ -56,7 +57,7 @@ const Overview = () => {
 
     const filterChange = useCallback((e) => {
         setFilter(e.target.value)
-    }, [filter])
+    }, [])
 
     return(
         <>
