@@ -52,7 +52,8 @@ const Overview = () => {
     }, [filter])
 
     const filterChange = useCallback((e) => {
-        setFilter(e.target.value)
+        console.log(e.target.selected)
+        setFilter(e.target.selected)
         console.log(filter)
     }, [filter])
 
