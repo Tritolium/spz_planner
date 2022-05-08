@@ -5,7 +5,6 @@ const Overview = () => {
     const options = [
         {value: "current", label: "Aktuell"},
         {value: "past", label: "Vergangen"},
-        {value: "months", label: "4-Monate"},
         {value: "all", label: "Alle"}
     ]
 

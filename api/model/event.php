@@ -25,6 +25,15 @@ class Event {
         return $stmt;
     }
 
+    function readPast() : PDOStatement
+    {
+        $query = "SELECT * FROM " . $this->table_name . " WHERE date < :_now SORT BY date";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(":_now", date("Y-m-d"));
+        $stmt->execute();
+        return $stmt;
+    }
+
     function readAll() : PDOStatement
     {
         $query = "SELECT * FROM " . $this->table_name;
