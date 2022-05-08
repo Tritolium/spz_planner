@@ -15,6 +15,7 @@ const App = () => {
     const [view, setView] = useState(0)
     const [api_token, setApi_Token] = useState()
     const [fullname, setFullname] = useState("")
+    const [auth_level, setAuth_level] = useState(0)
 
     useEffect(() => {
         let token = cookies.get('api_token')
@@ -26,6 +27,7 @@ const App = () => {
                 if(res.status === 200){
                     res.json().then((json) => {
                         setFullname(json.Forename + " " + json.Surname)
+                        setAuth_level(json.Auth_level)
                         setView(0)
                     })
                 }
@@ -70,9 +72,9 @@ const App = () => {
             <header className="App-header">
                 <div>{fullname}</div>
                 <nav>
-                    <button type='button' id='main_button_0' onClick={navigate}>Terminplaner</button>
-                    <button type='button' id='main_button_1' onClick={navigate}>Mitgliederverwaltung</button>
-                    <button type='button' id='main_button_2' onClick={navigate}>Terminverwaltung</button>
+                    {auth_level > 0 ? <button type='button' id='main_button_0' onClick={navigate}>Terminplaner</button> : <></>}
+                    {auth_level > 1 ? <button type='button' id='main_button_1' onClick={navigate}>Mitgliederverwaltung</button> : <></>}
+                    {auth_level > 2 ? <button type='button' id='main_button_2' onClick={navigate}>Terminverwaltung</button> : <></>}
                 </nav>
             </header>
             <View view={view} sendLogin={sendLogin} fullname={fullname} api_token={api_token}/>

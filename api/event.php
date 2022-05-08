@@ -12,6 +12,18 @@ $data = json_decode(file_get_contents("php://input"));
 
 header('content-type: application/json');
 
+if(isset($_GET['api_token'])){
+    $auth_level = authorize($_GET['api_token']);
+} else {
+    http_response_code(403);
+    exit();
+}
+
+if($auth_level < 1){
+    http_response_code(403);
+    exit();
+}
+
 switch($_SERVER['REQUEST_METHOD'])
 {
     case 'GET':
