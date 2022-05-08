@@ -56,13 +56,13 @@ const App = () => {
         switch(e.target.id){
         default:
         case 'main_button_0':
-            setView(0)
-            break
-        case 'main_button_1':
             setView(1)
             break
-        case 'main_button_2':
+        case 'main_button_1':
             setView(2)
+            break
+        case 'main_button_2':
+            setView(3)
             break
         }
     }
@@ -93,10 +93,12 @@ const View = (props) => {
     case -1:
         return(<Login sendLogin={sendLogin}/>)
     case 0:
-        return(<Dateplanner fullname={props.fullname}/>)
+        return(<>Startseite</>)
     case 1:
-        return(<MemberAdministration api_token={props.api_token}/>)
+        return(<Dateplanner fullname={props.fullname}/>)
     case 2:
+        return(<MemberAdministration api_token={props.api_token}/>)
+    case 3:
         return(<DateAdministration />)
     }
 }
