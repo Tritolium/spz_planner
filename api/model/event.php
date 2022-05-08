@@ -16,7 +16,16 @@ class Event {
         $this->conn = $db;
     }
 
-    function read() : PDOStatement
+    function readCurrent() : PDOStatement
+    {
+        $query = "SELECT * FROM " . $this->table_name . "WHERE date > :today";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":today", date('Y-m-d'))
+        $stmt->execute();
+        return $stmt;
+    }
+
+    function readAll() : PDOStatement
     {
         $query = "SELECT * FROM " . $this->table_name;
         $stmt = $this->conn->prepare($query);

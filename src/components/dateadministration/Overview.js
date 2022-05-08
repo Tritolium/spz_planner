@@ -14,7 +14,7 @@ const Overview = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            fetch('http://spzroenkhausen.bplaced.net/api/event.php?mode=all', {
+            fetch('http://spzroenkhausen.bplaced.net/api/event.php?mode=' + filter, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/JSON'
