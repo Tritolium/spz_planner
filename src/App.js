@@ -99,7 +99,7 @@ const View = (props) => {
     case 2:
         return(<MemberAdministration api_token={props.api_token}/>)
     case 3:
-        return(<DateAdministration />)
+        return(<DateAdministration api_token={props.api_token}/>)
     }
 }
 

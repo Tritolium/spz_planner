@@ -3,7 +3,7 @@ import Overview from "./Overview"
 
 import './DateAdministration.css'
 
-const DateAdministration = () => {
+const DateAdministration = ({api_token}) => {
 
     const [view, setView] = useState(0)
     
@@ -23,7 +23,7 @@ const DateAdministration = () => {
                     <button id="date_button_0" type="button" onClick={navigate}>Übersicht</button>
                 </nav>
             </header>
-            <View view={view}/>
+            <View view={view} api_token={api_token}/>
         </>
     )
 }
@@ -32,7 +32,7 @@ const View = (props) => {
     switch(props.view){
     default:
     case 0:
-        return(<Overview />)
+        return(<Overview api_token={props.api_token}/>)
     }
 }
 

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react"
 
-const Overview = () => {
+const Overview = (props) => {
 
     const options = [
         {value: "current", label: "Aktuell"},
@@ -13,7 +13,7 @@ const Overview = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            fetch('http://spzroenkhausen.bplaced.net/api/event.php?mode=' + filter, {
+            fetch('http://spzroenkhausen.bplaced.net/api/event.php?mode=' + filter + "&api_token=" + props.api_token, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/JSON'
