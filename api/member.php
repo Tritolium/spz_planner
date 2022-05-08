@@ -53,8 +53,10 @@ switch($_SERVER['REQUEST_METHOD'])
             while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 extract($row);
                 $member_item = array(
+                    "ID"        => $member_id,
                     "Forename"  => $forename,
-                    "Surname"   => $surname
+                    "Surname"   => $surname,
+                    "Auth_level" => $auth_level
                 );
                 array_push($member_arr, $member_item);
             }

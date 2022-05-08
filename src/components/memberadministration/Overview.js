@@ -26,14 +26,20 @@ const Overview = (props) => {
                 {
                     Forename: "Max",
                     Surname: "Mustermann",
+                    Auth_level: 0
                 },
                 {
                     Forename: "Erika",
-                    Surname: "Musterfrau"
+                    Surname: "Musterfrau",
+                    Auth_level: 1
                 }
             ])
         }
     }, [props.api_token])
+
+    const edit = (id) => {
+        
+    }
 
     return(
         <table>
@@ -41,14 +47,16 @@ const Overview = (props) => {
                 <tr>
                     <th>Vorname</th>
                     <th>Nachname</th>
+                    <th>Level</th>
                 </tr>
             </thead>
             <tbody>
                 {member.map((mem) => {
                     return(
-                        <tr key={mem.Forename+mem.Surname}>
+                        <tr key={mem.Forename+mem.Surname} onDoubleClick={edit(mem.id)}>
                             <td>{mem.Forename}</td>
                             <td>{mem.Surname}</td>
+                            <td>{mem.Auth_level}</td>
                         </tr>
                     )
                 })}
