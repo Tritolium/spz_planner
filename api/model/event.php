@@ -18,7 +18,7 @@ class Event {
 
     function readCurrent() : PDOStatement
     {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE date >= :_now SORT BY date";
+        $query = "SELECT * FROM " . $this->table_name . " WHERE date >= :_now ORDER BY date";
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(":_now", date("Y-m-d"));
         $stmt->execute();
@@ -27,7 +27,7 @@ class Event {
 
     function readPast() : PDOStatement
     {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE date < :_now SORT BY date";
+        $query = "SELECT * FROM " . $this->table_name . " WHERE date < :_now ORDER BY date";
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(":_now", date("Y-m-d"));
         $stmt->execute();
