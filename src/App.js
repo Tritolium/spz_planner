@@ -5,6 +5,7 @@ import MemberAdministration from './components/memberadministration/MemberAdmini
 import DateAdministration from './components/dateadministration/DateAdministration';
 import Login from './components/login/Login';
 import Cookies from 'universal-cookie';
+import { login } from './modules/data/DBConnect';
 
 import('./App.css')
 
@@ -37,7 +38,15 @@ const App = () => {
         }
     }, [api_token])
 
-    const sendLogin = useCallback((name) => {
+    const sendLogin = useCallback(async (name) => {
+        let { _forename, _surname, _api_token } = await login(name)
+        if(_api_token !== undefined) {
+            setFullname(_forename + " " + _surname)
+            setApi_Token(_api_token)
+            cookies.set('api_token', _api_token)
+            setView(0)
+        }
+        /*
         fetch("/api/login.php?mode=login&name=" + name, {
             method: "GET"
         }).then((res) => {
@@ -50,6 +59,7 @@ const App = () => {
                 })
             }
         })
+        */
     }, [])
 
     const navigate = (e) => {
