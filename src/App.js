@@ -5,7 +5,7 @@ import MemberAdministration from './components/memberadministration/MemberAdmini
 import DateAdministration from './components/dateadministration/DateAdministration';
 import Login from './components/login/Login';
 import Cookies from 'universal-cookie';
-import { login } from './modules/data/DBConnect';
+import { login, update_login } from './modules/data/DBConnect';
 
 import('./App.css')
 
@@ -19,47 +19,32 @@ const App = () => {
     const [auth_level, setAuth_level] = useState(0)
 
     useEffect(() => {
-        let token = cookies.get('api_token')
-        if(token !== undefined && token !== "undefined"){
-            setApi_Token(token)
-            fetch("/api/login.php?mode=update&api_token=" + token, {
-                method: "GET"
-            }).then((res) => {
-                if(res.status === 200){
-                    res.json().then((json) => {
-                        setFullname(json.Forename + " " + json.Surname)
-                        setAuth_level(json.Auth_level)
-                        setView(0)
-                    })
-                }
-            })
-        } else {
-            setView(-1)
+
+        const update = async () =>{
+            let { _forename, _surname, _auth_level } = await update_login()
+            
+            if(_auth_level !== undefined) {
+                setFullname(_forename + " " + _surname)
+                setAuth_level(_auth_level)
+                setView(0)
+            } else {
+                setView(-1)
+            }
         }
+
+        update()
     }, [api_token])
 
     const sendLogin = useCallback(async (name) => {
+
         let { _forename, _surname, _api_token } = await login(name)
+
         if(_api_token !== undefined) {
             setFullname(_forename + " " + _surname)
             setApi_Token(_api_token)
             cookies.set('api_token', _api_token)
             setView(0)
         }
-        /*
-        fetch("/api/login.php?mode=login&name=" + name, {
-            method: "GET"
-        }).then((res) => {
-            if(res.status === 200){
-                res.json().then((json) => {
-                    setFullname(json.Forename + " " + json.Surname)
-                    setApi_Token(json.API_token)
-                    setView(0)
-                    cookies.set('api_token', json.API_token)
-                })
-            }
-        })
-        */
     }, [])
 
     const navigate = (e) => {
