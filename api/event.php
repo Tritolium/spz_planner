@@ -27,11 +27,11 @@ if($auth_level < 1){
 switch($_SERVER['REQUEST_METHOD'])
 {
     case 'GET':
-        if(!isset($_GET['mode'])){
+        if(!isset($_GET['filter'])){
             http_response_code(400);
             exit();
         }
-        switch($_GET['mode']){
+        switch($_GET['filter']){
         default:
         case 'current':
             $stmt = $event->readCurrent();

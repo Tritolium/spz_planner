@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react"
+import { getEvents } from "../../modules/data/DBConnect"
 
 const Overview = (props) => {
 
@@ -13,47 +14,11 @@ const Overview = (props) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            fetch('http://spzroenkhausen.bplaced.net/api/event.php?mode=' + filter + "&api_token=" + props.api_token, {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/JSON'
-                }
-            }).then(res => {
-                switch(res.status){
-                case 200:
-                    res.json().then(json => {
-                        setDates(json)
-                    })
-                    break;
-                default:
-                case 204:
-                    setDates(new Array(0))
-                }
-            })
+            let _events = await getEvents(filter)
+            setDates(_events)
         }
-        if(process.env.NODE_ENV === 'production') {
-            fetchData()
-        } else {
-            setDates([
-                {
-                    type: "Freundschaftstreffen",
-                    location: "Oelinghauserheide",
-                    date: "2022-05-14",
-                    begin: "14:30:00",
-                    departure: "14:00:00",
-                    leave_dep: "12:34:56"
-                },
-                {
-                    type: "Schützenfest",
-                    location: "Ennest",
-                    date: "2022-07-17",
-                    begin: "12:34:56",
-                    departure: "12:34:56",
-                    leave_dep: "12:34:56"
-                }
-            ])
-        }
-    }, [filter, props.api_token])
+        fetchData()
+    }, [filter])
 
     const filterChange = useCallback((e) => {
         setFilter(e.target.value)
