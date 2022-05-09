@@ -18,6 +18,18 @@ const mockDB = {
             departure: "12:34:56",
             leave_dep: "12:34:56"
         }
+    ],
+    members: [
+        {
+            Forename: "Max",
+            Surname: "Mustermann",
+            Auth_level: 0
+        },
+        {
+            Forename: "Erika",
+            Surname: "Musterfrau",
+            Auth_level: 1
+        }
     ]
 }
 
@@ -95,4 +107,25 @@ const getEvents = async (filter) => {
     return events
 }
 
-export { login, update_login, getEvents }
+const getMembers = async () => {
+    let members = new Array(0)
+    let token = cookies.get('api_token')
+
+    if (process.env.NODE_ENV !== 'production') {
+        members = mockDB.members
+    } else {
+        let response = await fetch("/api/member.php?api_token=" + token, {method: "GET"})
+
+        switch (response.status) {
+            case 200:
+                members = await response.json()
+                break
+            default:
+                break
+        }
+    }
+
+    return members
+}
+
+export { login, update_login, getEvents, getMembers }

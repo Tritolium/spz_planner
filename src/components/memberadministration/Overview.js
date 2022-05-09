@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { getMembers } from "../../modules/data/DBConnect"
 
 const Overview = (props) => {
 
@@ -6,36 +7,11 @@ const Overview = (props) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            fetch('http://spzroenkhausen.bplaced.net/api/member.php?api_token=' + props.api_token, {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/JSON'
-                }
-            }).then((res) => {
-                if(res.status === 200){
-                    res.json().then((json) => {
-                        setMember(json)
-                    })
-                }
-            })
+            let _members = await getMembers()
+            setMember(_members)
         }
-        if(process.env.NODE_ENV === 'production'){
-            fetchData()
-        } else {
-            setMember([
-                {
-                    Forename: "Max",
-                    Surname: "Mustermann",
-                    Auth_level: 0
-                },
-                {
-                    Forename: "Erika",
-                    Surname: "Musterfrau",
-                    Auth_level: 1
-                }
-            ])
-        }
-    }, [props.api_token])
+        fetchData()
+    }, [])
 
     return(
         <table>
