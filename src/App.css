@@ -16,6 +16,7 @@ header {
 }
 
 .App-header {
+  position: relative;
   background-color: #282c34;
   min-height: 5vh;
   width: 100vw;
@@ -28,4 +29,14 @@ header {
 
 .App-header img {
   height: calc(10px + 2vmin);
+}
+
+.Namefield {
+  position: absolute;
+  right: 10px;
+}
+
+nav {
+  position: absolute;
+  left: 1px;
 }

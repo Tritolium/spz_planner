@@ -65,8 +65,8 @@ const App = () => {
     return (
         <div className="App">
             <header className="App-header">
-                <div>{fullname}</div>
-                <nav>
+                <div className='Namefield'>{fullname}</div>
+                <nav className='MainNavigation'>
                     {auth_level > 0 ? <button type='button' id='main_button_0' onClick={navigate}>Terminplaner</button> : <></>}
                     {auth_level > 1 ? <button type='button' id='main_button_1' onClick={navigate}>Mitgliederverwaltung</button> : <></>}
                     {auth_level > 2 ? <button type='button' id='main_button_2' onClick={navigate}>Terminverwaltung</button> : <></>}

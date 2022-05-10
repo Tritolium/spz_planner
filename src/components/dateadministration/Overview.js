@@ -65,9 +65,9 @@ const Filter = (props) => {
 
     return(
         <select onChange={onChange}>
-            {props.options.map(option => {
+            {props.options.map((option, index) => {
                 return(
-                    <option value={option.value}>{option.label}</option>
+                    <option value={option.value} key={index}>{option.label}</option>
                 )
             })}
         </select>

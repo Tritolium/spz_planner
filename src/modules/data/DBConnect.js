@@ -21,11 +21,13 @@ const mockDB = {
     ],
     members: [
         {
+            Member_ID: 1,
             Forename: "Max",
             Surname: "Mustermann",
             Auth_level: 0
         },
         {
+            Member_ID: 2,
             Forename: "Erika",
             Surname: "Musterfrau",
             Auth_level: 1
@@ -107,6 +109,22 @@ const getEvents = async (filter) => {
     return events
 }
 
+const getMember = async (member_id) => {
+    let member
+    let token = cookies.get('api_token')
+
+    if(process.env.NODE_ENV !== 'production') {
+        for(let i in mockDB.members){
+            let mem = mockDB.members[i]
+            if(mem.Member_ID === member_id){
+                member = mem
+            }
+        }
+    }
+    
+    return member
+}
+
 const getMembers = async () => {
     let members = new Array(0)
     let token = cookies.get('api_token')
@@ -128,4 +146,4 @@ const getMembers = async () => {
     return members
 }
 
-export { login, update_login, getEvents, getMembers }
+export { login, update_login, getEvents, getMember, getMembers }
