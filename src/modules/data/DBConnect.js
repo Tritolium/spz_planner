@@ -120,6 +120,16 @@ const getMember = async (member_id) => {
                 member = mem
             }
         }
+    } else {
+        let response = await fetch("/api/member.php?api_token=" + token + "&id=" + member_id, {method: "GET"})
+
+        switch (response.status) {
+        case 200:
+            member = await response.json()
+            break
+        default:
+            break
+        }
     }
     
     return member

@@ -45,26 +45,49 @@ switch($_SERVER['REQUEST_METHOD'])
         break;
     case 'GET':
         // SELECT
-        $stmt = $member->read();
-        $num = $stmt->rowCount();
+        if(isset($_GET['id'])){
+            $id = $_GET['id'];
+            $stmt = $member->read($id);
+            $num = $stmt->rowCount();
 
-        if($num > 0) {
-            $member_arr = array();
-            while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            if($num == 1) {
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
                 extract($row);
-                $member_item = array(
-                    "ID"        => $member_id,
+                $member = array(
+                    "Member_ID" => $member_id,
                     "Forename"  => $forename,
                     "Surname"   => $surname,
                     "Auth_level" => $auth_level
                 );
-                array_push($member_arr, $member_item);
+                response_with_data(200, $member);
+            } else {
+                http_response_code(500);
             }
 
-            response_with_data(200, $member_arr);
         } else {
-            http_response_code(204);
+            $stmt = $member->read();
+            $num = $stmt->rowCount();
+
+            if($num > 0) {
+                $member_arr = array();
+                while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    extract($row);
+                    $member_item = array(
+                        "Member_ID"        => $member_id,
+                        "Forename"  => $forename,
+                        "Surname"   => $surname,
+                        "Auth_level" => $auth_level
+                    );
+                    array_push($member_arr, $member_item);
+                }
+
+                response_with_data(200, $member_arr);
+            } else {
+                http_response_code(204);
+            }
         }
+
+        
         break;
     case 'DELETE':
         // DELETE
