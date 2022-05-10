@@ -47,7 +47,7 @@ switch($_SERVER['REQUEST_METHOD'])
         // SELECT
         if(isset($_GET['id'])){
             $id = $_GET['id'];
-            $stmt = $member->read($id);
+            $stmt = $member->readSingle($id);
             $num = $stmt->rowCount();
 
             if($num == 1) {

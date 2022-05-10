@@ -19,7 +19,7 @@ class Member {
         return $stmt;
     }
 
-    function read($id) : PDOStatement
+    function readSingle($id) : PDOStatement
     {
         $query = "SELECT * FROM " . $this->table_name . " WHERE member_id = :id";
         $stmt = $this->conn->prepare($query);
