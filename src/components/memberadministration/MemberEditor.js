@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react"
 import styled from "styled-components"
 
-import { getMember, getMembers } from "../../modules/data/DBConnect"
+import { getMember, getMembers, updateMember } from "../../modules/data/DBConnect"
 
 const MemberEditor = (props) => {
 
@@ -99,13 +99,29 @@ const Editor = (props) => {
         fetchMember()
     }, [props.selected])
 
+    const onSubmit = (e) => {
+        e.preventDefault()
+        let _member = {Member_ID: member.Member_ID, Forename: "", Surname: "", Auth_Level: -1, Nicknames: ""}
+        _member.Forename = document.getElementById("fname").value
+        _member.Surname = document.getElementById("sname").value
+        _member.Auth_Level = document.getElementById("auth").value
+        _member.Nicknames = document.getElementById("nick").value
+
+        updateMember(_member)
+    }
+
     return(
         <div className={props.className}>
-            <form>
+            <form onSubmit={onSubmit}>
                 <label htmlFor="fname" >Vorname:</label>
                 <input type="text" id="fname" defaultValue={member.Forename}/>
                 <label htmlFor="sname">Nachname:</label>
                 <input type="text" id="sname" defaultValue={member.Surname}/>
+                <label htmlFor="auth">Level:</label>
+                <input type="text" id="auth" defaultValue={member.Auth_Level}/>
+                <label htmlFor="nick">Kurz:</label>
+                <input type="text" id="nick" defaultValue={member.Nicknames}/>
+                <button>Speichern</button>
             </form>
         </div>
     )

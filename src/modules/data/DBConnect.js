@@ -156,4 +156,8 @@ const getMembers = async () => {
     return members
 }
 
-export { login, update_login, getEvents, getMember, getMembers }
+const updateMember = async(member) => {
+    console.log(member)
+}
+
+export { login, update_login, getEvents, getMember, getMembers, updateMember }

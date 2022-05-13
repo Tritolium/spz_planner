@@ -50,7 +50,11 @@ switch($_SERVER['REQUEST_METHOD'])
             $stmt = $member->readSingle($id);
             $num = $stmt->rowCount();
 
-            if($num == 1) {
+            switch($num) {
+            case 0:
+                http_response_code(404);
+                break;
+            case 1:
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
                 extract($row);
                 $member = array(
@@ -60,8 +64,10 @@ switch($_SERVER['REQUEST_METHOD'])
                     "Auth_level" => $auth_level
                 );
                 response_with_data(200, $member);
-            } else {
+                break;
+            default:
                 http_response_code(500);
+                break;
             }
 
         } else {
