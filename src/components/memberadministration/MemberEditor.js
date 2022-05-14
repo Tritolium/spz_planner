@@ -109,7 +109,7 @@ const Editor = (props) => {
         let _member = {Member_ID: member.Member_ID, Forename: "", Surname: "", Auth_Level: -1, Nicknames: ""}
         _member.Forename = document.getElementById("fname").value
         _member.Surname = document.getElementById("sname").value
-        _member.Auth_Level = document.getElementById("auth").value
+        _member.Auth_Level = document.getElementById("auth").options[document.getElementById("auth").selectedIndex].value
         _member.Nicknames = document.getElementById("nick").value
 
         if(_member.Member_ID > 0){
