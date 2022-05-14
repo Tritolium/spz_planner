@@ -179,7 +179,7 @@ const updateMember = async(member) => {
                 Member_ID: member.Member_ID,
                 Forename: member.Forename,
                 Surname: member.Surname,
-                Auth_level: member.Auth_level,
+                Auth_level: member.Auth_Level,
                 Nicknames: member.Nicknames
             })
         })
