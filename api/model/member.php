@@ -47,9 +47,10 @@ class Member {
 
     function update($member_data) : bool
     {
-        $query = "UPDATE " . $this->table_name . " SET forename = :fname, surname = :sname, auth_level = :auth, nicknames = :nick, api_token = :api WHERE member_id = :id";
+        $query = "UPDATE " . $this->table_name . " SET forename = :fname, surname = :sname, auth_level = :auth, nicknames = :nick, api_token = :api WHERE member_id = :m_id";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":id",  $member_data->Member_ID);
+        echo json_encode($member_data);
+        $stmt->bindParam(":m_id",  $member_data->Member_ID);
         $stmt->bindParam(":fname", $member_data->Forename);
         $stmt->bindParam(":sname", $member_data->Surname);
         $stmt->bindParam(":auth", $member_data->Auth_Level);

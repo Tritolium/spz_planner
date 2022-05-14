@@ -175,13 +175,13 @@ const updateMember = async(member) => {
     } else {
         let response = await fetch("/api/member.php?api_token=" + token, {
             method: "PUT",
-            body: {
+            body: JSON.stringify({
                 Member_ID: member.Member_ID,
                 Forename: member.Forename,
                 Surname: member.Surname,
                 Auth_level: member.Auth_level,
                 Nicknames: member.Nicknames
-            }
+            })
         })
         console.log(response.body)
         switch(response.status){
