@@ -179,7 +179,7 @@ const updateMember = async(member) => {
                 member
             }
         })
-        console.log(response)
+        console.log(response.body)
         switch(response.status){
         case 200:
             return true
