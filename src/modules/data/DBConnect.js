@@ -170,11 +170,10 @@ const getMembers = async () => {
 const updateMember = async(member) => {
     console.log(member)
     let token = cookies.get('api_token')
-    // TODO update Member via PUT
     if(process.env.NODE_ENV !== 'production'){
         // TODO update in MockDB
     } else {
-        let response = await fetch("/api/member.php?api_token" + token, {
+        let response = await fetch("/api/member.php?api_token=" + token, {
             method: "PUT",
             body: {
                 member
