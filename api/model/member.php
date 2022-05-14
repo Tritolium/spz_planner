@@ -45,6 +45,24 @@ class Member {
         return false;
     }
 
+    function update($member_data) : bool
+    {
+        $query = "UPDATE " . $this->table_name . " SET forename = :fname, surname = :sname, auth_level = :auth, nicknames = :nick, api_token = :api WHERE member_id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id",  $member_data->Member_ID);
+        $stmt->bindParam(":fname", $member_data->Forename);
+        $stmt->bindParam(":sname", $member_data->Surname);
+        $stmt->bindParam(":auth", $member_data->Auth_Level);
+        $stmt->bindParam(":nick", $member_data->Nicknames);
+        $stmt->bindValue(":api", hash("md5", $member_data->Forename . $member_data->Surname . $member_data->Auth_Level . $member_data->Nicknames));
+
+        if($stmt->execute()){
+            return true;
+        }
+
+        return false;
+    }
+
     function delete() : bool
     {
         return false;

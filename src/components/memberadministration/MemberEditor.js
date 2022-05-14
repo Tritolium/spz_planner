@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react"
 import styled from "styled-components"
 
-import { getMember, getMembers, updateMember } from "../../modules/data/DBConnect"
+import { getMember, getMembers, newMember, updateMember } from "../../modules/data/DBConnect"
 
 const MemberEditor = (props) => {
 
@@ -85,6 +85,7 @@ const StyledMember = styled(Member)`
 const Editor = (props) => {
     
     const [member, setMember] = useState({
+        Member_ID: -1,
         Forename: "",
         Surname: "",
 
@@ -99,6 +100,10 @@ const Editor = (props) => {
         fetchMember()
     }, [props.selected])
 
+    useEffect(() => {
+        document.getElementById("auth").selectedIndex = member.Auth_level
+    }, [member])
+
     const onSubmit = (e) => {
         e.preventDefault()
         let _member = {Member_ID: member.Member_ID, Forename: "", Surname: "", Auth_Level: -1, Nicknames: ""}
@@ -107,7 +112,12 @@ const Editor = (props) => {
         _member.Auth_Level = document.getElementById("auth").value
         _member.Nicknames = document.getElementById("nick").value
 
-        updateMember(_member)
+        if(_member.Member_ID > 0){
+            updateMember(_member)    
+        } else {
+            newMember(_member)
+        }
+        
     }
 
     return(
@@ -118,7 +128,12 @@ const Editor = (props) => {
                 <label htmlFor="sname">Nachname:</label>
                 <input type="text" id="sname" defaultValue={member.Surname}/>
                 <label htmlFor="auth">Level:</label>
-                <input type="text" id="auth" defaultValue={member.Auth_Level}/>
+                <select name="auth" id="auth">
+                    <option value="0">ohne</option>
+                    <option value="1">Mitglied</option>
+                    <option value="2">Moderator</option>
+                    <option value="3">Admin</option>
+                </select>
                 <label htmlFor="nick">Kurz:</label>
                 <input type="text" id="nick" defaultValue={member.Nicknames}/>
                 <button>Speichern</button>

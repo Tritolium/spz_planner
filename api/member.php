@@ -95,8 +95,14 @@ switch($_SERVER['REQUEST_METHOD'])
 
         
         break;
-    case 'DELETE':
-        // DELETE
+    case 'PUT':
+        if($member->update($data)){
+            http_response_code(200);
+        } else {
+            http_response_code(400);
+        }
         break;
+    default:
+        http_response_code(501);
 }
 ?>

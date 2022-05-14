@@ -31,6 +31,17 @@ const mockDB = {
             Forename: "Erika",
             Surname: "Musterfrau",
             Auth_level: 1
+        },
+        {
+            Member_ID: 3,
+            Forename: "Otto",
+            Surname: "Normalverbraucher",
+            Auth_level: 2
+        },{
+            Member_ID: 4,
+            Forename: "Lieschen",
+            Surname: "Müller",
+            Auth_level: 3
         }
     ]
 }
@@ -158,6 +169,30 @@ const getMembers = async () => {
 
 const updateMember = async(member) => {
     console.log(member)
+    let token = cookies.get('api_token')
+    // TODO update Member via PUT
+    if(process.env.NODE_ENV !== 'production'){
+        // TODO update in MockDB
+    } else {
+        let response = await fetch("/api/member.php?api_token" + token, {
+            method: "PUT",
+            body: {
+                member
+            }
+        })
+
+        switch(response.status){
+        case 200:
+            return true
+        default:
+            return false
+        }
+    }
 }
 
-export { login, update_login, getEvents, getMember, getMembers, updateMember }
+const newMember = async(member) => {
+    console.log(member)
+    // TODO post new Member via POST
+}
+
+export { login, update_login, getEvents, getMember, getMembers, updateMember, newMember }
