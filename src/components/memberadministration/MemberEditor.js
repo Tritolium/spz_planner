@@ -88,7 +88,7 @@ const Editor = (props) => {
         Member_ID: -1,
         Forename: "",
         Surname: "",
-
+        Auth_Level: 0
     })
 
     useEffect(() => {
