@@ -6,7 +6,7 @@ import { getMember, getMembers, newMember, updateMember } from "../../modules/da
 const MemberEditor = (props) => {
 
     const [members, setMembers] = useState(new Array(0))
-    const [selected, setSelected] = useState(0)
+    const [selected, setSelected] = useState(-1)
 
     useEffect(() => {
         const fetchMembers = async () => {

@@ -53,9 +53,9 @@ class Member {
         $stmt->bindParam(":m_id",  $member_data->Member_ID);
         $stmt->bindParam(":fname", $member_data->Forename);
         $stmt->bindParam(":sname", $member_data->Surname);
-        $stmt->bindParam(":auth", $member_data->Auth_Level);
+        $stmt->bindParam(":auth", $member_data->Auth_level);
         $stmt->bindParam(":nick", $member_data->Nicknames);
-        $stmt->bindValue(":api", hash("md5", $member_data->Forename . $member_data->Surname . $member_data->Auth_Level . $member_data->Nicknames));
+        $stmt->bindValue(":api", hash("md5", $member_data->Forename . $member_data->Surname . $member_data->Auth_level . $member_data->Nicknames));
 
         if($stmt->execute()){
             return true;

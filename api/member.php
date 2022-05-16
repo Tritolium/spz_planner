@@ -61,6 +61,7 @@ switch($_SERVER['REQUEST_METHOD'])
                     "Member_ID" => $member_id,
                     "Forename"  => $forename,
                     "Surname"   => $surname,
+                    "Nicknames" => $nicknames,
                     "Auth_level" => $auth_level
                 );
                 response_with_data(200, $member);

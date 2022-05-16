@@ -124,7 +124,7 @@ const getMember = async (member_id) => {
     let member
     let token = cookies.get('api_token')
 
-    if(process.env.NODE_ENV !== 'production') {
+    if(process.env.NODE_ENV !== 'production' || member_id < 0) {
         for(let i in mockDB.members){
             let mem = mockDB.members[i]
             if(mem.Member_ID === member_id){
