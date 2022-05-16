@@ -175,6 +175,9 @@ const updateMember = async(member) => {
     } else {
         let response = await fetch("/api/member.php?api_token=" + token, {
             method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
             body: JSON.stringify({
                 Member_ID: member.Member_ID,
                 Forename: member.Forename,
