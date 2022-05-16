@@ -164,6 +164,13 @@ const getMembers = async () => {
         }
     }
 
+    members.push({
+        Member_ID: -1,
+        Forename: "",
+        Surname: "",
+        Auth_level: 0
+    })
+
     return members
 }
 
