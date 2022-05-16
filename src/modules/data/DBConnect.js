@@ -124,7 +124,16 @@ const getMember = async (member_id) => {
     let member
     let token = cookies.get('api_token')
 
-    if(process.env.NODE_ENV !== 'production' || member_id < 0) {
+    if(member_id < 0){
+        return {
+            Member_ID: -1,
+            Forename: "",
+            Surname: "",
+            Auth_level: 0
+        }
+    }
+
+    if(process.env.NODE_ENV !== 'production') {
         for(let i in mockDB.members){
             let mem = mockDB.members[i]
             if(mem.Member_ID === member_id){
@@ -163,13 +172,6 @@ const getMembers = async () => {
                 break
         }
     }
-
-    members.push({
-        Member_ID: -1,
-        Forename: "",
-        Surname: "",
-        Auth_level: 0
-    })
 
     return members
 }

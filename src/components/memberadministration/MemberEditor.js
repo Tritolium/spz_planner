@@ -45,6 +45,7 @@ const MemberSelector = (props) => {
             {props.members.map(member => {
                 return(<StyledMember onSelect={onSelect} key={member.Member_ID} member={member}/>)
             })}
+            <StyledMember onSelect={onSelect} key="new" member={{Member_ID: -1}} />
         </div>
     )
 }
