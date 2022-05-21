@@ -55,7 +55,7 @@ const MemberSelector = (props) => {
     return(
         <div className={props.className}>
             {props.members.map(member => {
-                return(<StyledMember background={background[member.Member_ID]} onSelect={onSelect} key={member.Member_ID} member={member}/>)
+                return(<StyledMember background={background[member.Auth_Level]} onSelect={onSelect} key={member.Member_ID} member={member}/>)
             })}
             <StyledMember background="AliceBlue" onSelect={onSelect} key="new" member={{Member_ID: -1}} />
         </div>
