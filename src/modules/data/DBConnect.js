@@ -219,7 +219,8 @@ const newMember = async(member) => {
                 Nicknames: member.Nicknames
             })
         })
-        switch(response.body){
+        console.log(response.body)
+        switch(response.status){
         case 200:
             return true
         default:
