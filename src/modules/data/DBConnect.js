@@ -196,7 +196,7 @@ const updateMember = async(member) => {
             })
         })
         switch(response.status){
-        case 200:
+        case 201:
             return true
         default:
             return false
