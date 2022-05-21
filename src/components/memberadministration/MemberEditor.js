@@ -55,7 +55,7 @@ const MemberSelector = (props) => {
     return(
         <div className={props.className}>
             {props.members.map(member => {
-                return(<StyledMember background={background[member.Auth_Level]} onSelect={onSelect} key={member.Member_ID} member={member}/>)
+                return(<StyledMember background={background[member.Auth_level]} onSelect={onSelect} key={member.Member_ID} member={member}/>)
             })}
             <StyledMember background="AliceBlue" onSelect={onSelect} key="new" member={{Member_ID: -1}} />
         </div>
@@ -102,7 +102,7 @@ const Editor = (props) => {
         Member_ID: -1,
         Forename: "",
         Surname: "",
-        Auth_Level: 0
+        Auth_level: 0
     })
 
     useEffect(() => {
@@ -120,10 +120,10 @@ const Editor = (props) => {
 
     const onSubmit = (e) => {
         e.preventDefault()
-        let _member = {Member_ID: member.Member_ID, Forename: "", Surname: "", Auth_Level: -1, Nicknames: ""}
+        let _member = {Member_ID: member.Member_ID, Forename: "", Surname: "", Auth_level: -1, Nicknames: ""}
         _member.Forename = document.getElementById("fname").value
         _member.Surname = document.getElementById("sname").value
-        _member.Auth_Level = document.getElementById("auth").options[document.getElementById("auth").selectedIndex].value
+        _member.Auth_level = document.getElementById("auth").options[document.getElementById("auth").selectedIndex].value
         _member.Nicknames = document.getElementById("nick").value
 
         if(_member.Member_ID > 0){
