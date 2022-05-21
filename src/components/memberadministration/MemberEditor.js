@@ -9,7 +9,9 @@ const MemberEditor = (props) => {
     const [selected, setSelected] = useState(-1)
     
     const fetchMembers = async () => {
+        console.log("fetching...")
         let _members = await getMembers()
+        console.log("done")
         setMembers(_members)
     }
 
@@ -22,6 +24,7 @@ const MemberEditor = (props) => {
     }, [])
 
     const reload = useCallback(() => {
+        console.log("in reload")
         fetchMembers()
     }, [])
 
@@ -122,6 +125,7 @@ const Editor = (props) => {
             updateMember(_member)    
         } else {
             if(newMember(_member)){
+                console.log("do reload")
                 props.reload()
             }
         }
