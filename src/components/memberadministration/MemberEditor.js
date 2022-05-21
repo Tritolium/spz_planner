@@ -115,6 +115,7 @@ const Editor = (props) => {
     }, [props.selected])
 
     useEffect(() => {
+        document.getElementById("membereditor").reset()
         document.getElementById("auth").selectedIndex = member.Auth_level
     }, [member])
 
@@ -132,9 +133,7 @@ const Editor = (props) => {
             newMember(_member)
         }
 
-        props.reload()
-        document.getElementById("membereditor").reset()
-        
+        props.reload()        
     }
 
     return(
