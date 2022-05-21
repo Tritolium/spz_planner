@@ -206,6 +206,7 @@ const updateMember = async(member) => {
 }
 
 const newMember = async(member) => {
+    let token = cookies.get('api_token')
     if(process.env.NODE_ENV !== 'production'){
         // TODO post in MockDB
     } else {

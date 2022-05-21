@@ -37,7 +37,7 @@ switch($_SERVER['REQUEST_METHOD'])
                 response(500, "");
             }
         } else {
-            response(400, "");
+            response(400, $data);
         }
         break;
     case 'GET':
