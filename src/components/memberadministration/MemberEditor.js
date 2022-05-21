@@ -129,10 +129,10 @@ const Editor = (props) => {
         if(_member.Member_ID > 0){
             updateMember(_member)    
         } else {
-            if(newMember(_member)){
-                props.reload()
-            }
+            newMember(_member)
         }
+
+        props.reload()
         
     }
 
