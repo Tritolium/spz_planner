@@ -211,7 +211,7 @@ const newMember = async(member) => {
         // TODO post in MockDB
     } else {
         let response = await fetch("/api/member.php?api_token=" + token, {
-            method: "PUT",
+            method: "POST",
             body: JSON.stringify({
                 Forename: member.Forename,
                 Surname: member.Surname,
