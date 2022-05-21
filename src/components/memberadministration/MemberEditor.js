@@ -23,6 +23,7 @@ const MemberEditor = (props) => {
 
     const reload = useCallback(() => {
         fetchMembers()
+        setSelected(-1)
     }, [])
 
     return(
@@ -133,12 +134,6 @@ const Editor = (props) => {
         }
 
         props.reload()
-        setMember({
-            Member_ID: -1,
-            Forename: "",
-            Surname: "",
-            Auth_level: 0
-        })
         
     }
 
