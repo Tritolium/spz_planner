@@ -7,12 +7,13 @@ const MemberEditor = (props) => {
 
     const [members, setMembers] = useState(new Array(0))
     const [selected, setSelected] = useState(-1)
+    
+    const fetchMembers = async () => {
+        let _members = await getMembers()
+        setMembers(_members)
+    }
 
     useEffect(() => {
-        const fetchMembers = async () => {
-            let _members = await getMembers()
-            setMembers(_members)
-        }
         fetchMembers()
     }, [])
 
@@ -20,10 +21,14 @@ const MemberEditor = (props) => {
         setSelected(id)
     }, [])
 
+    const reload = useCallback(() => {
+        fetchMembers()
+    }, [])
+
     return(
         <div className={props.className}>
             <StyledMemberSelector onSelect={onSelect} members={members}/>
-            <StyledEditor selected={selected}/>
+            <StyledEditor selected={selected} reload={reload}/>
         </div>
     )
 }
@@ -116,7 +121,9 @@ const Editor = (props) => {
         if(_member.Member_ID > 0){
             updateMember(_member)    
         } else {
-            newMember(_member)
+            if(newMember(_member)){
+                props.reload()
+            }
         }
         
     }

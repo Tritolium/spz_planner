@@ -195,7 +195,6 @@ const updateMember = async(member) => {
                 Nicknames: member.Nicknames
             })
         })
-        console.log(response.body)
         switch(response.status){
         case 200:
             return true
@@ -219,7 +218,6 @@ const newMember = async(member) => {
                 Nicknames: member.Nicknames
             })
         })
-        console.log(response.body)
         switch(response.status){
         case 200:
             return true
