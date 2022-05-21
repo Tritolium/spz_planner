@@ -133,13 +133,13 @@ const Editor = (props) => {
         }
 
         props.reload()
-        e.reset()
+        document.getElementById("membereditor").reset()
         
     }
 
     return(
         <div className={props.className}>
-            <form onSubmit={onSubmit}>
+            <form onSubmit={onSubmit} id="membereditor">
                 <label htmlFor="fname" >Vorname:</label>
                 <input type="text" id="fname" defaultValue={member.Forename}/>
                 <label htmlFor="sname">Nachname:</label>
