@@ -28,14 +28,15 @@ class Member {
         return $stmt;
     }
 
-    function create() : bool
+    function create($member_data) : bool
     {
-        $query = "INSERT INTO " . $this->table_name . " (forename, surname) VALUES (:forename, :surname)";
+        $query = "INSERT INTO " . $this->table_name . " (forename, surname, auth_level, nicknames, api_token) VALUES (:forename, :surname, :auth, :nick, :api)";
         $stmt = $this->conn->prepare($query);
-        $this->forename=htmlspecialchars(strip_tags($this->forename));
-        $this->surname=htmlspecialchars(strip_tags($this->surname));
-        $stmt->bindParam(":forename", $this->forename);
-        $stmt->bindParam(":surname", $this->surname);
+        $stmt->bindParam(":forename", $member_data->Forename);
+        $stmt->bindParam(":surname", $member_data->Surname);
+        $stmt->bindParam(":auth", $member_data->Auth_level);
+        $stmt->bindParam("nick", $member_data->Nicknames);
+        $stmt->bindValue(":api",hash("md5", $member_data->Forename . $member_data->Surname . $member_data->Auth_level . $member_data->Nicknames));
         
         if($stmt->execute())
         {

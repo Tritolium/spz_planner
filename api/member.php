@@ -28,12 +28,9 @@ switch($_SERVER['REQUEST_METHOD'])
 {
     case 'POST':
         // INSERT
-        if(!empty($data->forename))
+        if(!empty($data))
         {
-            $member->forename = $data->forename;
-            $member->surname = $data->surname;
-
-            if($member->create())
+            if($member->create($data))
             {
                 response(201, "");
             } else {

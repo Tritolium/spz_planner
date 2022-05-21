@@ -206,8 +206,25 @@ const updateMember = async(member) => {
 }
 
 const newMember = async(member) => {
-    console.log(member)
-    // TODO post new Member via POST
+    if(process.env.NODE_ENV !== 'production'){
+        // TODO post in MockDB
+    } else {
+        let response = await fetch("/api/member.php?api_token=" + token, {
+            method: "PUT",
+            body: JSON.stringify({
+                Forename: member.Forename,
+                Surname: member.Surname,
+                Auth_level: member.Auth_Level,
+                Nicknames: member.Nicknames
+            })
+        })
+        switch(response.body){
+        case 200:
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 export { login, update_login, getEvents, getMember, getMembers, updateMember, newMember }
