@@ -9,9 +9,7 @@ const MemberEditor = (props) => {
     const [selected, setSelected] = useState(-1)
     
     const fetchMembers = async () => {
-        console.log("fetching...")
         let _members = await getMembers()
-        console.log("done")
         setMembers(_members)
     }
 
@@ -24,7 +22,6 @@ const MemberEditor = (props) => {
     }, [])
 
     const reload = useCallback(() => {
-        console.log("in reload")
         fetchMembers()
     }, [])
 
@@ -48,12 +45,19 @@ const MemberSelector = (props) => {
         props.onSelect(id)
     }, [props])
 
+    const background = [
+        "White",
+        "Chartreuse",
+        "ForestGreen",
+        "DarkGreen"
+    ]
+
     return(
         <div className={props.className}>
             {props.members.map(member => {
-                return(<StyledMember onSelect={onSelect} key={member.Member_ID} member={member}/>)
+                return(<StyledMember background={background[member.Member_ID]} onSelect={onSelect} key={member.Member_ID} member={member}/>)
             })}
-            <StyledMember onSelect={onSelect} key="new" member={{Member_ID: -1}} />
+            <StyledMember background="AliceBlue" onSelect={onSelect} key="new" member={{Member_ID: -1}} />
         </div>
     )
 }
@@ -86,6 +90,7 @@ const Member = (props) => {
 }
 
 const StyledMember = styled(Member)`
+    background: ${props => props.background};
     &:hover{
         background: lightgrey;
     }
@@ -125,7 +130,6 @@ const Editor = (props) => {
             updateMember(_member)    
         } else {
             if(newMember(_member)){
-                console.log("do reload")
                 props.reload()
             }
         }
