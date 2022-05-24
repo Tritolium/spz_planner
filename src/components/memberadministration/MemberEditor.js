@@ -73,6 +73,11 @@ const StyledMemberSelector = styled(MemberSelector)`
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    overflow-y: scroll;
+    white-space: nowrap;
+    overflow-x: none;
+    width: auto;
+    min-width: fit-content;
 `
 
 const Member = (props) => {
@@ -91,6 +96,7 @@ const Member = (props) => {
 
 const StyledMember = styled(Member)`
     background: ${props => props.background};
+    wrap: no-wrap;
     &:hover{
         background: lightgrey;
     }

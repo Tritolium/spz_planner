@@ -94,7 +94,6 @@ switch($_SERVER['REQUEST_METHOD'])
         
         break;
     case 'PUT':
-        echo json_encode($data);
         if($member->update($data)){
             http_response_code(200);
         } else {
