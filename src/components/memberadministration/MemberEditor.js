@@ -119,7 +119,7 @@ const Editor = (props) => {
         document.getElementById("auth").selectedIndex = member.Auth_level
     }, [member])
 
-    const onSubmit = (e) => {
+    const onSubmit = async(e) => {
         e.preventDefault()
         let _member = {Member_ID: member.Member_ID, Forename: "", Surname: "", Auth_level: -1, Nicknames: ""}
         _member.Forename = document.getElementById("fname").value
@@ -128,9 +128,9 @@ const Editor = (props) => {
         _member.Nicknames = document.getElementById("nick").value
 
         if(_member.Member_ID > 0){
-            updateMember(_member)    
+            await updateMember(_member)    
         } else {
-            newMember(_member)
+            await newMember(_member)
         }
 
         props.reload()        

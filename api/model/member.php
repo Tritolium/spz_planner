@@ -32,11 +32,8 @@ class Member {
     {
         $query = "INSERT INTO " . $this->table_name . " (forename, surname, auth_level, nicknames, api_token) VALUES (:forename, :surname, :auth, :nick, :api)";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":forename", $member_data->Forename);
-        $stmt->bindParam(":surname", $member_data->Surname);
-        $stmt->bindParam(":auth", $member_data->Auth_level);
-        $stmt->bindParam("nick", $member_data->Nicknames);
-        $stmt->bindValue(":api",hash("md5", $member_data->Forename . $member_data->Surname . $member_data->Auth_level . $member_data->Nicknames));
+
+        bindParameters($stmt, $member_data);
         
         if($stmt->execute())
         {
@@ -50,13 +47,8 @@ class Member {
     {
         $query = "UPDATE " . $this->table_name . " SET forename = :fname, surname = :sname, auth_level = :auth, nicknames = :nick, api_token = :api WHERE member_id = :m_id";
         $stmt = $this->conn->prepare($query);
-        echo json_encode($member_data);
-        $stmt->bindParam(":m_id",  $member_data->Member_ID);
-        $stmt->bindParam(":fname", $member_data->Forename);
-        $stmt->bindParam(":sname", $member_data->Surname);
-        $stmt->bindParam(":auth", $member_data->Auth_level);
-        $stmt->bindParam(":nick", $member_data->Nicknames);
-        $stmt->bindValue(":api", hash("md5", $member_data->Forename . $member_data->Surname . $member_data->Auth_level . $member_data->Nicknames));
+        
+        bindParameters($stmt, $member_data);
 
         if($stmt->execute()){
             return true;
@@ -68,6 +60,16 @@ class Member {
     function delete() : bool
     {
         return false;
+    }
+
+    function bindParameters($stmt, $member_data) : void
+    {
+        $stmt->bindParam(":m_id",  $member_data->Member_ID);
+        $stmt->bindParam(":fname", $member_data->Forename);
+        $stmt->bindParam(":sname", $member_data->Surname);
+        $stmt->bindParam(":auth", $member_data->Auth_level);
+        $stmt->bindParam(":nick", $member_data->Nicknames);
+        $stmt->bindValue(":api", hash("md5", $member_data->Forename . $member_data->Surname . $member_data->Auth_level . $member_data->Nicknames));
     }
 }
 ?>
