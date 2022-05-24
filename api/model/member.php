@@ -33,7 +33,7 @@ class Member {
         $query = "INSERT INTO " . $this->table_name . " (forename, surname, auth_level, nicknames, api_token) VALUES (:forename, :surname, :auth, :nick, :api)";
         $stmt = $this->conn->prepare($query);
 
-        bindParameters($stmt, $member_data);
+        $this->bindParameters($stmt, $member_data);
         
         if($stmt->execute())
         {
@@ -48,7 +48,7 @@ class Member {
         $query = "UPDATE " . $this->table_name . " SET forename = :fname, surname = :sname, auth_level = :auth, nicknames = :nick, api_token = :api WHERE member_id = :m_id";
         $stmt = $this->conn->prepare($query);
         
-        bindParameters($stmt, $member_data);
+        $this->bindParameters($stmt, $member_data);
 
         if($stmt->execute()){
             return true;
