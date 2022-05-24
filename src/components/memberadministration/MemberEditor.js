@@ -66,7 +66,7 @@ const StyledMemberSelector = styled(MemberSelector)`
     display: flex;
     flex-direction: column;
     border: 1px solid black;
-    height: 100vh;
+    max-height: 100%;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
