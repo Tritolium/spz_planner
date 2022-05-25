@@ -144,30 +144,50 @@ const Editor = (props) => {
 
     return(
         <div className={props.className}>
-            <form onSubmit={onSubmit} id="membereditor">
+            <Form onSubmit={onSubmit} id="membereditor">
                 <FormBox>
-                    <label htmlFor="fname" >Vorname:</label>
-                    <input type="text" id="fname" defaultValue={member.Forename}/>
+                    <Label>
+                        <label htmlFor="fname" >Vorname:</label>
+                    </Label>
+                    <InputContainer>
+                        <input type="text" id="fname" defaultValue={member.Forename}/>
+                    </InputContainer>
                 </FormBox>
                 <FormBox>
-                    <label htmlFor="sname">Nachname:</label>
-                    <input type="text" id="sname" defaultValue={member.Surname}/>
+                    <Label>
+                        <label htmlFor="sname">Nachname:</label>
+                    </Label>
+                    <InputContainer>
+                        <input type="text" id="sname" defaultValue={member.Surname}/>
+                    </InputContainer>
                 </FormBox>
                 <FormBox>
-                    <label htmlFor="auth">Level:</label>
-                    <select name="auth" id="auth">
-                        <option value="0">ohne</option>
-                        <option value="1">Mitglied</option>
-                        <option value="2">Moderator</option>
-                        <option value="3">Admin</option>
-                    </select>
+                    <Label>
+                        <label htmlFor="auth">Level:</label>
+                    </Label>
+                    <InputContainer>
+                        <select name="auth" id="auth">
+                            <option value="0">ohne</option>
+                            <option value="1">Mitglied</option>
+                            <option value="2">Moderator</option>
+                            <option value="3">Admin</option>
+                        </select>
+                    </InputContainer>
                 </FormBox>
                 <FormBox>
-                    <label htmlFor="nick">Kurz:</label>
-                    <input type="text" id="nick" defaultValue={member.Nicknames}/>
+                    <Label>
+                        <label htmlFor="nick">Kurz:</label>
+                    </Label>
+                    <InputContainer>
+                        <input type="text" id="nick" defaultValue={member.Nicknames}/>
+                    </InputContainer>
                 </FormBox>
-                <button>Speichern</button>
-            </form>
+                <FormBox>
+                    <InputContainer>
+                        <input type="submit" value="Speichern"></input>
+                    </InputContainer>
+                </FormBox>
+            </Form>
         </div>
     )
 }
@@ -176,8 +196,44 @@ const StyledEditor = styled(Editor)`
     
 `
 
-const FormBox = styled.div`
+const Form = styled.form`
 
+    margin: 0 0 0 1px;
+
+    input[type=submit] {
+        background-color: #bbb;
+        color: black;
+        padding: 4px 4px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        float: right;
+    }
+
+    input[type=text], select {
+        width: 100%;
+        padding: 4px;
+        border: 1px solid #bbb;
+        border-radius: 3px;
+        box-sizing: border-box;
+        resize: vertical;
+        margin: 1px 1px 1px 1px;
+    }
+
+    label {
+        padding: 4px 4px 4px 0;
+        display: inline-block;
+    }
 `
+
+const FormBox = styled.div`
+    
+`
+
+const Label = styled.div`
+    
+`
+
+const InputContainer = styled.div``
 
 export default StyledMemberEditor
