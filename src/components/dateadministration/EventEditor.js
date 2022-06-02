@@ -107,11 +107,36 @@ const Editor = (props) => {
 
         if(_event.Event_ID > 0){
             await updateEvent(_event)
-        } else {
-            await newEvent(_event)
         }
 
         props.reload()
+    }
+
+    const createNew = async(e) => {
+        e.preventDefault()
+        let _event = {
+            Type: document.getElementById("type").value,
+            Location: document.getElementById("location").value,
+            Date: document.getElementById("date").value,
+            Begin: document.getElementById("begin").value,
+            Departure: document.getElementById("departure").value,
+            Leave_dep: document.getElementById("leave_dep").value
+        }
+
+        newEvent(_event)
+        props.reload()
+    }
+
+    const clear = () => {
+        setEvent({
+            Event_ID: -1,
+            Type: "",
+            Location: "",
+            Date: "",
+            Begin: "",
+            Departure: "",
+            Leave_dep: ""
+        })
     }
 
     return(
@@ -167,6 +192,8 @@ const Editor = (props) => {
             <FormBox>
                 <InputContainer>
                     <input type="submit" value="Speichern" />
+                    <button onClick={createNew}>Neu anlegen</button>
+                    <button onClick={clear}>Felder leeren</button>
                 </InputContainer>
             </FormBox>
         </Form>
@@ -212,10 +239,11 @@ const Form = styled.form`
     margin: ${props => props.theme.margin};
     width: 100%;
 
-    input[type=submit] {
+    input[type=submit], button {
         background-color: ${props => props.theme.secondary};
         color: ${props => props.theme.main};
         padding: ${props => props.theme.padding};
+        margin: ${props => props.theme.input_margin};
         border: none;
         border-radius: 3px;
         cursor: pointer;
@@ -230,7 +258,7 @@ const Form = styled.form`
         border-radius: 3px;
         box-sizing: border-box;
         resize: vertical;
-        margin: 1px 1px 1px 1px;
+        margin: ${props => props.theme.input_margin};
     }
 
     label {

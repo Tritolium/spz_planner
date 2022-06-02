@@ -76,14 +76,13 @@ class Event {
         $query = "UPDATE " . $this->table_name . " SET type = :type, location = :location, date = :date, begin = :begin, departure = :departure, leave_dep = :leave_dep WHERE event_id = :event_id";
         $stmt = $this->conn->prepare($query);
 
-        extract($event_data);
-
-        $stmt->bindParam(":type", $Event_ID);
-        $stmt->bindParam(":location", $Location);
-        $stmt->bindParam(":date", $Date);
-        $stmt->bindParam(":begin", $Begin);
-        $stmt->bindParam(":departure", $Departure);
-        $stmt->bindParam(":leave_dep", $Leave_dep);
+        $stmt->bindParam(":event_id", $event_data->Event_ID);
+        $stmt->bindParam(":type", $event_data->Type);
+        $stmt->bindParam(":location", $event_data->Location);
+        $stmt->bindParam(":date", $event_data->Date);
+        $stmt->bindParam(":begin", $event_data->Begin);
+        $stmt->bindParam(":departure", $event_data->Departure);
+        $stmt->bindParam(":leave_dep", $event_data->Leave_dep);
 
         if($stmt->execute()){
             return true;

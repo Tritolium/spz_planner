@@ -81,7 +81,7 @@ switch($_SERVER['REQUEST_METHOD'])
         
         break;
     case 'PUT':
-        if($event->update($date)){
+        if($event->update($data)){
             http_response_code(200);
         } else {
             http_response_code(400);
