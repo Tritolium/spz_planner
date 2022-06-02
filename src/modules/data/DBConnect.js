@@ -170,7 +170,7 @@ const updateEvent = async(event) => {
             headers: {
                 "Content-Type":  "application/json"
             },
-            body: event
+            body: JSON.stringify(event)
         })
         switch(response.status){
         case 200:

@@ -27,85 +27,57 @@ if($auth_level < 1){
 switch($_SERVER['REQUEST_METHOD'])
 {
     case 'GET':
-        if(!isset($_GET['filter'])){
-            http_response_code(400);
-            exit();
+        $id = -1;
+        $filter = "all";
+        if(isset($_GET['filter'])){
+            $filter = $_GET['filter'];
         }
-        switch($_GET['filter']){
-        default:
-        case 'current':
-            $stmt = $event->readCurrent();
-            $num = $stmt->rowCount();
-
-            if($num > 0) {
-                $event_arr = array();
-                while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    extract($row);
-                    $event_item = array(
-                        "Event_ID"  => intval($event_id),
-                        "Type"      => $type,
-                        "Location"  => $location,
-                        "Date"      => $date,
-                        "Begin"     => $begin,
-                        "Departure" => $departure,
-                        "Leave_dep" => $leave_dep
-                    );
-                    array_push($event_arr, $event_item);
-                }
-                response_with_data(200, $event_arr);
-            } else {
-                http_response_code(204);
-            }
-            break;
-        case 'past':
-            $stmt = $event->readPast();
-            $num = $stmt->rowCount();
-
-            if($num > 0) {
-                $event_arr = array();
-                while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    extract($row);
-                    $event_item = array(
-                        "Event_ID"  => intval($event_id),
-                        "Type"      => $type,
-                        "Location"  => $location,
-                        "Date"      => $date,
-                        "Begin"     => $begin,
-                        "Departure" => $departure,
-                        "Leave_dep" => $leave_dep
-                    );
-                    array_push($event_arr, $event_item);
-                }
-                response_with_data(200, $event_arr);
-            } else {
-                http_response_code(204);
-            }
-            break;
-        case 'all':
-            $stmt = $event->readAll();
-            $num = $stmt->rowCount();
-
-            if($num > 0) {
-                $event_arr = array();
-                while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    extract($row);
-                    $event_item = array(
-                        "Event_ID"  => intval($event_id),
-                        "Type"      => $type,
-                        "Location"  => $location,
-                        "Date"      => $date,
-                        "Begin"     => $begin,
-                        "Departure" => $departure,
-                        "Leave_dep" => $leave_dep
-                    );
-                    array_push($event_arr, $event_item);
-                }
-                response_with_data(200, $event_arr);
-            } else {
-                http_response_code(204);
-            }
-            break;
+        if(isset($_GET['id'])){
+            $id = $_GET['id'];
         }
+        $stmt = $event->read($id, $filter);
+        $num = $stmt->rowCount();
+        if($num > 0){
+            if($id < 0){
+                $event_arr = array();
+                while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    extract($row);
+                    $event_item = array(
+                        "Event_ID"  => intval($event_id),
+                        "Type"      => $type,
+                        "Location"  => $location,
+                        "Date"      => $date,
+                        "Begin"     => $begin,
+                        "Departure" => $departure,
+                        "Leave_dep" => $leave_dep
+                    );
+                    array_push($event_arr, $event_item);
+                }
+                response_with_data(200, $event_arr);
+                exit();
+            } else {
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                extract($row);
+                $event = array(
+                    "Event_ID"  => intval($event_id),
+                    "Type"      => $type,
+                    "Location"  => $location,
+                    "Date"      => $date,
+                    "Begin"     => $begin,
+                    "Departure" => $departure,
+                    "Leave_dep" => $leave_dep
+                );
+                response_with_data(200, $event);
+                exit();
+            }
+        } else {
+            if($id < 0){
+                http_response_code(204);
+            } else {
+                http_response_code(404);
+            }
+        }
+        
         
         break;
     case 'PUT':

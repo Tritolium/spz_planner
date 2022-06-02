@@ -42,6 +42,35 @@ class Event {
         return $stmt;
     }
 
+    function read($id, $filter) : PDOStatement
+    {
+        if ($id >= 0) {
+            $query = "SELECT * FROM " . $this->table_name . " WHERE event_id = :event_id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":event_id", $id);
+        } else {
+            switch($filter){
+            case "current":
+                $query = "SELECT * FROM " . $this->table_name . " WHERE date >= :_now ORDER BY date";
+                $stmt = $this->conn->prepare($query);
+                $stmt->bindValue(":_now", date("Y-m-d"));
+                break;
+            case "past":
+                $query = "SELECT * FROM " . $this->table_name . " WHERE date < :_now ORDER BY date";
+                $stmt = $this->conn->prepare($query);
+                $stmt->bindValue(":_now", date("Y-m-d"));
+                break;
+            default:
+            case "all":
+                $query = "SELECT * FROM " . $this->table_name;
+                $stmt = $this->conn->prepare($query);
+                break;
+            }
+        }
+        $stmt->execute();
+        return $stmt;
+    }
+
     function update($event_data) : bool
     {
         $query = "UPDATE " . $this->table_name . " SET type = :type, location = :location, date = :date, begin = :begin, departure = :departure, leave_dep = :leave_dep WHERE event_id = :event_id";
