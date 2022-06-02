@@ -1,22 +1,24 @@
 import Cookies from "universal-cookie"
 
 const mockDB = {
-    dates: [
+    events: [
         {
-            type: "Freundschaftstreffen",
-            location: "Oelinghauserheide",
-            date: "2022-05-14",
-            begin: "14:30:00",
-            departure: "14:00:00",
-            leave_dep: "12:34:56"
+            Event_ID: 1,
+            Type: "Freundschaftstreffen",
+            Location: "Oelinghauserheide",
+            Date: "2022-05-14",
+            Begin: "14:30:00",
+            Departure: "14:00:00",
+            Leave_dep: "12:34:56"
         },
         {
-            type: "Schützenfest",
-            location: "Ennest",
-            date: "2022-07-17",
-            begin: "12:34:56",
-            departure: "12:34:56",
-            leave_dep: "12:34:56"
+            Event_ID: 2,
+            Type: "Schützenfest",
+            Location: "Ennest",
+            Date: "2022-07-17",
+            Begin: "12:34:56",
+            Departure: "12:34:56",
+            Leave_dep: "12:34:56"
         }
     ],
     members: [
@@ -99,12 +101,50 @@ const update_login = async () => {
     return { _forename, _surname, _auth_level }
 }
 
+const getEvent = async (event_id) => {
+    let event
+    let token = cookies.get('api_token')
+
+    if(event_id < 0){
+        return {
+            Event_ID: -1,
+            Type: "",
+            Location: "",
+            Date: "01-01-1901",
+            Begin: "12:12",
+            Departure: "12:12",
+            Leave_dep: "12:12"
+        }
+    }
+
+    if(process.env.NODE_ENV !== 'production') {
+        for(let i in mockDB.events){
+            let eve = mockDB.events[i]
+            if(eve.Event_ID === event_id){
+                event = eve
+            }
+        }
+    } else {
+        let response = await fetch("/api/event.php?api_token=" + token + "&id=" + event_id, {method: "GET"})
+
+        switch (response.status) {
+        case 200:
+            event = await response.json()
+            break
+        default:
+            break
+        }
+    }
+    
+    return event
+}
+
 const getEvents = async (filter) => {
     let events = new Array(0)
     let token = cookies.get('api_token')
 
     if (process.env.NODE_ENV !== 'production') {
-        events = mockDB.dates
+        events = mockDB.events
     } else {
         let response = await fetch("/api/event.php?filter=" + filter + "&api_token=" + token, {method: "GET"})
 
@@ -118,6 +158,31 @@ const getEvents = async (filter) => {
     }
 
     return events
+}
+
+const updateEvent = async(event) => {
+    let token = cookies.get('api_token')
+    if(process.env.NODE_ENV !== 'production'){
+        // TODO update in MockDB
+    } else {
+        let response = await fetch("/api/event.php?api_token=" + token, {
+            method: "PUT",
+            headers: {
+                "Content-Type":  "application/json"
+            },
+            body: event
+        })
+        switch(response.status){
+        case 200:
+            return true
+        default:
+            return false
+        }
+    }
+}
+
+const newEvent = async (event) => {
+
 }
 
 const getMember = async (member_id) => {
@@ -195,7 +260,7 @@ const updateMember = async(member) => {
             })
         })
         switch(response.status){
-        case 201:
+        case 200:
             return true
         default:
             return false
@@ -226,4 +291,4 @@ const newMember = async(member) => {
     }
 }
 
-export { login, update_login, getEvents, getMember, getMembers, updateMember, newMember }
+export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember }

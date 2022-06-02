@@ -2,7 +2,7 @@ import './App.css';
 import { useCallback, useEffect, useState } from 'react';
 import Dateplanner from './components/dateplanner/Dateplanner';
 import MemberAdministration from './components/memberadministration/MemberAdministration';
-import DateAdministration from './components/dateadministration/DateAdministration';
+import EventAdministration from './components/dateadministration/EventAdministration';
 import Login from './components/login/Login';
 import Cookies from 'universal-cookie';
 import { login, update_login } from './modules/data/DBConnect';
@@ -94,7 +94,7 @@ const View = (props) => {
     case 2:
         return(<MemberAdministration api_token={props.api_token}/>)
     case 3:
-        return(<DateAdministration api_token={props.api_token}/>)
+        return(<EventAdministration api_token={props.api_token}/>)
     }
 }
 

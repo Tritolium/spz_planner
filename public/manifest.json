@@ -5,7 +5,7 @@
     {
       "src": "alert.png",
       "sizes": "64x64",
-      "type": "image/png"
+      "Type": "image/png"
     },
     {
       "src": "check.png",

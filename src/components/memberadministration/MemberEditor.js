@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react"
 import styled from "styled-components"
 
 import { getMember, getMembers, newMember, updateMember } from "../../modules/data/DBConnect"
+import { formtheme } from "../Themes"
 
 const MemberEditor = (props) => {
 
@@ -143,52 +144,51 @@ const Editor = (props) => {
     }
 
     return(
-        <div className={props.className}>
-            <Form onSubmit={onSubmit} id="membereditor">
-                <FormBox>
-                    <Label>
-                        <label htmlFor="fname" >Vorname:</label>
-                    </Label>
-                    <InputContainer>
-                        <input type="text" id="fname" defaultValue={member.Forename}/>
-                    </InputContainer>
-                </FormBox>
-                <FormBox>
-                    <Label>
-                        <label htmlFor="sname">Nachname:</label>
-                    </Label>
-                    <InputContainer>
-                        <input type="text" id="sname" defaultValue={member.Surname}/>
-                    </InputContainer>
-                </FormBox>
-                <FormBox>
-                    <Label>
-                        <label htmlFor="auth">Level:</label>
-                    </Label>
-                    <InputContainer>
-                        <select name="auth" id="auth">
-                            <option value="0">ohne</option>
-                            <option value="1">Mitglied</option>
-                            <option value="2">Moderator</option>
-                            <option value="3">Admin</option>
-                        </select>
-                    </InputContainer>
-                </FormBox>
-                <FormBox>
-                    <Label>
-                        <label htmlFor="nick">Kurz:</label>
-                    </Label>
-                    <InputContainer>
-                        <input type="text" id="nick" defaultValue={member.Nicknames}/>
-                    </InputContainer>
-                </FormBox>
-                <FormBox>
-                    <InputContainer>
-                        <input type="submit" value="Speichern"></input>
-                    </InputContainer>
-                </FormBox>
-            </Form>
-        </div>
+        <Form theme={formtheme} onSubmit={onSubmit} id="membereditor">
+            <FormBox>
+                <Label>
+                    <label htmlFor="fname" >Vorname:</label>
+                </Label>
+                <InputContainer>
+                    <input type="text" id="fname" defaultValue={member.Forename}/>
+                </InputContainer>
+            </FormBox>
+            <FormBox>
+                <Label>
+                    <label htmlFor="sname">Nachname:</label>
+                </Label>
+                <InputContainer>
+                    <input type="text" id="sname" defaultValue={member.Surname}/>
+                </InputContainer>
+            </FormBox>
+            <FormBox>
+                <Label>
+                    <label htmlFor="auth">Level:</label>
+                </Label>
+                <InputContainer>
+                    <select name="auth" id="auth">
+                        <option value="0">ohne</option>
+                        <option value="1">Mitglied</option>
+                        <option value="2">Moderator</option>
+                        <option value="3">Admin</option>
+                    </select>
+                </InputContainer>
+            </FormBox>
+            <FormBox>
+                <Label>
+                    <label htmlFor="nick">Kurz:</label>
+                </Label>
+                <InputContainer>
+                    <input type="text" id="nick" defaultValue={member.Nicknames}/>
+                </InputContainer>
+            </FormBox>
+            <FormBox>
+                <InputContainer>
+                    <input type="submit" value="Speichern"></input>
+                </InputContainer>
+            </FormBox>
+        </Form>
+        
     )
 }
 
@@ -196,14 +196,19 @@ const StyledEditor = styled(Editor)`
     
 `
 
+const Label = styled.div``
+const InputContainer = styled.div``
+const FormBox = styled.div``
+
 const Form = styled.form`
 
-    margin: 0 0 0 1px;
+    margin: ${props => props.theme.margin};
+    width: 100%;
 
     input[type=submit] {
-        background-color: #bbb;
-        color: black;
-        padding: 4px 4px;
+        background-color: ${props => props.theme.secondary};
+        color: ${props => props.theme.main};
+        padding: ${props => props.theme.padding};
         border: none;
         border-radius: 3px;
         cursor: pointer;
@@ -211,9 +216,10 @@ const Form = styled.form`
     }
 
     input[type=text], select {
+        color: ${props => props.theme.main};
         width: 100%;
-        padding: 4px;
-        border: 1px solid #bbb;
+        padding: ${props => props.theme.padding};
+        border: 1px solid ${props => props.theme.secondary};
         border-radius: 3px;
         box-sizing: border-box;
         resize: vertical;
@@ -221,19 +227,29 @@ const Form = styled.form`
     }
 
     label {
-        padding: 4px 4px 4px 0;
+        color: ${props => props.theme.main};
+        padding: ${props => props.theme.padding};
         display: inline-block;
     }
-`
 
-const FormBox = styled.div`
-    
-`
+    ${Label}{
+        float: left;
+        width: 25%;
+        min-width: 80px;
+        margin-top: 3px;
+    }
 
-const Label = styled.div`
-    
-`
+    ${InputContainer}{
+        float: left;
+        width: 75%;
+        margin-top: 3px;
+    }
 
-const InputContainer = styled.div``
+    ${FormBox}:after{
+        content: "";
+        display: table;
+        clear: both;
+    }
+`
 
 export default StyledMemberEditor

@@ -1,9 +1,10 @@
 import { useState } from "react"
 import Overview from "./Overview"
 
-import './DateAdministration.css'
+import './EventAdministration.css'
+import EventEditor from "./EventEditor"
 
-const DateAdministration = ({api_token}) => {
+const EventAdministration = ({api_token}) => {
 
     const [view, setView] = useState(0)
     
@@ -13,6 +14,9 @@ const DateAdministration = ({api_token}) => {
         case 'date_button_0':
             setView(0)
             break
+        case 'date_button_1':
+            setView(1)
+            break;
         }
     }
     
@@ -21,6 +25,7 @@ const DateAdministration = ({api_token}) => {
             <header>
                 <nav>
                     <button id="date_button_0" type="button" onClick={navigate}>Übersicht</button>
+                    <button id="date_button_1" type="button" onClick={navigate}>Einzelansicht</button>
                 </nav>
             </header>
             <View view={view} api_token={api_token}/>
@@ -33,7 +38,9 @@ const View = (props) => {
     default:
     case 0:
         return(<Overview api_token={props.api_token}/>)
+    case 1:
+        return(<EventEditor />)
     }
 }
 
-export default DateAdministration
+export default EventAdministration

@@ -42,13 +42,13 @@ switch($_SERVER['REQUEST_METHOD'])
                 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     extract($row);
                     $event_item = array(
-                        "event_id"  => intval($event_id),
-                        "type"      => $type,
-                        "location"  => $location,
-                        "date"      => $date,
-                        "begin"     => $begin,
-                        "departure" => $departure,
-                        "leave_dep" => $leave_dep
+                        "Event_ID"  => intval($event_id),
+                        "Type"      => $type,
+                        "Location"  => $location,
+                        "Date"      => $date,
+                        "Begin"     => $begin,
+                        "Departure" => $departure,
+                        "Leave_dep" => $leave_dep
                     );
                     array_push($event_arr, $event_item);
                 }
@@ -66,13 +66,13 @@ switch($_SERVER['REQUEST_METHOD'])
                 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     extract($row);
                     $event_item = array(
-                        "event_id"  => intval($event_id),
-                        "type"      => $type,
-                        "location"  => $location,
-                        "date"      => $date,
-                        "begin"     => $begin,
-                        "departure" => $departure,
-                        "leave_dep" => $leave_dep
+                        "Event_ID"  => intval($event_id),
+                        "Type"      => $type,
+                        "Location"  => $location,
+                        "Date"      => $date,
+                        "Begin"     => $begin,
+                        "Departure" => $departure,
+                        "Leave_dep" => $leave_dep
                     );
                     array_push($event_arr, $event_item);
                 }
@@ -90,13 +90,13 @@ switch($_SERVER['REQUEST_METHOD'])
                 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     extract($row);
                     $event_item = array(
-                        "event_id"  => intval($event_id),
-                        "type"      => $type,
-                        "location"  => $location,
-                        "date"      => $date,
-                        "begin"     => $begin,
-                        "departure" => $departure,
-                        "leave_dep" => $leave_dep
+                        "Event_ID"  => intval($event_id),
+                        "Type"      => $type,
+                        "Location"  => $location,
+                        "Date"      => $date,
+                        "Begin"     => $begin,
+                        "Departure" => $departure,
+                        "Leave_dep" => $leave_dep
                     );
                     array_push($event_arr, $event_item);
                 }
@@ -107,6 +107,13 @@ switch($_SERVER['REQUEST_METHOD'])
             break;
         }
         
+        break;
+    case 'PUT':
+        if($event->update($date)){
+            http_response_code(200);
+        } else {
+            http_response_code(400);
+        }
         break;
     default:
         http_response_code(501);

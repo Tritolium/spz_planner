@@ -41,13 +41,13 @@ const Overview = (props) => {
                 <tbody>
                     {dates.map(date => {
                         return (
-                            <tr key={date.date}>
-                                <td>{date.type}</td>
-                                <td>{date.location}</td>
-                                <td className="DateAdministrationDate">{parseDate(date.date)}</td>
-                                <td className="DateAdministrationTime">{parseTime(date.begin)}</td>
-                                <td className="DateAdministrationTime">{parseTime(date.departure)}</td>
-                                <td className="DateAdministrationTime">{parseTime(date.leave_dep)}</td>
+                            <tr key={date.Date}>
+                                <td>{date.Type}</td>
+                                <td>{date.Location}</td>
+                                <td className="DateAdministrationDate">{parseDate(date.Date)}</td>
+                                <td className="DateAdministrationTime">{parseTime(date.Begin)}</td>
+                                <td className="DateAdministrationTime">{parseTime(date.Departure)}</td>
+                                <td className="DateAdministrationTime">{parseTime(date.Leave_dep)}</td>
                             </tr>
                         )
                     })}
