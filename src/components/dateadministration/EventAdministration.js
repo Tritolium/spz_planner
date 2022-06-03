@@ -25,7 +25,7 @@ const EventAdministration = (props) => {
             <header>
                 <nav>
                     <button id="date_button_0" type="button" onClick={navigate}>Übersicht</button>
-                    {props.auth_level ? <button id="date_button_1" type="button" onClick={navigate}>Einzelansicht</button> : <></>}
+                    {props.auth_level > 2 ? <button id="date_button_1" type="button" onClick={navigate}>Einzelansicht</button> : <></>}
                 </nav>
             </header>
             <View view={view} />
