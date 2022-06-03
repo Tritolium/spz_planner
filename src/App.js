@@ -72,7 +72,7 @@ const App = () => {
                 <nav className='MainNavigation'>
                     {auth_level > 0 ? <button type='button' id='main_button_0' onClick={navigate}>Terminplaner</button> : <></>}
                     {auth_level > 1 ? <button type='button' id='main_button_1' onClick={navigate}>Mitgliederverwaltung</button> : <></>}
-                    {auth_level > 2 ? <button type='button' id='main_button_2' onClick={navigate}>Terminverwaltung</button> : <></>}
+                    {auth_level > 1 ? <button type='button' id='main_button_2' onClick={navigate}>Terminverwaltung</button> : <></>}
                 </nav>
             </header>
             <View view={view} sendLogin={sendLogin} fullname={fullname} auth_level={auth_level}/>
