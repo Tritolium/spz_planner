@@ -164,12 +164,10 @@ const updateEvent = async(event) => {
     let token = cookies.get('api_token')
     if(process.env.NODE_ENV !== 'production'){
         // TODO update in MockDB
+        console.log('update MockDB')
     } else {
         let response = await fetch("/api/event.php?api_token=" + token, {
             method: "PUT",
-            headers: {
-                "Content-Type":  "application/json"
-            },
             body: JSON.stringify(event)
         })
         switch(response.status){
@@ -182,7 +180,22 @@ const updateEvent = async(event) => {
 }
 
 const newEvent = async (event) => {
-
+    let token = cookies.get('api_token')
+    if(process.env.NODE_ENV !== 'production'){
+        // TODO create in MockDB
+        console.log('create in MockDB')
+    } else {
+        let response = await fetch("/api/event.php?api_token=" + token, {
+            method: "POST",
+            body: JSON.stringify(event)
+        })
+        switch(response.status){
+        case 201:
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 const getMember = async (member_id) => {
