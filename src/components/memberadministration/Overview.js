@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { getMembers } from "../../modules/data/DBConnect"
 
-const Overview = (props) => {
+const Overview = () => {
 
     const [member, setMember] = useState(new Array(0))
 

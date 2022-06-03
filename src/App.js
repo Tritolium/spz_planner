@@ -26,7 +26,10 @@ const App = () => {
             if(_auth_level !== undefined) {
                 setFullname(_forename + " " + _surname)
                 setAuth_level(_auth_level)
-                setView(0)
+                if(_auth_level > 0)
+                    setView(1)
+                else
+                    setView(0)
             } else {
                 setView(-1)
             }
@@ -72,7 +75,7 @@ const App = () => {
                     {auth_level > 2 ? <button type='button' id='main_button_2' onClick={navigate}>Terminverwaltung</button> : <></>}
                 </nav>
             </header>
-            <View view={view} sendLogin={sendLogin} fullname={fullname} api_token={api_token}/>
+            <View view={view} sendLogin={sendLogin} fullname={fullname} auth_level={auth_level}/>
         </div>
     );
 }
@@ -90,11 +93,11 @@ const View = (props) => {
     case 0:
         return(<>Startseite</>)
     case 1:
-        return(<Dateplanner fullname={props.fullname}/>)
+        return(<Dateplanner fullname={props.fullname} auth_level={props.auth_level}/>)
     case 2:
-        return(<MemberAdministration api_token={props.api_token}/>)
+        return(<MemberAdministration auth_level={props.auth_level}/>)
     case 3:
-        return(<EventAdministration api_token={props.api_token}/>)
+        return(<EventAdministration auth_level={props.auth_level}/>)
     }
 }
 

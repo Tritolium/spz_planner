@@ -4,7 +4,7 @@ import Overview from "./Overview"
 import './EventAdministration.css'
 import EventEditor from "./EventEditor"
 
-const EventAdministration = ({api_token}) => {
+const EventAdministration = (props) => {
 
     const [view, setView] = useState(0)
     
@@ -25,10 +25,10 @@ const EventAdministration = ({api_token}) => {
             <header>
                 <nav>
                     <button id="date_button_0" type="button" onClick={navigate}>Übersicht</button>
-                    <button id="date_button_1" type="button" onClick={navigate}>Einzelansicht</button>
+                    {props.auth_level ? <button id="date_button_1" type="button" onClick={navigate}>Einzelansicht</button> : <></>}
                 </nav>
             </header>
-            <View view={view} api_token={api_token}/>
+            <View view={view} />
         </>
     )
 }
@@ -37,7 +37,7 @@ const View = (props) => {
     switch(props.view){
     default:
     case 0:
-        return(<Overview api_token={props.api_token}/>)
+        return(<Overview />)
     case 1:
         return(<EventEditor />)
     }

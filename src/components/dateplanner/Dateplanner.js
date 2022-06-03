@@ -24,7 +24,7 @@ const dates = [
 
 const Dateplanner = (props) => {
 
-    const [view, setView] = useState(1)
+    const [view, setView] = useState(0)
 
     const navigate = (e) => {
         switch(e.target.id){
@@ -46,7 +46,7 @@ const Dateplanner = (props) => {
                 <div><img src={alert} alt='Unsicher'/> Unsicher</div>
                 <nav>
                     <button id='date_button_0' onClick={navigate}>Eingabe</button>
-                    <button id='date_button_1' onClick={navigate}>Übersicht</button>
+                    {props.auth_level > 1 ? <button id='date_button_1' onClick={navigate}>Übersicht</button> : <></>}
                 </nav>
             </header>
             <View view={view} fullname={props.fullname}/>
