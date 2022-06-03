@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react"
+import Filter from "../../modules/components/Filter"
 import { getEvents } from "../../modules/data/DBConnect"
 
 const Overview = (props) => {
@@ -54,23 +55,6 @@ const Overview = (props) => {
                 </tbody>
             </table>
         </>
-    )
-}
-
-const Filter = (props) => {
-
-    const onChange = useCallback((e) => {
-        props.onChange(e)
-    }, [props])
-
-    return(
-        <select onChange={onChange}>
-            {props.options.map((option, index) => {
-                return(
-                    <option value={option.value} key={index}>{option.label}</option>
-                )
-            })}
-        </select>
     )
 }
 

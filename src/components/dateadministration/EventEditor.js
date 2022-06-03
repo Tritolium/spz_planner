@@ -1,21 +1,29 @@
 import { useCallback, useEffect, useState } from "react"
 import styled from "styled-components"
+import Filter from "../../modules/components/Filter"
 import { getEvent, getEvents, newEvent, updateEvent } from "../../modules/data/DBConnect"
 import { formtheme } from "../Themes"
 
 const EventEditor = (props) => {
+
+    const options = [
+        {value: "current", label: "Aktuell"},
+        {value: "past", label: "Vergangen"},
+        {value: "all", label: "Alle"}
+    ]
     
     const [events, setEvents] = useState(new Array(0))
     const [selected, setSelected] = useState(-1)
+    const [filter, setFilter] = useState(options[0].value)
 
-    const fetchEvents = async () => {
-        let _Events = await getEvents()
+    const fetchEvents = useCallback(async () => {
+        let _Events = await getEvents(filter)
         setEvents(_Events)
-    }
+    }, [filter])
 
     useEffect(() => {
         fetchEvents()
-    }, [])
+    }, [fetchEvents])
 
     const onSelect = useCallback((id) => {
         setSelected(id)
@@ -23,11 +31,15 @@ const EventEditor = (props) => {
 
     const reload = useCallback(() => {
         fetchEvents()
+    }, [fetchEvents])
+
+    const onFilterChange = useCallback((e) => {
+        setFilter(e.target.value)
     }, [])
 
     return(
         <div className={props.className}>
-            <SEventSelector onSelect={onSelect} events={events}/>
+            <SEventSelector onSelect={onSelect} onFilterChange={onFilterChange} options={options} events={events}/>
             <SEditor selected={selected} reload={reload}/>
         </div>
     )
@@ -41,6 +53,7 @@ const EventSelector = (props) => {
 
     return(
         <div className={props.className}>
+            <Filter options={props.options} onChange={props.onFilterChange} />
             {props.events.map(event => {
                 return(<SEvent onSelect={onSelect} key={event.Event_ID} event={event}/>)
             })}
@@ -65,8 +78,6 @@ const SEventSelector = styled(EventSelector)`
     width: auto;
     min-width: fit-content;
 `
-
-
 
 const Editor = (props) => {
 
@@ -123,7 +134,7 @@ const Editor = (props) => {
             Leave_dep: document.getElementById("leave_dep").value
         }
 
-        newEvent(_event)
+        await newEvent(_event)
         props.reload()
     }
 
