@@ -9,7 +9,8 @@ const mockDB = {
             Date: "2022-05-14",
             Begin: "14:30:00",
             Departure: "14:00:00",
-            Leave_dep: "12:34:56"
+            Leave_dep: "12:34:56",
+            Accepted: 1
         },
         {
             Event_ID: 2,
@@ -18,7 +19,8 @@ const mockDB = {
             Date: "2022-07-17",
             Begin: "12:34:56",
             Departure: "12:34:56",
-            Leave_dep: "12:34:56"
+            Leave_dep: "12:34:56",
+            Accepted: 0
         }
     ],
     members: [

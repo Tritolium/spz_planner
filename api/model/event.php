@@ -25,7 +25,7 @@ class Event {
         } else {
             switch($filter){
             case "current":
-                $query = "SELECT * FROM " . $this->table_name . " WHERE date >= :_now ORDER BY date";
+                $query = "SELECT * FROM " . $this->table_name . " WHERE date >= :_now AND accepted = 1 ORDER BY date";
                 $stmt = $this->conn->prepare($query);
                 $stmt->bindValue(":_now", date("Y-m-d"));
                 break;
@@ -36,7 +36,7 @@ class Event {
                 break;
             default:
             case "all":
-                $query = "SELECT * FROM " . $this->table_name;
+                $query = "SELECT * FROM " . $this->table_name . " ORDER BY date";
                 $stmt = $this->conn->prepare($query);
                 break;
             }
@@ -47,7 +47,7 @@ class Event {
 
     function update($event_data) : bool
     {
-        $query = "UPDATE " . $this->table_name . " SET type = :type, location = :location, date = :date, begin = :begin, departure = :departure, leave_dep = :leave_dep WHERE event_id = :event_id";
+        $query = "UPDATE " . $this->table_name . " SET type = :type, location = :location, date = :date, begin = :begin, departure = :departure, leave_dep = :leave_dep, accepted = :accepted WHERE event_id = :event_id";
         $stmt = $this->conn->prepare($query);
 
         $stmt->bindParam(":event_id", $event_data->Event_ID);
@@ -57,6 +57,7 @@ class Event {
         $stmt->bindParam(":begin", $event_data->Begin);
         $stmt->bindParam(":departure", $event_data->Departure);
         $stmt->bindParam(":leave_dep", $event_data->Leave_dep);
+        $stmt->bindParam(":accepted", $event_data->Accepted);
 
         if($stmt->execute()){
             return true;

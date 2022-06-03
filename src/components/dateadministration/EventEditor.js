@@ -88,7 +88,8 @@ const Editor = (props) => {
         Date: "01-01-1901",
         Begin: "12:12",
         Departure: "12:12",
-        Leave_dep: "12:12"
+        Leave_dep: "12:12",
+        Accepted: 1
     })
 
     useEffect(() => {
@@ -113,7 +114,8 @@ const Editor = (props) => {
             Date: document.getElementById("date").value,
             Begin: document.getElementById("begin").value,
             Departure: document.getElementById("departure").value,
-            Leave_dep: document.getElementById("leave_dep").value
+            Leave_dep: document.getElementById("leave_dep").value,
+            Accepted: document.getElementById("accepted").checked
         }
 
         if(_event.Event_ID > 0){
@@ -198,6 +200,14 @@ const Editor = (props) => {
                 </Label>
                 <InputContainer>
                     <input type="text" name="" id="leave_dep" defaultValue={event.Leave_dep}/>
+                </InputContainer>
+            </FormBox>
+            <FormBox>
+                <Label>
+                    <label htmlFor="accepted">Angenommen:</label>
+                </Label>
+                <InputContainer>
+                    <input type="checkbox" name="" id="accepted" defaultChecked={event.Accepted}/>
                 </InputContainer>
             </FormBox>
             <FormBox>
