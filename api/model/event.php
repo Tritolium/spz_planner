@@ -16,32 +16,6 @@ class Event {
         $this->conn = $db;
     }
 
-    function readCurrent() : PDOStatement
-    {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE date >= :_now ORDER BY date";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindValue(":_now", date("Y-m-d"));
-        $stmt->execute();
-        return $stmt;
-    }
-
-    function readPast() : PDOStatement
-    {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE date < :_now ORDER BY date";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindValue(":_now", date("Y-m-d"));
-        $stmt->execute();
-        return $stmt;
-    }
-
-    function readAll() : PDOStatement
-    {
-        $query = "SELECT * FROM " . $this->table_name;
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt;
-    }
-
     function read($id, $filter) : PDOStatement
     {
         if ($id >= 0) {
@@ -77,6 +51,25 @@ class Event {
         $stmt = $this->conn->prepare($query);
 
         $stmt->bindParam(":event_id", $event_data->Event_ID);
+        $stmt->bindParam(":type", $event_data->Type);
+        $stmt->bindParam(":location", $event_data->Location);
+        $stmt->bindParam(":date", $event_data->Date);
+        $stmt->bindParam(":begin", $event_data->Begin);
+        $stmt->bindParam(":departure", $event_data->Departure);
+        $stmt->bindParam(":leave_dep", $event_data->Leave_dep);
+
+        if($stmt->execute()){
+            return true;
+        }
+
+        return false;
+    }
+
+    function create($event_data) : bool
+    {
+        $query = "INSERT INTO " . $this->table_name . " (type, location, date, begin, departure, leave_dep) VALUES (:type, :location, :date, :begin, :departure, :leave_dep)";
+        $stmt = $this->conn->prepare($query);
+
         $stmt->bindParam(":type", $event_data->Type);
         $stmt->bindParam(":location", $event_data->Location);
         $stmt->bindParam(":date", $event_data->Date);

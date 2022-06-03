@@ -87,7 +87,15 @@ switch($_SERVER['REQUEST_METHOD'])
             http_response_code(400);
         }
         break;
+    case 'POST':
+        if($event->create($data)){
+            http_response_code(201);
+        } else {
+            http_response_code(400);
+        }
+        break;
     default:
         http_response_code(501);
+        exit();
 }
 ?>
