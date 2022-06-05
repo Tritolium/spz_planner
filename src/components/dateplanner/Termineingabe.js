@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { getAttendences, getEvents } from '../../modules/data/DBConnect'
 import DateField from './DateField'
 import Terminzusage from './Terminzusage'
@@ -19,6 +19,12 @@ const Termineingabe = ({dates, fullname}) => {
         }
         fetchEvents()
     }, [])
+
+    const onClick = useCallback((event_id) => {
+        console.log('on click' + event_id)
+        let att = (attendences.find(x => x.Event_ID=event_id).Attendence + 1) % 3
+        setAttendences([...attendences, {Event_ID: event_id, Attendence: att}])
+    }, [attendences])
 
     const sendForm = (e) => {
         e.preventDefault()
@@ -64,7 +70,7 @@ const Termineingabe = ({dates, fullname}) => {
                         return(
                             <tr key={event.Location}>
                                 <td><DateField dateprops={event} /></td>
-                                <td><Terminzusage attendence={att}/></td>
+                                <td><Terminzusage attendence={att} onClick={onClick} event_id={event.Event_ID}/></td>
                             </tr>
                         )
                     })}

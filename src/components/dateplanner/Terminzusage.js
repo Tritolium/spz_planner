@@ -1,19 +1,17 @@
-import { useCallback, useState } from "react"
-
 import check from './check.png'
 import alert from './alert.png'
 import deny from './delete-button.png'
+import { useCallback } from 'react'
 
 const Terminzusage = (props) => {
     console.log(props)
-    const [attendence, setAttendence] = useState(props.attendence)
 
     const onClick = useCallback(() => {
-        setAttendence((attendence + 1) % 3)
-    }, [attendence])
+        props.onClick(props.event_id)
+    }, [props])
 
     return(
-        <Button callback={onClick} attendence={attendence}/>
+        <Button callback={onClick} attendence={props.attendence}/>
     )
 }
 
