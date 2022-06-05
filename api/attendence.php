@@ -25,10 +25,10 @@ function readAttendence($api_token)
         $attendence_arr = array();
         while($row = $statement->fetch(PDO::FETCH_ASSOC)) {
            extract($row);
-           $attendence_item(array(
+           $attendence_item = array(
                "Event_ID"   => intval($event_id),
                "Attendence" => $attendence
-           ));
+           );
            array_push($attendence_arr, $attendence_item);
        }
        response_with_data(200, $attendence_arr);
