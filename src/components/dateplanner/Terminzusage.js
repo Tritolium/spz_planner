@@ -4,8 +4,6 @@ import deny from './delete-button.png'
 import { useCallback } from 'react'
 
 const Terminzusage = (props) => {
-    console.log(props)
-
     const onClick = useCallback(() => {
         props.onClick(props.event_id)
     }, [props])
@@ -16,7 +14,6 @@ const Terminzusage = (props) => {
 }
 
 const Button = (props) => {
-    console.log(props)
     switch(props.attendence){
     default:
     case 0:

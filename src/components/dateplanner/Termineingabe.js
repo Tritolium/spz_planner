@@ -21,9 +21,9 @@ const Termineingabe = ({dates, fullname}) => {
     }, [])
 
     const onClick = useCallback((event_id) => {
-        console.log('on click' + event_id)
         let att = (attendences.find(x => x.Event_ID=event_id).Attendence + 1) % 3
         setAttendences([...attendences, {Event_ID: event_id, Attendence: att}])
+        console.log(attendences)
     }, [attendences])
 
     const sendForm = (e) => {
