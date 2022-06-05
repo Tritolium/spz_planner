@@ -62,7 +62,7 @@ const Termineingabe = ({dates, fullname}) => {
                         console.log(event)
                         console.log(attendences)
                         if(item !== undefined){
-                            att = item.attendence
+                            att = item.Attendence
                         }
                         return(
                             <tr key={event.Location}>
