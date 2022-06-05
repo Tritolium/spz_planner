@@ -58,6 +58,9 @@ const Termineingabe = ({dates, fullname}) => {
                     {events.map((event, i) => {
                         let att = 0
                         let item = attendences.find(x => x.Event_ID === event.Event_ID)
+                        console.log(item)
+                        console.log(event)
+                        console.log(attendences)
                         if(item !== undefined){
                             att = item.attendence
                         }
