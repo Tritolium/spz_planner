@@ -307,6 +307,7 @@ const newMember = async(member) => {
 }
 
 const getAttendences = async () => {
+    let attendences = new Array(0)
     let token = cookies.get('api_token');
     if(process.env.NODE_ENV !== 'production'){
         // TODO get in MockDB
@@ -316,11 +317,13 @@ const getAttendences = async () => {
         })
         switch(response.status){
         case 200:
-            return true
+            attendences = await response.json()
+            break
         default:
-            return false
+            break
         }
     }
+    return attendences
 }
 
 export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, getAttendences }
