@@ -16,7 +16,6 @@ const Termineingabe = ({dates, fullname}) => {
             setEvents(_events)
             let _attendences = await getAttendences()
             setAttendences(_attendences)
-            console.log(_attendences)
         }
         fetchEvents()
     }, [])
@@ -57,10 +56,15 @@ const Termineingabe = ({dates, fullname}) => {
                 </thead>
                 <tbody>
                     {events.map((event, i) => {
+                        let att = 0
+                        let item = attendences.find(x => x.Event_ID === event.Event_ID)
+                        if(item !== undefined){
+                            att = item.attendence
+                        }
                         return(
                             <tr key={event.Location}>
                                 <td><DateField dateprops={event} /></td>
-                                <td><Terminzusage attendence={attendences[i]}/></td>
+                                <td><Terminzusage attendence={att}/></td>
                             </tr>
                         )
                     })}
