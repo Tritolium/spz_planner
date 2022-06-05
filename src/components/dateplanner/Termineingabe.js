@@ -59,10 +59,9 @@ const Termineingabe = ({dates, fullname}) => {
                         let att = 0
                         let item = attendences.find(x => x.Event_ID === event.Event_ID)
                         console.log(item)
-                        console.log(event)
-                        console.log(attendences)
                         if(item !== undefined){
                             att = item.Attendence
+                            console.log(att)
                         }
                         return(
                             <tr key={event.Location}>
