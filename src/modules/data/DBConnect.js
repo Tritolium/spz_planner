@@ -306,4 +306,21 @@ const newMember = async(member) => {
     }
 }
 
-export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember }
+const getAttendences = async () => {
+    let token = cookies.get('api_token');
+    if(process.env.NODE_ENV !== 'production'){
+        // TODO get in MockDB
+    } else {
+        let response = await fetch("/api/attendence.php?api_token" + token, {
+            method: "GET"
+        })
+        switch(response.status){
+        case 200:
+            return true
+        default:
+            return false
+        }
+    }
+}
+
+export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, getAttendences }

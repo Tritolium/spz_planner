@@ -17,8 +17,8 @@ const EventEditor = (props) => {
     const [filter, setFilter] = useState(options[0].value)
 
     const fetchEvents = useCallback(async () => {
-        let _Events = await getEvents(filter)
-        setEvents(_Events)
+        let _events = await getEvents(filter)
+        setEvents(_events)
     }, [filter])
 
     useEffect(() => {

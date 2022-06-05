@@ -24,7 +24,7 @@ const Memberadministration = (props) => {
             <header className="Memberadministration-header">
                 <nav>
                     <button id="member_button_0" type='button' onClick={navigate}>Übersicht</button>
-                    {props.auth_level > 1 ? <button id="member_button_1" type='button' onClick={navigate}>Einzelansicht</button> : <></>}
+                    {props.auth_level > 2 ? <button id="member_button_1" type='button' onClick={navigate}>Einzelansicht</button> : <></>}
                 </nav>
             </header>
             <View view={view} />

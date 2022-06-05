@@ -1,24 +1,25 @@
-import { useCallback, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { getAttendences, getEvents } from '../../modules/data/DBConnect'
 import DateField from './DateField'
 import Terminzusage from './Terminzusage'
 
 const Termineingabe = ({dates, fullname}) => {
 
-    //const [name, setName] = useState("")
     const [ft, setFt] = useState(1)
     const [sf, setSf] = useState(1)
+    const [events, setEvents] = useState(new Array(0))
+    const [attendences, setAttendences] = useState(new Array(0))
 
-    const clickFt = useCallback(() => {
-        setFt((ft + 1) % 3)
-    }, [ft])
-
-    const clickSf = useCallback(() => {
-        setSf((sf + 1) % 3)
-    }, [sf])
-/*
-    const onNameChange = useCallback((e) => {
-        setName(e.target.value)
-    }, [])*/
+    useEffect(() => {
+        const fetchEvents = async () => {
+            let _events = await getEvents('current')
+            setEvents(_events)
+            let _attendences = await getAttendences()
+            setAttendences(_attendences)
+            console.log(_attendences)
+        }
+        fetchEvents()
+    }, [])
 
     const sendForm = (e) => {
         e.preventDefault()
@@ -50,30 +51,24 @@ const Termineingabe = ({dates, fullname}) => {
             <table>
                 <thead>
                     <tr>
-                        <td id='date_name_label'>Name:</td>
-                        {dates.map(date => {
-                            return(<th key={date.Location}><DateField dateprops={date} /></th>)
-                        })}
+                        <td>Termin:</td>
+                        <td>{fullname}</td>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        {/*<td><Nameneingabe onChange={onNameChange}/></td>*/}
-                        <td>{fullname}</td>
-                        <td className='Tz'><Terminzusage onClick={clickFt} attendence={ft}/></td>
-                        <td className='Tz'><Terminzusage onClick={clickSf} attendence={sf}/></td>
-                    </tr>
+                    {events.map((event, i) => {
+                        return(
+                            <tr key={event.Location}>
+                                <td><DateField dateprops={event} /></td>
+                                <td><Terminzusage attendence={attendences[i]}/></td>
+                            </tr>
+                        )
+                    })}
                 </tbody>
             </table>
             <button type='submit'>Abschicken</button>
         </form>
     )
 }
-/*
-const Nameneingabe = (props) => {
-    return(
-        <input type="text" onChange={props.onChange}/>
-    )
-}
-*/
+
 export default Termineingabe
