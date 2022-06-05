@@ -21,8 +21,16 @@ const Termineingabe = ({dates, fullname}) => {
     }, [])
 
     const onClick = useCallback((event_id) => {
-        let att = (attendences.find(x => x.Event_ID=event_id).Attendence + 1) % 3
-        setAttendences([...attendences, {Event_ID: event_id, Attendence: att}])
+        let index
+        let att = (attendences.find((x, i) => {
+            if(x.Event_ID===event_id){
+                index = i
+                return true
+            }
+            return false
+        }).Attendence + 1) % 3
+        let copy = attendences.splice(index)
+        setAttendences([{Event_ID: event_id, Attendence: att}, ...copy])
         console.log(attendences)
     }, [attendences])
 
