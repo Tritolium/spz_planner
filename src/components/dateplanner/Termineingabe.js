@@ -58,10 +58,8 @@ const Termineingabe = ({dates, fullname}) => {
                     {events.map((event, i) => {
                         let att = 0
                         let item = attendences.find(x => x.Event_ID === event.Event_ID)
-                        console.log(item)
                         if(item !== undefined){
                             att = item.Attendence
-                            console.log(att)
                         }
                         return(
                             <tr key={event.Location}>

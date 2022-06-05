@@ -18,6 +18,7 @@ const Terminzusage = (props) => {
 }
 
 const Button = (props) => {
+    console.log(props)
     switch(props.attendence){
     default:
     case 0:
