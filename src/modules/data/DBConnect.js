@@ -311,7 +311,7 @@ const getAttendences = async () => {
     if(process.env.NODE_ENV !== 'production'){
         // TODO get in MockDB
     } else {
-        let response = await fetch("/api/attendence.php?api_token" + token, {
+        let response = await fetch("/api/attendence.php?api_token=" + token, {
             method: "GET"
         })
         switch(response.status){
