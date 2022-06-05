@@ -5,7 +5,7 @@ import alert from './alert.png'
 import deny from './delete-button.png'
 
 const Terminzusage = (props) => {
-
+    console.log(props)
     const [attendence, setAttendence] = useState(props.attendence)
 
     const onClick = useCallback(() => {
