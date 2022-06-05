@@ -27,7 +27,7 @@ function readAttendence($api_token)
            extract($row);
            $attendence_item = array(
                "Event_ID"   => intval($event_id),
-               "Attendence" => $attendence
+               "Attendence" => intval($attendence)
            );
            array_push($attendence_arr, $attendence_item);
        }
