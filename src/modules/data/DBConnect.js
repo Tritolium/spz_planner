@@ -354,7 +354,7 @@ const updateAttendences = (changes) => {
     if(process.env.NODE_ENV !== 'production'){
         // TODO set in MockDB
     } else {
-        fetch("/api/attendence.php?api_token" + token, {
+        fetch("/api/attendence.php?api_token=" + token, {
             method: "PUT",
             body: JSON.stringify(changes)
         })
