@@ -6,9 +6,14 @@ if(!isset($_GET['api_token'])){
     exit();
 }
 
+$data = json_decode(file_get_contents("php://input"));
+
 switch($_SERVER['REQUEST_METHOD']){
 case 'GET':
     readAttendence($_GET['api_token']);
+    break;
+case 'PUT':
+    updateAttendence($_GET['api_token'], $data);
     break;
 }
 
@@ -47,7 +52,6 @@ function updateAttendence($api_token, $changes)
 {
     $database = new Database();
     $db_conn = $database->getConnection();
-
     $query = "SELECT member_id FROM tblMembers WHERE api_token = :api_token";
     $statement = $db_conn->prepare($query);
     $statement->bindParam(':api_token', $api_token);
@@ -59,7 +63,7 @@ function updateAttendence($api_token, $changes)
         $row = $statement->fetch(PDO::FETCH_ASSOC);
         extract($row);
         foreach($changes as $event_id => $attendence){
-            updateSingleAttendence($member_id, $event_id, $attendence);
+            updateSingleAttendence($db_conn, $member_id, $event_id, $attendence);
         }
     } else {
         http_response_code(500);
@@ -67,7 +71,7 @@ function updateAttendence($api_token, $changes)
     }
 }
 
-function updateSingleAttendence($member_id, $event_id, $attendence)
+function updateSingleAttendence($db_conn, $member_id, $event_id, $attendence)
 {
     $query = "INSERT INTO tblAttendence (attendence, member_id, event_id) VALUES (:attendence, :member_id, :event_id)";
     $statement = $db_conn->prepare($query);

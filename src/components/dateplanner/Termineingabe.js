@@ -17,7 +17,7 @@ const Termineingabe = ({dates, fullname}) => {
 
     const onClick = useCallback((event_id, attendence) => {
         let att = {...changedAttendences}
-        att[event_id] = attendence
+        att['' + event_id] = attendence
         setChangedAttendences(att)
         console.log(att)
     }, [changedAttendences])
