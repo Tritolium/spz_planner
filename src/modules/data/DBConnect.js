@@ -47,6 +47,29 @@ const mockDB = {
             Surname: "Müller",
             Auth_level: 3
         }
+    ],
+    attendences: [
+        {
+            Attendence: undefined,
+            Event_ID: 4,
+            Type: "Tag der offenen Tür",
+            Location: "OGS Rönkhausen",
+            Date: "2022-06-15"
+        },
+        {
+            Attendence: 1,
+            Event_ID: 5,
+            Type: "Heimspiel",
+            Location: "Rönksen!",
+            Date: "2022-07-02"
+        },
+        {
+            Attendence: 2,
+            Event_ID: 3,
+            Type: "Schützenfest",
+            Location: "Endorf",
+            Date: "2022-07-10"
+        }
     ]
 }
 
@@ -310,7 +333,7 @@ const getAttendences = async () => {
     let attendences = new Array(0)
     let token = cookies.get('api_token');
     if(process.env.NODE_ENV !== 'production'){
-        // TODO get in MockDB
+        attendences = mockDB.attendences
     } else {
         let response = await fetch("/api/attendence.php?api_token=" + token, {
             method: "GET"

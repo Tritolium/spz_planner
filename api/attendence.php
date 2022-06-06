@@ -17,9 +17,10 @@ function readAttendence($api_token)
     $database = new Database();
     $db_conn = $database->getConnection();
 
-    $query = 'SELECT tblAttendence.event_id, tblAttendence.attendence FROM tblAttendence JOIN tblMembers ON tblAttendence.member_id=tblMembers.member_id WHERE tblMembers.api_token=:api_token';
+    $query = "SELECT attendence, tblEvents.event_id, type, location, date FROM (SELECT * FROM `viewAttendence` WHERE `api_token` = :api_token) AS Att RIGHT JOIN tblEvents ON Att.event_id = tblEvents.event_id WHERE accepted = 1 AND date > :_now ORDER BY date";
     $statement = $db_conn->prepare($query);
     $statement->bindParam(':api_token', $api_token);
+    $statement->bindValue(":_now", date("Y-m-d"));
 
     if($statement->execute()){
         $attendence_arr = array();
@@ -27,7 +28,10 @@ function readAttendence($api_token)
            extract($row);
            $attendence_item = array(
                "Event_ID"   => intval($event_id),
-               "Attendence" => intval($attendence)
+               "Attendence" => intval($attendence),
+               "Type"       => $type,
+               "Location"   => $location,
+               "Date"       => $date
            );
            array_push($attendence_arr, $attendence_item);
        }
