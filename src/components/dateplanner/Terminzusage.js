@@ -8,8 +8,9 @@ const Terminzusage = (props) => {
     const [attendence, setAttendences] = useState(props.attendence)
 
     const onClick = useCallback(() => {
-        setAttendences((attendence + 1) % 3)
-        props.onClick(props.event_id)
+        let new_att = (attendence + 1) % 3
+        setAttendences(new_att)
+        props.onClick(props.event_id, new_att)
     }, [props, attendence])
 
     return(

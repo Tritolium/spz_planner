@@ -42,3 +42,45 @@ function readAttendence($api_token)
         exit();
     }
 }
+
+function updateAttendence($api_token, $changes)
+{
+    $database = new Database();
+    $db_conn = $database->getConnection();
+
+    $query = "SELECT member_id FROM tblMembers WHERE api_token = :api_token";
+    $statement = $db_conn->prepare($query);
+    $statement->bindParam(':api_token', $api_token);
+    if($statement->execute()){
+        if($statement->rowCount() < 1){
+            http_response_code(401);
+            exit();
+        }
+        $row = $statement->fetch(PDO::FETCH_ASSOC);
+        extract($row);
+        foreach($changes as $event_id => $attendence){
+            updateSingleAttendence($member_id, $event_id, $attendence);
+        }
+    } else {
+        http_response_code(500);
+        exit();
+    }
+}
+
+function updateSingleAttendence($member_id, $event_id, $attendence)
+{
+    $query = "INSERT INTO tblAttendence (attendence, member_id, event_id) VALUES (:attendence, :member_id, :event_id)";
+    $statement = $db_conn->prepare($query);
+    $statement->bindParam(":attendence", $attendence);
+    $statement->bindParam(":member_id", $member_id);
+    $statement->bindParam(":event_id", $event_id);
+
+    if(!$statement->execute()){
+        $query = "UPDATE tblAttendence SET attendence=:attendence WHERE member_id=:member_id AND event_id=:event_id";
+        $statement = $db_conn->prepare($query);
+        $statement->bindParam(":attendence", $attendence);
+        $statement->bindParam(":member_id", $member_id);
+        $statement->bindParam(":event_id", $event_id);
+        $statement->execute();
+    }
+}

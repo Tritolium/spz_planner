@@ -50,7 +50,7 @@ const mockDB = {
     ],
     attendences: [
         {
-            Attendence: undefined,
+            Attendence: 0,
             Event_ID: 4,
             Type: "Tag der offenen Tür",
             Location: "OGS Rönkhausen",
@@ -331,7 +331,7 @@ const newMember = async(member) => {
 
 const getAttendences = async () => {
     let attendences = new Array(0)
-    let token = cookies.get('api_token');
+    let token = cookies.get('api_token')
     if(process.env.NODE_ENV !== 'production'){
         attendences = mockDB.attendences
     } else {
@@ -349,4 +349,16 @@ const getAttendences = async () => {
     return attendences
 }
 
-export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, getAttendences }
+const updateAttendences = (changes) => {
+    let token = cookies.get('api_token')
+    if(process.env.NODE_ENV !== 'production'){
+        // TODO set in MockDB
+    } else {
+        fetch("/api/attendence.php?api_token" + token, {
+            method: "PUT",
+            body: JSON.stringify(changes)
+        })
+    }
+}
+
+export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, getAttendences, updateAttendences }

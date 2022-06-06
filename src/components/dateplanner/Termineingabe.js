@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { getAttendences } from '../../modules/data/DBConnect'
+import { getAttendences, updateAttendences } from '../../modules/data/DBConnect'
 import DateField from './DateField'
 import Terminzusage from './Terminzusage'
 
@@ -24,6 +24,7 @@ const Termineingabe = ({dates, fullname}) => {
 
     const sendForm = (e) => {
         e.preventDefault()
+        updateAttendences(changedAttendences)
     }
 
     return(
