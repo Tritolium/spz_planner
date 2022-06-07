@@ -19,7 +19,6 @@ const Termineingabe = ({dates, fullname}) => {
         let att = {...changedAttendences}
         att['' + event_id] = attendence
         setChangedAttendences(att)
-        console.log(att)
     }, [changedAttendences])
 
     const sendForm = (e) => {

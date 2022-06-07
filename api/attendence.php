@@ -65,6 +65,7 @@ function updateAttendence($api_token, $changes)
         foreach($changes as $event_id => $attendence){
             updateSingleAttendence($db_conn, $member_id, $event_id, $attendence);
         }
+        http_response_code(200);
     } else {
         http_response_code(500);
         exit();
@@ -73,18 +74,24 @@ function updateAttendence($api_token, $changes)
 
 function updateSingleAttendence($db_conn, $member_id, $event_id, $attendence)
 {
-    $query = "INSERT INTO tblAttendence (attendence, member_id, event_id) VALUES (:attendence, :member_id, :event_id)";
+    $query = "SELECT * FROM tblAttendence WHERE member_id=:member_id AND event_id=:event_id";
     $statement = $db_conn->prepare($query);
-    $statement->bindParam(":attendence", $attendence);
     $statement->bindParam(":member_id", $member_id);
     $statement->bindParam(":event_id", $event_id);
-
-    if(!$statement->execute()){
+    $statement->execute();
+    if($statement->rowCount() < 1){
+        $query = "INSERT INTO tblAttendence (attendence, member_id, event_id) VALUES (:attendence, :member_id, :event_id)";
+        $statement = $db_conn->prepare($query);
+        $statement->bindParam(":attendence", $attendence);
+        $statement->bindParam(":member_id", $member_id);
+        $statement->bindParam(":event_id", $event_id);
+    } else {
         $query = "UPDATE tblAttendence SET attendence=:attendence WHERE member_id=:member_id AND event_id=:event_id";
         $statement = $db_conn->prepare($query);
         $statement->bindParam(":attendence", $attendence);
         $statement->bindParam(":member_id", $member_id);
         $statement->bindParam(":event_id", $event_id);
-        $statement->execute();
     }
+    
+    $statement->execute();
 }
