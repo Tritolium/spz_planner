@@ -58,7 +58,6 @@ const MemberSelector = (props) => {
             {props.members.map(member => {
                 return(<StyledMember background={background[member.Auth_level]} onSelect={onSelect} key={member.Member_ID} member={member}/>)
             })}
-            <StyledMember background="AliceBlue" onSelect={onSelect} key="new" member={{Member_ID: -1}} />
         </div>
     )
 }
@@ -136,11 +135,31 @@ const Editor = (props) => {
 
         if(_member.Member_ID > 0){
             await updateMember(_member)    
-        } else {
-            await newMember(_member)
         }
 
         props.reload()        
+    }
+
+    const createNew = async(e) => {
+        e.preventDefault()
+        let _member = {
+            Forename: document.getElementById("fname").value,
+            Surname: document.getElementById("sname").value,
+            Auth_level: document.getElementById("auth").options[document.getElementById("auth").selectedIndex].value,
+            Nicknames: document.getElementById("nick").value
+        }
+        await newMember(_member)
+        props.reload()
+    }
+
+    const clear = () => {
+        setMember({
+            Member_ID: -1,
+            Forename: "",
+            Surname: "",
+            Auth_level: 0,
+            Nicknames: ""
+        })
     }
 
     return(
@@ -184,7 +203,9 @@ const Editor = (props) => {
             </FormBox>
             <FormBox>
                 <InputContainer>
-                    <input type="submit" value="Speichern"></input>
+                    <button type="submit">Speichern</button>
+                    <button onClick={createNew}>Neu anlegen</button>
+                    <button onClick={clear}>Felder leeren</button>
                 </InputContainer>
             </FormBox>
         </Form>
@@ -205,10 +226,11 @@ const Form = styled.form`
     margin: ${props => props.theme.margin};
     width: 100%;
 
-    input[type=submit] {
+    input[type=submit], button {
         background-color: ${props => props.theme.secondary};
         color: ${props => props.theme.main};
         padding: ${props => props.theme.padding};
+        margin: ${props => props.theme.input_margin};
         border: none;
         border-radius: 3px;
         cursor: pointer;

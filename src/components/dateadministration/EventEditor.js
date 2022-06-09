@@ -212,7 +212,7 @@ const Editor = (props) => {
             </FormBox>
             <FormBox>
                 <InputContainer>
-                    <input type="submit" value="Speichern" />
+                    <button type="submit">Speichern</button>
                     <button onClick={createNew}>Neu anlegen</button>
                     <button onClick={clear}>Felder leeren</button>
                 </InputContainer>
