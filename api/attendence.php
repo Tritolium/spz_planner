@@ -33,7 +33,7 @@ function readAttendence($api_token)
            extract($row);
            $attendence_item = array(
                "Event_ID"   => intval($event_id),
-               "Attendence" => intval($attendence),
+               "Attendence" => ($attendence == NULL) ? -1 : intval($attendence),
                "Type"       => $type,
                "Location"   => $location,
                "Date"       => $date

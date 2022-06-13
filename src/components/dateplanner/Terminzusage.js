@@ -1,6 +1,7 @@
 import check from './check.png'
 import alert from './alert.png'
 import deny from './delete-button.png'
+import blank from './blank.png'
 import { useCallback, useState } from 'react'
 
 const Terminzusage = (props) => {
@@ -21,6 +22,8 @@ const Terminzusage = (props) => {
 const Button = (props) => {
     switch(props.attendence){
     default:
+    case -1:
+        return(<img src={blank} alt="Ohne Rückmeldung" onClick={props.callback} />)
     case 0:
         return(<img src={deny} alt="Absage" onClick={props.callback} />)
     case 1:
