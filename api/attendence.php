@@ -10,7 +10,11 @@ $data = json_decode(file_get_contents("php://input"));
 
 switch($_SERVER['REQUEST_METHOD']){
 case 'GET':
-    readAttendence($_GET['api_token']);
+    if(isset($_GET['all'])){
+        readAllAttendences($_GET['api_token']);
+    } else {
+        readAttendence($_GET['api_token']);
+    }    
     break;
 case 'PUT':
     updateAttendence($_GET['api_token'], $data);
@@ -37,6 +41,33 @@ function readAttendence($api_token)
                "Type"       => $type,
                "Location"   => $location,
                "Date"       => $date
+           );
+           array_push($attendence_arr, $attendence_item);
+       }
+       response_with_data(200, $attendence_arr);
+       exit();
+    } else {
+        http_response_code(500);
+        exit();
+    }
+}
+
+function readAllAtendences($api_token)
+{
+    $database = new Database();
+    $db_conn = $database->getConnection();
+
+    $query = "SELECT viewCrossMemberEvents.member_id, viewCrossMemberEvents.event_id, attendence FROM viewCrossMemberEvents LEFT JOIN tblAttendence ON viewCrossMemberEvents.member_id=tblAttendence.member_id AND viewCrossMemberEvents.event_id=tblAttendence.event_id WHERE viewCrossMemberEvents.date > :_now ORDER BY viewCrossMemberEvents.event_id, viewCrossMemberEvents.member_id";
+    $statement->bindParam(':_now', date('Y-m-d'));
+    
+    if($statement->execute()){
+        $attendence_arr = array();
+        while($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+           extract($row);
+           $attendence_item = array(
+               "Event_ID"   => intval($event_id),
+               "Attendence" => ($attendence == NULL) ? -1 : intval($attendence),
+               "Member_ID"  => $member_id
            );
            array_push($attendence_arr, $attendence_item);
        }
