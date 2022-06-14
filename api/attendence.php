@@ -52,7 +52,7 @@ function readAttendence($api_token)
     }
 }
 
-function readAllAtendences($api_token)
+function readAllAttendences($api_token)
 {
     $database = new Database();
     $db_conn = $database->getConnection();
