@@ -58,6 +58,7 @@ function readAllAttendences($api_token)
     $db_conn = $database->getConnection();
 
     $query = "SELECT viewCrossMemberEvents.member_id, viewCrossMemberEvents.event_id, attendence FROM viewCrossMemberEvents LEFT JOIN tblAttendence ON viewCrossMemberEvents.member_id=tblAttendence.member_id AND viewCrossMemberEvents.event_id=tblAttendence.event_id WHERE viewCrossMemberEvents.date > :_now ORDER BY viewCrossMemberEvents.event_id, viewCrossMemberEvents.member_id";
+    $statement = $db_conn->prepare($query);
     $statement->bindParam(':_now', date('Y-m-d'));
     
     if($statement->execute()){
