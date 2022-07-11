@@ -33,11 +33,3 @@ jobs:
           password: ${{ secrets.FPT_PASSWORD }}
           local-dir: ./build/
           server-dir: ./www/
-      - name: Upload API files
-        uses: SamKirkland/FTP-Deploy-Action@4.1.0
-        with:
-          server: spzroenkhausen.bplaced.net
-          username: spzroenkhausen_admin
-          password: ${{ secrets.FPT_PASSWORD }}
-          local-dir: ./api/
-          server-dir: ./www/api/
