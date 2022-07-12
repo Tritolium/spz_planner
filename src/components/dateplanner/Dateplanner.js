@@ -43,7 +43,7 @@ const Dateplanner = (props) => {
             <header className="Dateplanner-header">
                 <div><img src={check} alt='Zusage'/> Zusage</div>
                 <div><img src={deny} alt='Absage'/> Absage</div>
-                <div><img src={alert} alt='Unsicher'/> Unsicher</div>
+                <div visible="false"><img src={alert} alt='Unsicher'/> Unsicher</div>
                 <nav>
                     <button id='date_button_0' onClick={navigate}>Eingabe</button>
                     {props.auth_level > 1 ? <button id='date_button_1' onClick={navigate}>Übersicht</button> : <></>}

@@ -95,9 +95,9 @@ const ZusageIcon = ({id}) => {
     case 0:
         return(<img src={deny} alt='deny'/>)
     case 1:
-        return(<img src={alert} alt='alert'/>)
-    case 2:
         return(<img src={check} alt='check'/>)
+    case 2:
+        return(<img src={alert} alt='alert'/>)
     }
 }
 
