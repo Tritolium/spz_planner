@@ -23,7 +23,8 @@ const Termineingabe = ({dates, fullname}) => {
 
     const sendForm = (e) => {
         e.preventDefault()
-        if(await updateAttendences(changedAttendences)){
+        let success = await updateAttendences(changedAttendences)
+        if(success){
             alert("Angaben übernommen")
         } else {
             alert("Ein Fehler ist aufgetreten")
