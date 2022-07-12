@@ -1,6 +1,11 @@
 import { useEffect, /*useRef,*/ useState } from "react"
+import styled from "styled-components"
 
 import { getAttendences } from '../../modules/data/DBConnect'
+
+import check from './check.png'
+import deny from './delete-button.png'
+import blank from './blank.png'
 
 //import check from './check.png'
 //import alert from './alert.png'
@@ -19,81 +24,76 @@ const Overview = ({dates}) => {
         }
         fetchAttendences()
     }, [])
-    /*
-    useEffect(() => {
-        const fetchData = async () => {
-            fetch('http://spzroenkhausen.bplaced.net/api/abfrage.php', {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/JSON'
-                },
-            }).then((res) => {
-                if(res.status === 200){
-                    res.json().then((json) => {
-                        setAbfragen(json)
-                        loading.current=false
-                    })
-                }
-            })
-        }
-        if(loading.current) {
-            if(process.env.NODE_ENV === 'production'){
-                fetchData()
-            } else {
-                setAbfragen([
-                    {
-                        Name: "Test1",
-                        ft_oeling: 1,
-                        sf_ennest: 2,
-                        timestamp: ""
-                    },
-                    {
-                        Name: "Test2",
-                        ft_oeling: 2,
-                        sf_ennest: 0,
-                        timestamp: ""
-                    },
-                    {
-                        Name: "Test3",
-                        ft_oeling: 0,
-                        sf_ennest: 1,
-                        timestamp: ""
-                    }
-                ])
-            }
-        }
-    }, [])*//*
-    if(abfragen === undefined) {
-        return(<>Noch keine Rückmeldungen</>)
-    } else {*/
+    console.log(attendences)
+    if(attendences.length === 0){
+        return(<></>)
+    } else {
         return(
-            <>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            {
-                                console.log(attendences)    
-                            }
-                            {
-                                attendences[0]['Attendences'].map((att, index) => {
-                                    return(<>{att.Member_ID}</>)
-                                })
-                            }
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {/*abfragen.map((abfrage) => {
+            <Table>
+                <thead>
+                    <th>Termin:</th>
+                    {attendences[0].Attendences.map((att) => {
+                        return(<TableHeaderField><div><span>{att.Fullname}</span></div></TableHeaderField>)
+                    })}
+                </thead>
+                <tbody>
+                    {
+                        attendences.map(event => {
                             return(
-                                <AbfragenTableRow key={abfrage.Name} abfrage={abfrage}/>
+                                <tr>
+                                    <TableDataField>EventName</TableDataField>
+                                    {event.Attendences.map(attendence => {
+                                        return(<TableDataField><Zusage attendence={attendence.Attendence} /></TableDataField>)
+                                    })}
+                                </tr>
                             )
-                        })*/}
-                    </tbody>
-                </table>
-            </>
+                        })
+                    }
+                </tbody>
+            </Table>
         )
-    //}
+    }
 }
+
+const Table = styled.table`
+    border-collapse: collapse;
+`
+
+const TableHeaderField = styled.th`
+    height: 140px;
+    white-space: nowrap;
+
+    > div {
+        transform:
+            translate(14px, 50px)
+            rotate(315deg);
+        width: 30px;
+    }
+    > div > span {
+        border-bottom: 1px solid #ccc;
+        padding: 5px 10px;
+    }
+`
+
+const TableDataField = styled.td`
+    border: 1px solid #ccc;
+    > img {
+        width: 30px;
+    }
+`
+
+const Zusage = ({attendence}) => {
+    switch(attendence){
+    default:
+    case -1:
+        return(<img src={blank} alt="blank"></img>)
+    case 0:
+        return(<img src={deny} alt="deny"></img>)
+    case 1:
+        return(<img src={check} alt="check"></img>)
+    }
+}
+
 /*
 const AbfragenTableRow = ({abfrage}) => {
     return(

@@ -70,6 +70,25 @@ const mockDB = {
             Location: "Endorf",
             Date: "2022-07-10"
         }
+    ],
+    allAttendences: [
+        {
+            Event_ID: 1,
+            Attendences: [
+                {
+                    Fullname: "Max Mustermann",
+                    Attendence: -1
+                },
+                {
+                    Fullname: "Madita Mustermann",
+                    Attendence: 0
+                },
+                {
+                    Fullname: "Tobi Mustermann",
+                    Attendence: 1
+                }
+            ]
+        }
     ]
 }
 
@@ -333,7 +352,11 @@ const getAttendences = async (all) => {
     let attendences = new Array(0)
     let token = cookies.get('api_token')
     if(process.env.NODE_ENV !== 'production'){
-        attendences = mockDB.attendences
+        if(all){
+            attendences = mockDB.allAttendences
+        } else {
+            attendences = mockDB.attendences
+        }
     } else {
         if(all){
             let response = await fetch("/api/attendence.php?api_token=" + token + "&all=true", {
