@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react"
+import styled from "styled-components"
 import Filter from "../../modules/components/Filter"
 import { getEvents } from "../../modules/data/DBConnect"
 
@@ -28,7 +29,7 @@ const Overview = (props) => {
     return(
         <>
             <Filter options={options} onChange={filterChange}/>
-            <table className="DateAdministrationOverview">
+            <Table className="DateAdministrationOverview">
                 <thead>
                     <tr>
                         <th></th>
@@ -53,10 +54,16 @@ const Overview = (props) => {
                         )
                     })}
                 </tbody>
-            </table>
+            </Table>
         </>
     )
 }
+
+const Table = styled.table`
+    overflow: scroll;
+    align-self: flex-start;
+    margin: 0 2px 0 2px;
+`
 
 const parseDate = (datestring) => {
     var split = datestring.split('-')

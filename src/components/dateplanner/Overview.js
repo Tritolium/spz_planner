@@ -10,10 +10,9 @@ import blank from './blank.png'
 //import check from './check.png'
 //import alert from './alert.png'
 //import deny from './delete-button.png'
-//import DateField from "./DateField"
+import DateField from "./DateField"
 
 const Overview = ({dates}) => {
-    //const [abfragen, setAbfragen] = useState(new Array(0))
     const [attendences, setAttendences] = useState(new Array(0))
     //const loading = useRef(true)
 
@@ -30,7 +29,7 @@ const Overview = ({dates}) => {
         return(
             <Table>
                 <thead>
-                    <th>Termin:</th>
+                    <TableHeaderField_>Termin:</TableHeaderField_>
                     {attendences[0].Attendences.map((att) => {
                         return(<TableHeaderField><div><span>{att.Fullname}</span></div></TableHeaderField>)
                     })}
@@ -40,7 +39,7 @@ const Overview = ({dates}) => {
                         attendences.map(event => {
                             return(
                                 <tr>
-                                    <TableDataField>{event.EventName}</TableDataField>
+                                    <TableDataField><DateField dateprops={event}/></TableDataField>
                                     {event.Attendences.map(attendence => {
                                         return(<TableDataField><Zusage attendence={attendence.Attendence} /></TableDataField>)
                                     })}
@@ -56,28 +55,62 @@ const Overview = ({dates}) => {
 
 const Table = styled.table`
     border-collapse: collapse;
+    position: relative;
+    overflow: scroll;
+    align-self: flex-start;
+    margin: 0 2px 0 2px;
+`
+
+const TableHeaderField_ = styled.th`
+    position: absolute;
+    top: 120px;
 `
 
 const TableHeaderField = styled.th`
+    @media screen and (max-width: 600px) {
+        font-size: xx-small;
+    }
+    @media screen and (max-width: 800px) {
+        font-size: x-small;
+    }
+    @media screen and (max-width: 1000px) {
+        font-size: smaller;
+    }
+
     height: 140px;
     white-space: nowrap;
-
+    
     > div {
         transform:
-            translate(14px, 50px)
-            rotate(315deg);
-        width: 30px;
+            translate(-4px, 39px)
+            rotate(45deg);
+        max-width: 30px;
+        position: relative;   
     }
     > div > span {
         border-bottom: 1px solid #ccc;
-        padding: 5px 10px;
+        padding: 5px 2px;
+        position: absolute;
+        right: 0px;
     }
 `
 
 const TableDataField = styled.td`
+    @media screen and (max-width: 600px) {
+        font-size: xx-small;
+    }
+    @media screen and (max-width: 800px) {
+        font-size: x-small;
+    }
+    @media screen and (max-width: 1000px) {
+        font-size: smaller;
+    }
+
     border: 1px solid #ccc;
     > img {
-        width: 30px;
+        min-width: 15px;
+        width: 100%;
+        max-width: 30px;
     }
 `
 

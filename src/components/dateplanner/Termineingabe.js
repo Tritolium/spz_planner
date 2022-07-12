@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import styled from 'styled-components'
 import { getAttendences, updateAttendences } from '../../modules/data/DBConnect'
 import DateField from './DateField'
 import Terminzusage from './Terminzusage'
@@ -28,7 +29,7 @@ const Termineingabe = ({dates, fullname}) => {
 
     return(
         <form onSubmit={sendForm} className="DateInput">
-            <table>
+            <Table>
                 <thead>
                     <tr>
                         <td>Termin:</td>
@@ -39,16 +40,24 @@ const Termineingabe = ({dates, fullname}) => {
                     {attendences.map((att, i) => {
                         return(
                             <tr key={att.Location}>
-                                <td><DateField dateprops={att} /></td>
-                                <td><Terminzusage attendence={att.Attendence} onClick={onClick} event_id={att.Event_ID}/></td>
+                                <TableData><DateField dateprops={att} /></TableData>
+                                <TableData><Terminzusage attendence={att.Attendence} onClick={onClick} event_id={att.Event_ID}/></TableData>
                             </tr>
                         )
                     })}
                 </tbody>
-            </table>
+            </Table>
             <button type='submit'>Abschicken</button>
         </form>
     )
 }
+
+const Table = styled.table`
+    border-collapse: collapse;
+`
+
+const TableData = styled.td`
+    border-top: 1px solid #ccc;
+`
 
 export default Termineingabe

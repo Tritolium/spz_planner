@@ -73,11 +73,105 @@ const mockDB = {
     ],
     allAttendences: [
         {
-            EventName: "Schützenfest Dingenskirchen",
+            Type: "Schützenfest",
+            Location: "Dingenskirchen",
+            Date: "2022-08-25",
             Attendences: [
                 {
                     Fullname: "Max Mustermann",
                     Attendence: -1
+                },
+                {
+                    Fullname: "Madita Mustermann",
+                    Attendence: 0
+                },
+                {
+                    Fullname: "Madita Mustermann",
+                    Attendence: 0
+                },
+                {
+                    Fullname: "Madita Mustermann",
+                    Attendence: 0
+                },
+                {
+                    Fullname: "Madita Mustermann",
+                    Attendence: 0
+                },
+                {
+                    Fullname: "Madita Mustermann",
+                    Attendence: 0
+                },
+                {
+                    Fullname: "Madita Mustermann",
+                    Attendence: 0
+                },
+                {
+                    Fullname: "Madita Mustermann",
+                    Attendence: 0
+                },
+                {
+                    Fullname: "Madita Mustermann",
+                    Attendence: 0
+                },
+                {
+                    Fullname: "Madita Mustermann",
+                    Attendence: 0
+                },
+                {
+                    Fullname: "Madita Mustermann",
+                    Attendence: 0
+                },
+                {
+                    Fullname: "Madita Mustermann",
+                    Attendence: 0
+                },
+                {
+                    Fullname: "Madita Mustermann",
+                    Attendence: 0
+                },
+                {
+                    Fullname: "Madita Mustermann",
+                    Attendence: 0
+                },
+                {
+                    Fullname: "Madita Mustermann",
+                    Attendence: 0
+                },
+                {
+                    Fullname: "Madita Mustermann",
+                    Attendence: 0
+                },
+                {
+                    Fullname: "Madita Mustermann",
+                    Attendence: 0
+                },
+                {
+                    Fullname: "Madita Mustermann",
+                    Attendence: 0
+                },
+                {
+                    Fullname: "Madita Mustermann",
+                    Attendence: 0
+                },
+                {
+                    Fullname: "Madita Mustermann",
+                    Attendence: 0
+                },
+                {
+                    Fullname: "Madita Mustermann",
+                    Attendence: 0
+                },
+                {
+                    Fullname: "Madita Mustermann",
+                    Attendence: 0
+                },
+                {
+                    Fullname: "Madita Mustermann",
+                    Attendence: 0
+                },
+                {
+                    Fullname: "Madita Mustermann",
+                    Attendence: 0
                 },
                 {
                     Fullname: "Madita Mustermann",
@@ -189,13 +283,6 @@ const getEvents = async (filter) => {
 
     if (process.env.NODE_ENV !== 'production') {
         events = mockDB.events
-        switch(response.status) {
-            case 200:
-                events = await response.json()
-                break
-            default:
-                break
-        }
     } else {
         let response = await fetch("/api/event.php?filter=" + filter + "&api_token=" + token, {method: "GET"})
 

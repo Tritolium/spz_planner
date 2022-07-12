@@ -163,55 +163,68 @@ const Editor = (props) => {
     }
 
     return(
-        <Form theme={formtheme} onSubmit={onSubmit} id="membereditor">
-            <FormBox>
-                <Label>
-                    <label htmlFor="fname" >Vorname:</label>
-                </Label>
-                <InputContainer>
-                    <input type="text" id="fname" defaultValue={member.Forename}/>
-                </InputContainer>
-            </FormBox>
-            <FormBox>
-                <Label>
-                    <label htmlFor="sname">Nachname:</label>
-                </Label>
-                <InputContainer>
-                    <input type="text" id="sname" defaultValue={member.Surname}/>
-                </InputContainer>
-            </FormBox>
-            <FormBox>
-                <Label>
-                    <label htmlFor="auth">Level:</label>
-                </Label>
-                <InputContainer>
-                    <select name="auth" id="auth">
-                        <option value="0">ohne</option>
-                        <option value="1">Mitglied</option>
-                        <option value="2">Moderator</option>
-                        <option value="3">Admin</option>
-                    </select>
-                </InputContainer>
-            </FormBox>
-            <FormBox>
-                <Label>
-                    <label htmlFor="nick">Kurz:</label>
-                </Label>
-                <InputContainer>
-                    <input type="text" id="nick" defaultValue={member.Nicknames}/>
-                </InputContainer>
-            </FormBox>
-            <FormBox>
-                <InputContainer>
-                    <button type="submit">Speichern</button>
-                    <button onClick={createNew}>Neu anlegen</button>
-                    <button onClick={clear}>Felder leeren</button>
-                </InputContainer>
-            </FormBox>
-        </Form>
-        
+        <EditorWrapper>
+            <Navigation>
+                <div>Stammdaten</div>
+                <div>Stimmen</div>
+            </Navigation>
+            <Form theme={formtheme} onSubmit={onSubmit} id="membereditor">
+                <FormBox>
+                    <Label>
+                        <label htmlFor="fname" >Vorname:</label>
+                    </Label>
+                    <InputContainer>
+                        <input type="text" id="fname" defaultValue={member.Forename}/>
+                    </InputContainer>
+                </FormBox>
+                <FormBox>
+                    <Label>
+                        <label htmlFor="sname">Nachname:</label>
+                    </Label>
+                    <InputContainer>
+                        <input type="text" id="sname" defaultValue={member.Surname}/>
+                    </InputContainer>
+                </FormBox>
+                <FormBox>
+                    <Label>
+                        <label htmlFor="auth">Level:</label>
+                    </Label>
+                    <InputContainer>
+                        <select name="auth" id="auth">
+                            <option value="0">ohne</option>
+                            <option value="1">Mitglied</option>
+                            <option value="2">Moderator</option>
+                            <option value="3">Admin</option>
+                        </select>
+                    </InputContainer>
+                </FormBox>
+                <FormBox>
+                    <Label>
+                        <label htmlFor="nick">Kurz:</label>
+                    </Label>
+                    <InputContainer>
+                        <input type="text" id="nick" defaultValue={member.Nicknames}/>
+                    </InputContainer>
+                </FormBox>
+                <FormBox>
+                    <InputContainer>
+                        <button type="submit">Speichern</button>
+                        <button onClick={createNew}>Neu anlegen</button>
+                        <button onClick={clear}>Felder leeren</button>
+                    </InputContainer>
+                </FormBox>
+            </Form>
+        </EditorWrapper>
     )
 }
+
+const EditorWrapper = styled.div`
+    width: 100%;
+`
+
+const Navigation = styled.nav`
+    position: relative;
+`
 
 const StyledEditor = styled(Editor)`
     
