@@ -359,6 +359,7 @@ const updateAttendences = async (changes) => {
             body: JSON.stringify(changes)
         }).then(
             res => {
+                console.log(res.status)
                 if(res.status === 200)
                     return true
                 return false
