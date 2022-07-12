@@ -16,10 +16,9 @@ const Overview = ({dates}) => {
         const fetchAttendences = async () => {
             let _attendences = await getAttendences(true)
             setAttendences(_attendences)
-            console.log(attendences)
         }
         fetchAttendences()
-    })
+    }, [])
     /*
     useEffect(() => {
         const fetchData = async () => {
