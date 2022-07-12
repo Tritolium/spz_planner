@@ -329,21 +329,34 @@ const newMember = async(member) => {
     }
 }
 
-const getAttendences = async () => {
+const getAttendences = async (all) => {
     let attendences = new Array(0)
     let token = cookies.get('api_token')
     if(process.env.NODE_ENV !== 'production'){
         attendences = mockDB.attendences
     } else {
-        let response = await fetch("/api/attendence.php?api_token=" + token, {
-            method: "GET"
-        })
-        switch(response.status){
-        case 200:
-            attendences = await response.json()
-            break
-        default:
-            break
+        if(all){
+            let response = await fetch("/api/attendence.php?api_token=" + token + "&all=true", {
+                method: "GET"
+            })
+            switch(response.status){
+            case 200:
+                attendences = await response.json()
+                break
+            default:
+                break
+            }
+        } else {
+            let response = await fetch("/api/attendence.php?api_token=" + token, {
+                method: "GET"
+            })
+            switch(response.status){
+            case 200:
+                attendences = await response.json()
+                break
+            default:
+                break
+            }
         }
     }
     return attendences

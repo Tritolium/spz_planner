@@ -9,7 +9,7 @@ const Termineingabe = ({dates, fullname}) => {
 
     useEffect(() => {
         const fetchEvents = async () => {
-            let _attendences = await getAttendences()
+            let _attendences = await getAttendences(false)
             setAttendences(_attendences)
         }
         fetchEvents()

@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 
+import { getAttendences } from '../../modules/data/DBConnect'
+
 import check from './check.png'
 import alert from './alert.png'
 import deny from './delete-button.png'
@@ -7,7 +9,17 @@ import DateField from "./DateField"
 
 const Overview = ({dates}) => {
     const [abfragen, setAbfragen] = useState(new Array(0))
+    const [attendences, setAttendences] = useState(new Array(0))
     const loading = useRef(true)
+
+    useEffect(() => {
+        const fetchAttendences = async () => {
+            let _attendences = await getAttendences(true)
+            setAttendences(_attendences)
+            console.log(attendences)
+        }
+        fetchAttendences()
+    })
 
     useEffect(() => {
         const fetchData = async () => {
