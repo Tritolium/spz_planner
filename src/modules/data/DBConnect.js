@@ -349,7 +349,7 @@ const getAttendences = async () => {
     return attendences
 }
 
-const updateAttendences = (changes) => {
+const updateAttendences = async (changes) => {
     let token = cookies.get('api_token')
     if(process.env.NODE_ENV !== 'production'){
         // TODO set in MockDB
@@ -357,7 +357,13 @@ const updateAttendences = (changes) => {
         fetch("/api/attendence.php?api_token=" + token, {
             method: "PUT",
             body: JSON.stringify(changes)
-        })
+        }).then(
+            res => {
+                if(res.status === 200)
+                    return true
+                return false
+            }
+        )
     }
 }
 
