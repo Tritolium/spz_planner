@@ -21,7 +21,7 @@ const Termineingabe = ({dates, fullname}) => {
         setChangedAttendences(att)
     }, [changedAttendences])
 
-    const sendForm = (e) => {
+    const sendForm = async (e) => {
         e.preventDefault()
         let success = await updateAttendences(changedAttendences)
         if(success){
