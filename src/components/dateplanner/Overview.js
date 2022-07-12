@@ -1,16 +1,16 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, /*useRef,*/ useState } from "react"
 
 import { getAttendences } from '../../modules/data/DBConnect'
 
-import check from './check.png'
-import alert from './alert.png'
-import deny from './delete-button.png'
-import DateField from "./DateField"
+//import check from './check.png'
+//import alert from './alert.png'
+//import deny from './delete-button.png'
+//import DateField from "./DateField"
 
 const Overview = ({dates}) => {
-    const [abfragen, setAbfragen] = useState(new Array(0))
+    //const [abfragen, setAbfragen] = useState(new Array(0))
     const [attendences, setAttendences] = useState(new Array(0))
-    const loading = useRef(true)
+    //const loading = useRef(true)
 
     useEffect(() => {
         const fetchAttendences = async () => {
@@ -20,7 +20,7 @@ const Overview = ({dates}) => {
         }
         fetchAttendences()
     })
-
+    /*
     useEffect(() => {
         const fetchData = async () => {
             fetch('http://spzroenkhausen.bplaced.net/api/abfrage.php', {
@@ -63,34 +63,34 @@ const Overview = ({dates}) => {
                 ])
             }
         }
-    }, [])
+    }, [])*//*
     if(abfragen === undefined) {
         return(<>Noch keine Rückmeldungen</>)
-    } else {
+    } else {*/
         return(
             <>
                 <table>
                     <thead>
                         <tr>
                             <th>Name</th>
-                            {dates.map(date => {
-                                return(<th key={date.Location}><DateField dateprops={date} /></th>)
+                            {attendences[0]['Attendences'].map((att, index) => {
+                                return(<>{att.Member_ID}</>)
                             })}
                         </tr>
                     </thead>
                     <tbody>
-                        {abfragen.map((abfrage) => {
+                        {/*abfragen.map((abfrage) => {
                             return(
                                 <AbfragenTableRow key={abfrage.Name} abfrage={abfrage}/>
                             )
-                        })}
+                        })*/}
                     </tbody>
                 </table>
             </>
         )
-    }
+    //}
 }
-
+/*
 const AbfragenTableRow = ({abfrage}) => {
     return(
         <tr className="Abtr">
@@ -99,8 +99,8 @@ const AbfragenTableRow = ({abfrage}) => {
             <td><ZusageIcon id={abfrage.sf_ennest}/></td>
         </tr>
     )
-}
-
+}*/
+/*
 const ZusageIcon = ({id}) => {
     switch(id){
     default:
@@ -111,6 +111,6 @@ const ZusageIcon = ({id}) => {
     case 2:
         return(<img src={alert} alt='alert'/>)
     }
-}
+}*/
 
 export default Overview
