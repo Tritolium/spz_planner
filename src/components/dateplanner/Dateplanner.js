@@ -1,6 +1,6 @@
 import check from './check.png'
 import deny from './delete-button.png'
-import alert from './alert.png'
+//import alert from './alert.png'
 import Termineingabe from './Termineingabe'
 import Overview from './Overview'
 import { useState } from 'react'
