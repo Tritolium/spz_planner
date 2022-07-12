@@ -361,8 +361,9 @@ const updateAttendences = async (changes) => {
             res => {
                 console.log(res.status)
                 if(res.status === 200)
-                    return true
-                return false
+                    alert('Angaben übernommen')
+                else
+                    alert('Ein Fehler ist aufgetreten')
             }
         )
     }

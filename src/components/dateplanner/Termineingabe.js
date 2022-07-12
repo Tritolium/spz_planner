@@ -21,14 +21,9 @@ const Termineingabe = ({dates, fullname}) => {
         setChangedAttendences(att)
     }, [changedAttendences])
 
-    const sendForm = async (e) => {
+    const sendForm = (e) => {
         e.preventDefault()
-        let success = await updateAttendences(changedAttendences)
-        if(success){
-            alert("Angaben übernommen")
-        } else {
-            alert("Ein Fehler ist aufgetreten")
-        }
+        updateAttendences(changedAttendences)
     }
 
     return(
