@@ -24,12 +24,3 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - run: npm run build --if-present
-        
-      - name: Upload Website files
-        uses: SamKirkland/FTP-Deploy-Action@4.3.0
-        with:
-          server: spzroenkhausen.bplaced.net
-          username: spzroenkhausen_admin
-          password: ${{ secrets.FPT_PASSWORD }}
-          local-dir: ./build/
-          server-dir: ./www/
