@@ -73,7 +73,7 @@ const mockDB = {
     ],
     allAttendences: [
         {
-            Event_ID: 1,
+            EventName: "Schützenfest Dingenskirchen",
             Attendences: [
                 {
                     Fullname: "Max Mustermann",
@@ -189,6 +189,13 @@ const getEvents = async (filter) => {
 
     if (process.env.NODE_ENV !== 'production') {
         events = mockDB.events
+        switch(response.status) {
+            case 200:
+                events = await response.json()
+                break
+            default:
+                break
+        }
     } else {
         let response = await fetch("/api/event.php?filter=" + filter + "&api_token=" + token, {method: "GET"})
 
@@ -395,7 +402,6 @@ const updateAttendences = async (changes) => {
             body: JSON.stringify(changes)
         }).then(
             res => {
-                console.log(res.status)
                 if(res.status === 200)
                     alert('Angaben übernommen')
                 else

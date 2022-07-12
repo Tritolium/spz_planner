@@ -24,7 +24,6 @@ const Overview = ({dates}) => {
         }
         fetchAttendences()
     }, [])
-    console.log(attendences)
     if(attendences.length === 0){
         return(<></>)
     } else {
@@ -41,7 +40,7 @@ const Overview = ({dates}) => {
                         attendences.map(event => {
                             return(
                                 <tr>
-                                    <TableDataField>EventName</TableDataField>
+                                    <TableDataField>{event.EventName}</TableDataField>
                                     {event.Attendences.map(attendence => {
                                         return(<TableDataField><Zusage attendence={attendence.Attendence} /></TableDataField>)
                                     })}
