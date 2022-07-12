@@ -73,9 +73,14 @@ const Overview = ({dates}) => {
                     <thead>
                         <tr>
                             <th>Name</th>
-                            {attendences[0]['Attendences'].map((att, index) => {
-                                return(<>{att.Member_ID}</>)
-                            })}
+                            {
+                                console.log(attendences)    
+                            }
+                            {
+                                attendences[0]['Attendences'].map((att, index) => {
+                                    return(<>{att.Member_ID}</>)
+                                })
+                            }
                         </tr>
                     </thead>
                     <tbody>
