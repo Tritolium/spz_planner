@@ -29,6 +29,7 @@ const Termineingabe = ({dates, fullname}) => {
 
     return(
         <form onSubmit={sendForm} className="DateInput">
+            <button type='submit'>Abschicken</button>
             <Table>
                 <thead>
                     <tr>
@@ -47,7 +48,6 @@ const Termineingabe = ({dates, fullname}) => {
                     })}
                 </tbody>
             </Table>
-            <button type='submit'>Abschicken</button>
         </form>
     )
 }
