@@ -5,6 +5,7 @@ import Overview from './overview/Overview'
 import { useState } from 'react'
 
 import './Dateplanner.css'
+import AbsensceInput from './absenceInput/AbsenceInput'
 
 const dates = [
     {
@@ -64,7 +65,7 @@ const View = (props) => {
     case 1:
         return(<Overview dates={dates}/>)
     case 2:
-        return(<AbsenceInput />)
+        return(<AbsensceInput />)
     }
 }
 

@@ -3,9 +3,9 @@ import styled from "styled-components"
 
 import { getAttendences } from '../../../modules/data/DBConnect'
 
-import check from './check.png'
-import deny from './delete-button.png'
-import blank from './blank.png'
+import check from '../check.png'
+import deny from '../delete-button.png'
+import blank from '../blank.png'
 
 import DateField from "../attendenceInput/DateField"
 
@@ -26,7 +26,7 @@ const Overview = ({dates}) => {
         return(
             <Table>
                 <thead>
-                    <TableHeaderField_>Termin:</TableHeaderField_>
+                    <TableHeaderFieldT>Termin:</TableHeaderFieldT>
                     {attendences[0].Attendences.map((att) => {
                         return(<TableHeaderField><div><span>{att.Fullname}</span></div></TableHeaderField>)
                     })}
@@ -58,7 +58,7 @@ const Table = styled.table`
     margin: 0 2px 0 2px;
 `
 
-const TableHeaderField_ = styled.th`
+const TableHeaderFieldT = styled.th`
     position: absolute;
     top: 120px;
 `

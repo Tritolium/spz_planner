@@ -1,7 +1,7 @@
-import check from './check.png'
-import alert from './alert.png'
-import deny from './delete-button.png'
-import blank from './blank.png'
+import check from '../check.png'
+import alert from '../alert.png'
+import deny from '../delete-button.png'
+import blank from '../blank.png'
 import { useCallback, useState } from 'react'
 
 const Terminzusage = (props) => {

@@ -5,3 +5,5 @@ const AbsenceInput = () => {
         <>manuelle Eingabe</>
     )
 }
+
+export default AbsenceInput
