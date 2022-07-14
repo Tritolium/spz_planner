@@ -1,16 +1,13 @@
 import { useEffect, /*useRef,*/ useState } from "react"
 import styled from "styled-components"
 
-import { getAttendences } from '../../modules/data/DBConnect'
+import { getAttendences } from '../../../modules/data/DBConnect'
 
 import check from './check.png'
 import deny from './delete-button.png'
 import blank from './blank.png'
 
-//import check from './check.png'
-//import alert from './alert.png'
-//import deny from './delete-button.png'
-import DateField from "./DateField"
+import DateField from "../attendenceInput/DateField"
 
 const Overview = ({dates}) => {
     const [attendences, setAttendences] = useState(new Array(0))

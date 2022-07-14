@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { getAttendences, updateAttendences } from '../../modules/data/DBConnect'
+import { getAttendences, updateAttendences } from '../../../modules/data/DBConnect'
 import DateField from './DateField'
 import Terminzusage from './Terminzusage'
 

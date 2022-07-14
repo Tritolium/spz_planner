@@ -1,8 +1,7 @@
 import check from './check.png'
 import deny from './delete-button.png'
-//import alert from './alert.png'
-import Termineingabe from './Termineingabe'
-import Overview from './Overview'
+import Termineingabe from './attendenceInput/Termineingabe'
+import Overview from './overview/Overview'
 import { useState } from 'react'
 
 import './Dateplanner.css'
@@ -35,6 +34,9 @@ const Dateplanner = (props) => {
         case 'date_button_1':
             setView(1)
             break
+        case 'date_button_2':
+            setView(2)
+            break
         }
     }
 
@@ -43,10 +45,10 @@ const Dateplanner = (props) => {
             <header className="Dateplanner-header">
                 <div><img src={check} alt='Zusage'/> Zusage</div>
                 <div><img src={deny} alt='Absage'/> Absage</div>
-                {/*<div><img src={alert} alt='Unsicher'/> Unsicher</div>*/}
                 <nav>
                     <button id='date_button_0' onClick={navigate}>Eingabe</button>
                     {props.auth_level > 1 ? <button id='date_button_1' onClick={navigate}>Übersicht</button> : <></>}
+                    {props.auth_level > 2 ? <button id='date_button_2' onClick={navigate}>manuelle Eingabe</button> : <></>}
                 </nav>
             </header>
             <View view={view} fullname={props.fullname}/>
@@ -61,6 +63,8 @@ const View = (props) => {
         return(<Termineingabe dates={dates} fullname={props.fullname}/>)
     case 1:
         return(<Overview dates={dates}/>)
+    case 2:
+        return(<AbsenceInput />)
     }
 }
 
