@@ -517,4 +517,18 @@ const updateAttendences = async (changes) => {
     }
 }
 
-export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, updateAttendences }
+const getMissingFeedback = async () => {
+    let token = cookies.get('api_token')
+    let response = await fetch("/api/attendence.php?api_token=" + token + "&missing", {
+        method: "GET"
+    })
+    switch(response.status){
+    case 200:
+        let json = await response.json()
+        return json
+    default:
+        return
+    }
+}
+
+export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, updateAttendences, getMissingFeedback }

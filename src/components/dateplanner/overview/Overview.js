@@ -1,7 +1,7 @@
 import { useEffect, /*useRef,*/ useState } from "react"
 import styled from "styled-components"
 
-import { getAttendences } from '../../../modules/data/DBConnect'
+import { getAttendences, getMissingFeedback } from '../../../modules/data/DBConnect'
 
 import check from '../check.png'
 import deny from '../delete-button.png'
@@ -12,7 +12,7 @@ import DateField from "../attendenceInput/DateField"
 
 const Overview = () => {
     const [attendences, setAttendences] = useState(new Array(0))
-    //const loading = useRef(true)
+    const [missingFeedback, setMissingFeedback] = useState(new Array(0))
 
     useEffect(() => {
         const fetchAttendences = async () => {
@@ -21,10 +21,20 @@ const Overview = () => {
         }
         fetchAttendences()
     }, [])
+
+    useEffect(() => {
+        const fetchMissingFeedback = async () => {
+            let _missingFeedback = await getMissingFeedback()
+            setMissingFeedback(_missingFeedback)
+        }
+        fetchMissingFeedback()
+    }, [])
+
     if(attendences.length === 0){
         return(<></>)
     } else {
         return(
+            <>
             <Table>
                 <thead>
                     <TableHeaderFieldT>Termin:</TableHeaderFieldT>
@@ -47,6 +57,10 @@ const Overview = () => {
                     }
                 </tbody>
             </Table>
+            {missingFeedback.map(missing => {
+                return(<>{missing.Forename} {missing.Surname}: {missing.firstMissing}</>)
+            })}
+            </>
         )
     }
 }
