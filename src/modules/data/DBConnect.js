@@ -442,6 +442,25 @@ const newMember = async(member) => {
     }
 }
 
+const setAttendence = async (event_id, member_id, attendence) => {
+    let token = cookies.get('api_token')
+    let response = await fetch("/api/attendence.php?api_token=" + token + "&single", {
+        method: "PUT",
+        body: JSON.stringify({
+            Event_ID: event_id,
+            Member_ID: member_id,
+            Attendence: attendence
+        })
+    })
+    switch(response.status){
+    case 200:
+        alert("Angaben übernommen")
+        break
+    default:
+        alert("Ein Fehler ist aufgetreten")
+    }
+}
+
 const getAttendences = async (all) => {
     let attendences = new Array(0)
     let token = cookies.get('api_token')
@@ -498,4 +517,4 @@ const updateAttendences = async (changes) => {
     }
 }
 
-export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, getAttendences, updateAttendences }
+export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, updateAttendences }

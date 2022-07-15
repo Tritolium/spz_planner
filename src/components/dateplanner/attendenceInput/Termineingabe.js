@@ -42,7 +42,7 @@ const Termineingabe = ({dates, fullname}) => {
                         return(
                             <tr key={att.Location}>
                                 <TableData><DateField dateprops={att} /></TableData>
-                                <TableData><Terminzusage attendence={att.Attendence} onClick={onClick} event_id={att.Event_ID}/></TableData>
+                                <TableData><Terminzusage states={2} attendence={att.Attendence} onClick={onClick} event_id={att.Event_ID}/></TableData>
                             </tr>
                         )
                     })}

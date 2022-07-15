@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react"
 import styled from "styled-components"
-import { getEvents, getMembers } from "../../../modules/data/DBConnect"
+import { getEvents, getMembers, setAttendence as setSingleAttendence } from "../../../modules/data/DBConnect"
 import Terminzusage from "../attendenceInput/Terminzusage"
 
 const AbsenceInput = ({className}) => {
@@ -27,24 +27,27 @@ const AbsenceInput = ({className}) => {
     }, [])
 
     const submit = () => {
-        let event = document.getElementById("event_select").getSelected
-        let member = document.getElementById("member_select").getSelected
+        let eventS = document.getElementById("event_select")
+        let memberS = document.getElementById("member_select")
+        let event = eventS.options[eventS.selectedIndex].value
+        let member = memberS.options[memberS.selectedIndex].value
         alert(event + " " + member)
+        setSingleAttendence(event, member, attendence)
     }
 
     return(
         <form className={className}>
             <select id="event_select">
                 {events.map(event => {
-                    return(<option>{event.Date}: {event.Type} {event.Location}</option>)
+                    return(<option value={event.Event_ID}>{event.Date}: {event.Type} {event.Location}</option>)
                 })}
             </select>
             <select id="member_select">
                 {members.map(member => {
-                    return(<option>{member.Forename} {member.Surname}</option>)
+                    return(<option value={member.Member_ID}>{member.Forename} {member.Surname}</option>)
                 })}
             </select>
-            <Terminzusage attendence={attendence} onClick={onClick}/>{attendence}
+            <Terminzusage states={3} attendence={attendence} onClick={onClick}/>{attendence}
             <Button type="submit" onClick={submit}>Abschicken</Button>
         </form>
     )
