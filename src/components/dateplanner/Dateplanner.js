@@ -5,7 +5,8 @@ import Overview from './overview/Overview'
 import { useState } from 'react'
 
 import './Dateplanner.css'
-import AbsensceInput from './absenceInput/AbsenceInput'
+import UnstyledAbsenceInput from './absenceInput/AbsenceInput'
+import styled from 'styled-components'
 
 const dates = [
     {
@@ -57,6 +58,32 @@ const Dateplanner = (props) => {
     )
 }
 
+const AbsenceInput = styled(UnstyledAbsenceInput)`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+
+    @media screen and (max-width: 720px) {
+        flex-direction: column;
+        > select {
+            width: 100%
+        }
+    }
+
+    > select {
+        max-height: 40px;
+        padding: 5px;
+        margin: 5px;
+    }
+    > img {
+        padding: 2px;
+        min-height: 21px;
+        height: 10vh;
+        max-height: 64px;
+    }
+`
+
 const View = (props) => {
     switch(props.view){
     default:
@@ -65,7 +92,7 @@ const View = (props) => {
     case 1:
         return(<Overview dates={dates}/>)
     case 2:
-        return(<AbsensceInput />)
+        return(<AbsenceInput />)
     }
 }
 

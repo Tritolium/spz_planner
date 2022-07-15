@@ -48,6 +48,7 @@ const Termineingabe = ({dates, fullname}) => {
                     })}
                 </tbody>
             </Table>
+            <button type='submit'>Abschicken</button>
         </form>
     )
 }
