@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
+import SubmitButton from '../../../modules/components/SubmitButton'
 import { getAttendences, updateAttendences } from '../../../modules/data/DBConnect'
 import DateField from './DateField'
 import Terminzusage from './Terminzusage'
 
-const Termineingabe = ({dates, fullname}) => {
+const Termineingabe = ({fullname}) => {
     const [attendences, setAttendences] = useState(new Array(0))
     const [changedAttendences, setChangedAttendences] = useState({})
 
@@ -29,7 +30,7 @@ const Termineingabe = ({dates, fullname}) => {
 
     return(
         <form onSubmit={sendForm} className="DateInput">
-            <button type='submit'>Abschicken</button>
+            <SubmitButton onClick={sendForm}>Abschicken</SubmitButton>
             <Table>
                 <thead>
                     <tr>
@@ -48,7 +49,6 @@ const Termineingabe = ({dates, fullname}) => {
                     })}
                 </tbody>
             </Table>
-            <button type='submit'>Abschicken</button>
         </form>
     )
 }

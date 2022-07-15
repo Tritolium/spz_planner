@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react"
 import styled from "styled-components"
+import SubmitButton from "../../../modules/components/SubmitButton"
 import { getEvents, getMembers, setAttendence as setSingleAttendence } from "../../../modules/data/DBConnect"
 import Terminzusage from "../attendenceInput/Terminzusage"
 
@@ -31,7 +32,6 @@ const AbsenceInput = ({className}) => {
         let memberS = document.getElementById("member_select")
         let event = eventS.options[eventS.selectedIndex].value
         let member = memberS.options[memberS.selectedIndex].value
-        alert(event + " " + member)
         setSingleAttendence(event, member, attendence)
     }
 
@@ -47,18 +47,10 @@ const AbsenceInput = ({className}) => {
                     return(<option value={member.Member_ID}>{member.Forename} {member.Surname}</option>)
                 })}
             </select>
-            <Terminzusage states={3} attendence={attendence} onClick={onClick}/>{attendence}
-            <Button type="submit" onClick={submit}>Abschicken</Button>
+            <Terminzusage states={3} attendence={attendence} onClick={onClick}/>
+            <SubmitButton type="submit" onClick={submit}>Abschicken</SubmitButton>
         </form>
     )
 }
-
-const Button = styled.div`
-    border-radius: 15px;
-    padding: 1px 5px;
-    background: #007aff;
-    color: white;
-    margin: 2px;
-`
 
 export default AbsenceInput

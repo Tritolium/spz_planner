@@ -6,10 +6,11 @@ import { getAttendences } from '../../../modules/data/DBConnect'
 import check from '../check.png'
 import deny from '../delete-button.png'
 import blank from '../blank.png'
+import alert from '../alert.png'
 
 import DateField from "../attendenceInput/DateField"
 
-const Overview = ({dates}) => {
+const Overview = () => {
     const [attendences, setAttendences] = useState(new Array(0))
     //const loading = useRef(true)
 
@@ -120,6 +121,8 @@ const Zusage = ({attendence}) => {
         return(<img src={deny} alt="deny"></img>)
     case 1:
         return(<img src={check} alt="check"></img>)
+    case 2:
+        return(<img src={alert} alt="alert"></img>)
     }
 }
 
