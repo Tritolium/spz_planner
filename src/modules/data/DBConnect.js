@@ -531,4 +531,18 @@ const getMissingFeedback = async () => {
     }
 }
 
-export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, updateAttendences, getMissingFeedback }
+const getEval = async () => {
+    let token = cookies.get('api_token')
+    let response = await fetch("/api/eval.php?api_token=" + token + "&events", {
+        method: "GET"
+    })
+    switch(response.status){
+    case 200:
+        let json = await response.json()
+        return json
+    default:
+        return
+    }
+}
+
+export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, updateAttendences, getMissingFeedback, getEval }

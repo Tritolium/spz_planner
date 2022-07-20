@@ -1,7 +1,7 @@
 import { useEffect, /*useRef,*/ useState } from "react"
 import styled from "styled-components"
 
-import { getAttendences, getMissingFeedback } from '../../../modules/data/DBConnect'
+import { getAttendences, getEval, getMissingFeedback } from '../../../modules/data/DBConnect'
 
 import check from '../check.png'
 import deny from '../delete-button.png'
@@ -12,6 +12,7 @@ import DateField from "../attendenceInput/DateField"
 
 const Overview = () => {
     const [attendences, setAttendences] = useState(new Array(0))
+    const [evaluation, setEvaluation] = useState(new Array(0))
     const [missingFeedback, setMissingFeedback] = useState(new Array(0))
 
     useEffect(() => {
@@ -28,6 +29,14 @@ const Overview = () => {
             setMissingFeedback(_missingFeedback)
         }
         fetchMissingFeedback()
+    }, [])
+
+    useEffect(() => {
+        const fetchEval = async () => {
+            let _eval = await getEval()
+            setEvaluation(_eval)
+        }
+        fetchEval()
     }, [])
 
     if(attendences.length === 0){
@@ -57,8 +66,33 @@ const Overview = () => {
                     }
                 </tbody>
             </Table>
+            <Table>
+                <thead>
+                    <th>Termin:</th>
+                    <th>Zusage</th>
+                    <th>Absage</th>
+                    <th>Ausstehend</th>
+                    <th>Vielleicht/Absprache</th>
+                </thead>
+                <tbody>
+                    {
+                        evaluation.map(event => {
+                            return(
+                                <tr>
+                                    <TableDataField><DateField dateprops={event} /></TableDataField>
+                                    <TableDataField>{event.Consent}</TableDataField>
+                                    <TableDataField>{event.Refusal}</TableDataField>
+                                    <TableDataField>{event.Missing}</TableDataField>
+                                    <TableDataField>{event.Maybe}</TableDataField>
+                                </tr>
+                            )
+                        })
+                    }
+                </tbody>
+            </Table>
+            Fehlende Rückmeldungen:
             {missingFeedback.map(missing => {
-                return(<>{missing.Forename} {missing.Surname}: {missing.firstMissing}</>)
+                return(<div>{missing.Forename} {missing.Surname}</div>)
             })}
             </>
         )
@@ -118,7 +152,9 @@ const TableDataField = styled.td`
         font-size: smaller;
     }
 
+    text-align: center;
     border: 1px solid #ccc;
+
     > img {
         min-width: 15px;
         width: 100%;
