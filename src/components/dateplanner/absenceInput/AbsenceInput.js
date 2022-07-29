@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from "react"
-import styled from "styled-components"
 import SubmitButton from "../../../modules/components/SubmitButton"
 import { getEvents, getMembers, setAttendence as setSingleAttendence } from "../../../modules/data/DBConnect"
 import Terminzusage from "../attendenceInput/Terminzusage"

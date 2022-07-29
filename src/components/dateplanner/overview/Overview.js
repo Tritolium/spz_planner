@@ -8,7 +8,18 @@ import deny from '../delete-button.png'
 import blank from '../blank.png'
 import alert from '../alert.png'
 
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+  } from 'chart.js'
+
 import DateField from "../attendenceInput/DateField"
+import { Bar } from "react-chartjs-2"
 
 const Overview = () => {
     const [attendences, setAttendences] = useState(new Array(0))
@@ -78,13 +89,14 @@ const Overview = () => {
                     {
                         evaluation.map(event => {
                             return(
-                                <tr>
+                                <TableRow>
                                     <TableDataField><DateField dateprops={event} /></TableDataField>
                                     <TableDataField>{event.Consent}</TableDataField>
                                     <TableDataField>{event.Refusal}</TableDataField>
                                     <TableDataField>{event.Missing}</TableDataField>
                                     <TableDataField>{event.Maybe}</TableDataField>
-                                </tr>
+                                    <TableDataField><EvalDiagram event={event}/></TableDataField>
+                                </TableRow>
                             )
                         })
                     }
@@ -110,6 +122,10 @@ const Table = styled.table`
 const TableHeaderFieldT = styled.th`
     position: absolute;
     top: 120px;
+`
+
+const TableRow = styled.tr`
+    max-height: 100px;
 `
 
 const TableHeaderField = styled.th`
@@ -198,5 +214,67 @@ const ZusageIcon = ({id}) => {
         return(<img src={alert} alt='alert'/>)
     }
 }*/
+
+const EvalDiagram = ({event}) => {
+
+    ChartJS.register(
+        CategoryScale,
+        LinearScale,
+        BarElement,
+        Title,
+        Tooltip,
+        Legend
+      )
+
+    const options = {
+        indexAxis: 'y',
+        plugins: {
+          title: {
+            display: false,
+          },
+          legend: {
+            display: false
+          }
+        },
+        responsive: false,
+        scales: {
+          x: {
+            stacked: true,
+            display: false
+          },
+          y: {
+            stacked: true,
+          },
+        },
+      };
+
+    const labels = ['']
+
+    const data = {
+        labels,
+        datasets: [
+            {
+                data: [event.Consent],
+                backgroundColor: 'rgb(0, 186, 0)'
+            },
+            {
+                data: [event.Refusal],
+                backgroundColor: 'rgb(255, 0, 0)'
+            },
+            {
+                data: [event.Missing],
+                backgroundColor: 'rgb(37, 183, 211)'
+            },
+            {
+                data: [event.Maybe],
+                backgroundColor: 'rgb(255, 161, 31)'
+            }
+        ],
+    }
+
+    return(
+        <Bar height={"60px"} options={options} data={data} />
+    )
+}
 
 export default Overview

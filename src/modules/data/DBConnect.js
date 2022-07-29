@@ -183,6 +183,18 @@ const mockDB = {
                 }
             ]
         }
+    ],
+    evaluation: [
+        {
+            Event_ID: 1,
+            Type: "Schützenfest",
+            Location: "Lenhausen",
+            Date: "2022-08-06",
+            Consent: "26",
+            Refusal: "12",
+            Maybe: "2",
+            Missing: "0"
+        }
     ]
 }
 
@@ -518,31 +530,40 @@ const updateAttendences = async (changes) => {
 }
 
 const getMissingFeedback = async () => {
-    let token = cookies.get('api_token')
-    let response = await fetch("/api/attendence.php?api_token=" + token + "&missing", {
-        method: "GET"
-    })
-    switch(response.status){
-    case 200:
-        let json = await response.json()
-        return json
-    default:
-        return
+    if(process.env.NODE_ENV !== 'production'){
+        return []
+    } else {
+        let token = cookies.get('api_token')
+        let response = await fetch("/api/attendence.php?api_token=" + token + "&missing", {
+            method: "GET"
+        })
+        switch(response.status){
+        case 200:
+            let json = await response.json()
+            return json
+        default:
+            return
+        }
     }
 }
 
 const getEval = async () => {
-    let token = cookies.get('api_token')
-    let response = await fetch("/api/eval.php?api_token=" + token + "&events", {
-        method: "GET"
-    })
-    switch(response.status){
-    case 200:
-        let json = await response.json()
-        return json
-    default:
-        return
+    if(process.env.NODE_ENV !== 'production'){
+        return mockDB.evaluation
+    } else {
+        let token = cookies.get('api_token')
+        let response = await fetch("/api/eval.php?api_token=" + token + "&events", {
+            method: "GET"
+        })
+        switch(response.status){
+        case 200:
+            let json = await response.json()
+            return json
+        default:
+            return
+        }
     }
+    
 }
 
 export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, updateAttendences, getMissingFeedback, getEval }

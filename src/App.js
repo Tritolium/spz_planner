@@ -6,6 +6,9 @@ import EventAdministration from './components/dateadministration/EventAdministra
 import Login from './components/login/Login';
 import Cookies from 'universal-cookie';
 import { login, update_login } from './modules/data/DBConnect';
+import { ThemeProvider } from 'styled-components';
+import { GlobalStyles } from './global';
+import { theme } from './theme';
 
 import('./App.css')
 
@@ -66,17 +69,22 @@ const App = () => {
     }
 
     return (
-        <div className="App">
-            <header className="App-header">
-                <div className='Namefield'>{fullname}</div>
-                <nav className='MainNavigation'>
-                    {auth_level > 0 ? <button type='button' id='main_button_0' onClick={navigate}>Terminplaner</button> : <></>}
-                    {auth_level > 1 ? <button type='button' id='main_button_1' onClick={navigate}>Mitgliederverwaltung</button> : <></>}
-                    {auth_level > 1 ? <button type='button' id='main_button_2' onClick={navigate}>Terminverwaltung</button> : <></>}
-                </nav>
-            </header>
-            <View view={view} sendLogin={sendLogin} fullname={fullname} auth_level={auth_level}/>
-        </div>
+        <ThemeProvider theme={theme}>
+            <GlobalStyles />
+            <>Burger</>
+            <>Menu</>
+            <div className="App">
+                <header className="App-header">
+                    <div className='Namefield'>{fullname}</div>
+                    <nav className='MainNavigation'>
+                        {auth_level > 0 ? <button type='button' id='main_button_0' onClick={navigate}>Terminplaner</button> : <></>}
+                        {auth_level > 1 ? <button type='button' id='main_button_1' onClick={navigate}>Mitgliederverwaltung</button> : <></>}
+                        {auth_level > 1 ? <button type='button' id='main_button_2' onClick={navigate}>Terminverwaltung</button> : <></>}
+                    </nav>
+                </header>
+                <View view={view} sendLogin={sendLogin} fullname={fullname} auth_level={auth_level}/>
+            </div>
+        </ThemeProvider>
     );
 }
 
