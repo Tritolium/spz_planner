@@ -1,7 +1,6 @@
 import { useState } from "react"
 import Overview from "./Overview"
 
-import './EventAdministration.css'
 import EventEditor from "./EventEditor"
 
 const EventAdministration = (props) => {

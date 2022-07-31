@@ -29,7 +29,7 @@ const Overview = (props) => {
     return(
         <>
             <Filter options={options} onChange={filterChange}/>
-            <Table className="DateAdministrationOverview">
+            <StyledDesktopTable className="DateAdministrationOverview">
                 <thead>
                     <tr>
                         <th></th>
@@ -54,7 +54,29 @@ const Overview = (props) => {
                         )
                     })}
                 </tbody>
-            </Table>
+            </StyledDesktopTable>
+            <StyledMobileTable>
+                <thead>
+                    <tr>
+                        <th>Ort/Datum</th>
+                        <th>Beginn</th>
+                        <th>Abfahrt</th>
+                        <th>Rückfahrt</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {dates.map(date => {
+                        return (
+                            <tr key={date.Date}>
+                                <td>{date.Type}<br />{date.Location}<br />{parseDate(date.Date)}</td>
+                                <td className="DateAdministrationTime">{parseTime(date.Begin)}</td>
+                                <td className="DateAdministrationTime">{parseTime(date.Departure)}</td>
+                                <td className="DateAdministrationTime">{parseTime(date.Leave_dep)}</td>
+                            </tr>
+                        )
+                    })}
+                </tbody>
+            </StyledMobileTable>
         </>
     )
 }
@@ -63,6 +85,34 @@ const Table = styled.table`
     overflow: scroll;
     align-self: flex-start;
     margin: 0 2px 0 2px;
+    border-spacing: 1px;
+    border-collapse: collapse;
+    border: 1px solid black;
+
+    th {
+        border: 1px solid black;
+    }
+
+    td {
+        border-top: 1px solid black;
+        padding: 4px;
+    }
+`
+
+const StyledDesktopTable = styled(Table)`
+    display: table;
+
+    @media (max-width: ${({ theme }) => theme.mobile}) {
+        display: none;
+    }
+`
+
+const StyledMobileTable = styled(Table)`
+    display: none;
+
+    @media (max-width: ${({ theme }) => theme.mobile}) {
+        display: table;
+    }
 `
 
 const parseDate = (datestring) => {
