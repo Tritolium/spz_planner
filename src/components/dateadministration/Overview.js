@@ -82,20 +82,31 @@ const Overview = (props) => {
 }
 
 const Table = styled.table`
-    overflow: scroll;
-    align-self: flex-start;
-    margin: 0 2px 0 2px;
+    margin: 4px;
     border-spacing: 1px;
     border-collapse: collapse;
     border: 1px solid black;
 
+    @media (max-width: ${({ theme }) => theme.mobile}) {
+        width: 100%;
+        
+        th {
+            padding: 1px;
+        }
+
+        td {
+            padding: 4px;
+        }
+    }
+
     th {
         border: 1px solid black;
+        padding: 4px;
     }
 
     td {
         border-top: 1px solid black;
-        padding: 4px;
+        padding: 8px;
     }
 `
 
