@@ -1,5 +1,3 @@
-import check from './check.png'
-import deny from './delete-button.png'
 import Termineingabe from './attendenceInput/Termineingabe'
 import Overview from './overview/Overview'
 import { useState } from 'react'
@@ -7,6 +5,7 @@ import { useState } from 'react'
 import './Dateplanner.css'
 import UnstyledAbsenceInput from './absenceInput/AbsenceInput'
 import styled from 'styled-components'
+import Button from '../../modules/components/button/Button'
 
 const dates = [
     {
@@ -45,12 +44,10 @@ const Dateplanner = (props) => {
     return (
         <>
             <header className="Dateplanner-header">
-                <div><img src={check} alt='Zusage'/> Zusage</div>
-                <div><img src={deny} alt='Absage'/> Absage</div>
                 <nav>
-                    <button id='date_button_0' onClick={navigate}>Eingabe</button>
-                    {props.auth_level > 1 ? <button id='date_button_1' onClick={navigate}>Übersicht</button> : <></>}
-                    {props.auth_level > 2 ? <button id='date_button_2' onClick={navigate}>manuelle Eingabe</button> : <></>}
+                    <Button id='date_button_0' font_size={'1rem'} onClick={navigate}>Eingabe</Button>
+                    {props.auth_level > 1 ? <Button id='date_button_1' font_size={'1rem'} onClick={navigate}>Übersicht</Button> : <></>}
+                    {props.auth_level > 2 ? <Button id='date_button_2' font_size={'1rem'} onClick={navigate}>manuelle Eingabe</Button> : <></>}
                 </nav>
             </header>
             <View view={view} fullname={props.fullname}/>

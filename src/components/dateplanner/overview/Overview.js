@@ -20,6 +20,7 @@ import {
 
 import DateField from "../attendenceInput/DateField"
 import { Bar } from "react-chartjs-2"
+import { StyledOverview } from "./Overview.styled"
 
 const Overview = () => {
     const [attendences, setAttendences] = useState(new Array(0))
@@ -54,70 +55,17 @@ const Overview = () => {
         return(<></>)
     } else {
         return(
-            <>
-            <Table>
-                <thead>
-                    <TableHeaderFieldT>Termin:</TableHeaderFieldT>
-                    {attendences[0].Attendences.map((att) => {
-                        return(<TableHeaderField><div><span>{att.Fullname}</span></div></TableHeaderField>)
-                    })}
-                </thead>
-                <tbody>
-                    {
-                        attendences.map(event => {
-                            return(
-                                <tr>
-                                    <TableDataField><DateField dateprops={event}/></TableDataField>
-                                    {event.Attendences.map(attendence => {
-                                        return(<TableDataField><Zusage attendence={attendence.Attendence} /></TableDataField>)
-                                    })}
-                                </tr>
-                            )
-                        })
-                    }
-                </tbody>
-            </Table>
-            <Table>
-                <thead>
-                    <th>Termin:</th>
-                    <th>Zusage</th>
-                    <th>Absage</th>
-                    <th>Ausstehend</th>
-                    <th>Vielleicht/Absprache</th>
-                </thead>
-                <tbody>
-                    {
-                        evaluation.map(event => {
-                            return(
-                                <TableRow>
-                                    <TableDataField><DateField dateprops={event} /></TableDataField>
-                                    <TableDataField>{event.Consent}</TableDataField>
-                                    <TableDataField>{event.Refusal}</TableDataField>
-                                    <TableDataField>{event.Missing}</TableDataField>
-                                    <TableDataField>{event.Maybe}</TableDataField>
-                                    <TableDataField><EvalDiagram event={event}/></TableDataField>
-                                </TableRow>
-                            )
-                        })
-                    }
-                </tbody>
-            </Table>
+            <StyledOverview>
+                <OverviewTable attendences={attendences}/>
+                <EvalTable evaluation={evaluation}/>
             Fehlende Rückmeldungen:
             {missingFeedback.map(missing => {
                 return(<div>{missing.Forename} {missing.Surname}</div>)
             })}
-            </>
+            </StyledOverview>
         )
     }
 }
-
-const Table = styled.table`
-    border-collapse: collapse;
-    position: relative;
-    overflow: scroll;
-    align-self: flex-start;
-    margin: 0 2px 0 2px;
-`
 
 const TableHeaderFieldT = styled.th`
     position: absolute;
@@ -192,28 +140,94 @@ const Zusage = ({attendence}) => {
     }
 }
 
-/*
-const AbfragenTableRow = ({abfrage}) => {
-    return(
-        <tr className="Abtr">
-            <td>{abfrage.Name}</td>
-            <td><ZusageIcon id={abfrage.ft_oeling}/></td>
-            <td><ZusageIcon id={abfrage.sf_ennest}/></td>
-        </tr>
-    )
-}*/
-/*
-const ZusageIcon = ({id}) => {
-    switch(id){
-    default:
-    case 0:
-        return(<img src={deny} alt='deny'/>)
-    case 1:
-        return(<img src={check} alt='check'/>)
-    case 2:
-        return(<img src={alert} alt='alert'/>)
+const StyledOverviewTable = styled.table`
+    border-collapse: collapse;
+    position: relative;
+    overflow: scroll;
+    align-self: flex-start;
+    margin: 0 2px 0 2px;
+
+    @media (max-width: ${({ theme }) => theme.mobile}) {
+        display: none;
     }
-}*/
+`
+
+const StyledEvalTable = styled.table`
+    border-collapse: collapse;
+    position: relative;
+    margin: 0 2px 0 2px;
+
+    @media (max-width: ${({ theme }) => theme.mobile}) {
+        thead, td {
+            display: none;
+        }
+    }
+`
+
+const StyledEvalDiagram = styled.div`
+    @media (min-width: ${({theme}) => theme.mobile}) {
+        div {
+            display: none;
+        }
+    }
+`
+
+const OverviewTable = ({attendences}) => {
+    return(
+        <StyledOverviewTable>
+                <thead>
+                    <TableHeaderFieldT>Termin:</TableHeaderFieldT>
+                    {attendences[0].Attendences.map((att) => {
+                        return(<TableHeaderField><div><span>{att.Fullname}</span></div></TableHeaderField>)
+                    })}
+                </thead>
+                <tbody>
+                    {
+                        attendences.map(event => {
+                            return(
+                                <tr>
+                                    <TableDataField><DateField dateprops={event}/></TableDataField>
+                                    {event.Attendences.map(attendence => {
+                                        return(<TableDataField><Zusage attendence={attendence.Attendence} /></TableDataField>)
+                                    })}
+                                </tr>
+                            )
+                        })
+                    }
+                </tbody>
+            </StyledOverviewTable>
+    )
+}
+
+const EvalTable = ({evaluation}) => {
+    return(
+        <StyledEvalTable>
+                <thead>
+                    <th>Termin:</th>
+                    <th>Zusage</th>
+                    <th>Absage</th>
+                    <th>Ausstehend</th>
+                    <th>Vielleicht/Absprache</th>
+                </thead>
+                <tbody>
+                    {
+                        evaluation.map(event => {
+                            return(
+                                <TableRow>
+                                    <TableDataField><DateField dateprops={event} /></TableDataField>
+                                    <TableDataField>{event.Consent}</TableDataField>
+                                    <TableDataField>{event.Refusal}</TableDataField>
+                                    <TableDataField>{event.Missing}</TableDataField>
+                                    <TableDataField>{event.Maybe}</TableDataField>
+                                    <EvalDiagram event={event}/>
+                                </TableRow>
+                            )
+                        })
+                    }
+                </tbody>
+            </StyledEvalTable>
+    )
+}
 
 const EvalDiagram = ({event}) => {
 
@@ -273,7 +287,10 @@ const EvalDiagram = ({event}) => {
     }
 
     return(
-        <Bar height={"60px"} options={options} data={data} />
+        <StyledEvalDiagram>
+            <DateField dateprops={event}/>
+            <Bar height={"60px"} options={options} data={data} />
+        </StyledEvalDiagram>
     )
 }
 

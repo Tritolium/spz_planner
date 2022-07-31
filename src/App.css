@@ -1,10 +1,3 @@
-.App {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-height: 100vh;
-}
-
 header {
   background-color: #282c34;
   min-height: 30px;
@@ -33,14 +26,11 @@ header {
   height: calc(10px + 2vmin);
 }
 
-.Namefield {
-  position: absolute;
-  right: 10px;
-}
 
+/*
 nav {
   display: flex;
   position: absolute;
   left: 1px;
   align-content: center;
-}
+}*/

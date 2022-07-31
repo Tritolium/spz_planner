@@ -1,8 +1,8 @@
 .Dateplanner-header {
     display: flex;
-  }
+}
   
-  .Dateplanner-header img {
+.Dateplanner-header img {
     height: calc(10px + 2vmin);
   }
 

@@ -9,6 +9,9 @@ import { login, update_login } from './modules/data/DBConnect';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from './global';
 import { theme } from './theme';
+import Menu from './modules/components/menu/Menu';
+import Burger from './modules/components/burger/Burger';
+import { StyledApp } from './App.styled';
 
 import('./App.css')
 
@@ -17,6 +20,8 @@ const cookies = new Cookies()
 const App = () => {
 
     const [view, setView] = useState(0)
+    const [open, setOpen] = useState(false)
+
     const [api_token, setApi_Token] = useState()
     const [fullname, setFullname] = useState("")
     const [auth_level, setAuth_level] = useState(0)
@@ -71,19 +76,20 @@ const App = () => {
     return (
         <ThemeProvider theme={theme}>
             <GlobalStyles />
-            <>Burger</>
-            <>Menu</>
-            <div className="App">
-                <header className="App-header">
+            <StyledApp className="App">
+                <Burger open={open} setOpen={setOpen}/>
+                <Menu open={open} setOpen={setOpen} navigate={navigate} auth_level={auth_level} />
+                <div className='Namefield'>{fullname}</div>
+                {/*<header className="App-header">
                     <div className='Namefield'>{fullname}</div>
                     <nav className='MainNavigation'>
                         {auth_level > 0 ? <button type='button' id='main_button_0' onClick={navigate}>Terminplaner</button> : <></>}
                         {auth_level > 1 ? <button type='button' id='main_button_1' onClick={navigate}>Mitgliederverwaltung</button> : <></>}
                         {auth_level > 1 ? <button type='button' id='main_button_2' onClick={navigate}>Terminverwaltung</button> : <></>}
                     </nav>
-                </header>
+                </header>*/}
                 <View view={view} sendLogin={sendLogin} fullname={fullname} auth_level={auth_level}/>
-            </div>
+            </StyledApp>
         </ThemeProvider>
     );
 }
