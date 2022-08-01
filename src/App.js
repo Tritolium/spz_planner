@@ -1,6 +1,7 @@
 import './App.css';
 import { useCallback, useEffect, useState } from 'react';
-import Dateplanner from './components/dateplanner/Dateplanner';
+import Dateplanner from './components/dateplanner/Dateplanner'
+import AbsenceAdministration from './components/absenceadministration/AbsenceAdministration'
 import MemberAdministration from './components/memberadministration/MemberAdministration';
 import EventAdministration from './components/dateadministration/EventAdministration';
 import Login from './components/login/Login';
@@ -70,6 +71,9 @@ const App = () => {
         case 'main_button_2':
             setView(3)
             break
+        case 'main_button_3':
+            setView(4)
+            break
         }
     }
 
@@ -109,8 +113,10 @@ const View = (props) => {
     case 1:
         return(<Dateplanner fullname={props.fullname} auth_level={props.auth_level}/>)
     case 2:
-        return(<MemberAdministration auth_level={props.auth_level}/>)
+        return(<AbsenceAdministration auth_level={props.auth_level}/>)
     case 3:
+        return(<MemberAdministration auth_level={props.auth_level}/>)
+    case 4:
         return(<EventAdministration auth_level={props.auth_level}/>)
     }
 }
