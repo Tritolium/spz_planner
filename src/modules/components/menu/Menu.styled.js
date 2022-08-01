@@ -3,11 +3,11 @@ import styled from "styled-components";
 export const StyledMenu =styled.nav`
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     background: ${({theme}) => theme.primaryDark};
     height: 100vh;
     text-align: left;
-    padding: 2rem;
+    padding: calc(5% + 2rem) 2rem 2rem 2rem;
     position: absolute;
     top: 0;
     left: 0;
@@ -18,10 +18,11 @@ export const StyledMenu =styled.nav`
     
     @media (max-width: ${({ theme }) => theme.mobile}) {
         width: 100%;
+        padding: calc(10% + 2rem) 2rem 2rem 2rem;
     }
 
     button {
-        font-size: 1.5rem;
+        /*font-size: 1.5rem;
         font-weight: bold;
         letter-spacing: 0.05rem;
         color: ${({theme}) => theme.primaryDark};
@@ -31,7 +32,7 @@ export const StyledMenu =styled.nav`
         padding: 1px 5px;
         margin: 2px;
         text-align: center;
-        transition: color 0.3s linear
+        transition: color 0.3s linear*/
 
         @media (max-width: ${({ theme }) => theme.mobile}) {
             font-size: 1.5rem;

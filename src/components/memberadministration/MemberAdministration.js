@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Button from '../../modules/components/button/Button'
 import './MemberAdministration.css'
 import MemberEditor from './MemberEditor'
 import Overview from './Overview'
@@ -23,8 +24,8 @@ const Memberadministration = (props) => {
         <>
             <header className="Memberadministration-header">
                 <nav>
-                    <button id="member_button_0" type='button' onClick={navigate}>Übersicht</button>
-                    {props.auth_level > 2 ? <button id="member_button_1" type='button' onClick={navigate}>Einzelansicht</button> : <></>}
+                    <Button id="member_button_0" type='button' onClick={navigate}>Übersicht</Button>
+                    {props.auth_level > 2 ? <Button id="member_button_1" type='button' onClick={navigate}>Einzelansicht</Button> : <></>}
                 </nav>
             </header>
             <View view={view} />

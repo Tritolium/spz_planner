@@ -89,7 +89,6 @@ const Table = styled.table`
 
     @media (max-width: ${({ theme }) => theme.mobile}) {
         width: 100%;
-        
         th {
             padding: 1px;
         }

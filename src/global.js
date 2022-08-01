@@ -18,4 +18,8 @@ export const GlobalStyles = createGlobalStyle`
         justify-content: flex-start;
         text-rendering: optimizeLegibility;
     }
+
+    button {
+        font-size: 1rem
+    }
 `

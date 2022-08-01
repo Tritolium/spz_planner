@@ -5,7 +5,7 @@ export const StyledApp = styled.div`
     flex-direction: column;
     align-items: center;
     max-height: 100vh;
-    padding-top: calc(2.5% + 2rem);
+    padding: calc(2.5% + 2rem) 0 2rem 0;
 
     @media (max-width: ${({theme}) => theme.mobile}) {
         padding-top: calc(10% + 2rem);

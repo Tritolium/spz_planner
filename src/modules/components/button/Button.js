@@ -8,7 +8,7 @@ const Button = styled.button`
     background: ${({theme}) => theme.primaryLight};
     border: none;
     border-radius: 15px;
-    padding: 1px 5px;
+    padding: 2px 5px;
     margin: 2px;
     text-align: center;
     transition: color 0.3s linear

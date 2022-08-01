@@ -2,6 +2,7 @@ import { useState } from "react"
 import Overview from "./Overview"
 
 import EventEditor from "./EventEditor"
+import Button from "../../modules/components/button/Button"
 
 const EventAdministration = (props) => {
 
@@ -23,8 +24,8 @@ const EventAdministration = (props) => {
         <>
             <header>
                 <nav>
-                    <button id="date_button_0" type="button" onClick={navigate}>Übersicht</button>
-                    {props.auth_level > 2 ? <button id="date_button_1" type="button" onClick={navigate}>Einzelansicht</button> : <></>}
+                    <Button id="date_button_0" type="button" onClick={navigate}>Übersicht</Button>
+                    {props.auth_level > 2 ? <Button id="date_button_1" type="button" onClick={navigate}>Einzelansicht</Button> : <></>}
                 </nav>
             </header>
             <View view={view} />
