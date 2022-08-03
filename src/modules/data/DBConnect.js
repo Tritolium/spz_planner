@@ -369,25 +369,11 @@ const getEval = async () => {
     
 }
 
-const getOwnAbsences = async() => {
-    if(process.env.NODE_ENV !== 'production'){
-        return mockDB.absenceOwn
-    } else {
-        let token = cookies.get('api_token')
-        let response = await fetch('/api/absences.php?api_token=' + token, {
-            method: 'GET'
-        })
-        switch(response.status){
-        case 200:
-            let json = await response.json()
-            return json
-        default:
-            return
-        }
-    }
-}
+/**
+ * Absence
+ */
 
-export const getAbsence = (absence_id) => {
+export const getAbsence = async (absence_id) => {
     if(process.env.NODE_ENV !== 'production'){
         return
     } else {
@@ -405,12 +391,17 @@ export const getAbsence = (absence_id) => {
     }
 }
 
-const getAbsences = async() => {
+export const getAbsences = async (filter) => {
     if(process.env.NODE_ENV !== 'production'){
-        return mockDB.absenceOwn
+        switch(filter){
+        case 'own':
+            return mockDB.absenceOwn
+        default:
+            return
+        }
     } else {
         let token = cookies.get('api_token')
-        let response = await fetch('/api/absences.php?all&api_token=' + token, {
+        let response = await fetch('/api/absences.php?all&api_token=' + token + '&filter='+ filter, {
             method: 'GET'
         })
         switch(response.status){
@@ -423,7 +414,29 @@ const getAbsences = async() => {
     }
 }
 
-const newAbsence = (from, until, info) => {
+export const updateAbsence = async (absence_id, from, until, info) => {
+    if(process.env.NODE_ENV !== 'production') {
+        return
+    } else {
+        let token = cookies.get('api_token')
+        let response = await fetch('/api/absences.php?api_token=' + token + '&id=' + absence_id, {
+            method: 'PUT',
+            body: {
+                From: from,
+                Until: until,
+                Info: info
+            }
+        })
+        switch(response.status){
+        case 200:
+            return
+        default:
+            alert('ein Fehler ist aufgetreten')
+        }
+    }
+}
+
+export const newAbsence = async (from, until, info) => {
     if(process.env.NODE_ENV !== 'production'){
         return
     } else {
@@ -447,4 +460,4 @@ const newAbsence = (from, until, info) => {
     }
 }
 
-export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, updateAttendences, getMissingFeedback, getEval, getOwnAbsences, getAbsences }
+export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, updateAttendences, getMissingFeedback, getEval }

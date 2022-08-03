@@ -29,7 +29,7 @@ const Termineingabe = ({fullname}) => {
     }
 
     return(
-        <form onSubmit={sendForm} className="DateInput">
+        <Form onSubmit={sendForm} className="DateInput">
             <SubmitButton onClick={sendForm}>Abschicken</SubmitButton>
             <Table>
                 <thead>
@@ -49,7 +49,7 @@ const Termineingabe = ({fullname}) => {
                     })}
                 </tbody>
             </Table>
-        </form>
+        </Form>
     )
 }
 
@@ -59,6 +59,15 @@ const Table = styled.table`
 
 const TableData = styled.td`
     border-top: 1px solid #ccc;
+`
+
+const Form = styled.form`
+
+    @media (max-width: ${({theme}) => theme.mobile}) {
+        padding-bottom: 2rem;
+    }
+    
+    box-sizing: border-box;
 `
 
 export default Termineingabe

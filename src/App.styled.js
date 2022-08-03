@@ -6,6 +6,7 @@ export const StyledApp = styled.div`
     align-items: center;
     max-height: 100vh;
     padding: calc(2.5% + 2rem) 0 2rem 0;
+    box-sizing: border-box;
 
     @media (max-width: ${({theme}) => theme.mobile}) {
         padding-top: calc(10% + 2rem);

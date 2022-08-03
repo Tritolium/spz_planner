@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { useState } from "react"
-import { getOwnAbsences } from "../../../modules/data/DBConnect"
+import { getAbsences } from "../../../modules/data/DBConnect"
 import { StyledOverview, StyledTable } from "./Overview.styled"
 
 const Overview = () => {
@@ -17,7 +17,7 @@ const Table = () => {
 
     useEffect(() => {
         const fetchAbsences = async () => {
-            let _absences = await getOwnAbsences()
+            let _absences = await getAbsences('own')
             setAbsences(_absences)
         }
         fetchAbsences()

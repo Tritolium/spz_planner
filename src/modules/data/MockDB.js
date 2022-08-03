@@ -67,6 +67,27 @@ export const mockDB = {
             Type: "Schützenfest",
             Location: "Endorf",
             Date: "2022-07-10"
+        },
+        {
+            Attendence: 0,
+            Event_ID: 4,
+            Type: "Tag der offenen Tür",
+            Location: "OGS Rönkhausen",
+            Date: "2022-06-15"
+        },
+        {
+            Attendence: 1,
+            Event_ID: 5,
+            Type: "Heimspiel",
+            Location: "Rönksen!",
+            Date: "2022-07-02"
+        },
+        {
+            Attendence: 2,
+            Event_ID: 3,
+            Type: "Schützenfest",
+            Location: "Endorf",
+            Date: "2022-07-10"
         }
     ],
     allAttendences: [
