@@ -378,7 +378,7 @@ export const getAbsence = async (absence_id) => {
         return
     } else {
         let token = cookies.get('api_token')
-        let response = await fetch('/api/absences.php?id=' + absence_id + '&api_token=' + token, {
+        let response = await fetch('/api/absence.php?id=' + absence_id + '&api_token=' + token, {
             metod: 'GET'
         })
         switch(response.status){
@@ -401,7 +401,7 @@ export const getAbsences = async (filter) => {
         }
     } else {
         let token = cookies.get('api_token')
-        let response = await fetch('/api/absences.php?all&api_token=' + token + '&filter='+ filter, {
+        let response = await fetch('/api/absence.php?all&api_token=' + token + '&filter='+ filter, {
             method: 'GET'
         })
         switch(response.status){
@@ -419,7 +419,7 @@ export const updateAbsence = async (absence_id, from, until, info) => {
         return
     } else {
         let token = cookies.get('api_token')
-        let response = await fetch('/api/absences.php?api_token=' + token + '&id=' + absence_id, {
+        let response = await fetch('/api/absence.php?api_token=' + token + '&id=' + absence_id, {
             method: 'PUT',
             body: {
                 From: from,
@@ -441,7 +441,7 @@ export const newAbsence = async (from, until, info) => {
         return
     } else {
         let token = cookies.get('api_token')
-        let response = await fetch('/api/absences.php?api_token=' + token, {
+        let response = await fetch('/api/absence.php?api_token=' + token, {
             method: 'POST',
             body: {
                 From: from,
