@@ -387,6 +387,24 @@ const getOwnAbsences = async() => {
     }
 }
 
+export const getAbsence = (absence_id) => {
+    if(process.env.NODE_ENV !== 'production'){
+        return
+    } else {
+        let token = cookies.get('api_token')
+        let response = await fetch('/api/absences.php?id=' + absence_id + '&api_token=' + token, {
+            metod: 'GET'
+        })
+        switch(response.status){
+        case 200:
+            let json = await response.json()
+            return json
+        default:
+            return
+        }
+    }
+}
+
 const getAbsences = async() => {
     if(process.env.NODE_ENV !== 'production'){
         return mockDB.absenceOwn
@@ -401,6 +419,30 @@ const getAbsences = async() => {
             return json
         default:
             return
+        }
+    }
+}
+
+const newAbsence = (from, until, info) => {
+    if(process.env.NODE_ENV !== 'production'){
+        return
+    } else {
+        let token = cookies.get('api_token')
+        let response = await fetch('/api/absences.php?api_token=' + token, {
+            method: 'POST',
+            body: {
+                From: from,
+                Until: until,
+                Info: info
+            }
+        })
+        switch(response.status(201)){
+        case 201:
+            alert('Angaben übernommen')
+            break
+        default:
+            alert('ein Fehler ist aufgetreten')
+            break
         }
     }
 }
