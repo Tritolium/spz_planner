@@ -1,7 +1,7 @@
 header {
   background-color: #282c34;
   min-height: 30px;
-  width: 100vw;
+  width: 100%;
   display: flex;/*flex*/
   align-items: center;
   justify-content: center;
@@ -14,7 +14,7 @@ header {
   position: relative;
   background-color: #282c34;
   min-height: 30px;
-  width: 100vw;
+  width: 100%;
   display: flex;/*flex*/
   align-items: center;
   justify-content: center;
