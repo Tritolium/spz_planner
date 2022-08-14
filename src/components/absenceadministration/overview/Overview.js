@@ -24,6 +24,11 @@ const Table = () => {
         fetchAbsences()
     }, [])
 
+    const formatDate = (date) => {
+        date = date.split('-')
+        return `${date[2]}.${date[1]}.${date[0]}`
+    } 
+
     return(
         <StyledTable>
             <thead>
@@ -37,8 +42,8 @@ const Table = () => {
                 {absences.map(absence => {
                     return(
                         <tr>
-                            <td>{absence.From}</td>
-                            <td>{absence.Until}</td>
+                            <td>{formatDate(absence.From)}</td>
+                            <td>{formatDate(absence.Until)}</td>
                             <td>{absence.Info}</td>
                         </tr>
                     )

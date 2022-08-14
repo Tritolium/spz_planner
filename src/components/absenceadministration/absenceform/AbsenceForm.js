@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react"
 import Button from "../../../modules/components/button/Button"
-import { getAbsence, getAbsences, newAbsence, updateAbsence } from "../../../modules/data/DBConnect"
+import { deleteAbsence, getAbsence, getAbsences, newAbsence, updateAbsence } from "../../../modules/data/DBConnect"
 import { StyledForm, StyledAbsenceForm, StyledSelector, StyledAbsence, FormBox } from "./AbsenceForm.styled"
 
 const AbsenceForm = () => {
@@ -12,6 +12,8 @@ const AbsenceForm = () => {
         let _absences = await getAbsences('current')
         if(_absences !== undefined)
             setAbsences(_absences)
+        else
+            setAbsences(new Array(0))
     }, [])
 
     const reload = useCallback(() => {
@@ -20,7 +22,6 @@ const AbsenceForm = () => {
 
     const onSelect = useCallback((id) => {
         setSelected(id)
-        console.log(id)
     }, [])
 
     useEffect(() => {
@@ -54,7 +55,7 @@ const Absence = ({absence, onSelect}) => {
 
     const formatDate = (date) => {
         date = date.split('-')
-        return `${date[2]}-${date[1]}-${date[0]}`
+        return `${date[2]}.${date[1]}.${date[0]}`
     } 
 
     return(
@@ -84,7 +85,10 @@ const Form = ({selected, reload}) => {
         document.getElementById("absenceeditor").reset()
     }, [absence])
 
-    const clear = () => {
+    const clear = (e) => {
+
+        e.preventDefault()
+
         setAbsence({
             Absence_ID: -1,
             From: "",
@@ -102,17 +106,35 @@ const Form = ({selected, reload}) => {
         await newAbsence(from, until, info)
 
         reload()
+        clear(e)
     }
 
     const update = async (e) => {
         e.preventDefault()
 
+        if(absence.Absence_ID < 0){
+            createNew(e)
+            return
+        }
+
         let from = document.getElementById("from").value
         let until = document.getElementById("until").value
         let info = document.getElementById("info").value
-        await updateAbsence(selected, absence.Member_ID, from, until, info)
+        await updateAbsence(absence.Absence_ID, absence.Member_ID, from, until, info)
 
         reload()
+        clear(e)
+    }
+
+    const delAbsence = async (e) => {
+        
+        e.preventDefault()
+        
+        if(absence.Absence_ID > 0)
+            await deleteAbsence(absence.Absence_ID)
+        
+        reload()
+        clear(e)
     }
 
     return(
@@ -133,9 +155,11 @@ const Form = ({selected, reload}) => {
                 
                 
                 <div>
-                    <Button onClick={clear}>Felder leeren</Button>
-                    <Button onClick={createNew}>Neu anlegen</Button>
+                    {/*<Button onClick={clear}>Neu anlegen</Button>*/}
+                    {/*<Button onClick={createNew}>Neu anlegen</Button>*/}
+                    <Button onClick={clear}>Abbrechen</Button>
                     <Button onClick={update}>Speichern</Button>
+                    <Button onClick={delAbsence}>Löschen</Button>
                 </div>
             </StyledForm>
         </>

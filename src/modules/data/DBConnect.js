@@ -459,4 +459,27 @@ export const newAbsence = async (from, until, info) => {
     }
 }
 
+export const deleteAbsence = async (absence_id) => {
+
+    if(process.env.NODE_ENV !== 'production'){
+        return
+    }
+    
+    let token = cookies.get('api_token')
+    let response = await fetch(`/api/absence.php?api_token=${token}&id=${absence_id}`, {
+        method: 'DELETE'
+    })
+    switch(response.status){
+    case 204:
+        alert('gelöscht')
+        break
+    case 404:
+        alert('Abwesenheit nicht vorhanden')
+        break
+    default:
+        alert('ein Fehler ist aufgetreten')
+        break
+    }
+}
+
 export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, updateAttendences, getMissingFeedback, getEval }
