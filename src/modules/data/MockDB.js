@@ -217,9 +217,11 @@ export const mockDB = {
     ],
     absenceOwn: [
         {
-            from: '2022-05-10',
-            until: '2022-12-31',
-            info: 'Information'
+            Absence_ID: 1,
+            Member_ID: 1,
+            From: '2022-05-10',
+            Until: '2022-12-31',
+            Info: 'Information'
         }
     ],
     absences: [
@@ -227,14 +229,14 @@ export const mockDB = {
             Member_ID: 1,
             Absences: [
                 {
-                    from: '2022-05-10',
-                    until: '2022-12-31',
-                    info: 'Information'
+                    From: '2022-05-10',
+                    Until: '2022-12-31',
+                    Info: 'Information'
                 },
                 {
-                    from: '2022-05-15',
-                    until: '2022-12-31',
-                    info: 'Information'
+                    From: '2022-05-10',
+                    Until: '2022-12-31',
+                    Info: 'Information'
                 }
             ]
         }

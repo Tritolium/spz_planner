@@ -17,8 +17,9 @@ const Table = () => {
 
     useEffect(() => {
         const fetchAbsences = async () => {
-            let _absences = await getAbsences('own')
-            setAbsences(_absences)
+            let _absences = await getAbsences('current')
+            if(_absences !== undefined)
+                setAbsences(_absences)
         }
         fetchAbsences()
     }, [])
@@ -36,9 +37,9 @@ const Table = () => {
                 {absences.map(absence => {
                     return(
                         <tr>
-                            <td>{absence.from}</td>
-                            <td>{absence.until}</td>
-                            <td>{absence.info}</td>
+                            <td>{absence.From}</td>
+                            <td>{absence.Until}</td>
+                            <td>{absence.Info}</td>
                         </tr>
                     )
                 })}

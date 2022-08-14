@@ -393,15 +393,10 @@ export const getAbsence = async (absence_id) => {
 
 export const getAbsences = async (filter) => {
     if(process.env.NODE_ENV !== 'production'){
-        switch(filter){
-        case 'own':
-            return mockDB.absenceOwn
-        default:
-            return
-        }
+        return mockDB.absenceOwn
     } else {
         let token = cookies.get('api_token')
-        let response = await fetch('/api/absence.php?all&api_token=' + token + '&filter='+ filter, {
+        let response = await fetch('/api/absence.php?api_token=' + token + '&filter='+ filter, {
             method: 'GET'
         })
         switch(response.status){
@@ -414,18 +409,19 @@ export const getAbsences = async (filter) => {
     }
 }
 
-export const updateAbsence = async (absence_id, from, until, info) => {
+export const updateAbsence = async (absence_id, member_id, from, until, info) => {
     if(process.env.NODE_ENV !== 'production') {
         return
     } else {
         let token = cookies.get('api_token')
         let response = await fetch('/api/absence.php?api_token=' + token + '&id=' + absence_id, {
             method: 'PUT',
-            body: {
+            body: JSON.stringify({
+                Member_ID: member_id,
                 From: from,
                 Until: until,
                 Info: info
-            }
+            })
         })
         switch(response.status){
         case 200:
@@ -443,13 +439,16 @@ export const newAbsence = async (from, until, info) => {
         let token = cookies.get('api_token')
         let response = await fetch('/api/absence.php?api_token=' + token, {
             method: 'POST',
-            body: {
+            header: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify({
                 From: from,
                 Until: until,
                 Info: info
-            }
+            })
         })
-        switch(response.status(201)){
+        switch(response.status){
         case 201:
             alert('Angaben übernommen')
             break
