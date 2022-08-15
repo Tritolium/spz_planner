@@ -207,7 +207,7 @@ const getMembers = async () => {
     return members
 }
 
-const updateMember = async(member) => {
+const updateMember = async(member_id, forename, surname, auth_level, nicknames, instrument) => {
     let token = cookies.get('api_token')
     if(process.env.NODE_ENV !== 'production'){
         // TODO update in MockDB
@@ -218,12 +218,12 @@ const updateMember = async(member) => {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                Member_ID: member.Member_ID,
-                Forename: member.Forename,
-                Surname: member.Surname,
-                Auth_level: member.Auth_level,
-                Nicknames: member.Nicknames,
-                Instrument: member.Instrument
+                Member_ID: member_id,
+                Forename: forename,
+                Surname: surname,
+                Auth_level: auth_level,
+                Nicknames: nicknames,
+                Instrument: instrument
             })
         })
         switch(response.status){
@@ -235,7 +235,7 @@ const updateMember = async(member) => {
     }
 }
 
-const newMember = async(member) => {
+const newMember = async(forename, surname, auth_level, nicknames, instrument) => {
     let token = cookies.get('api_token')
     if(process.env.NODE_ENV !== 'production'){
         // TODO post in MockDB
@@ -243,11 +243,11 @@ const newMember = async(member) => {
         let response = await fetch("/api/member.php?api_token=" + token, {
             method: "POST",
             body: JSON.stringify({
-                Forename: member.Forename,
-                Surname: member.Surname,
-                Auth_level: member.Auth_level,
-                Nicknames: member.Nicknames,
-                Instrument: member.Instrument
+                Forename: forename,
+                Surname: surname,
+                Auth_level: auth_level,
+                Nicknames: nicknames,
+                Instrument: instrument
             })
         })
         switch(response.status){
