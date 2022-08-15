@@ -222,7 +222,8 @@ const updateMember = async(member) => {
                 Forename: member.Forename,
                 Surname: member.Surname,
                 Auth_level: member.Auth_level,
-                Nicknames: member.Nicknames
+                Nicknames: member.Nicknames,
+                Instrument: member.Instrument
             })
         })
         switch(response.status){
@@ -245,7 +246,8 @@ const newMember = async(member) => {
                 Forename: member.Forename,
                 Surname: member.Surname,
                 Auth_level: member.Auth_level,
-                Nicknames: member.Nicknames
+                Nicknames: member.Nicknames,
+                Instrument: member.Instrument
             })
         })
         switch(response.status){

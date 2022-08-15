@@ -132,6 +132,7 @@ const Editor = (props) => {
         _member.Surname = document.getElementById("sname").value
         _member.Auth_level = document.getElementById("auth").options[document.getElementById("auth").selectedIndex].value
         _member.Nicknames = document.getElementById("nick").value
+        _member.Instrument = document.getElementById("instrument").value
 
         if(_member.Member_ID > 0){
             await updateMember(_member)    
@@ -146,7 +147,8 @@ const Editor = (props) => {
             Forename: document.getElementById("fname").value,
             Surname: document.getElementById("sname").value,
             Auth_level: document.getElementById("auth").options[document.getElementById("auth").selectedIndex].value,
-            Nicknames: document.getElementById("nick").value
+            Nicknames: document.getElementById("nick").value,
+            Instrument: document.getElementById("instrument").value
         }
         await newMember(_member)
         props.reload()
@@ -158,7 +160,8 @@ const Editor = (props) => {
             Forename: "",
             Surname: "",
             Auth_level: 0,
-            Nicknames: ""
+            Nicknames: "",
+            Instrument: ""
         })
     }
 
@@ -204,6 +207,14 @@ const Editor = (props) => {
                     </Label>
                     <InputContainer>
                         <input type="text" id="nick" defaultValue={member.Nicknames}/>
+                    </InputContainer>
+                </FormBox>
+                <FormBox>
+                    <Label>
+                        <label htmlFor="instrument">Instrument:</label>
+                    </Label>
+                    <InputContainer>
+                        <input type="text" id="instrument" defaultValue={member.Instrument}/>
                     </InputContainer>
                 </FormBox>
                 <FormBox>
@@ -262,7 +273,7 @@ const Form = styled.form`
     }
 
     label {
-        color: ${props => props.theme.main};
+        color: ${({theme}) => theme.primaryLight};
         padding: ${props => props.theme.padding};
         display: inline-block;
     }
