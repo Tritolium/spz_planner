@@ -175,26 +175,26 @@ const StyledEvalDiagram = styled.div`
 const OverviewTable = ({attendences}) => {
     return(
         <StyledOverviewTable>
-                <thead>
-                    <TableHeaderFieldT>Termin:</TableHeaderFieldT>
-                    {attendences[0].Attendences.map((att) => {
-                        return(<TableHeaderField><div><span>{att.Fullname}</span></div></TableHeaderField>)
-                    })}
-                </thead>
-                <tbody>
-                    {
-                        attendences.map(event => {
-                            return(
-                                <tr>
-                                    <TableDataField><DateField dateprops={event}/></TableDataField>
-                                    {event.Attendences.map(attendence => {
-                                        return(<TableDataField><Zusage attendence={attendence.Attendence} /></TableDataField>)
-                                    })}
-                                </tr>
-                            )
-                        })
-                    }
-                </tbody>
+            <thead>
+                <TableHeaderFieldT>Termin:</TableHeaderFieldT>
+                {attendences[0].Attendences.map((att) => {
+                    return(<TableHeaderField><div><span>{att.Fullname}</span></div></TableHeaderField>)
+                })}
+            </thead>
+            <tbody>
+                {
+                    attendences.map(event => {
+                        return(
+                            <tr>
+                                <TableDataField><DateField dateprops={event}/></TableDataField>
+                                {event.Attendences.map(attendence => {
+                                    return(<TableDataField><Zusage attendence={attendence.Attendence} /></TableDataField>)
+                                })}
+                            </tr>
+                        )
+                    })
+                }
+            </tbody>
             </StyledOverviewTable>
     )
 }
@@ -225,7 +225,7 @@ const EvalTable = ({evaluation}) => {
                         })
                     }
                 </tbody>
-            </StyledEvalTable>
+        </StyledEvalTable>
     )
 }
 
