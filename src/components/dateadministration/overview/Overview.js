@@ -6,18 +6,19 @@ import { StyledDesktopTable, StyledMobileTable, StyledOverview } from "./Overvie
 
 const Overview = () => {
 
-    const [events, setEvents] = useState(new Array(0))
-    const [filter, setFilter] = useState(new Array(0))
-
     const options = [
         {value: "current", label: "Aktuell"},
         {value: "past", label: "Vergangen"},
         {value: "all", label: "Alle"}
     ]
 
+    const [events, setEvents] = useState(new Array(0))
+    const [filter, setFilter] = useState(options[0].value)
+
     const fetchEvents = useCallback(async () => {
         let _events = await getEvents(filter)
-        setEvents(_events)
+        if(_events !== undefined)
+            setEvents(_events)
     }, [filter])
 
     const onFilterChange = useCallback((e) => {
