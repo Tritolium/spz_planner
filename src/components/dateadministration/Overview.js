@@ -3,6 +3,8 @@ import styled from "styled-components"
 import Filter from "../../modules/components/Filter"
 import { getEvents } from "../../modules/data/DBConnect"
 
+import NewOverview from "./overview/Overview"
+
 const Overview = (props) => {
 
     const options = [

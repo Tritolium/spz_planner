@@ -1,5 +1,5 @@
 import { useState } from "react"
-import Overview from "./Overview"
+import Overview from "./overview/Overview"
 
 import EventEditor from "./EventEditor"
 import Button from "../../modules/components/button/Button"

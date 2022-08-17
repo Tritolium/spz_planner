@@ -4,6 +4,11 @@ import styled from "styled-components"
 import { getMember, getMembers, newMember, updateMember } from "../../modules/data/DBConnect"
 import { formtheme } from "../Themes"
 
+/**
+ * @deprecated
+ * @param {*} props 
+ * @returns 
+ */
 const MemberEditor = (props) => {
 
     const [members, setMembers] = useState(new Array(0))
