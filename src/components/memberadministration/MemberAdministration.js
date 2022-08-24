@@ -1,10 +1,8 @@
 import { useState } from 'react'
 import Button from '../../modules/components/button/Button'
-import './MemberAdministration.css'
-import MemberEditor from './MemberEditor'
 import MemberForm from './memberform/MemberForm'
-import Overview from './Overview'
 import HeaderMenu from "../../modules/components/headermenu/HeaderMenu"
+import Overview from './overview/Overview'
 
 const Memberadministration = (props) => {
 
@@ -18,9 +16,6 @@ const Memberadministration = (props) => {
             break
         case 'member_button_1':
             setView(1)
-            break
-        case 'member_button_2':
-            setView(2)
             break
         }
     }
@@ -43,8 +38,6 @@ const View = (props) => {
         return(<Overview />)
     case 1:
         return(<MemberForm />)
-    case 2:
-        return(<MemberEditor />)
     }
 }
 
