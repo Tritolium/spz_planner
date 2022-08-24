@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react"
 import Filter from "../../../modules/components/Filter"
 import { getEvents } from "../../../modules/data/DBConnect"
-import { StyledDesktopTable, StyledMobileTable, StyledOverview } from "./Overview.styled"
+import { StyledEventTable, StyledEventTableMobile, StyledOverview } from "./Overview.styled"
 
 
 const Overview = () => {
@@ -32,18 +32,17 @@ const Overview = () => {
     return(
         <StyledOverview>
             <Filter options={options} onChange={onFilterChange}/>
-            <DesktopTable events={events}/>
-            <MobileTable events={events}/>
+            <EventList events={events} />
+            <EventListMobile events={events} />
         </StyledOverview>
     )
 }
 
-const DesktopTable = ({ events }) => {
+const EventList = ({ events }) => {
     return(
-        <StyledDesktopTable>
+        <StyledEventTable>
             <thead>
                 <tr>
-                    <th></th>
                     <th>Ort</th>
                     <th>Datum</th>
                     <th>Beginn</th>
@@ -52,28 +51,17 @@ const DesktopTable = ({ events }) => {
                 </tr>
             </thead>
             <tbody>
-                {
-                    events.map(event => {
-                        return(
-                            <tr key={event.Date}>
-                                <td>{event.Type}</td>
-                                <td>{event.Location}</td>
-                                <td>{parseDate(event.Date)}</td>
-                                <td>{parseTime(event.Begin)}</td>
-                                <td>{parseTime(event.Departure)}</td>
-                                <td>{parseTime(event.Leave_dep)}</td>
-                            </tr>
-                        )
-                    })
-                }
+                {events.map(event => {
+                    return(<Event event={event} />)
+                })}
             </tbody>
-        </StyledDesktopTable>
+        </StyledEventTable>
     )
 }
 
-const MobileTable = ({ events }) => {
+const EventListMobile = ({ events }) => {
     return(
-        <StyledMobileTable>
+        <StyledEventTableMobile>
             <thead>
                 <tr>
                     <th>Ort/Datum</th>
@@ -83,17 +71,34 @@ const MobileTable = ({ events }) => {
                 </tr>
             </thead>
             <tbody>
-                {
-                    events.map(event => {
-                        return(
-                            <tr key={event.Date}>
-
-                            </tr>
-                        )
-                    })
-                }
+                {events.map(event => {
+                    return(<EventMobile event={event} />)
+                })}
             </tbody>
-        </StyledMobileTable>
+        </StyledEventTableMobile>
+    )
+}
+
+const Event = ({ event }) => {
+    return(
+        <tr>
+            <td>{event.Type} {event.Location}</td>
+            <td>{parseDate(event.Date)}</td>
+            <td>{parseTime(event.Begin)}</td>
+            <td>{parseTime(event.Departure)}</td>
+            <td>{parseTime(event.Leave_dep)}</td>
+        </tr>
+    )
+}
+
+const EventMobile = ({ event }) => {
+    return(
+        <tr>
+            <td>{event.Type} {event.Location} {parseDate(event.Date)}</td>
+            <td>{parseTime(event.Begin)}</td>
+            <td>{parseTime(event.Departure)}</td>
+            <td>{parseTime(event.Leave_dep)}</td>
+        </tr>
     )
 }
 

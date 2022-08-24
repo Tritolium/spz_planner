@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useState } from "react"
 import Button from "../../../modules/components/button/Button"
+import Selector from "../../../modules/components/form/Selector"
+import SelectorItem from "../../../modules/components/form/SelectorItem"
 import { deleteAbsence, getAbsence, getAbsences, newAbsence, updateAbsence } from "../../../modules/data/DBConnect"
-import { StyledForm, StyledAbsenceForm, StyledSelector, StyledAbsence, FormBox } from "./AbsenceForm.styled"
+import { StyledForm, StyledAbsenceForm, FormBox } from "./AbsenceForm.styled"
 
 const AbsenceForm = () => {
 
@@ -30,20 +32,20 @@ const AbsenceForm = () => {
     
     return(
         <StyledAbsenceForm>
-            <Selector onSelect={onSelect} absences={absences}/>
+            <AbsenceSelector onSelect={onSelect} absences={absences}/>
             <Form selected={selected} reload={reload}/>
         </StyledAbsenceForm>
     )
 }
 
-const Selector = ({absences, onSelect}) => {
+const AbsenceSelector = ({absences, onSelect}) => {
     
     return(
-        <StyledSelector>
+        <Selector>
             {absences.map(absence => {
                 return(<Absence onSelect={onSelect} key={absence.Absence_ID} absence={absence}/>)
             })}
-        </StyledSelector>
+        </Selector>
     )
 }
 
@@ -59,7 +61,7 @@ const Absence = ({absence, onSelect}) => {
     } 
 
     return(
-        <StyledAbsence onClick={onClick}>{formatDate(absence.From)} - {formatDate(absence.Until)}</StyledAbsence>
+        <SelectorItem onClick={onClick}>{formatDate(absence.From)} - {formatDate(absence.Until)}</SelectorItem>
     )
 }
 

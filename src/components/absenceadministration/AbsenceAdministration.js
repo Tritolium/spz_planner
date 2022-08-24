@@ -3,6 +3,7 @@ import Button from '../../modules/components/button/Button'
 import Overview from './overview/Overview';
 import { StyledAbsenceAdministration, StyledView } from './AbsenceAdministration.styled'
 import AbsenceForm from './absenceform/AbsenceForm';
+import HeaderMenu from '../../modules/components/headermenu/HeaderMenu'
 
 const AbsenceAdministration = () => {
 
@@ -22,10 +23,10 @@ const AbsenceAdministration = () => {
 
     return(
         <StyledAbsenceAdministration>
-            <nav>
+            <HeaderMenu>
                 <Button id="absence_button_0" onClick={navigate}>Übersicht</Button>
                 <Button id="absence_button_1" onClick={navigate}>Eingabe</Button>
-            </nav>
+            </HeaderMenu>
             <View view={view}/>
         </StyledAbsenceAdministration>
     )

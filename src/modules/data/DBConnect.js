@@ -109,11 +109,11 @@ const getEvents = async (filter) => {
                 break
         }
     }
-
+    
     return events
 }
 
-const updateEvent = async(event) => {
+const updateEvent = async(event_id, type, location, date, begin, departure, leave_dep, accepted) => {
     let token = cookies.get('api_token')
     if(process.env.NODE_ENV !== 'production'){
         // TODO update in MockDB
@@ -121,7 +121,16 @@ const updateEvent = async(event) => {
     } else {
         let response = await fetch("/api/event.php?api_token=" + token, {
             method: "PUT",
-            body: JSON.stringify(event)
+            body: JSON.stringify({
+                Event_ID: event_id,
+                Type: type,
+                Location: location,
+                Date: date,
+                Begin: begin,
+                Departure: departure,
+                Leave_dep: leave_dep,
+                Accepted: accepted
+            })
         })
         switch(response.status){
         case 200:
@@ -132,7 +141,7 @@ const updateEvent = async(event) => {
     }
 }
 
-const newEvent = async (event) => {
+const newEvent = async (type, location, date, begin, departure, leave_dep, accepted) => {
     let token = cookies.get('api_token')
     if(process.env.NODE_ENV !== 'production'){
         // TODO create in MockDB
@@ -140,7 +149,15 @@ const newEvent = async (event) => {
     } else {
         let response = await fetch("/api/event.php?api_token=" + token, {
             method: "POST",
-            body: JSON.stringify(event)
+            body: JSON.stringify({
+                Type: type,
+                Location: location,
+                Date: date,
+                Begin: begin,
+                Departure: departure,
+                Leave_dep: leave_dep,
+                Accepted: accepted
+            })
         })
         switch(response.status){
         case 201:

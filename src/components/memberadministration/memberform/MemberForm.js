@@ -1,7 +1,10 @@
 import { useCallback, useEffect, useState } from "react"
 import Button from "../../../modules/components/button/Button"
+import Form from "../../../modules/components/form/Form"
+import FormBox from "../../../modules/components/form/FormBox"
+import Selector from "../../../modules/components/form/Selector"
 import { getMembers, newMember, updateMember } from "../../../modules/data/DBConnect"
-import { FormBox, StyledForm, StyledMember, StyledMemberForm, StyledSelector } from "./MemberForm.styled"
+import { StyledMember, StyledMemberForm } from "./MemberForm.styled"
 
 const MemberForm = () => {
 
@@ -31,19 +34,19 @@ const MemberForm = () => {
 
     return (
         <StyledMemberForm>
-            <Selector onSelect={onSelect} members={members}/>
-            <Form member={members.find((member) => member.Member_ID === selected)} reload={reload}/>
+            <MemberSelector onSelect={onSelect} members={members}/>
+            <DetailForm member={members.find((member) => member.Member_ID === selected)} reload={reload}/>
         </StyledMemberForm>
     )
 }
 
-const Selector = ({members, onSelect}) => {
+const MemberSelector = ({members, onSelect}) => {
     return (
-        <StyledSelector>
+        <Selector>
             {members.map(member => {
                 return(<Member onSelect={onSelect} key={member.Member_ID} member={member}/>)
             })}
-        </StyledSelector>
+        </Selector>
     )
 }
 
@@ -60,7 +63,7 @@ const Member = ({member, onSelect}) => {
     )
 }
 
-const Form = ({member, reload}) => {
+const DetailForm = ({member, reload}) => {
 
     useEffect(() => {
         document.getElementById('memberform_form').reset()
@@ -90,7 +93,7 @@ const Form = ({member, reload}) => {
     }
 
     return (
-        <StyledForm id="memberform_form">
+        <Form id="memberform_form">
             <FormBox>
                 <label htmlFor="forename">Vorname:</label>
                 <input type="text" name="forename" id="forename" defaultValue={member?.Forename}/>
@@ -120,7 +123,7 @@ const Form = ({member, reload}) => {
                 <Button onClick={cancel}>Abbrechen</Button>
                 <Button onClick={update}>Speichern</Button>
             </div>
-        </StyledForm>
+        </Form>
     )
 }
 

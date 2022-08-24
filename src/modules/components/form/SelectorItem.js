@@ -1,13 +1,6 @@
 import styled from "styled-components"
 
-export const StyledMemberForm = styled.div`
-    display: flex;
-    flex-direction: row;
-    position: relative;
-    width: 100%;
-`
-
-export const StyledMember = styled.div`
+const SelectorItem = styled.div`
     user-select: none;
     cursor: pointer;
     padding: 2px;
@@ -17,3 +10,5 @@ export const StyledMember = styled.div`
         background: ${({ theme }) => theme.primaryHover};
     }
 `
+
+export default SelectorItem

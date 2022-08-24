@@ -11,36 +11,42 @@ export const StyledOverview = styled.div`
 `
 
 const StyledTable = styled.table`
+    margin: 5px;
     border: 1px solid ${({ theme }) => theme.primaryLight};
-    border-collapse: collapse;
-
-    tr {
-        border: 1px solid ${({ theme }) => theme.primaryLight};
-    }
+    border-radius: 10px;
+    /*border-collapse: collapse;*/
+    border-spacing: 0;
+    width: auto;
 
     th {
-        border: 1px solid ${({ theme }) => theme.primaryLight};
-        padding: 4px;
+        border-bottom: 1px solid ${({ theme }) => theme.primaryLight};
+        padding: 5px;
     }
 
     td {
-        padding: 4px;
-        text-align: center;
+        border-top: 1px solid ${({ theme }) => theme.primaryLight};
+        padding: 5px;
+        white-space: nowrap;
+    }
+
+    td:first-child {
+        white-space: normal;
     }
 `
 
-export const StyledDesktopTable = styled(StyledTable)`
+export const StyledEventTable = styled(StyledTable)`
     display: table;
-
-    @media (max-width: ${({ theme }) => theme.mobile}) {
-        display: none;
+    @media (max-width: ${({theme}) => theme.mobile}) {
+            display: none;
     }
 `
 
-export const StyledMobileTable = styled(StyledTable)`
+export const StyledEventTableMobile = styled(StyledTable)`
+    
     display: none;
+    font-size: 0.75em;
 
-    @media (max-width: ${({ theme }) => theme.mobile}) {
-        display: table;
+    @media (max-width: ${({theme}) => theme.mobile}) {
+            display: table;
     }
 `

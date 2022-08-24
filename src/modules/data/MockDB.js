@@ -26,24 +26,28 @@ export const mockDB = {
             Member_ID: 1,
             Forename: "Max",
             Surname: "Mustermann",
-            Auth_level: 0
+            Auth_level: 0,
+            Instrument: "Sopran"
         },
         {
             Member_ID: 2,
             Forename: "Erika",
             Surname: "Musterfrau",
-            Auth_level: 1
+            Auth_level: 1,
+            Instrument: "Trommel"
         },
         {
             Member_ID: 3,
             Forename: "Otto",
             Surname: "Normalverbraucher",
-            Auth_level: 2
+            Auth_level: 2,
+            Instrument: "Becken"
         },{
             Member_ID: 4,
             Forename: "Lieschen",
             Surname: "Müller",
-            Auth_level: 3
+            Auth_level: 3,
+            Instrument: "Lyra"
         }
     ],
     attendences: [
@@ -212,7 +216,16 @@ export const mockDB = {
             Consent: "26",
             Refusal: "12",
             Maybe: "2",
-            Missing: "0"
+            Missing: "0",
+            "Instruments": {
+                "Sopran": "8",
+                "Alt": "2",
+                "Tenor": "0",
+                "Trommel": "5",
+                "Becken": "2",
+                "Pauke": "0",
+                "Lyra": "1"
+            }
         }
     ],
     absenceOwn: [

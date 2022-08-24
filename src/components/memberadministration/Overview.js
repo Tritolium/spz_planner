@@ -19,7 +19,7 @@ const Overview = () => {
                 <tr>
                     <th>Vorname</th>
                     <th>Nachname</th>
-                    <th>Level</th>
+                    <th>Instrument</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,7 +28,7 @@ const Overview = () => {
                         <tr key={mem.Forename+mem.Surname}>
                             <td>{mem.Forename}</td>
                             <td>{mem.Surname}</td>
-                            <td>{mem.Auth_level}</td>
+                            <td>{mem.Instrument}</td>
                         </tr>
                     )
                 })}

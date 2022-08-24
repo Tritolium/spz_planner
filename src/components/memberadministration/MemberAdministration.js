@@ -4,6 +4,7 @@ import './MemberAdministration.css'
 import MemberEditor from './MemberEditor'
 import MemberForm from './memberform/MemberForm'
 import Overview from './Overview'
+import HeaderMenu from "../../modules/components/headermenu/HeaderMenu"
 
 const Memberadministration = (props) => {
 
@@ -26,13 +27,10 @@ const Memberadministration = (props) => {
 
     return (
         <>
-            <header className="Memberadministration-header">
-                <nav>
-                    <Button id="member_button_0" type='button' onClick={navigate}>Übersicht</Button>
-                    {props.auth_level > 2 ? <Button id='member_button_1' type='button' onClick={navigate}>Stammdaten</Button> : <></>}
-                    {/*props.auth_level > 2 ? <Button id="member_button_2" type='button' onClick={navigate}>Einzelansicht</Button> : <></>*/}
-                </nav>
-            </header>
+            <HeaderMenu>
+                <Button id="member_button_0" type='button' onClick={navigate}>Übersicht</Button>
+                {props.auth_level > 2 ? <Button id='member_button_1' type='button' onClick={navigate}>Stammdaten</Button> : <></>}
+            </HeaderMenu>
             <View view={view} />
         </>
     )

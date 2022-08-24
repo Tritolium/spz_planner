@@ -6,6 +6,7 @@ import './Dateplanner.css'
 import UnstyledAbsenceInput from './absenceInput/AbsenceInput'
 import styled from 'styled-components'
 import Button from '../../modules/components/button/Button'
+import HeaderMenu from '../../modules/components/headermenu/HeaderMenu'
 
 const dates = [
     {
@@ -43,13 +44,18 @@ const Dateplanner = (props) => {
 
     return (
         <>
-            <header className="Dateplanner-header">
+            {/*<header className="Dateplanner-header">
                 <nav>
                     <Button id='date_button_0' font_size={'1rem'} onClick={navigate}>Eingabe</Button>
                     {props.auth_level > 1 ? <Button id='date_button_1' font_size={'1rem'} onClick={navigate}>Übersicht</Button> : <></>}
                     {props.auth_level > 2 ? <Button id='date_button_2' font_size={'1rem'} onClick={navigate}>manuelle Eingabe</Button> : <></>}
                 </nav>
-            </header>
+            </header>*/}
+            <HeaderMenu>
+                <Button id='date_button_0' font_size={'1rem'} onClick={navigate}>Eingabe</Button>
+                {props.auth_level > 1 ? <Button id='date_button_1' font_size={'1rem'} onClick={navigate}>Übersicht</Button> : <></>}
+                {props.auth_level > 2 ? <Button id='date_button_2' font_size={'1rem'} onClick={navigate}>manuelle Eingabe</Button> : <></>}
+            </HeaderMenu>
             <View view={view} fullname={props.fullname}/>
         </>
     )

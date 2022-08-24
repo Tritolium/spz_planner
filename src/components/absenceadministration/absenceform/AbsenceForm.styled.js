@@ -7,23 +7,11 @@ export const StyledAbsenceForm = styled.div`
     width: 100%;
 `
 
-export const StyledSelector = styled.div`
-    padding: 5px;
-    width: auto;
-    white-space: nowrap;
-
-    @media (max-width: ${({ theme }) => theme.mobile}) {
-        white-space: normal;
-    }
-`
-
 export const StyledForm = styled.form`
     display: block;
     width: 100%;
     padding: 5px;
 `
-
-export const StyledAbsence = styled.div``
 
 export const FormBox = styled.div`
     display: block;

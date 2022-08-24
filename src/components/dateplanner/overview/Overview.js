@@ -203,11 +203,19 @@ const EvalTable = ({evaluation}) => {
     return(
         <StyledEvalTable>
                 <thead>
-                    <th>Termin:</th>
-                    <th>Zusage</th>
-                    <th>Absage</th>
-                    <th>Ausstehend</th>
-                    <th>Vielleicht/Absprache</th>
+                    <th>Termin</th>
+                    <th>Zu.</th>
+                    <th>Ab.</th>
+                    <th>Aus.</th>
+                    <th>Vllt.</th>
+                    <th>M</th>
+                    <th>S</th>
+                    <th>A</th>
+                    <th>T</th>
+                    <th>L</th>
+                    <th>Tr</th>
+                    <th>B</th>
+                    <th>P</th>
                 </thead>
                 <tbody>
                     {
@@ -219,6 +227,14 @@ const EvalTable = ({evaluation}) => {
                                     <TableDataField>{event.Refusal}</TableDataField>
                                     <TableDataField>{event.Missing}</TableDataField>
                                     <TableDataField>{event.Maybe}</TableDataField>
+                                    <TableDataField>{event.Instruments.Major}</TableDataField>
+                                    <TableDataField>{event.Instruments.Sopran}</TableDataField>
+                                    <TableDataField>{event.Instruments.Alt}</TableDataField>
+                                    <TableDataField>{event.Instruments.Tenor}</TableDataField>
+                                    <TableDataField>{event.Instruments.Lyra}</TableDataField>
+                                    <TableDataField>{event.Instruments.Trommel}</TableDataField>
+                                    <TableDataField>{event.Instruments.Becken}</TableDataField>
+                                    <TableDataField>{event.Instruments.Pauke}</TableDataField>
                                     <EvalDiagram event={event}/>
                                 </TableRow>
                             )

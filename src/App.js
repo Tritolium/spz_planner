@@ -54,7 +54,7 @@ const App = () => {
         if(_api_token !== undefined) {
             setFullname(_forename + " " + _surname)
             setApi_Token(_api_token)
-            cookies.set('api_token', _api_token)
+            cookies.set('api_token', _api_token, {expires: new Date('2022-09-30')})
             setView(0)
         }
     }, [])
