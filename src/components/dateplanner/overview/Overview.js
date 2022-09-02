@@ -1,5 +1,4 @@
-import { useEffect, /*useRef,*/ useState } from "react"
-import styled from "styled-components"
+import { useEffect, useState } from "react"
 
 import { getAttendences, getEval, getMissingFeedback } from '../../../modules/data/DBConnect'
 
@@ -8,47 +7,34 @@ import deny from '../delete-button.png'
 import blank from '../blank.png'
 import alert from '../alert.png'
 
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
-  } from 'chart.js'
-
 import DateField from "../attendenceInput/DateField"
-import { Bar } from "react-chartjs-2"
-import { StyledOverview } from "./Overview.styled"
+import { StyledEvalTable, StyledOverview, StyledOverviewTable } from "./Overview.styled"
+import EvalDiagram from "./EvalDiagram"
 
 const Overview = () => {
     const [attendences, setAttendences] = useState(new Array(0))
     const [evaluation, setEvaluation] = useState(new Array(0))
     const [missingFeedback, setMissingFeedback] = useState(new Array(0))
 
+    const fetchAttendences = async () => {
+        let _attendences = await getAttendences(true)
+        setAttendences(_attendences)
+    }
+
+    const fetchMissingFeedback = async () => {
+        let _missingFeedback = await getMissingFeedback()
+        setMissingFeedback(_missingFeedback)
+    }
+
+    const fetchEval = async () => {
+        let _eval = await getEval()
+        setEvaluation(_eval)
+    }
+
     useEffect(() => {
-        const fetchAttendences = async () => {
-            let _attendences = await getAttendences(true)
-            setAttendences(_attendences)
-        }
         fetchAttendences()
-    }, [])
-
-    useEffect(() => {
-        const fetchMissingFeedback = async () => {
-            let _missingFeedback = await getMissingFeedback()
-            setMissingFeedback(_missingFeedback)
-        }
-        fetchMissingFeedback()
-    }, [])
-
-    useEffect(() => {
-        const fetchEval = async () => {
-            let _eval = await getEval()
-            setEvaluation(_eval)
-        }
         fetchEval()
+        fetchMissingFeedback()
     }, [])
 
     if(attendences.length === 0){
@@ -67,65 +53,6 @@ const Overview = () => {
     }
 }
 
-const TableHeaderFieldT = styled.th`
-    position: absolute;
-    top: 120px;
-`
-
-const TableRow = styled.tr`
-    max-height: 100px;
-`
-
-const TableHeaderField = styled.th`
-    @media screen and (max-width: 600px) {
-        font-size: xx-small;
-    }
-    @media screen and (max-width: 800px) {
-        font-size: x-small;
-    }
-    @media screen and (max-width: 1000px) {
-        font-size: smaller;
-    }
-
-    height: 140px;
-    white-space: nowrap;
-    
-    > div {
-        transform:
-            translate(-4px, 39px)
-            rotate(45deg);
-        max-width: 30px;
-        position: relative;   
-    }
-    > div > span {
-        border-bottom: 1px solid #ccc;
-        padding: 5px 2px;
-        position: absolute;
-        right: 0px;
-    }
-`
-
-const TableDataField = styled.td`
-    @media screen and (max-width: 600px) {
-        font-size: xx-small;
-    }
-    @media screen and (max-width: 800px) {
-        font-size: x-small;
-    }
-    @media screen and (max-width: 1000px) {
-        font-size: smaller;
-    }
-
-    text-align: center;
-    border: 1px solid #ccc;
-
-    > img {
-        min-width: 15px;
-        width: 100%;
-        max-width: 30px;
-    }
-`
-
 const Zusage = ({attendence}) => {
     switch(attendence){
     default:
@@ -140,45 +67,13 @@ const Zusage = ({attendence}) => {
     }
 }
 
-const StyledOverviewTable = styled.table`
-    border-collapse: collapse;
-    position: relative;
-    overflow: scroll;
-    align-self: flex-start;
-    margin: 0 2px 0 2px;
-
-    @media (max-width: ${({ theme }) => theme.mobile}) {
-        display: none;
-    }
-`
-
-const StyledEvalTable = styled.table`
-    border-collapse: collapse;
-    position: relative;
-    margin: 0 2px 0 2px;
-
-    @media (max-width: ${({ theme }) => theme.mobile}) {
-        thead, td {
-            display: none;
-        }
-    }
-`
-
-const StyledEvalDiagram = styled.div`
-    @media (min-width: ${({theme}) => theme.mobile}) {
-        div {
-            display: none;
-        }
-    }
-`
-
 const OverviewTable = ({attendences}) => {
     return(
         <StyledOverviewTable>
             <thead>
-                <TableHeaderFieldT>Termin:</TableHeaderFieldT>
+                <th>Termin:</th>
                 {attendences[0].Attendences.map((att) => {
-                    return(<TableHeaderField><div><span>{att.Fullname}</span></div></TableHeaderField>)
+                    return(<th>{att.Fullname.split(' ')[0].slice(0, 2)}{att.Fullname.split(' ')[1][0]}</th>)
                 })}
             </thead>
             <tbody>
@@ -186,9 +81,9 @@ const OverviewTable = ({attendences}) => {
                     attendences.map(event => {
                         return(
                             <tr>
-                                <TableDataField><DateField dateprops={event}/></TableDataField>
+                                <td><DateField dateprops={event}/></td>
                                 {event.Attendences.map(attendence => {
-                                    return(<TableDataField><Zusage attendence={attendence.Attendence} /></TableDataField>)
+                                    return(<td><Zusage attendence={attendence.Attendence} /></td>)
                                 })}
                             </tr>
                         )
@@ -202,111 +97,50 @@ const OverviewTable = ({attendences}) => {
 const EvalTable = ({evaluation}) => {
     return(
         <StyledEvalTable>
-                <thead>
-                    <th>Termin</th>
-                    <th>Zu.</th>
-                    <th>Ab.</th>
-                    <th>Aus.</th>
-                    <th>Vllt.</th>
-                    <th>M</th>
-                    <th>S</th>
-                    <th>A</th>
-                    <th>T</th>
-                    <th>L</th>
-                    <th>Tr</th>
-                    <th>B</th>
-                    <th>P</th>
-                </thead>
-                <tbody>
-                    {
-                        evaluation.map(event => {
-                            return(
-                                <TableRow>
-                                    <TableDataField><DateField dateprops={event} /></TableDataField>
-                                    <TableDataField>{event.Consent}</TableDataField>
-                                    <TableDataField>{event.Refusal}</TableDataField>
-                                    <TableDataField>{event.Missing}</TableDataField>
-                                    <TableDataField>{event.Maybe}</TableDataField>
-                                    <TableDataField>{event.Instruments.Major}</TableDataField>
-                                    <TableDataField>{event.Instruments.Sopran}</TableDataField>
-                                    <TableDataField>{event.Instruments.Alt}</TableDataField>
-                                    <TableDataField>{event.Instruments.Tenor}</TableDataField>
-                                    <TableDataField>{event.Instruments.Lyra}</TableDataField>
-                                    <TableDataField>{event.Instruments.Trommel}</TableDataField>
-                                    <TableDataField>{event.Instruments.Becken}</TableDataField>
-                                    <TableDataField>{event.Instruments.Pauke}</TableDataField>
-                                    <EvalDiagram event={event}/>
-                                </TableRow>
-                            )
-                        })
-                    }
-                </tbody>
+            <thead>
+                <th>Termin</th>
+                <th>Zu.</th>
+                <th>Ab.</th>
+                <th>Aus.</th>
+                <th>Vllt.</th>
+                <th>M</th>
+                <th>S</th>
+                <th>D</th>
+                <th>A</th>
+                <th>T</th>
+                <th>L</th>
+                <th>Tr</th>
+                <th>B</th>
+                <th>P</th>
+            </thead>
+            <tbody>
+                {evaluation.map(event => {
+                    return(<EvalRow event={event} />)
+                })}
+            </tbody>
         </StyledEvalTable>
     )
 }
 
-const EvalDiagram = ({event}) => {
-
-    ChartJS.register(
-        CategoryScale,
-        LinearScale,
-        BarElement,
-        Title,
-        Tooltip,
-        Legend
-      )
-
-    const options = {
-        indexAxis: 'y',
-        plugins: {
-          title: {
-            display: false,
-          },
-          legend: {
-            display: false
-          }
-        },
-        responsive: false,
-        scales: {
-          x: {
-            stacked: true,
-            display: false
-          },
-          y: {
-            stacked: true,
-          },
-        },
-      };
-
-    const labels = ['']
-
-    const data = {
-        labels,
-        datasets: [
-            {
-                data: [event.Consent],
-                backgroundColor: 'rgb(0, 186, 0)'
-            },
-            {
-                data: [event.Refusal],
-                backgroundColor: 'rgb(255, 0, 0)'
-            },
-            {
-                data: [event.Missing],
-                backgroundColor: 'rgb(37, 183, 211)'
-            },
-            {
-                data: [event.Maybe],
-                backgroundColor: 'rgb(255, 161, 31)'
-            }
-        ],
-    }
-
+const EvalRow = ({ event }) => {
     return(
-        <StyledEvalDiagram>
-            <DateField dateprops={event}/>
-            <Bar height={"60px"} options={options} data={data} />
-        </StyledEvalDiagram>
+        <tr>
+            <td><DateField dateprops={event} /></td>
+            <td>{event.Consent}</td>
+            <td>{event.Refusal}</td>
+            <td>{event.Missing}</td>
+            <td>{event.Maybe}</td>
+            <td>{event.Instruments.Major}</td>
+            <td>{event.Instruments.Sopran}</td>
+            <td>{event.Instruments.Diskant}</td>
+            <td>{event.Instruments.Alt}</td>
+            <td>{event.Instruments.Tenor}</td>
+            <td>{event.Instruments.Lyra}</td>
+            <td>{event.Instruments.Trommel}</td>
+            <td>{event.Instruments.Becken}</td>
+            <td>{event.Instruments.Pauke}</td>
+            <EvalDiagram event={event}/>
+        </tr>
     )
 }
 

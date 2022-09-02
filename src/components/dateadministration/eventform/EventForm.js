@@ -94,14 +94,13 @@ const DetailForm = ({ event, reload }) => {
     const update = async (e) => {
         e.preventDefault()
 
-        let type        = document.getElementById('type')
-        let location    = document.getElementById('location')
-        let date        = document.getElementById('date')
-        let begin       = document.getElementById('begin')
-        let departure   = document.getElementById('departure')
-        let leave_dep   = document.getElementById('leave_dep')
-        let accepted    = document.getElementById('accepted')
-
+        let type        = document.getElementById('type').value
+        let location    = document.getElementById('location').value
+        let date        = document.getElementById('date').value
+        let begin       = document.getElementById('begin').value
+        let departure   = document.getElementById('departure').value
+        let leave_dep   = document.getElementById('leave_dep').value
+        let accepted    = document.getElementById('accepted').checked
         if(event !== undefined)
             updateEvent(event.Event_ID, type, location, date, begin, departure, leave_dep, accepted)
         else

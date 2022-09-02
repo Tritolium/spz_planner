@@ -119,7 +119,7 @@ const updateEvent = async(event_id, type, location, date, begin, departure, leav
         // TODO update in MockDB
         console.log('update MockDB')
     } else {
-        let response = await fetch("/api/event.php?api_token=" + token, {
+        let response = await fetch(`/api/event.php?api_token=${token}`, {
             method: "PUT",
             body: JSON.stringify({
                 Event_ID: event_id,
