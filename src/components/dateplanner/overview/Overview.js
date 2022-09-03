@@ -71,19 +71,21 @@ const OverviewTable = ({attendences}) => {
     return(
         <StyledOverviewTable>
             <thead>
-                <th>Termin:</th>
-                {attendences[0].Attendences.map((att) => {
-                    return(<th>{att.Fullname.split(' ')[0].slice(0, 2)}{att.Fullname.split(' ')[1][0]}</th>)
-                })}
+                <tr>
+                    <th>Termin:</th>
+                    {attendences[0].Attendences.map((att) => {
+                        return(<th key={att.Fullname}>{att.Fullname.split(' ')[0].slice(0, 2)}{att.Fullname.split(' ')[1][0]}</th>)
+                    })}
+                </tr>
             </thead>
             <tbody>
                 {
                     attendences.map(event => {
                         return(
-                            <tr>
+                            <tr key={event.Event_ID}>
                                 <td><DateField dateprops={event}/></td>
                                 {event.Attendences.map(attendence => {
-                                    return(<td><Zusage attendence={attendence.Attendence} /></td>)
+                                    return(<td key={attendence.Fullname + event.Event_ID}><Zusage attendence={attendence.Attendence} /></td>)
                                 })}
                             </tr>
                         )
