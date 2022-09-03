@@ -1,5 +1,4 @@
 import Cookies from "universal-cookie"
-import { mockDB } from "./MockDB"
 
 const cookies = new Cookies()
 
