@@ -18,20 +18,18 @@ export const StyledOverviewTable = styled.table`
     margin: 0 2px 0 2px;
 
     td {
-
         border: 1px solid ${({ theme }) => theme.primaryLight};
         padding: 2px;
         text-align: center;
 
         img {
             min-width: 15px;
-            width: 100%;
             max-width: 30px;
         }
     }
 
     th {
-
+        max-width: 35px;
     }
 
     @media (max-width: ${({ theme }) => theme.mobile}) {
