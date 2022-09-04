@@ -31,13 +31,13 @@ const Table = () => {
 
     return(
         <StyledTable>
-            <thead>
+            {absences.length > 0 ? <thead>
                 <tr>
                     <th>von</th>
                     <th>bis</th>
                     <th>Bemerkung</th>
                 </tr>
-            </thead>
+            </thead> : <>Keine Abwesenheiten eingetragen</>}
             <tbody>
                 {absences.map(absence => {
                     return(
