@@ -18,10 +18,10 @@ const AbsenceAdministration = ({ auth_level }) => {
             break
         case 'absence_button_1':
             setView(1)
-            break;
+            break
         case 'absence_button_2':
             setView(2)
-            break;
+            break
         }
     }
 

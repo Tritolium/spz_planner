@@ -337,7 +337,7 @@ export const getAbsence = async (absence_id) => {
     
     let token = cookies.get('api_token')
 
-    let response = await fetch(`/api/absence.php?id=${absence_id}&api_token=${token}`, {
+    let response = await fetch(`${host}/api/absence.php?id=${absence_id}&api_token=${token}`, {
         method: 'GET'
     })
     switch(response.status){
