@@ -429,4 +429,18 @@ export const deleteAbsence = async (absence_id) => {
     }
 }
 
+export const getAllAbsences = async (filter) => {
+
+    let token = cookies.get('api_token')
+    let response = await fetch(`${host}/api/absence.php?api_token=${token}&filter=${filter}&all`, {
+        method: 'GET'
+    })
+    switch(response.status){
+    case 200:
+        return await response.json()
+    default:
+        return
+    }
+}
+
 export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, updateAttendences, getMissingFeedback, getEval }
