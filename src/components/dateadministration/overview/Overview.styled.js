@@ -10,7 +10,7 @@ export const StyledOverview = styled.div`
     }
 `
 
-const StyledTable = styled.table`
+export const StyledTable = styled.table`
     margin: 5px;
     border: 1px solid ${({ theme }) => theme.primaryLight};
     border-radius: 10px;

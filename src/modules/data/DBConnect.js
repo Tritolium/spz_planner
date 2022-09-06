@@ -337,7 +337,7 @@ export const getAbsence = async (absence_id) => {
     
     let token = cookies.get('api_token')
 
-    let response = await fetch(`/api/absence.php?id=${absence_id}&api_token=${token}`, {
+    let response = await fetch(`${host}/api/absence.php?id=${absence_id}&api_token=${token}`, {
         method: 'GET'
     })
     switch(response.status){
@@ -426,6 +426,20 @@ export const deleteAbsence = async (absence_id) => {
     default:
         alert('ein Fehler ist aufgetreten')
         break
+    }
+}
+
+export const getAllAbsences = async (filter) => {
+
+    let token = cookies.get('api_token')
+    let response = await fetch(`${host}/api/absence.php?api_token=${token}&filter=${filter}&all`, {
+        method: 'GET'
+    })
+    switch(response.status){
+    case 200:
+        return await response.json()
+    default:
+        return
     }
 }
 
