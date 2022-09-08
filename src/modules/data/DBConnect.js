@@ -443,4 +443,103 @@ export const getAllAbsences = async (filter) => {
     }
 }
 
+export const newUsergroup = async (title, admin, moderator, info) => {
+    
+    let token = cookies.get('api_token')
+
+    let response = await fetch(`${host}/api/usergroup.php?api_token=${token}`, {
+        method: 'POST',
+        body: JSON.stringify({
+            Title:      title,
+            Admin:      admin,
+            Moderator:  moderator,
+            Info:       info
+        })
+    })
+
+    switch(response.status){
+    case 201:
+        alert('Nutzergruppe erstellt')
+        break
+    default:
+        alert('Ein fehler ist aufgetreten')
+        break
+    }
+}
+
+export const updateUsergroup = async (usergroup_id, title, admin, moderator, info) => {
+
+    let token = cookies.get('api_token')
+
+    let response = await fetch(`${host}/api/usergroup.php?api_token=${token}&id=${usergroup_id}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+            Title:      title,
+            Admin:      admin,
+            Moderator:  moderator,
+            Info:       info
+        })
+    })
+
+    switch(response.status){
+    case 200:
+        alert('Nutzergruppe aktualisiert')
+        break
+    default:
+        alert('Ein fehler ist aufgetreten')
+        break
+    }
+}
+
+export const deleteUsergroup = async (usergroup_id) => {
+
+    let token = cookies.get('api_token')
+
+    let response = await fetch(`${host}/api/usergroup.php?api_token=${token}&id=${usergroup_id}`, {
+        method: 'DELETE'
+    })
+
+    switch(response.status){
+    case 204:
+        alert('Nutzergruppe gelöscht')
+        break
+    default:
+        alert('Ein fehler ist aufgetreten')
+        break
+    }
+
+}
+
+export const getUsergroup = async (usergroup_id) => {
+    let token = cookies.get('api_token')
+
+    let response = await fetch(`${host}/api/usergroup.php?api_token=${token}&id=${usergroup_id}`, {
+        method: 'GET'
+    })
+
+    switch(response.status){
+    case 200:
+        let json = await response.json()
+        return json
+    default:
+        break
+    }
+}
+
+export const getUsergroups = async () => {
+    let token = cookies.get('api_token')
+
+    let response = await fetch(`${host}/api/usergroup.php?api_token=${token}&search`, {
+        method: 'GET'
+    })
+
+    switch(response.status){
+    case 200:
+        let json = await response.json()
+        return json
+    default:
+        break
+    }
+}
+
 export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, updateAttendences, getMissingFeedback, getEval }
