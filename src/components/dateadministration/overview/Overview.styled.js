@@ -18,6 +18,8 @@ export const StyledTable = styled.table`
     border-spacing: 0;
     width: auto;
 
+    display: table;
+
     th {
         border-bottom: 1px solid ${({ theme }) => theme.primaryLight};
         padding: 5px;
@@ -31,6 +33,10 @@ export const StyledTable = styled.table`
 
     td:first-child {
         white-space: normal;
+    }
+
+    @media (max-width: ${({ theme }) => theme.mobile}) {
+        font-size: 0.75em;
     }
 `
 
