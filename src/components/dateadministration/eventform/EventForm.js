@@ -6,7 +6,7 @@ import Form from "../../../modules/components/form/Form"
 import FormBox from "../../../modules/components/form/FormBox"
 import Selector from "../../../modules/components/form/Selector"
 import SelectorItem from "../../../modules/components/form/SelectorItem"
-import { getEvents, newEvent, updateEvent } from "../../../modules/data/DBConnect"
+import { getEvents, getUsergroups, newEvent, updateEvent } from "../../../modules/data/DBConnect"
 import { StyledEventForm } from "./EventForm.styled"
 
 const EventForm = () => {
@@ -18,6 +18,8 @@ const EventForm = () => {
     ]
 
     const [events, setEvents] = useState(new Array(0))
+    const [usergroups, setUsergroups] = useState(new Array(0))
+
     const [selected, setSelected] = useState(-1)
     const [filter, setFilter] = useState(options[0].value)
 
@@ -28,6 +30,14 @@ const EventForm = () => {
         else
             setEvents(new Array(0))
     }, [filter])
+
+    const fetchUsergroups = useCallback(async () => {
+        let _usergroups = await getUsergroups()
+        if(_usergroups !== undefined)
+            setUsergroups(_usergroups)
+        else
+            setUsergroups(new Array(0))
+    }, [])
 
     const reload = useCallback(() => {
         setSelected(-1)
@@ -44,12 +54,13 @@ const EventForm = () => {
 
     useEffect(() => {
         fetchEvents()
-    }, [fetchEvents])
+        fetchUsergroups()
+    }, [fetchEvents, fetchUsergroups])
 
     return (
         <StyledEventForm>
             <EventSelector events={events} onSelect={onSelect} onFilterChange={onFilterChange} options={options}/>
-            <DetailForm event={events.find((event) => event.Event_ID === selected)} reload={reload}/>
+            <DetailForm event={events.find((event) => event.Event_ID === selected)} usergroups={usergroups} reload={reload}/>
         </StyledEventForm>
     )
 }
@@ -80,11 +91,12 @@ const EventItem = ({ event, onSelect }) => {
     )
 }
 
-const DetailForm = ({ event, reload }) => {
+const DetailForm = ({ event, usergroups, reload }) => {
 
     useEffect(() => {
         document.getElementById('eventform_form').reset()
-    }, [event])
+        document.getElementById('usergroup').selectedIndex = usergroups?.findIndex(usergroup => usergroup?.Usergroup_ID === event?.Usergroup_ID)
+    }, [event, usergroups])
 
     const cancel = async (e) => {
         e.preventDefault()
@@ -101,10 +113,12 @@ const DetailForm = ({ event, reload }) => {
         let departure   = document.getElementById('departure').value
         let leave_dep   = document.getElementById('leave_dep').value
         let accepted    = document.getElementById('accepted').checked
+        let usergroup   = document.getElementById('usergroup').options[document.getElementById('usergroup').selectedIndex].value
+
         if(event !== undefined)
-            await updateEvent(event.Event_ID, type, location, date, begin, departure, leave_dep, accepted)
+            await updateEvent(event.Event_ID, type, location, date, begin, departure, leave_dep, accepted, usergroup)
         else
-            await newEvent(type, location, date, begin, departure, leave_dep, accepted)
+            await newEvent(type, location, date, begin, departure, leave_dep, accepted, usergroup)
 
         reload()
     }
@@ -138,6 +152,14 @@ const DetailForm = ({ event, reload }) => {
             <FormBox>
                 <label htmlFor="accepted">Angenommen:</label>
                 <input type="checkbox" name="accepted" id="accepted" defaultChecked={event?.Accepted}/>
+            </FormBox>
+            <FormBox>
+                <label htmlFor="usergroup">Sichtbarkeit:</label>
+                <select name="usergroup" id="usergroup">
+                    {usergroups.map(usergroup => {
+                        return(<option value={usergroup.Usergroup_ID}>{usergroup.Title}</option>)
+                    })}
+                </select>
             </FormBox>
             <div>
                 <Button onClick={cancel}>Abbrechen</Button>

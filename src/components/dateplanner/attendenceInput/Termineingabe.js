@@ -41,7 +41,7 @@ const Termineingabe = ({fullname}) => {
                 <tbody>
                     {attendences.map((att, i) => {
                         return(
-                            <tr key={att.Location}>
+                            <tr key={att.Location + att.Event_ID}>
                                 <TableData><DateField dateprops={att} /></TableData>
                                 <TableData><Terminzusage states={2} attendence={att.Attendence} onClick={onClick} event_id={att.Event_ID}/></TableData>
                             </tr>
