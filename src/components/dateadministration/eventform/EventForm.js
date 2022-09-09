@@ -102,9 +102,9 @@ const DetailForm = ({ event, reload }) => {
         let leave_dep   = document.getElementById('leave_dep').value
         let accepted    = document.getElementById('accepted').checked
         if(event !== undefined)
-            updateEvent(event.Event_ID, type, location, date, begin, departure, leave_dep, accepted)
+            await updateEvent(event.Event_ID, type, location, date, begin, departure, leave_dep, accepted)
         else
-            newEvent(type, location, date, begin, departure, leave_dep, accepted)
+            await newEvent(type, location, date, begin, departure, leave_dep, accepted)
 
         reload()
     }

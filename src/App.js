@@ -13,6 +13,7 @@ import { theme } from './theme';
 import Menu from './modules/components/menu/Menu';
 import Burger from './modules/components/burger/Burger';
 import { StyledApp } from './App.styled';
+import Administration from './components/administration/Administration';
 
 import('./App.css')
 
@@ -74,6 +75,9 @@ const App = () => {
         case 'main_button_3':
             setView(4)
             break
+        case 'main_button_4':
+            setView(5)
+            break
         }
     }
 
@@ -84,14 +88,6 @@ const App = () => {
                 <Burger open={open} setOpen={setOpen}/>
                 <Menu open={open} setOpen={setOpen} navigate={navigate} auth_level={auth_level} />
                 <div className='Namefield'>{fullname}</div>
-                {/*<header className="App-header">
-                    <div className='Namefield'>{fullname}</div>
-                    <nav className='MainNavigation'>
-                        {auth_level > 0 ? <button type='button' id='main_button_0' onClick={navigate}>Terminplaner</button> : <></>}
-                        {auth_level > 1 ? <button type='button' id='main_button_1' onClick={navigate}>Mitgliederverwaltung</button> : <></>}
-                        {auth_level > 1 ? <button type='button' id='main_button_2' onClick={navigate}>Terminverwaltung</button> : <></>}
-                    </nav>
-                </header>*/}
                 <View view={view} sendLogin={sendLogin} fullname={fullname} auth_level={auth_level}/>
             </StyledApp>
         </ThemeProvider>
@@ -118,6 +114,8 @@ const View = (props) => {
         return(<MemberAdministration auth_level={props.auth_level}/>)
     case 4:
         return(<EventAdministration auth_level={props.auth_level}/>)
+    case 5:
+        return(<Administration auth_level={props.auth_level}/>)
     }
 }
 
