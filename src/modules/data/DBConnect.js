@@ -182,7 +182,7 @@ const getMembers = async () => {
     return members
 }
 
-const updateMember = async(member_id, forename, surname, auth_level, nicknames, instrument) => {
+const updateMember = async(member_id, forename, surname, auth_level, nicknames, instrument, changes) => {
     
     let token = cookies.get('api_token')
     
@@ -197,7 +197,8 @@ const updateMember = async(member_id, forename, surname, auth_level, nicknames, 
             Surname: surname,
             Auth_level: auth_level,
             Nicknames: nicknames,
-            Instrument: instrument
+            Instrument: instrument,
+            UsergroupChanges: changes
         })
     })
     switch(response.status){
@@ -251,35 +252,41 @@ const setAttendence = async (event_id, member_id, attendence) => {
     }
 }
 
-const getAttendences = async (all) => {
+const getAttendences = async () => {
     
     let attendences = new Array(0)
-    
     let token = cookies.get('api_token')
     
-    if(all){
-        let response = await fetch(`${host}/api/attendence.php?api_token=${token}&all=true`, {
-            method: "GET"
-        })
-        switch(response.status){
-        case 200:
-            attendences = await response.json()
-            break
-        default:
-            break
-        }
-    } else {
-        let response = await fetch(`${host}/api/attendence.php?api_token=${token}`, {
-            method: "GET"
-        })
-        switch(response.status){
-        case 200:
-            attendences = await response.json()
-            break
-        default:
-            break
-        }
+    let response = await fetch(`${host}/api/attendence.php?api_token=${token}`, {
+        method: "GET"
+    })
+    switch(response.status){
+    case 200:
+        attendences = await response.json()
+        break
+    default:
+        break
     }
+
+    return attendences
+}
+
+export const getAllAttendences = async (usergroup_id) => {
+    let attendences = new Array(0)
+    let token = cookies.get('api_token')
+
+    let response = await fetch(`${host}/api/attendence.php?api_token=${token}&all=true&usergroup=${usergroup_id}`, {
+        method: "GET"
+    })
+
+    switch(response.status){
+    case 200:
+        attendences = await response.json()
+        break
+    default:
+        break
+    }
+
     return attendences
 }
 
@@ -315,11 +322,11 @@ const getMissingFeedback = async () => {
     }
 }
 
-const getEval = async () => {
+const getEval = async (usergroup_id) => {
     
     let token = cookies.get('api_token')
 
-    let response = await fetch(`${host}/api/eval.php?api_token=${token}&events`, {
+    let response = await fetch(`${host}/api/eval.php?api_token=${token}&usergroup=${usergroup_id}&events`, {
         method: "GET"
     })
     switch(response.status){
@@ -532,6 +539,22 @@ export const getUsergroups = async () => {
     let token = cookies.get('api_token')
 
     let response = await fetch(`${host}/api/usergroup.php?api_token=${token}&search`, {
+        method: 'GET'
+    })
+
+    switch(response.status){
+    case 200:
+        let json = await response.json()
+        return json
+    default:
+        break
+    }
+}
+
+export const getOwnUsergroups = async () => {
+    let token = cookies.get('api_token')
+
+    let response = await fetch(`${host}/api/usergroup.php?api_token=${token}&own=${true}`, {
         method: 'GET'
     })
 

@@ -5,6 +5,11 @@ export const StyledMemberForm = styled.div`
     flex-direction: row;
     position: relative;
     width: 100%;
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
 `
 
 export const StyledMember = styled.div`

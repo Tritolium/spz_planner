@@ -5,6 +5,11 @@ export const StyledOverview = styled.div`
     flex-direction: column;
     align-content: center;
     margin: auto;
+    align-items: center;
+
+    select {
+        width: fit-content;
+    }
 `
 
 export const StyledOverviewTable = styled.table`

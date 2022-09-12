@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 
-import { getAttendences, getEval, getMissingFeedback } from '../../../modules/data/DBConnect'
+import { getAllAttendences, getEval, /*getMissingFeedback,*/ getOwnUsergroups } from '../../../modules/data/DBConnect'
 
 import check from '../check.png'
 import deny from '../delete-button.png'
@@ -12,42 +12,69 @@ import { StyledEvalTable, StyledOverview, StyledOverviewTable } from "./Overview
 import EvalDiagram from "./EvalDiagram"
 
 const Overview = () => {
+
+    const [usergroups, setUsergroups] = useState(new Array(0))
+    const [selectedUsergroup_ID, setSelectedUsergroup_ID] = useState()
+
     const [attendences, setAttendences] = useState(new Array(0))
     const [evaluation, setEvaluation] = useState(new Array(0))
-    const [missingFeedback, setMissingFeedback] = useState(new Array(0))
+    //const [missingFeedback, setMissingFeedback] = useState(new Array(0))
 
-    const fetchAttendences = async () => {
-        let _attendences = await getAttendences(true)
-        setAttendences(_attendences)
+    const fetchUsergroups = async () => {
+        let _usergroups = await getOwnUsergroups()
+        setUsergroups(_usergroups)
     }
 
+    const fetchAttendences = useCallback(async () => {
+        let _attendences = await getAllAttendences(selectedUsergroup_ID)
+        setAttendences(_attendences)
+    }, [selectedUsergroup_ID])
+
+    /*
     const fetchMissingFeedback = async () => {
         let _missingFeedback = await getMissingFeedback()
         setMissingFeedback(_missingFeedback)
     }
+    */
 
-    const fetchEval = async () => {
-        let _eval = await getEval()
+    const fetchEval = useCallback(async () => {
+        let _eval = await getEval(selectedUsergroup_ID)
         setEvaluation(_eval)
-    }
+    }, [selectedUsergroup_ID])
+
+    const onUsergroupChange = useCallback((e) => {
+        setSelectedUsergroup_ID(e.target.value)
+    }, [setSelectedUsergroup_ID])
 
     useEffect(() => {
+        fetchUsergroups()
         fetchAttendences()
         fetchEval()
-        fetchMissingFeedback()
-    }, [])
+        //fetchMissingFeedback()
+    }, [fetchAttendences, fetchEval])
 
     if(attendences.length === 0){
-        return(<></>)
+        return(
+            <select name="usergroup" id="usergroup_select" onChange={onUsergroupChange}>
+                {usergroups.map((usergroup, index) => {
+                    return(<option key={index} value={usergroup.Usergroup_ID}>{usergroup.Title}</option>)
+                })}
+            </select>
+        )
     } else {
         return(
             <StyledOverview>
+                <select name="usergroup" id="usergroup_select" onChange={onUsergroupChange}>
+                    {usergroups.map((usergroup, index) => {
+                        return(<option key={index} value={usergroup.Usergroup_ID}>{usergroup.Title}</option>)
+                    })}
+                </select>
                 <OverviewTable attendences={attendences}/>
                 <EvalTable evaluation={evaluation}/>
-            Fehlende Rückmeldungen:
-            {missingFeedback.map(missing => {
+            {/*Fehlende Rückmeldungen:*/}
+            {/*missingFeedback.map(missing => {
                 return(<div>{missing.Forename} {missing.Surname}</div>)
-            })}
+            })*/}
             </StyledOverview>
         )
     }
