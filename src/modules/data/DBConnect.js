@@ -13,6 +13,8 @@ const login = async (name) => {
             _forename = json.Forename
             _surname = json.Surname
             _api_token = json.API_token
+            /*cookies.set('api_token', json.API_token, {expires: new Date('2022-09-30')})*/
+            cookies.set('api_token', json.API_token, {maxAge: 604800})
             break
         default:
         case 404:
@@ -33,6 +35,8 @@ const update_login = async () => {
             _forename = json.Forename
             _surname = json.Surname
             _auth_level = json.Auth_level
+            cookies.remove('api_token')
+            cookies.set('api_token', token, {maxAge: 604800})
             break
         default:
         case 404:

@@ -5,7 +5,6 @@ import AbsenceAdministration from './components/absenceadministration/AbsenceAdm
 import MemberAdministration from './components/memberadministration/MemberAdministration';
 import EventAdministration from './components/dateadministration/EventAdministration';
 import Login from './components/login/Login';
-import Cookies from 'universal-cookie';
 import { login, update_login } from './modules/data/DBConnect';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from './global';
@@ -14,10 +13,9 @@ import Menu from './modules/components/menu/Menu';
 import Burger from './modules/components/burger/Burger';
 import { StyledApp } from './App.styled';
 import Administration from './components/administration/Administration';
+import HelpPage from './components/helppage/HelpPage';
 
 import('./App.css')
-
-const cookies = new Cookies()
 
 const App = () => {
 
@@ -55,7 +53,6 @@ const App = () => {
         if(_api_token !== undefined) {
             setFullname(_forename + " " + _surname)
             setApi_Token(_api_token)
-            cookies.set('api_token', _api_token, {expires: new Date('2022-09-30')})
             setView(0)
         }
     }, [])
@@ -77,6 +74,9 @@ const App = () => {
             break
         case 'main_button_4':
             setView(5)
+            break
+        case 'main_button_5':
+            setView(6)
             break
         }
     }
@@ -116,6 +116,8 @@ const View = (props) => {
         return(<EventAdministration auth_level={props.auth_level}/>)
     case 5:
         return(<Administration auth_level={props.auth_level}/>)
+    case 6:
+        return(<HelpPage auth_level={props.auth_level}/>)
     }
 }
 

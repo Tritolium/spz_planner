@@ -4,7 +4,7 @@ import { StyledBurger } from "./Burger.styled"
 
 const Burger = ({open, setOpen}) => {
     return(
-        <StyledBurger open={open} onClick={() => setOpen(!open)}>
+        <StyledBurger id='main_menu' title='Hauptmenü' type='button' open={open} onClick={() => setOpen(!open)}>
             <div />
             <div />
             <div />
