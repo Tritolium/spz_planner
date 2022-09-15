@@ -15,7 +15,7 @@ const HelpPage = ({ auth_level }) => {
                     In diesem Menü können die Abwesenheiten eingetragen werden, einzeln für jeden Termin.
                     Per Klick auf das Symbol kann zwischen einer Zusage <img src={check} alt="Zusage"/> und Absage <img src={deny} alt="Absage"/> gewählt werden.
                     Wird <img src={blank} alt="Ohne Rückmeldung"/> angezeigt, ist noch keine Rückmeldung erfolgt.
-                    Nach Änderungen wird das Ergebnis über "Abschicken" gespeichert.
+                    Nach Änderungen wird das Ergebnis über den Button gespeichert.
                 </p>
                 {auth_level > 1 ? <>
                     <h2>Übersicht</h2>

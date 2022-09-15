@@ -5,6 +5,7 @@ import { StyledAbsenceAdministration, StyledView } from './AbsenceAdministration
 import AbsenceForm from './absenceform/AbsenceForm';
 import HeaderMenu from '../../modules/components/headermenu/HeaderMenu'
 import CompleteOverview from './completeoverview/CompleteOverview';
+import ManuelAbsenceInput from './manuelabsenceinput/ManuelAbsenceInput';
 
 const AbsenceAdministration = ({ auth_level }) => {
 
@@ -22,6 +23,9 @@ const AbsenceAdministration = ({ auth_level }) => {
         case 'absence_button_2':
             setView(2)
             break
+        case 'absence_button_3':
+            setView(3)
+            break
         }
     }
 
@@ -31,6 +35,7 @@ const AbsenceAdministration = ({ auth_level }) => {
                 <Button id="absence_button_0" onClick={navigate}>Übersicht</Button>
                 <Button id="absence_button_1" onClick={navigate}>Eingabe</Button>
                 {auth_level > 2 ? <Button id="absence_button_2" onClick={navigate}>Gesamtübersicht</Button> : <></>}
+                {auth_level > 2 ? <Button id='absence_button_3' onClick={navigate}>manuelle Eingabe</Button> : <></>}
             </HeaderMenu>
             <View view={view}/>
         </StyledAbsenceAdministration>
@@ -47,6 +52,8 @@ const View = ({ view }) => {
         return(<StyledView><AbsenceForm /></StyledView>)
     case 2:
         return(<StyledView><CompleteOverview /></StyledView>)
+    case 3:
+        return(<StyledView><ManuelAbsenceInput /></StyledView>)
     }
 }
 

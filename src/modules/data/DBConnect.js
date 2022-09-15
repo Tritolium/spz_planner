@@ -415,10 +415,37 @@ export const newAbsence = async (from, until, info) => {
     })
     switch(response.status){
     case 201:
-        alert('Angaben übernommen')
+        alert('Abwesenheit eingetragen')
         break
     default:
         alert('ein Fehler ist aufgetreten')
+        break
+    }
+}
+
+export const newManualAbsence = async (member_id, from, until, info) => {
+    
+    let token = cookies.get('api_token')
+
+    let response = await fetch(`${host}/api/absence.php?api_token=${token}`, {
+        method: 'POST',
+        header: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify({
+            Member_ID:  member_id,
+            From:       from,
+            Until:      until,
+            Info:       info
+        })
+    })
+
+    switch(response.status) {
+    case 201:
+        alert('Abwesenheit eingetragen')
+        break
+    default:
+        alert('Ein Fehler ist aufgetreten')
         break
     }
 }
