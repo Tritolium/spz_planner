@@ -6,7 +6,10 @@ const HeaderMenu = styled.nav`
     position: relative;
     padding: 5px;
     margin: 5px;
-    border-radius: 1000px;
+    border-radius: 20px;
+
+    flex-wrap: wrap;
+    justify-content: center;
 `
 
 export default HeaderMenu
