@@ -633,4 +633,108 @@ export const getOwnUsergroups = async () => {
     }
 }
 
+/**
+ * 
+ * @param {string} title 
+ * @param {string} description 
+ * @param {string} type 
+ * @param {string} location 
+ * @param {Date} date 
+ * @param {Date} begin 
+ * @param {Date} departure 
+ * @param {Date} leave_dep 
+ * @param {boolean} accepted 
+ * @param {int} usergroup_id 
+ */
+export const newDateTemplate = async (title, description, type, location, date, begin, departure, leave_dep, accepted, usergroup_id) => {
+
+    let token = localStorage.getItem('api_token')
+
+    let response = await fetch(`${host}/api/datetemplate.php?api_token=${token}`, {
+        method: "POST",
+        body: JSON.stringify({
+            Title           : title,
+            Description     : description,
+            Type            : type,
+            Location        : location,
+            Date            : date,
+            Begin           : begin,
+            Departure       : departure,
+            Leave_dep       : leave_dep,
+            Accepted        : accepted,
+            Usergroup_ID    : usergroup_id
+        })
+    })
+
+    switch(response.status){
+    case 201:
+        alert('Vorlage erstellt')
+        break
+    default:
+        alert('Ein Fehler ist aufgetreten')
+        break
+    }
+}
+
+/**
+ * 
+ * @param {string} template_id 
+ * @param {string} title 
+ * @param {string} description 
+ * @param {string} type 
+ * @param {string} location 
+ * @param {Date} date 
+ * @param {Date} begin 
+ * @param {Date} departure 
+ * @param {Date} leave_dep 
+ * @param {boolean} accepted 
+ * @param {int} usergroup_id 
+ */
+export const updateDateTemplate = async (template_id, title, description, type, location, date, begin, departure, leave_dep, accepted, usergroup_id) => {
+
+    let token = localStorage.getItem('api_token')
+
+    let response = await fetch(`${host}/api/datetemplate.php?api_token=${token}&template_id=${template_id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+            Title           : title,
+            Description     : description,
+            Type            : type,
+            Location        : location,
+            Date            : date,
+            Begin           : begin,
+            Departure       : departure,
+            Leave_dep       : leave_dep,
+            Accepted        : accepted,
+            Usergroup_ID    : usergroup_id
+        })
+    })
+
+    switch(response.status){
+    case 200:
+        alert('Vorlage gespeichert')
+        break
+    default:
+        alert('Ein Fehler ist aufgetreten')
+        break
+    }
+}
+
+export const getDateTemplates = async () => {
+
+    let token = localStorage.getItem('api_token')
+
+    let response = await fetch(`${host}/api/datetemplate.php?api_token=${token}`, {
+        method: "GET"
+    })
+
+    switch(response.status){
+    case 200:
+        let json = await response.json()
+        return json
+    default:
+        break
+    }
+}
+
 export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, updateAttendences, getMissingFeedback, getEval }
