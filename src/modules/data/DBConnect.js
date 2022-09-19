@@ -13,8 +13,8 @@ const login = async (name) => {
             _forename = json.Forename
             _surname = json.Surname
             _api_token = json.API_token
-            /*cookies.set('api_token', json.API_token, {expires: new Date('2022-09-30')})*/
             cookies.set('api_token', json.API_token, {maxAge: 604800})
+            localStorage.setItem('api_token', json.API_token)
             break
         default:
         case 404:
@@ -28,6 +28,7 @@ const update_login = async () => {
     let _forename, _surname, _auth_level
     
     let token = cookies.get('api_token')
+    //let token = localStorage.getItem('api_token')
     let response = await fetch(`${host}/api/login.php?mode=update&api_token=${token}`)
     switch(response.status) {
         case 200:
@@ -37,6 +38,7 @@ const update_login = async () => {
             _auth_level = json.Auth_level
             cookies.remove('api_token')
             cookies.set('api_token', token, {maxAge: 604800})
+            localStorage.setItem('api_token', token)
             break
         default:
         case 404:
@@ -49,6 +51,7 @@ const update_login = async () => {
 const getEvent = async (event_id) => {
     let event
     let token = cookies.get('api_token')
+    //let token = localStorage.getItem('api_token')
 
     if(event_id < 0){
         return {
@@ -78,6 +81,7 @@ const getEvent = async (event_id) => {
 const getEvents = async (filter) => {
     let events = new Array(0)
     let token = cookies.get('api_token')
+    //let token = localStorage.getItem('api_token')
 
     let response = await fetch(`${host}/api/event.php?filter=${filter}&api_token=${token}`, {method: "GET"})
 
@@ -94,6 +98,7 @@ const getEvents = async (filter) => {
 
 const updateEvent = async(event_id, type, location, date, begin, departure, leave_dep, accepted, usergroup) => {
     let token = cookies.get('api_token')
+    //let token = localStorage.getItem('api_token')
     let response = await fetch(`${host}/api/event.php?api_token=${token}`, {
         method: "PUT",
         body: JSON.stringify({
@@ -121,6 +126,7 @@ const updateEvent = async(event_id, type, location, date, begin, departure, leav
 const newEvent = async (type, location, date, begin, departure, leave_dep, accepted, usergroup) => {
     
     let token = cookies.get('api_token')
+    //let token = localStorage.getItem('api_token')
     
     let response = await fetch(`${host}/api/event.php?api_token=${token}`, {
         method: "POST",
@@ -146,6 +152,7 @@ const newEvent = async (type, location, date, begin, departure, leave_dep, accep
 const getMember = async (member_id) => {
     let member
     let token = cookies.get('api_token')
+    //let token = localStorage.getItem('api_token')
 
     if(member_id < 0){
         return {
@@ -172,6 +179,7 @@ const getMember = async (member_id) => {
 const getMembers = async () => {
     let members = new Array(0)
     let token = cookies.get('api_token')
+    //let token = localStorage.getItem('api_token')
 
     let response = await fetch(`${host}/api/member.php?api_token=${token}`, {method: "GET"})
 
@@ -189,7 +197,8 @@ const getMembers = async () => {
 const updateMember = async(member_id, forename, surname, auth_level, nicknames, instrument, changes) => {
     
     let token = cookies.get('api_token')
-    
+    //let token = localStorage.getItem('api_token')
+
     let response = await fetch(`${host}/api/member.php?api_token=${token}`, {
         method: "PUT",
         headers: {
@@ -216,6 +225,7 @@ const updateMember = async(member_id, forename, surname, auth_level, nicknames, 
 const newMember = async(forename, surname, auth_level, nicknames, instrument) => {
     
     let token = cookies.get('api_token')
+    //let token = localStorage.getItem('api_token')
 
     let response = await fetch(`${host}/api/member.php?api_token=${token}`, {
         method: "POST",
@@ -238,6 +248,7 @@ const newMember = async(forename, surname, auth_level, nicknames, instrument) =>
 const setAttendence = async (event_id, member_id, attendence) => {
 
     let token = cookies.get('api_token')
+    //let token = localStorage.getItem('api_token')
 
     let response = await fetch(`${host}/api/attendence.php?api_token=${token}&single`, {
         method: "PUT",
@@ -260,6 +271,7 @@ const getAttendences = async () => {
     
     let attendences = new Array(0)
     let token = cookies.get('api_token')
+    //let token = localStorage.getItem('api_token')
     
     let response = await fetch(`${host}/api/attendence.php?api_token=${token}`, {
         method: "GET"
@@ -278,6 +290,7 @@ const getAttendences = async () => {
 export const getAllAttendences = async (usergroup_id) => {
     let attendences = new Array(0)
     let token = cookies.get('api_token')
+    //let token = localStorage.getItem('api_token')
 
     let response = await fetch(`${host}/api/attendence.php?api_token=${token}&all=true&usergroup=${usergroup_id}`, {
         method: "GET"
@@ -296,6 +309,7 @@ export const getAllAttendences = async (usergroup_id) => {
 
 const updateAttendences = async (changes) => {
     let token = cookies.get('api_token')
+    //let token = localStorage.getItem('api_token')
     
     fetch(`${host}/api/attendence.php?api_token=${token}`, {
         method: "PUT",
@@ -313,6 +327,7 @@ const updateAttendences = async (changes) => {
 const getMissingFeedback = async () => {
     
     let token = cookies.get('api_token')
+    //let token = localStorage.getItem('api_token')
 
     let response = await fetch(`${host}/api/attendence.php?api_token=${token}&missing`, {
         method: "GET"
@@ -329,6 +344,7 @@ const getMissingFeedback = async () => {
 const getEval = async (usergroup_id) => {
     
     let token = cookies.get('api_token')
+    //let token = localStorage.getItem('api_token')
 
     let response = await fetch(`${host}/api/eval.php?api_token=${token}&usergroup=${usergroup_id}&events`, {
         method: "GET"
@@ -349,6 +365,7 @@ const getEval = async (usergroup_id) => {
 export const getAbsence = async (absence_id) => {
     
     let token = cookies.get('api_token')
+    //let token = localStorage.getItem('api_token')
 
     let response = await fetch(`${host}/api/absence.php?id=${absence_id}&api_token=${token}`, {
         method: 'GET'
@@ -365,6 +382,7 @@ export const getAbsence = async (absence_id) => {
 export const getAbsences = async (filter) => {
 
     let token = cookies.get('api_token')
+    //let token = localStorage.getItem('api_token')
 
     let response = await fetch(`${host}/api/absence.php?api_token=${token}&filter=${filter}`, {
         method: 'GET'
@@ -381,6 +399,8 @@ export const getAbsences = async (filter) => {
 export const updateAbsence = async (absence_id, member_id, from, until, info) => {
 
     let token = cookies.get('api_token')
+    //let token = localStorage.getItem('api_token')
+
     let response = await fetch(`/api/absence.php?api_token=${token}&id=${absence_id}`, {
         method: 'PUT',
         body: JSON.stringify({
@@ -401,6 +421,7 @@ export const updateAbsence = async (absence_id, member_id, from, until, info) =>
 export const newAbsence = async (from, until, info) => {
 
     let token = cookies.get('api_token')
+    //let token = localStorage.getItem('api_token')
 
     let response = await fetch(`${host}/api/absence.php?api_token=${token}`, {
         method: 'POST',
@@ -426,6 +447,7 @@ export const newAbsence = async (from, until, info) => {
 export const newManualAbsence = async (member_id, from, until, info) => {
     
     let token = cookies.get('api_token')
+    //let token = localStorage.getItem('api_token')
 
     let response = await fetch(`${host}/api/absence.php?api_token=${token}`, {
         method: 'POST',
@@ -453,6 +475,8 @@ export const newManualAbsence = async (member_id, from, until, info) => {
 export const deleteAbsence = async (absence_id) => {
     
     let token = cookies.get('api_token')
+    //let token = localStorage.getItem('api_token')
+
     let response = await fetch(`${host}/api/absence.php?api_token=${token}&id=${absence_id}`, {
         method: 'DELETE'
     })
@@ -472,6 +496,8 @@ export const deleteAbsence = async (absence_id) => {
 export const getAllAbsences = async (filter) => {
 
     let token = cookies.get('api_token')
+    //let token = localStorage.getItem('api_token')
+
     let response = await fetch(`${host}/api/absence.php?api_token=${token}&filter=${filter}&all`, {
         method: 'GET'
     })
@@ -486,6 +512,7 @@ export const getAllAbsences = async (filter) => {
 export const newUsergroup = async (title, admin, moderator, info) => {
     
     let token = cookies.get('api_token')
+    //let token = localStorage.getItem('api_token')
 
     let response = await fetch(`${host}/api/usergroup.php?api_token=${token}`, {
         method: 'POST',
@@ -510,6 +537,7 @@ export const newUsergroup = async (title, admin, moderator, info) => {
 export const updateUsergroup = async (usergroup_id, title, admin, moderator, info) => {
 
     let token = cookies.get('api_token')
+    //let token = localStorage.getItem('api_token')
 
     let response = await fetch(`${host}/api/usergroup.php?api_token=${token}&id=${usergroup_id}`, {
         method: 'PUT',
@@ -534,6 +562,7 @@ export const updateUsergroup = async (usergroup_id, title, admin, moderator, inf
 export const deleteUsergroup = async (usergroup_id) => {
 
     let token = cookies.get('api_token')
+    //let token = localStorage.getItem('api_token')
 
     let response = await fetch(`${host}/api/usergroup.php?api_token=${token}&id=${usergroup_id}`, {
         method: 'DELETE'
@@ -551,7 +580,9 @@ export const deleteUsergroup = async (usergroup_id) => {
 }
 
 export const getUsergroup = async (usergroup_id) => {
+    
     let token = cookies.get('api_token')
+    //let token = localStorage.getItem('api_token')
 
     let response = await fetch(`${host}/api/usergroup.php?api_token=${token}&id=${usergroup_id}`, {
         method: 'GET'
@@ -567,7 +598,9 @@ export const getUsergroup = async (usergroup_id) => {
 }
 
 export const getUsergroups = async () => {
+    
     let token = cookies.get('api_token')
+    //let token = localStorage.getItem('api_token')
 
     let response = await fetch(`${host}/api/usergroup.php?api_token=${token}&search`, {
         method: 'GET'
@@ -583,7 +616,9 @@ export const getUsergroups = async () => {
 }
 
 export const getOwnUsergroups = async () => {
+    
     let token = cookies.get('api_token')
+    //let token = localStorage.getItem('api_token')
 
     let response = await fetch(`${host}/api/usergroup.php?api_token=${token}&own=${true}`, {
         method: 'GET'
