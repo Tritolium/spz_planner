@@ -71,17 +71,15 @@ const DateTemplateForm = ({ datetemplate, usergroups, reload }) => {
         let description     = document.getElementById('description').value
         let type            = document.getElementById('type').value
         let location        = document.getElementById('location').value
-        let date            = document.getElementById('date').value
         let begin           = document.getElementById('begin').value
         let departure       = document.getElementById('departure').value
         let leave_dep       = document.getElementById('leave_dep').value
-        let accepted        = document.getElementById('accepted').checked
         let usergroup_id    = document.getElementById('usergroup_id').value
 
         if(datetemplate !== undefined)
-            await updateDateTemplate(datetemplate.DateTemplate_ID, title, description, type, location, date, begin, departure, leave_dep, accepted, usergroup_id)
+            await updateDateTemplate(datetemplate.DateTemplate_ID, title, description, type, location, begin, departure, leave_dep, usergroup_id)
         else
-            await newDateTemplate(title, description, type, location, date, begin, departure, leave_dep, accepted, usergroup_id)
+            await newDateTemplate(title, description, type, location, begin, departure, leave_dep, usergroup_id)
 
         reload()
     }
@@ -114,10 +112,6 @@ const DateTemplateForm = ({ datetemplate, usergroups, reload }) => {
                 <input type="text" name="location" id="location" defaultValue={datetemplate?.Location}/>
             </FormBox>
             <FormBox>
-                <label htmlFor="date">Datum:</label>
-                <input type="date" name="date" id="date" defaultValue={datetemplate?.Date}/>
-            </FormBox>
-            <FormBox>
                 <label htmlFor="begin">Startzeit:</label>
                 <input type="time" name="begin" id="begin" step="1" defaultValue={datetemplate?.Begin}/>
             </FormBox>
@@ -128,10 +122,6 @@ const DateTemplateForm = ({ datetemplate, usergroups, reload }) => {
             <FormBox>
                 <label htmlFor="leave_dep">Rückfahrt:</label>
                 <input type="time" name="leave_dep" id="leave_dep" step="1" defaultValue={datetemplate?.Leave_dep}/>
-            </FormBox>
-            <FormBox>
-                <label htmlFor="accepted">Angenommen:</label>
-                <input type="checkbox" name="accepted" id="accepted" defaultChecked={datetemplate?.Accepted}/>
             </FormBox>
             <FormBox>
                 <label htmlFor="usergroup">Sichtbarkeit:</label>

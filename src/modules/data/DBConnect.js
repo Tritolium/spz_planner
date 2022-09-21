@@ -639,14 +639,12 @@ export const getOwnUsergroups = async () => {
  * @param {string} description 
  * @param {string} type 
  * @param {string} location 
- * @param {Date} date 
  * @param {Date} begin 
  * @param {Date} departure 
  * @param {Date} leave_dep 
- * @param {boolean} accepted 
  * @param {int} usergroup_id 
  */
-export const newDateTemplate = async (title, description, type, location, date, begin, departure, leave_dep, accepted, usergroup_id) => {
+export const newDateTemplate = async (title, description, type, location, begin, departure, leave_dep, usergroup_id) => {
 
     let token = localStorage.getItem('api_token')
 
@@ -657,11 +655,9 @@ export const newDateTemplate = async (title, description, type, location, date, 
             Description     : description,
             Type            : type,
             Location        : location,
-            Date            : date,
             Begin           : begin,
             Departure       : departure,
             Leave_dep       : leave_dep,
-            Accepted        : accepted,
             Usergroup_ID    : usergroup_id
         })
     })
@@ -683,14 +679,12 @@ export const newDateTemplate = async (title, description, type, location, date, 
  * @param {string} description 
  * @param {string} type 
  * @param {string} location 
- * @param {Date} date 
  * @param {Date} begin 
  * @param {Date} departure 
  * @param {Date} leave_dep 
- * @param {boolean} accepted 
  * @param {int} usergroup_id 
  */
-export const updateDateTemplate = async (template_id, title, description, type, location, date, begin, departure, leave_dep, accepted, usergroup_id) => {
+export const updateDateTemplate = async (template_id, title, description, type, location, begin, departure, leave_dep, usergroup_id) => {
 
     let token = localStorage.getItem('api_token')
 
@@ -701,11 +695,9 @@ export const updateDateTemplate = async (template_id, title, description, type, 
             Description     : description,
             Type            : type,
             Location        : location,
-            Date            : date,
             Begin           : begin,
             Departure       : departure,
             Leave_dep       : leave_dep,
-            Accepted        : accepted,
             Usergroup_ID    : usergroup_id
         })
     })
