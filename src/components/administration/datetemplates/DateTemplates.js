@@ -56,9 +56,22 @@ const DateTemplateSelector = ({ datetemplates, onSelect}) => {
     return (
         <Selector>
             {datetemplates.map(datetemplate => {
-                return(<SelectorItem onClick={onSelect(datetemplate.DateTemplate_ID)} key={datetemplate.DateTemplate_ID}>{datetemplate.Title}</SelectorItem>)
+                return(<DateTemplate onSelect={onSelect} key={datetemplate.Title} datetemplate={datetemplate}/>)
             })}
         </Selector>
+    )
+}
+
+const DateTemplate = ({ onSelect, datetemplate }) => {
+
+    const onClick = useCallback(() => {
+        onSelect(datetemplate.DateTemplate_ID)
+    }, [onSelect, datetemplate.DateTemplate_ID])
+
+    return(
+        <SelectorItem onClick={onClick}>
+            {datetemplate.Title}
+        </SelectorItem>
     )
 }
 
@@ -74,7 +87,7 @@ const DateTemplateForm = ({ datetemplate, usergroups, reload }) => {
         let begin           = document.getElementById('begin').value
         let departure       = document.getElementById('departure').value
         let leave_dep       = document.getElementById('leave_dep').value
-        let usergroup_id    = document.getElementById('usergroup_id').value
+        let usergroup_id    = document.getElementById('usergroup').options[document.getElementById('usergroup').selectedIndex].value
 
         if(datetemplate !== undefined)
             await updateDateTemplate(datetemplate.DateTemplate_ID, title, description, type, location, begin, departure, leave_dep, usergroup_id)
@@ -91,7 +104,8 @@ const DateTemplateForm = ({ datetemplate, usergroups, reload }) => {
 
     useEffect(() => {
         document.getElementById('datetemplate_form').reset()
-    }, [datetemplate])
+        document.getElementById('usergroup').selectedIndex = usergroups?.findIndex(usergroup => usergroup?.Usergroup_ID === datetemplate?.Usergroup_ID)
+    }, [datetemplate, usergroups])
 
     return (
         <Form id="datetemplate_form">
@@ -127,7 +141,7 @@ const DateTemplateForm = ({ datetemplate, usergroups, reload }) => {
                 <label htmlFor="usergroup">Sichtbarkeit:</label>
                 <select name="usergroup" id="usergroup">
                     {usergroups.map(usergroup => {
-                        return(<option value={usergroup.Usergroup_ID}>{usergroup.Title}</option>)
+                        return(<option value={usergroup.Usergroup_ID} key={usergroup.Title}>{usergroup.Title}</option>)
                     })}
                 </select>
             </FormBox>

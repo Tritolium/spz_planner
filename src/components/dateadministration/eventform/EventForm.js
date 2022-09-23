@@ -6,7 +6,7 @@ import Form from "../../../modules/components/form/Form"
 import FormBox from "../../../modules/components/form/FormBox"
 import Selector from "../../../modules/components/form/Selector"
 import SelectorItem from "../../../modules/components/form/SelectorItem"
-import { getEvents, getUsergroups, newEvent, updateEvent } from "../../../modules/data/DBConnect"
+import { getDateTemplates, getEvents, getUsergroups, newEvent, updateEvent } from "../../../modules/data/DBConnect"
 import { StyledEventForm } from "./EventForm.styled"
 
 const EventForm = () => {
@@ -19,6 +19,7 @@ const EventForm = () => {
 
     const [events, setEvents] = useState(new Array(0))
     const [usergroups, setUsergroups] = useState(new Array(0))
+    const [datetemplates, setDatetemplates] = useState(new Array(0))
 
     const [selected, setSelected] = useState(-1)
     const [filter, setFilter] = useState(options[0].value)
@@ -39,6 +40,14 @@ const EventForm = () => {
             setUsergroups(new Array(0))
     }, [])
 
+    const fetchDatetemplates = useCallback(async () => {
+        let _datetemplates = await getDateTemplates()
+        if(_datetemplates !== undefined)
+            setDatetemplates(_datetemplates)
+        else
+            setDatetemplates(new Array(0))
+    }, [])
+
     const reload = useCallback(() => {
         setSelected(-1)
         fetchEvents()
@@ -55,12 +64,13 @@ const EventForm = () => {
     useEffect(() => {
         fetchEvents()
         fetchUsergroups()
-    }, [fetchEvents, fetchUsergroups])
+        fetchDatetemplates()
+    }, [fetchEvents, fetchUsergroups, fetchDatetemplates])
 
     return (
         <StyledEventForm>
             <EventSelector events={events} onSelect={onSelect} onFilterChange={onFilterChange} options={options}/>
-            <DetailForm event={events.find((event) => event.Event_ID === selected)} usergroups={usergroups} reload={reload}/>
+            <DetailForm event={events.find((event) => event.Event_ID === selected)} usergroups={usergroups} datetemplates={datetemplates} reload={reload}/>
         </StyledEventForm>
     )
 }
@@ -91,7 +101,7 @@ const EventItem = ({ event, onSelect }) => {
     )
 }
 
-const DetailForm = ({ event, usergroups, reload }) => {
+const DetailForm = ({ event, usergroups, datetemplates, reload }) => {
 
     useEffect(() => {
         document.getElementById('eventform_form').reset()
@@ -121,6 +131,20 @@ const DetailForm = ({ event, usergroups, reload }) => {
             await newEvent(type, location, date, begin, departure, leave_dep, accepted, usergroup)
 
         reload()
+    }
+
+    const onTemplateSelect = (template_id) => {
+        reload()
+
+        let template = datetemplates?.find(template => template.DateTemplate_ID === template_id)
+        
+        document.getElementById('type').value       = template.Type
+        document.getElementById('location').value   = template.Location
+        document.getElementById('begin').value      = template.Begin
+        document.getElementById('departure').value  = template.Departure
+        document.getElementById('leave_dep').value  = template.Leave_dep
+        document.getElementById('accepted').checked = true
+        document.getElementById('usergroup').selectedIndex = usergroups?.findIndex(usergroup => usergroup?.Usergroup_ID === template?.Usergroup_ID)
     }
 
     return (
@@ -165,7 +189,31 @@ const DetailForm = ({ event, usergroups, reload }) => {
                 <Button onClick={cancel}>Abbrechen</Button>
                 <Button onClick={update}>Speichern</Button>
             </div>
+            <DateTemplateSelector datetemplates={datetemplates} onTemplateSelect={onTemplateSelect}/>
         </Form>
+    )
+}
+
+const DateTemplateSelector = ({ datetemplates, onTemplateSelect }) => {
+    return(
+        <Selector>
+            {datetemplates.map(datetemplate => {
+                return(<DateTemplate onSelect={onTemplateSelect} key={datetemplate.Title} datetemplate={datetemplate}/>)
+            })}
+        </Selector>
+    )
+}
+
+const DateTemplate = ({ onSelect, datetemplate }) => {
+
+    const onClick = useCallback(() => {
+        onSelect(datetemplate.DateTemplate_ID)
+    }, [onSelect, datetemplate.DateTemplate_ID])
+
+    return(
+        <SelectorItem onClick={onClick}>
+            {datetemplate.Title}
+        </SelectorItem>
     )
 }
 
