@@ -5,7 +5,7 @@
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
-    "@testing-library/user-event": "^13.5.0",
+    "@testing-library/user-event": "^14.4.3",
     "@types/webpack": "^5.28.0",
     "assert": "^2.0.0",
     "bufferutil": "^4.0.6",
