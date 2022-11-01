@@ -633,6 +633,43 @@ export const getOwnUsergroups = async () => {
     }
 }
 
+export const getUsergroupAssignments = async() => {
+    
+    let token = localStorage.getItem('api_token')
+
+    let response = await fetch(`${host}/api/usergroup.php?api_token=${token}&array`, {
+        method: 'GET'
+    })
+
+    switch(response.status){
+    case 200:
+        let json = await response.json()
+        return json
+    default:
+        break
+    }
+}
+
+export const updateUsergroupAssignments = async (changedAssignments) => {
+    
+    let token = localStorage.getItem('api_token')
+    console.log(JSON.stringify(changedAssignments))
+
+    let response = await fetch(`${host}/api/usergroup.php?api_token=${token}&assign`, {
+        method: 'PUT',
+        body: JSON.stringify(changedAssignments)
+    })
+
+    switch(response.status){
+    case 200:
+        alert('Zuweisungen übernommen')
+        break
+    default:
+        alert('Zuweisung fehlgeschlagen')
+        break
+    }
+}
+
 /**
  * 
  * @param {string} title 

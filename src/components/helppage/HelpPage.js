@@ -79,6 +79,21 @@ const HelpPage = ({ auth_level }) => {
         )
     }
 
+    const Upcoming = () => {
+        return (
+            <div>
+                <h1>Geplante Funktionen:</h1>
+                <ul>
+                    <li>Zuweisung mehrerer Gruppen zu einem Termin, um doppelte Termine zu vermeiden.</li>
+                    <li>Verwaltung von Bestellungen</li>
+                    <li>Marschübersicht</li>
+                    <li>Terminprotokoll zum Nachvollziehen sowie für die Chronik</li>
+                </ul>
+                
+            </div>
+        )
+    }
+
     return (
         <StyledHelpPage>
             {auth_level > 0 ? <Attendence /> : <></>}
@@ -86,6 +101,7 @@ const HelpPage = ({ auth_level }) => {
             {auth_level > 1 ? <Memberadministration /> : <></>}
             {auth_level > 0 ? <Dateadministration /> : <></>}
             {auth_level > 2 ? <Administration /> : <></>}
+            {auth_level > 0 ? <Upcoming /> : <></>}
         </StyledHelpPage>
     )
 }
