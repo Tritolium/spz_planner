@@ -5,6 +5,9 @@ import { getAttendences, updateAttendences } from '../../../modules/data/DBConne
 import DateField from './DateField'
 import Terminzusage from './Terminzusage'
 
+import four from '../4.png'
+import five from '../5.png'
+
 const Termineingabe = ({fullname}) => {
 
     /**
@@ -17,10 +20,14 @@ const Termineingabe = ({fullname}) => {
      */
     const [changedAttendences, setChangedAttendences] = useState({})
     const [selectedFilter, setSelectedFilter] = useState('all')
+    const [oneUsergroup, setOneUsergroup] = useState(true)
 
     const fetchEvents = async () => {
         let _attendences = await getAttendences()
-        setAttendences(_attendences)
+        if(_attendences !== undefined){
+            setAttendences(_attendences)
+            setOneUsergroup(_attendences.every(att => att.Usergroup_ID === _attendences[0].Usergroup_ID))
+        }
     }
 
     const onClick = useCallback((event_id, attendence) => {
@@ -81,6 +88,7 @@ const Termineingabe = ({fullname}) => {
                     .map((att, i) => {
                         return(
                             <tr key={att.Location + att.Event_ID}>
+                                {!oneUsergroup ? <TableData>{usergroupLogo(att.Usergroup_ID)}</TableData> : <></>}
                                 <TableData><DateField dateprops={att} /></TableData>
                                 <TableData><Terminzusage states={2} attendence={att.Attendence} onClick={onClick} event_id={att.Event_ID}/></TableData>
                             </tr>
@@ -92,8 +100,23 @@ const Termineingabe = ({fullname}) => {
     )
 }
 
+const usergroupLogo = (usergroup_id) => {
+    switch(usergroup_id){
+    case 4:
+        return <img src={four} alt="Logo Rönk"/>
+    case 5:
+        return <img src={five} alt="Logo Dün"/>
+    default:
+        return <></>
+    }
+}
+
 const Table = styled.table`
     border-collapse: collapse;
+
+    img {
+        max-height: 64px;
+    }
 `
 
 const TableData = styled.td`
