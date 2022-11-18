@@ -617,17 +617,26 @@ export const getUsergroups = async () => {
 
 export const getOwnUsergroups = async () => {
     
-    let token = cookies.get('api_token')
-    //let token = localStorage.getItem('api_token')
+    let token = localStorage.getItem('api_token')
 
     let response = await fetch(`${host}/api/usergroup.php?api_token=${token}&own=${true}`, {
-        method: 'GET'
+        method: 'GET',
+        headers: {
+            'If-Modified-Since': localStorage.getItem('own_usergroups')?.lastmodified
+        }
     })
 
     switch(response.status){
     case 200:
         let json = await response.json()
+        let store = {
+            lastmodified: response.headers.get('Last-Modified'),
+            data: json
+        }
+        localStorage.setItem('own_usergroups', JSON.stringify(store))
         return json
+    case 304:
+        json = JSON.parse(localStorage.getItem('own_usergroups'))?.data
     default:
         break
     }
