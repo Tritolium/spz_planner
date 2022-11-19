@@ -20,7 +20,7 @@ const AbsenceInput = ({className}) => {
         }
         fetchEvents()
         fetchMembers()
-    })
+    }, [])
 
     const onClick = useCallback((_eventId, att) => {
         setAttendence(att)

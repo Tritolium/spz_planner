@@ -80,14 +80,27 @@ const getEvent = async (event_id) => {
 
 const getEvents = async (filter) => {
     let events = new Array(0)
-    let token = cookies.get('api_token')
-    //let token = localStorage.getItem('api_token')
-
-    let response = await fetch(`${host}/api/event.php?filter=${filter}&api_token=${token}`, {method: "GET"})
+    
+    let token = localStorage.getItem('api_token')
+    let lastmodified = JSON.parse(localStorage.getItem('events_' + filter))?.lastmodified
+    let response = await fetch(`${host}/api/event.php?filter=${filter}&api_token=${token}`, {
+        method: 'GET',
+        headers: lastmodified ? {
+            'If-Modified-Since': lastmodified
+        } : {}
+    })
 
     switch(response.status) {
         case 200:
             events = await response.json()
+            let store = {
+                lastmodified: response.headers.get('Last-Modified'),
+                data: events
+            }
+            localStorage.setItem('events_' + filter, JSON.stringify(store))
+            break
+        case 304:
+            events = JSON.parse(localStorage.getItem('events_' + filter))?.data
             break
         default:
             break
@@ -178,14 +191,28 @@ const getMember = async (member_id) => {
 
 const getMembers = async () => {
     let members = new Array(0)
-    let token = cookies.get('api_token')
-    //let token = localStorage.getItem('api_token')
 
-    let response = await fetch(`${host}/api/member.php?api_token=${token}`, {method: "GET"})
+    let token = localStorage.getItem('api_token')
+
+    let lastmodified = JSON.parse(localStorage.getItem('members'))?.lastmodified
+    let response = await fetch(`${host}/api/member.php?api_token=${token}`, {
+        method: 'GET',
+        headers: lastmodified ? {
+            'If-Modified-Since': lastmodified
+        } : {}
+    })
 
     switch (response.status) {
         case 200:
             members = await response.json()
+            let store = {
+                lastmodified: response.headers.get('Last-Modified'),
+                data: members
+            }
+            localStorage.setItem('members', JSON.stringify(store))
+            break
+        case 304:
+            members = JSON.parse(localStorage.getItem('members'))?.data
             break
         default:
             break
@@ -270,15 +297,27 @@ const setAttendence = async (event_id, member_id, attendence) => {
 const getAttendences = async () => {
     
     let attendences = new Array(0)
-    let token = cookies.get('api_token')
-    //let token = localStorage.getItem('api_token')
     
+    let token = localStorage.getItem('api_token')
+
+    let lastmodified = JSON.parse(localStorage.getItem('attendences'))?.lastmodified    
     let response = await fetch(`${host}/api/attendence.php?api_token=${token}`, {
-        method: "GET"
+        method: "GET",
+        headers: lastmodified ? {
+            'If-Modified-Since': lastmodified
+        } : {}
     })
     switch(response.status){
     case 200:
         attendences = await response.json()
+        let store = {
+            lastmodified: response.headers.get('Last-Modified'),
+            data: attendences
+        }
+        localStorage.setItem('attendences', JSON.stringify(store))
+        break
+    case 304:
+        attendences = JSON.parse(localStorage.getItem('attendences'))?.data
         break
     default:
         break
@@ -619,27 +658,32 @@ export const getOwnUsergroups = async () => {
     
     let token = localStorage.getItem('api_token')
 
+    let lastmodified = JSON.parse(localStorage.getItem('own_usergroups'))?.lastmodified
+    console.log(lastmodified)
     let response = await fetch(`${host}/api/usergroup.php?api_token=${token}&own=${true}`, {
         method: 'GET',
-        headers: {
-            'If-Modified-Since': localStorage.getItem('own_usergroups')?.lastmodified
-        }
+        headers: lastmodified ? {
+            'If-Modified-Since': lastmodified
+        } : {}
     })
 
+    let json
     switch(response.status){
     case 200:
-        let json = await response.json()
+        json = await response.json()
         let store = {
             lastmodified: response.headers.get('Last-Modified'),
             data: json
         }
         localStorage.setItem('own_usergroups', JSON.stringify(store))
-        return json
+        break
     case 304:
         json = JSON.parse(localStorage.getItem('own_usergroups'))?.data
+        break
     default:
         break
     }
+    return json
 }
 
 export const getUsergroupAssignments = async() => {
