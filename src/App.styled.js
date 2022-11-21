@@ -18,9 +18,10 @@ export const StyledApp = styled.div`
         top: 5%;
         right: 2rem;
         z-index: 2;
-
-        @media (max-width: ${({theme}) => theme.mobile}) {
-            display: none;
+        div {
+            @media (max-width: ${({theme}) => theme.mobile}) {
+                display: none;
+            }
         }
     }
 `
