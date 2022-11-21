@@ -93,7 +93,7 @@ const getEvents = async (filter) => {
         case 200:
             events = await response.json()
             let store = {
-                lastmodified: response.headers.get('Last-Modified'),
+                lastmodified: response.headers.get('DB-Last-Modified'),
                 data: events
             }
             localStorage.setItem('events_' + filter, JSON.stringify(store))
@@ -205,7 +205,7 @@ const getMembers = async () => {
         case 200:
             members = await response.json()
             let store = {
-                lastmodified: response.headers.get('Last-Modified'),
+                lastmodified: response.headers.get('DB-Last-Modified'),
                 data: members
             }
             localStorage.setItem('members', JSON.stringify(store))
@@ -310,7 +310,7 @@ const getAttendences = async () => {
     case 200:
         attendences = await response.json()
         let store = {
-            lastmodified: response.headers.get('Last-Modified'),
+            lastmodified: response.headers.get('DB-Last-Modified'),
             data: attendences
         }
         localStorage.setItem('attendences', JSON.stringify(store))
@@ -671,7 +671,7 @@ export const getOwnUsergroups = async () => {
     case 200:
         json = await response.json()
         let store = {
-            lastmodified: response.headers.get('Last-Modified'),
+            lastmodified: response.headers.get('DB-Last-Modified'),
             data: json
         }
         localStorage.setItem('own_usergroups', JSON.stringify(store))
