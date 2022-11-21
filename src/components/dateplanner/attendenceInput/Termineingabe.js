@@ -73,6 +73,11 @@ const Termineingabe = ({fullname}) => {
                     .filter(attendence => {
                         let attDate = new Date(attendence.Date)
                         let today = new Date()
+                        return today <= attDate
+                    })
+                    .filter(attendence => {
+                        let attDate = new Date(attendence.Date)
+                        let today = new Date()
                         switch(selectedFilter){
                         default:
                         case 'all':
