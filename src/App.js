@@ -14,6 +14,7 @@ import Burger from './modules/components/burger/Burger';
 import { StyledApp } from './App.styled';
 import Administration from './components/administration/Administration';
 import HelpPage from './components/helppage/HelpPage';
+import Button from './modules/components/button/Button';
 
 import('./App.css')
 
@@ -57,6 +58,12 @@ const App = () => {
         }
     }, [])
 
+    const logout = () =>{
+        localStorage.clear()
+        setApi_Token('')
+        setFullname('')
+    }
+
     const navigate = (e) => {
         switch(e.target.id){
         default:
@@ -87,7 +94,10 @@ const App = () => {
             <StyledApp className="App">
                 <Burger open={open} setOpen={setOpen}/>
                 <Menu open={open} setOpen={setOpen} navigate={navigate} auth_level={auth_level} />
-                <div className='Namefield'>{fullname}</div>
+                <div className='Namefield'>
+                    <div>{fullname}</div>
+                    <Button onClick={logout}>Logout</Button>
+                </div>
                 <View view={view} sendLogin={sendLogin} fullname={fullname} auth_level={auth_level}/>
             </StyledApp>
         </ThemeProvider>

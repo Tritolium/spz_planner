@@ -27,8 +27,7 @@ const login = async (name) => {
 const update_login = async () => {
     let _forename, _surname, _auth_level
     
-    let token = cookies.get('api_token')
-    //let token = localStorage.getItem('api_token')
+    let token = localStorage.getItem('api_token')
     let response = await fetch(`${host}/api/login.php?mode=update&api_token=${token}`)
     switch(response.status) {
         case 200:
