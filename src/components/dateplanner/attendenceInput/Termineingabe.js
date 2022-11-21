@@ -85,7 +85,7 @@ const Termineingabe = ({fullname}) => {
                             return (attDate.getTime() - today.getTime()) < 2419200000
                         }
                     })
-                    .map((att, i) => {
+                    .map((att) => {
                         return(
                             <tr key={att.Location + att.Event_ID}>
                                 {!oneUsergroup ? <TableData>{usergroupLogo(att.Usergroup_ID)}</TableData> : <></>}
