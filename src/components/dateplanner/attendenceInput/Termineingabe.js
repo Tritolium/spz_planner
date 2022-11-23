@@ -72,7 +72,9 @@ const Termineingabe = ({fullname}) => {
                     {attendences
                     .filter(attendence => {
                         let attDate = new Date(attendence.Date)
+                        attDate.setHours(23,59,59,999)
                         let today = new Date()
+                        console.log(`!${today} <= ${attDate}: ${today <= attDate}`)
                         return today <= attDate
                     })
                     .filter(attendence => {
