@@ -103,7 +103,6 @@ const DetailForm = ({member, reload}) => {
         let assignments = {...changedUsergroups}
         assignments[`${id}`] = state
         setChangedUsergroups(assignments)
-        console.log(assignments)
     }, [changedUsergroups])
 
     return (

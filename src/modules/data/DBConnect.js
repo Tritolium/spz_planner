@@ -658,7 +658,6 @@ export const getOwnUsergroups = async () => {
     let token = localStorage.getItem('api_token')
 
     let lastmodified = JSON.parse(localStorage.getItem('own_usergroups'))?.lastmodified
-    console.log(lastmodified)
     let response = await fetch(`${host}/api/usergroup.php?api_token=${token}&own=${true}`, {
         method: 'GET',
         headers: lastmodified ? {
@@ -705,7 +704,6 @@ export const getUsergroupAssignments = async() => {
 export const updateUsergroupAssignments = async (changedAssignments) => {
     
     let token = localStorage.getItem('api_token')
-    console.log(JSON.stringify(changedAssignments))
 
     let response = await fetch(`${host}/api/usergroup.php?api_token=${token}&assign`, {
         method: 'PUT',
