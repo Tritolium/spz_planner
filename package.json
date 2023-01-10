@@ -9,7 +9,7 @@
     "@types/webpack": "^5.28.0",
     "assert": "^2.0.0",
     "bufferutil": "^4.0.7",
-    "chart.js": "^4.1.1",
+    "chart.js": "^4.1.2",
     "http": "^0.0.1-security",
     "https": "^1.0.0",
     "node-notifier": "^10.0.1",
