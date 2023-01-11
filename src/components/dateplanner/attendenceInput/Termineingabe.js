@@ -11,6 +11,11 @@ import five from '../5.png'
 const Termineingabe = ({fullname}) => {
 
     /**
+     * constant, maybe switch to fetch from server
+     */
+    const ATTENDENCE_STATES = 3
+
+    /**
      * fetched from server
      */
     const [attendences, setAttendences] = useState(new Array(0))
@@ -120,7 +125,7 @@ const Termineingabe = ({fullname}) => {
                             <tr key={att.Location + att.Event_ID}>
                                 {!oneUsergroup ? <TableData>{usergroupLogo(att.Usergroup_ID)}</TableData> : <></>}
                                 <TableData><DateField dateprops={att} /></TableData>
-                                <TableData><Terminzusage states={2} attendence={att.Attendence} onClick={onClick} event_id={att.Event_ID}/></TableData>
+                                <TableData><Terminzusage states={ATTENDENCE_STATES} attendence={att.Attendence} onClick={onClick} event_id={att.Event_ID}/></TableData>
                             </tr>
                         )
                     })}
