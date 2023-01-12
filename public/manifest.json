@@ -1,25 +1,20 @@
 {
-  "short_name": "SPZ/TCD Planer",
-  "name": "",
+  "short_name": "Planer",
+  "name": "SPZ/TCD Planer",
   "icons": [
     {
-      "src": "alert.png",
-      "sizes": "64x64",
+      "src": "favicon.ico",
+      "sizes": "any",
+      "Type": "image/ico"
+    },
+    {
+      "src": "favicon.png",
+      "sizes": "any",
       "Type": "image/png"
-    },
-    {
-      "src": "check.png",
-      "type": "image/png",
-      "sizes": "64x64"
-    },
-    {
-      "src": "delete-button.png",
-      "type": "image/png",
-      "sizes": "64x64"
     }
   ],
   "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
+  "display": "fullscreen",
+  "theme_color": "#282c34",
   "background_color": "#ffffff"
 }
