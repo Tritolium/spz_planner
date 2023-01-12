@@ -64,12 +64,12 @@ const Termineingabe = ({fullname}) => {
         <Form onSubmit={sendForm} className="DateInput">
             <div>
                 <SubmitButton onClick={sendForm}>Speichern</SubmitButton>
-                <select name='eventSelect' id='eventSelect' onChange={onEventFilterChange}>
+                <select name='eventSelect' id='eventSelect' title='event select' onChange={onEventFilterChange}>
                     <option value='all'>Alle</option>
                     <option value='practice'>Üben/Probe</option>
                     <option value='else'>Auftritte etc.</option>
                 </select>
-                <select name="dateSelect" id="dateSelect" onChange={onDateFilterChange}>
+                <select name="dateSelect" id="dateSelect" title='date select' onChange={onDateFilterChange}>
                     <option value="all">Alle</option>
                     <option value="one">1 Woche</option>
                     <option value="two">2 Wochen</option>
