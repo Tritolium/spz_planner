@@ -11,6 +11,11 @@ import five from '../5.png'
 const Termineingabe = ({fullname}) => {
 
     /**
+     * constant, maybe switch to fetch from server
+     */
+    const ATTENDENCE_STATES = 3
+
+    /**
      * fetched from server
      */
     const [attendences, setAttendences] = useState(new Array(0))
@@ -59,12 +64,12 @@ const Termineingabe = ({fullname}) => {
         <Form onSubmit={sendForm} className="DateInput">
             <div>
                 <SubmitButton onClick={sendForm}>Speichern</SubmitButton>
-                <select name='eventSelect' id='eventSelect' onChange={onEventFilterChange}>
+                <select name='eventSelect' id='eventSelect' title='event select' onChange={onEventFilterChange}>
                     <option value='all'>Alle</option>
                     <option value='practice'>Üben/Probe</option>
                     <option value='else'>Auftritte etc.</option>
                 </select>
-                <select name="dateSelect" id="dateSelect" onChange={onDateFilterChange}>
+                <select name="dateSelect" id="dateSelect" title='date select' onChange={onDateFilterChange}>
                     <option value="all">Alle</option>
                     <option value="one">1 Woche</option>
                     <option value="two">2 Wochen</option>
@@ -120,7 +125,7 @@ const Termineingabe = ({fullname}) => {
                             <tr key={att.Location + att.Event_ID}>
                                 {!oneUsergroup ? <TableData>{usergroupLogo(att.Usergroup_ID)}</TableData> : <></>}
                                 <TableData><DateField dateprops={att} /></TableData>
-                                <TableData><Terminzusage states={2} attendence={att.Attendence} onClick={onClick} event_id={att.Event_ID}/></TableData>
+                                <TableData><Terminzusage states={ATTENDENCE_STATES} attendence={att.Attendence} onClick={onClick} event_id={att.Event_ID}/></TableData>
                             </tr>
                         )
                     })}
