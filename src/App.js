@@ -18,7 +18,7 @@ import Button from './modules/components/button/Button';
 
 import('./App.css')
 
-const version = 'v0.6.2'
+const version = 'v0.6.3'
 
 const App = () => {
 
@@ -67,6 +67,8 @@ const App = () => {
     }
 
     const navigate = (e) => {
+        const registration = navigator.serviceWorker.getRegistration()
+        registration.waiting.postMessage({type: 'SKIP_WAITING'})
         switch(e.target.id){
         default:
         case 'main_button_0':
