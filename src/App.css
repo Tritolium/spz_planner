@@ -27,7 +27,7 @@ header {
 }
 
 #version-tag {
-  position: absolute;
+  position: relative;
   bottom: 0;
   font-size: xx-small;
 }
