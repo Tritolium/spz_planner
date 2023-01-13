@@ -66,8 +66,8 @@ const App = () => {
         setFullname('')
     }
 
-    const navigate = (e) => {
-        const registration = navigator.serviceWorker.getRegistration()
+    const navigate = async (e) => {
+        const registration = await navigator.serviceWorker.getRegistration()
         registration.waiting.postMessage({type: 'SKIP_WAITING'})
         switch(e.target.id){
         default:
