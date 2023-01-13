@@ -1,7 +1,7 @@
 name: Publish
 
 on:
-  push:
+  create:
     tags:
       -'v[0-9].*.*'
     
@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x,19.x]
-      
+    if: github.event.ref_type == 'tag'
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
