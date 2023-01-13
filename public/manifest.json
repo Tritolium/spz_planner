@@ -1,6 +1,7 @@
 {
   "short_name": "Planer",
   "name": "SPZ/TCD Planer",
+  "version": "v0.6.2",
   "icons": [
     {
       "src": "favicon.ico",
@@ -16,5 +17,5 @@
   "start_url": "/",
   "display": "fullscreen",
   "theme_color": "#282c34",
-  "background_color": "#ffffff"
+  "background_color": "#243b26"
 }
