@@ -26,6 +26,12 @@ header {
   height: calc(10px + 2vmin);
 }
 
+#version-tag {
+  position: absolute;
+  bottom: 0;
+  font-size: xx-small;
+}
+
 
 /*
 nav {

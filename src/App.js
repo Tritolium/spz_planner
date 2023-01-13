@@ -18,6 +18,8 @@ import Button from './modules/components/button/Button';
 
 import('./App.css')
 
+const version = 'v0.6rc3'
+
 const App = () => {
 
     const [view, setView] = useState(0)
@@ -99,6 +101,7 @@ const App = () => {
                     <Button onClick={logout}>Logout</Button>
                 </div>
                 <View view={view} sendLogin={sendLogin} fullname={fullname} auth_level={auth_level}/>
+                <div id="version-tag">{version}</div>
             </StyledApp>
         </ThemeProvider>
     );
