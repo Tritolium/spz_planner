@@ -18,7 +18,7 @@ import Button from './modules/components/button/Button';
 
 import('./App.css')
 
-const version = 'v0.6.0'
+const version = 'v0.6.1'
 
 const App = () => {
 
