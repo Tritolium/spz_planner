@@ -11,6 +11,11 @@ import five from '../5.png'
 const Termineingabe = ({fullname}) => {
 
     /**
+     * constant, maybe switch to fetch from server
+     */
+    const ATTENDENCE_STATES = 3
+
+    /**
      * fetched from server
      */
     const [attendences, setAttendences] = useState(new Array(0))
@@ -19,7 +24,8 @@ const Termineingabe = ({fullname}) => {
      * local states
      */
     const [changedAttendences, setChangedAttendences] = useState({})
-    const [selectedFilter, setSelectedFilter] = useState('all')
+    const [selectedDateFilter, setSelectedDateFilter] = useState('all')
+    const [selectedEventFilter, setSelectedEventFilter] = useState('all')
     const [oneUsergroup, setOneUsergroup] = useState(true)
 
     const fetchEvents = async () => {
@@ -36,9 +42,13 @@ const Termineingabe = ({fullname}) => {
         setChangedAttendences(att)
     }, [changedAttendences])
 
-    const onFilterChange = useCallback(e => {
-        setSelectedFilter(e.target.value)
-    }, [setSelectedFilter])
+    const onDateFilterChange = useCallback(e => {
+        setSelectedDateFilter(e.target.value)
+    }, [setSelectedDateFilter])
+
+    const onEventFilterChange = useCallback(e => {
+        setSelectedEventFilter(e.target.value)
+    }, [setSelectedEventFilter])
 
     const sendForm = (e) => {
         e.preventDefault()
@@ -54,11 +64,17 @@ const Termineingabe = ({fullname}) => {
         <Form onSubmit={sendForm} className="DateInput">
             <div>
                 <SubmitButton onClick={sendForm}>Speichern</SubmitButton>
-                <select name="dateSelect" id="dateSelect" onChange={onFilterChange}>
+                <select name='eventSelect' id='eventSelect' title='event select' onChange={onEventFilterChange}>
+                    <option value='all'>Alle</option>
+                    <option value='practice'>Üben/Probe</option>
+                    <option value='else'>Auftritte etc.</option>
+                </select>
+                <select name="dateSelect" id="dateSelect" title='date select' onChange={onDateFilterChange}>
                     <option value="all">Alle</option>
                     <option value="one">1 Woche</option>
                     <option value="two">2 Wochen</option>
                     <option value="four">4 Wochen</option>
+                    <option value="eight">8 Wochen</option>
                 </select>
             </div>
             <Table>
@@ -77,18 +93,31 @@ const Termineingabe = ({fullname}) => {
                         return today <= attDate
                     })
                     .filter(attendence => {
+                        switch(selectedEventFilter){
+                        default:
+                        case 'all':
+                            return true
+                        case 'practice':
+                            return attendence.Type === 'Probe' || attendence.Type === 'Üben'
+                        case 'else':
+                            return !(attendence.Type === 'Probe' || attendence.Type === 'Üben')
+                        }
+                    })
+                    .filter(attendence => {
                         let attDate = new Date(attendence.Date)
                         let today = new Date()
-                        switch(selectedFilter){
+                        switch(selectedDateFilter){
                         default:
                         case 'all':
                             return true
                         case 'one':
-                            return (attDate.getTime() - today.getTime()) < 604800000
+                            return (attDate.getTime() - today.getTime()) < 1*604800000
                         case 'two':
-                            return (attDate.getTime() - today.getTime()) < 1209600000
+                            return (attDate.getTime() - today.getTime()) < 2*604800000
                         case 'four':
-                            return (attDate.getTime() - today.getTime()) < 2419200000
+                            return (attDate.getTime() - today.getTime()) < 4*604800000
+                        case 'eight':
+                            return (attDate.getTime() - today.getTime()) < 8*604800000                            
                         }
                     })
                     .map((att) => {
@@ -96,7 +125,7 @@ const Termineingabe = ({fullname}) => {
                             <tr key={att.Location + att.Event_ID}>
                                 {!oneUsergroup ? <TableData>{usergroupLogo(att.Usergroup_ID)}</TableData> : <></>}
                                 <TableData><DateField dateprops={att} /></TableData>
-                                <TableData><Terminzusage states={2} attendence={att.Attendence} onClick={onClick} event_id={att.Event_ID}/></TableData>
+                                <TableData><Terminzusage states={ATTENDENCE_STATES} attendence={att.Attendence} onClick={onClick} event_id={att.Event_ID}/></TableData>
                             </tr>
                         )
                     })}

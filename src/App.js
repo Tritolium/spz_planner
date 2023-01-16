@@ -18,6 +18,8 @@ import Button from './modules/components/button/Button';
 
 import('./App.css')
 
+const version = 'v0.6.4'
+
 const App = () => {
 
     const [view, setView] = useState(0)
@@ -64,7 +66,7 @@ const App = () => {
         setFullname('')
     }
 
-    const navigate = (e) => {
+    const navigate = async (e) => {
         switch(e.target.id){
         default:
         case 'main_button_0':
@@ -99,6 +101,7 @@ const App = () => {
                     <Button onClick={logout}>Logout</Button>
                 </div>
                 <View view={view} sendLogin={sendLogin} fullname={fullname} auth_level={auth_level}/>
+                <div id="version-tag">{version}</div>
             </StyledApp>
         </ThemeProvider>
     );
