@@ -816,4 +816,8 @@ export const getDateTemplates = async () => {
     }
 }
 
+export const getAssociations = async () => {
+    return undefined
+}
+
 export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, updateAttendences, getMissingFeedback, getEval }
