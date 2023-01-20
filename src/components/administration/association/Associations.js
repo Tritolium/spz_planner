@@ -71,12 +71,19 @@ const AssociationItem = ({ association, onSelect }) => {
 
     return(
         <SelectorItem onClick={onClick}>
-            {association.title}
+            {association.Title}
         </SelectorItem>
     )
 }
 
 const AssociationForm = ({ association, members, reload }) => {
+
+    useEffect(() => {
+        document.getElementById('association_form').reset()
+        document.getElementById('firstchair').selectedIndex = members?.findIndex(member => association?.FirstChair === member.Member_ID)
+        document.getElementById('clerk').selectedIndex = members?.findIndex(member => association?.Clerk === member.Member_ID)
+        document.getElementById('treasurer').selectedIndex = members?.findIndex(member => association?.Treasurer === member.Member_ID)
+    })
 
     const update = async (e) => {
         e.preventDefault()
