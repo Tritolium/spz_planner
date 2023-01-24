@@ -19,7 +19,7 @@ const MemberAdministration = lazy(() => import('./components/memberadministratio
 const Menu = lazy(() => import('./modules/components/menu/Menu'))
 
 
-const version = 'v0.6.4'
+const version = 'v0.7'
 
 const App = () => {
 
