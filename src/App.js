@@ -1,22 +1,23 @@
-import './App.css';
-import { useCallback, useEffect, useState } from 'react';
-import Dateplanner from './components/dateplanner/Dateplanner'
-import AbsenceAdministration from './components/absenceadministration/AbsenceAdministration'
-import MemberAdministration from './components/memberadministration/MemberAdministration';
-import EventAdministration from './components/dateadministration/EventAdministration';
-import Login from './components/login/Login';
+import { lazy, Suspense, useCallback, useEffect, useState } from 'react';
 import { login, update_login } from './modules/data/DBConnect';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from './global';
 import { theme } from './theme';
-import Menu from './modules/components/menu/Menu';
-import Burger from './modules/components/burger/Burger';
 import { StyledApp } from './App.styled';
-import Administration from './components/administration/Administration';
-import HelpPage from './components/helppage/HelpPage';
-import Button from './modules/components/button/Button';
 
 import('./App.css')
+
+const AbsenceAdministration = lazy(() => import('./components/absenceadministration/AbsenceAdministration'))
+const Administration = lazy(() => import('./components/administration/Administration'))
+const Burger = lazy(() => import('./modules/components/burger/Burger'))
+const Button = lazy(() => import('./modules/components/button/Button'))
+const Dateplanner = lazy(() => import('./components/dateplanner/Dateplanner'))
+const EventAdministration = lazy(() => import('./components/dateadministration/EventAdministration'))
+const HelpPage = lazy(() => import('./components/helppage/HelpPage'))
+const Login = lazy(() => import('./components/login/Login'))
+const MemberAdministration = lazy(() => import('./components/memberadministration/MemberAdministration'))
+const Menu = lazy(() => import('./modules/components/menu/Menu'))
+
 
 const version = 'v0.6.4'
 
@@ -100,7 +101,9 @@ const App = () => {
                     <div>{fullname}</div>
                     <Button onClick={logout}>Logout</Button>
                 </div>
-                <View view={view} sendLogin={sendLogin} fullname={fullname} auth_level={auth_level}/>
+                <Suspense fallback={<div>Lädt...</div>}>
+                    <View view={view} sendLogin={sendLogin} fullname={fullname} auth_level={auth_level}/>
+                </Suspense>
                 <div id="version-tag">{version}</div>
             </StyledApp>
         </ThemeProvider>

@@ -7,7 +7,19 @@ const Burger = ({open, setOpen}) => {
     const onClick = async () => {
         setOpen(!open)
         const registration = await navigator.serviceWorker.getRegistration()
-        registration.waiting?.postMessage('SKIP_WAITING')
+        if(registration.waiting !== null){
+            registration.waiting.postMessage('SKIP_WAITING')
+            // const options = {
+            //     body: 'Simple piece of body text.\nSecond line of body text :)'
+            // };
+            // registration.showNotification('Titel', options)
+        }
+        const options = {
+            body: 'Simple piece of body text.\nSecond line of body text :)'
+        };
+        Notification.requestPermission().then(
+            registration.showNotification('Titel', options)
+        )
     }
 
     return(
