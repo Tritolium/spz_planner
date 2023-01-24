@@ -11,7 +11,7 @@ import { clientsClaim } from 'workbox-core';
 import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
-import { StaleWhileRevalidate } from 'workbox-strategies';
+import { StaleWhileRevalidate, NetworkOnly, NetworkFirst } from 'workbox-strategies';
 
 clientsClaim();
 
@@ -60,6 +60,16 @@ registerRoute(
     ],
   })
 );
+
+registerRoute(
+	({ url }) => url.origin === self.location.origin && url.pathname.substring('login.php'),
+	new NetworkFirst()
+)
+
+registerRoute(
+	({ url }) => url.origin === self.location.origin && url.pathname.substring('attendence.php'),
+	new NetworkFirst()
+)
 
 // This allows the web app to trigger skipWaiting via
 // registration.waiting.postMessage({type: 'SKIP_WAITING'})
