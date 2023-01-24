@@ -1,4 +1,4 @@
-import { lazy, useCallback, useEffect, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useState } from 'react';
 import { login, update_login } from './modules/data/DBConnect';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from './global';
@@ -101,7 +101,9 @@ const App = () => {
                     <div>{fullname}</div>
                     <Button onClick={logout}>Logout</Button>
                 </div>
-                <View view={view} sendLogin={sendLogin} fullname={fullname} auth_level={auth_level}/>
+                <Suspense fallback={<div>Lädt...</div>}>
+                    <View view={view} sendLogin={sendLogin} fullname={fullname} auth_level={auth_level}/>
+                </Suspense>
                 <div id="version-tag">{version}</div>
             </StyledApp>
         </ThemeProvider>
