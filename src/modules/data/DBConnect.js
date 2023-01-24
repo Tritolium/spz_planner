@@ -816,4 +816,84 @@ export const getDateTemplates = async () => {
     }
 }
 
+export const newAssociation = async (title, firstchair, clerk, treasurer) => {
+    
+    let token = localStorage.getItem('api_token')
+
+    let response = await fetch(`${host}/api/association.php?api_token=${token}`, {
+        method: 'POST',
+        body: JSON.stringify({
+            Title:      title,
+            FirstChair: firstchair,
+            Clerk:      clerk,
+            Treasurer:  treasurer
+        })
+    })
+
+    switch(response.status){
+    case 201:
+        alert('Verein erstellt')
+        break
+    default:
+        alert('Ein Fehler ist aufgetreten')
+        break
+    }
+}
+
+export const updateAssociation = async (id, title, firstchair, clerk, treasurer) => {
+    
+    let token = localStorage.getItem('api_token')
+
+    let response = await fetch(`${host}/api/association.php?api_token=${token}&id=${id}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+            Title:      title,
+            FirstChair: firstchair,
+            Clerk:      clerk,
+            Treasurer:  treasurer
+        })
+    })
+
+    switch(response.status){
+    case 200:
+        alert('Änderungen übernommen')
+        break
+    default:
+        alert('Ein Fehler ist aufgetreten')
+        break
+    }
+}
+
+export const getAssociations = async () => {
+    
+    let token = localStorage.getItem('api_token')
+    let associations = undefined
+
+    let lastmodified = JSON.parse(localStorage.getItem('associations'))?.lastmodified
+    let response = await fetch(`${host}/api/association.php?api_token=${token}`, {
+        method: 'GET',
+        headers: lastmodified ? {
+            'If-Modified-Since': lastmodified
+        } : {}
+    })
+
+    switch(response.status){
+    case 200:
+        associations = await response.json()
+        let store = {
+            lastmodified: response.headers.get('DB-Last-Modified'),
+            data: associations
+        }
+        localStorage.setItem('associations', JSON.stringify(store))
+        break
+    case 304:
+        associations = JSON.parse(localStorage.getItem('associations'))?.data
+        break
+    default:
+        break
+    }
+
+    return associations
+}
+
 export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, updateAttendences, getMissingFeedback, getEval }
