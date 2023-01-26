@@ -4,6 +4,7 @@ import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from './global';
 import { theme } from './theme';
 import { StyledApp } from './App.styled';
+import Dashboard from './components/dashboard/Dashboard';
 
 import('./App.css')
 
@@ -38,10 +39,11 @@ const App = () => {
             if(_auth_level !== undefined) {
                 setFullname(_forename + " " + _surname)
                 setAuth_level(_auth_level)
-                if(_auth_level > 0)
-                    setView(1)
-                else
-                    setView(0)
+                // if(_auth_level > 0)
+                //     setView(1)
+                // else
+                //     setView(0)
+                setView(0)
             } else {
                 setView(-1)
             }
@@ -71,22 +73,28 @@ const App = () => {
         switch(e.target.id){
         default:
         case 'main_button_0':
-            setView(1)
+            setView(0)
             break
         case 'main_button_1':
-            setView(2)
+            setView(1)
             break
         case 'main_button_2':
-            setView(3)
+            setView(2)
             break
         case 'main_button_3':
-            setView(4)
+            setView(3)
             break
         case 'main_button_4':
-            setView(5)
+            setView(4)
             break
         case 'main_button_5':
+            setView(5)
+            break
+        case 'main_button_6':
             setView(6)
+            break
+        case 'main_button_7':
+            setView(7)
             break
         }
     }
@@ -121,7 +129,7 @@ const View = (props) => {
     case -1:
         return(<Login sendLogin={sendLogin}/>)
     case 0:
-        return(<>Startseite</>)
+        return(<Dashboard />)
     case 1:
         return(<Dateplanner fullname={props.fullname} auth_level={props.auth_level}/>)
     case 2:
