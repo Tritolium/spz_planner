@@ -108,7 +108,7 @@ const getEvents = async (filter) => {
     return events
 }
 
-const updateEvent = async(event_id, type, location, date, begin, departure, leave_dep, accepted, usergroup) => {
+const updateEvent = async(event_id, type, location, date, begin, departure, leave_dep, accepted, usergroup, clothing) => {
     let token = cookies.get('api_token')
     //let token = localStorage.getItem('api_token')
     let response = await fetch(`${host}/api/event.php?api_token=${token}`, {
@@ -122,7 +122,8 @@ const updateEvent = async(event_id, type, location, date, begin, departure, leav
             Departure: departure,
             Leave_dep: leave_dep,
             Accepted: accepted,
-            Usergroup_ID: usergroup
+            Usergroup_ID: usergroup,
+            Clothing: clothing
         })
     })
     switch(response.status){
@@ -135,7 +136,7 @@ const updateEvent = async(event_id, type, location, date, begin, departure, leav
     }
 }
 
-const newEvent = async (type, location, date, begin, departure, leave_dep, accepted, usergroup) => {
+const newEvent = async (type, location, date, begin, departure, leave_dep, accepted, usergroup, clothing) => {
     
     let token = cookies.get('api_token')
     //let token = localStorage.getItem('api_token')
@@ -150,7 +151,8 @@ const newEvent = async (type, location, date, begin, departure, leave_dep, accep
             Departure: departure,
             Leave_dep: leave_dep,
             Accepted: accepted,
-            Usergroup_ID: usergroup
+            Usergroup_ID: usergroup,
+            Clothing: clothing
         })
     })
     switch(response.status){
