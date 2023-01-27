@@ -1,21 +1,20 @@
 import { useEffect } from 'react'
 import { useState } from 'react'
-import { getEvents } from '../../modules/data/DBConnect'
+import { getAttendences, updateAttendences } from '../../modules/data/DBConnect'
 import { StyledDashboard } from './Dashboard.styled'
 import polo from '../../icons/polo.png'
 import shirt from '../../icons//shirt.png'
 import suit from '../../icons//suit.png'
+import Terminzusage from '../dateplanner/attendenceInput/Terminzusage'
 
-const Dashboard = ({ quickNav }) => {
+const Dashboard = () => {
 
     const [nextEvent, setNextEvent] = useState()
     const [nextPractice, setNextPractice] = useState()
-
-    let eventDate = new Date(nextEvent?.Date)
-    let practiceDate = new Date(nextPractice?.Date)
+    
 
     const getNextEvent = async () => {
-        let events = await getEvents('current')
+        let events = await getAttendences()
         let nextAll = events.filter(event => { // sort out past events, if cache contains them
             let attDate = new Date(event.Date)
             attDate.setHours(23,59,59,999)
@@ -36,44 +35,15 @@ const Dashboard = ({ quickNav }) => {
     }
 
     useEffect(() => {
-        getNextEvent()
+        getNextEvent()     
     }, [])
 
     return(<StyledDashboard>
-        <div id='infotext'>Info: die Rückmeldungen sind im Menü auf der linken Seite unter "Anwesenheiten" zu finden</div>
-        <div>Nächste Probe:</div>
+        <div id='infotext'>Info: die gesamten Rückmeldungen sind im Menü auf der linken Seite unter "Anwesenheiten" zu finden</div>
         <table>
             <tbody>
-                <tr>
-                    <td>{nextPractice?.Type}</td>
-                    <td>{nextPractice?.Location}</td>
-                </tr>
-                <tr>
-                    <td>{practiceDate.getDate()}.{practiceDate.getMonth() + 1}.{practiceDate.getFullYear()}</td>
-                    <td>{nextPractice?.Begin}</td>
-                </tr>
-            </tbody>
-        </table>
-        <div>Nächster Auftritt:</div>
-        <table>
-            <tbody>
-                <tr>
-                    <td>{nextEvent?.Type}</td>
-                    <td>{nextEvent?.Location}</td>
-                </tr>
-                <tr>
-                    <td>{eventDate.getDate()}.{eventDate.getMonth() + 1}.{eventDate.getFullYear()}</td>
-                    <td>{nextEvent?.Begin}</td>
-                </tr>
-                <tr>
-                    <td>Hin:</td>
-                    <td>{nextEvent?.Departure !== "12:34:56" ? nextEvent?.Departure : "-"}</td>
-                </tr>
-                <tr>
-                    <td>Zurück:</td>
-                    <td>{nextEvent?.Leave_dep !== "12:34:56" ? nextEvent?.Leave_dep : "-"}</td>
-                </tr>
-                <Clothing clothing={3} />
+                {nextPractice ? <NextPractice nextPractice={nextPractice} /> : <></>}
+                {nextEvent ? <NextEvent nextEvent={nextEvent} /> : <></>}
             </tbody>
         </table>
     </StyledDashboard>)
@@ -105,6 +75,69 @@ const Clothing = ({ clothing }) => {
             <td>{icon ? <img src={icon} alt="Uniform" loading="lazy" /> : <>keine Angabe</>}</td>
         </tr>
     )
+}
+
+const NextPractice = ({ nextPractice }) => {
+
+    let practiceDate = new Date(nextPractice?.Date)
+    let attendence = nextPractice?.Attendence
+
+    const onClick = (event_id, att) => {
+        let changes = {}
+        changes['' + event_id] = att
+        updateAttendences(changes, false)
+    }
+
+    return(<>
+        <tr>
+            <th colSpan={3}>Nächste Probe:</th>
+        </tr>
+        <tr>
+            <td>{nextPractice?.Type}</td>
+            <td>{nextPractice?.Location}</td>
+            <td rowSpan={2}><Terminzusage event_id={nextPractice?.Event_ID} states={3} attendence={attendence} onClick={onClick} /></td>
+        </tr>
+        <tr>
+            <td>{practiceDate.getDate()}.{practiceDate.getMonth() + 1}.{practiceDate.getFullYear()}</td>
+            <td>{nextPractice?.Begin.slice(0, 5)} Uhr</td>
+        </tr>
+    </>)
+}
+
+const NextEvent = ({ nextEvent }) => {
+
+    let attendence = nextEvent?.Attendence
+    let eventDate = new Date(nextEvent?.Date)
+
+    const onClick = (event_id, att) => {
+        let changes = {}
+        changes['' + event_id] = att
+        updateAttendences(changes, false)
+    }
+
+    return(<>
+        <tr>
+            <th colSpan={3}>Nächster Termin:</th>
+        </tr>
+        <tr>
+            <td>{nextEvent?.Type}</td>
+            <td>{nextEvent?.Location}</td>
+        </tr>
+        <tr>
+            <td>{eventDate.getDate()}.{eventDate.getMonth() + 1}.{eventDate.getFullYear()}</td>
+            <td>{nextEvent?.Begin.slice(0, 5)} Uhr</td>
+            <td rowSpan={3}><Terminzusage event_id={nextEvent?.Event_ID} states={3} attendence={attendence} onClick={onClick}/></td>
+        </tr>
+        <tr>
+            <td>Hin:</td>
+            <td>{nextEvent?.Departure !== "12:34:56" ? `${nextEvent?.Departure.slice(0, 5)} Uhr` : "-"}</td>
+        </tr>
+        <tr>
+            <td>Zurück:</td>
+            <td>{nextEvent?.Leave_dep !== "12:34:56" ? `${nextEvent?.Leave_dep.slice(0, 5)} Uhr` : "-"}</td>
+        </tr>
+        <Clothing clothing={nextEvent?.Clothing} />
+    </>)
 }
 
 export default Dashboard

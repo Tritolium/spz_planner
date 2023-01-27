@@ -108,11 +108,12 @@ const EventItem = ({ event, onSelect }) => {
 
 const DetailForm = ({ event, usergroups, datetemplates, reload }) => {
 
-    const [clothing, setClothing] = useState(event?.Clothing ? event?.Clothing : 0)
+    const [clothing, setClothing] = useState(0)
 
     useEffect(() => {
         document.getElementById('eventform_form').reset()
         document.getElementById('usergroup').selectedIndex = usergroups?.findIndex(usergroup => usergroup?.Usergroup_ID === event?.Usergroup_ID)
+        setClothing(event?.Clothing)
     }, [event, usergroups])
 
     const cancel = async (e) => {
@@ -156,7 +157,6 @@ const DetailForm = ({ event, usergroups, datetemplates, reload }) => {
 
     const clothingCallback = useCallback(() => {
         setClothing((clothing + 1) % 4)
-        console.log(clothing)
     }, [clothing])
 
     return (
@@ -237,13 +237,13 @@ const ClothingInput = ({ value, clothingCallback}) => {
     switch(value){
     default:
     case 0:
-        return(<img src={blank} onClick={clothingCallback}/>)
+        return(<img src={blank} alt='n.A.' onClick={clothingCallback}/>)
     case 1:
-        return(<img src={polo} onClick={clothingCallback}/>)
+        return(<img src={polo} alt='Polo' onClick={clothingCallback}/>)
     case 2:
-        return(<img src={shirt} onClick={clothingCallback}/>)
+        return(<img src={shirt} alt='Hemd' onClick={clothingCallback}/>)
     case 3:
-        return(<img src={suit} onClick={clothingCallback}/>)
+        return(<img src={suit} alt='Jacke' onClick={clothingCallback}/>)
     }
 }
 

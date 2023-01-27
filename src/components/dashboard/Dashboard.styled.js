@@ -7,7 +7,9 @@ export const StyledDashboard = styled.div`
     padding-left: max(env(safe-area-inset-left), 15px);
 
     #infotext {
-        font-size: x-small;
+        font-size: smaller;
+        font-weight: bold;
+        border-radius: 5px;
         padding: 15px;
     }
 
@@ -16,6 +18,6 @@ export const StyledDashboard = styled.div`
         padding-bottom: 24pt;
     }
     img {
-        height: 24pt;
+        height: 30pt;
     }
 `

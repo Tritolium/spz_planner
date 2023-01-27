@@ -20,11 +20,11 @@ const MemberAdministration = lazy(() => import('./components/memberadministratio
 const Menu = lazy(() => import('./modules/components/menu/Menu'))
 
 
-const version = 'v0.7.1'
+const version = 'v0.8pre'
 
 const App = () => {
 
-    const [view, setView] = useState(0)
+    const [view, setView] = useState(-1)
     const [open, setOpen] = useState(false)
 
     const [api_token, setApi_Token] = useState()

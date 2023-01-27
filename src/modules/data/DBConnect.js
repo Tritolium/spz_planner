@@ -347,7 +347,7 @@ export const getAllAttendences = async (usergroup_id) => {
     return attendences
 }
 
-const updateAttendences = async (changes) => {
+const updateAttendences = async (changes, feedback=true) => {
     let token = cookies.get('api_token')
     //let token = localStorage.getItem('api_token')
     
@@ -356,10 +356,12 @@ const updateAttendences = async (changes) => {
         body: JSON.stringify(changes)
     }).then(
         res => {
-            if(res.status === 200)
-                alert('Angaben übernommen')
-            else
-                alert('Ein Fehler ist aufgetreten')
+            if(feedback){
+                if(res.status === 200)
+                    alert('Angaben übernommen')
+                else
+                    alert('Ein Fehler ist aufgetreten')
+            }
         }
     )
 }
