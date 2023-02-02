@@ -102,6 +102,7 @@ const Form = ({selected, reload}) => {
     const createNew = async (e) => {
         e.preventDefault()
         
+        let until
         let from = document.getElementById("from").value
         let _until = document.getElementById("until").value
         let info = document.getElementById("info").value
@@ -121,7 +122,8 @@ const Form = ({selected, reload}) => {
             createNew(e)
             return
         }
-
+        
+        let until
         let from = document.getElementById("from").value
         let _until = document.getElementById("until").value
         let info = document.getElementById("info").value
