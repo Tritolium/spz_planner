@@ -105,6 +105,9 @@ const Form = ({selected, reload}) => {
         let from = document.getElementById("from").value
         let until = document.getElementById("until").value
         let info = document.getElementById("info").value
+
+        until === '' ? until = from : until = until
+
         await newAbsence(from, until, info)
 
         reload()
@@ -122,6 +125,9 @@ const Form = ({selected, reload}) => {
         let from = document.getElementById("from").value
         let until = document.getElementById("until").value
         let info = document.getElementById("info").value
+
+        until === '' ? until = from : until = until
+
         await updateAbsence(absence.Absence_ID, absence.Member_ID, from, until, info)
 
         reload()
