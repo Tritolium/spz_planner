@@ -139,7 +139,6 @@ const updateEvent = async(event_id, type, location, date, begin, departure, leav
 const newEvent = async (type, location, date, begin, departure, leave_dep, accepted, usergroup, clothing) => {
     
     let token = cookies.get('api_token')
-    //let token = localStorage.getItem('api_token')
     
     let response = await fetch(`${host}/api/event.php?api_token=${token}`, {
         method: "POST",
@@ -898,6 +897,16 @@ export const getAssociations = async () => {
     }
 
     return associations
+}
+
+export const getWeather = async (nextEvent) => {
+    let hour = parseInt(nextEvent.Begin.slice(0,2))
+    let response = await fetch(`https://api.open-meteo.com/v1/dwd-icon?latitude=${nextEvent.Latitude}&longitude=${nextEvent.Longitude}&hourly=apparent_temperature,weathercode&start_date=${nextEvent.Date}&end_date=${nextEvent.Date}&timezone=CET`)
+    let json = await response.json()
+    return({
+        "Temperature": json.hourly.apparent_temperature[hour],
+        "Weathercode": json.hourly.weathercode[hour]
+    })
 }
 
 export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, updateAttendences, getMissingFeedback, getEval }

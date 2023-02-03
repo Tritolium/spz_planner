@@ -11,8 +11,10 @@ import { StyledEventForm } from "./EventForm.styled"
 
 import blank from '../../../icons/blank_old.png'
 import polo from '../../../icons/polo.png'
+import polod from '../../../icons/polod.png'
 import shirt from '../../../icons/shirt.png'
 import suit from '../../../icons/suit.png'
+import cow from '../../../icons/cow.png'
 
 const EventForm = () => {
 
@@ -108,12 +110,12 @@ const EventItem = ({ event, onSelect }) => {
 
 const DetailForm = ({ event, usergroups, datetemplates, reload }) => {
 
-    const [clothing, setClothing] = useState(0)
+    const [clothing, setClothing] = useState()
 
     useEffect(() => {
         document.getElementById('eventform_form').reset()
         document.getElementById('usergroup').selectedIndex = usergroups?.findIndex(usergroup => usergroup?.Usergroup_ID === event?.Usergroup_ID)
-        setClothing(event?.Clothing)
+        setClothing(event !== undefined ? event.Clothing : 0)
     }, [event, usergroups])
 
     const cancel = async (e) => {
@@ -156,7 +158,7 @@ const DetailForm = ({ event, usergroups, datetemplates, reload }) => {
     }
 
     const clothingCallback = useCallback(() => {
-        setClothing((clothing + 1) % 4)
+        setClothing((clothing + 1) % 6)
     }, [clothing])
 
     return (
@@ -239,11 +241,15 @@ const ClothingInput = ({ value, clothingCallback}) => {
     case 0:
         return(<img src={blank} alt='n.A.' onClick={clothingCallback}/>)
     case 1:
-        return(<img src={polo} alt='Polo' onClick={clothingCallback}/>)
+        return(<img src={polo} alt='PoloR' onClick={clothingCallback}/>)
     case 2:
-        return(<img src={shirt} alt='Hemd' onClick={clothingCallback}/>)
+        return(<img src={polod} alt='PoloD' onClick={clothingCallback}/>)
     case 3:
+        return(<img src={shirt} alt='Hemd' onClick={clothingCallback}/>)
+    case 4:
         return(<img src={suit} alt='Jacke' onClick={clothingCallback}/>)
+    case 5:
+        return(<img src={cow} alt='Kuh' onClick={clothingCallback}/>)
     }
 }
 
