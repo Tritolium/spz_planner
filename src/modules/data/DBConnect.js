@@ -1,4 +1,7 @@
 import Cookies from "universal-cookie"
+import * as maptilerClient from '@maptiler/client'
+
+maptilerClient.config.apiKey = 'm4hEVQNm2k3vfyEB1Bsy'
 
 const cookies = new Cookies()
 
@@ -903,7 +906,8 @@ export const getAssociations = async () => {
 
 export const getWeather = async (nextEvent) => {
     let hour = parseInt(nextEvent.Begin.slice(0,2))
-    let response = await fetch(`https://api.open-meteo.com/v1/dwd-icon?latitude=${nextEvent.Latitude}&longitude=${nextEvent.Longitude}&hourly=apparent_temperature,weathercode&start_date=${nextEvent.Date}&end_date=${nextEvent.Date}&timezone=CET`)
+    let geo = await maptilerClient.geocoding.forward(nextEvent.Location)
+    let response = await fetch(`https://api.open-meteo.com/v1/dwd-icon?latitude=${geo.features[0].center[1]}&longitude=${geo.features[0].center[0]}&hourly=apparent_temperature,weathercode&start_date=${nextEvent.Date}&end_date=${nextEvent.Date}&timezone=CET`)
     let json = await response.json()
     return({
         "Temperature": json.hourly.apparent_temperature[hour],
