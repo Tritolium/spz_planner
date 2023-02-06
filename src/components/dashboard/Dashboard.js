@@ -42,7 +42,8 @@ const Dashboard = () => {
     }, [])
 
     return(<StyledDashboard>
-        <p id='infotext'>Info: die gesamten Rückmeldungen sind im Menü auf der linken Seite unter "Anwesenheiten" zu finden</p>
+        <p className='infotext'>Info: die gesamten Rückmeldungen sind im Menü auf der linken Seite unter "Anwesenheiten" zu finden</p>
+        <p className='infotext'>Auf dieser Seite ist das explizite speichern nicht mehr notwendig</p>
         <table>
             <tbody>
                 {nextPractice ? <NextPractice nextPractice={nextPractice} /> : <></>}
