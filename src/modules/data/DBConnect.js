@@ -16,6 +16,8 @@ const login = async (name) => {
             cookies.set('api_token', json.API_token, {maxAge: 604800})
             localStorage.setItem('api_token', json.API_token)
             break
+        case 406:
+            alert('Dein Name scheint mehrfach vergeben zu sein, bitte genauer angeben')
         default:
         case 404:
             break
