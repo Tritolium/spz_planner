@@ -42,7 +42,7 @@ const Dashboard = () => {
     }, [])
 
     return(<StyledDashboard>
-        <div id='infotext'>Info: die gesamten Rückmeldungen sind im Menü auf der linken Seite unter "Anwesenheiten" zu finden</div>
+        <p id='infotext'>Info: die gesamten Rückmeldungen sind im Menü auf der linken Seite unter "Anwesenheiten" zu finden</p>
         <table>
             <tbody>
                 {nextPractice ? <NextPractice nextPractice={nextPractice} /> : <></>}
@@ -122,8 +122,6 @@ const NextEvent = ({ nextEvent }) => {
         let eDate = new Date(nextEvent?.Date)
         let nextWeek = new Date()
         nextWeek.setDate(nextWeek.getDate() + 6)
-        nextEvent.Latitude="50.17"
-        nextEvent.Longitude="7.97"
         if(nextEvent !== undefined && eDate < nextWeek && nextEvent.Latitude !== undefined) {
             getWeather(nextEvent).then(weather => {
                 setWeather(weather)

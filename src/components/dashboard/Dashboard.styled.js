@@ -6,7 +6,7 @@ export const StyledDashboard = styled.div`
     padding-bottom: max(env(safe-area-inset-bottom), 15px);
     padding-left: max(env(safe-area-inset-left), 15px);
 
-    #infotext {
+    .infotext {
         font-size: smaller;
         font-weight: bold;
         border-radius: 5px;
