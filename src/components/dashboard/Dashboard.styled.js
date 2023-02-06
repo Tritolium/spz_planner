@@ -20,4 +20,9 @@ export const StyledDashboard = styled.div`
     img {
         height: 30pt;
     }
+
+    svg {
+        height: 30pt;
+        width: 30pt;
+    }
 `

@@ -114,7 +114,7 @@ const DetailForm = ({ event, usergroups, datetemplates, reload }) => {
 
     useEffect(() => {
         document.getElementById('eventform_form').reset()
-        document.getElementById('usergroup').selectedIndex = usergroups?.findIndex(usergroup => usergroup?.Usergroup_ID === event?.Usergroup_ID)
+        document.getElementById('usergroup').selectedIndex = usergroups?.findIndex(usergroup => parseInt(usergroup?.Usergroup_ID) === parseInt(event?.Usergroup_ID))
         setClothing(event !== undefined ? event.Clothing : 0)
     }, [event, usergroups])
 
