@@ -21,6 +21,7 @@ const login = async (name) => {
             break
         case 406:
             alert('Dein Name scheint mehrfach vergeben zu sein, bitte genauer angeben')
+            break;
         default:
         case 404:
             break

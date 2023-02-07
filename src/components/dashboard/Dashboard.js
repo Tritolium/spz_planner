@@ -123,7 +123,7 @@ const NextEvent = ({ nextEvent }) => {
         let eDate = new Date(nextEvent?.Date)
         let nextWeek = new Date()
         nextWeek.setDate(nextWeek.getDate() + 6)
-        if(nextEvent !== undefined && eDate < nextWeek && nextEvent.Latitude !== undefined) {
+        if(nextEvent !== undefined && eDate < nextWeek) {
             getWeather(nextEvent).then(weather => {
                 setWeather(weather)
             })
