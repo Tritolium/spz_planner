@@ -908,6 +908,7 @@ export const getAssociations = async () => {
 export const getWeather = async (nextEvent) => {
     let hour = parseInt(nextEvent.Begin.slice(0,2))
     let geo = await maptilerClient.geocoding.forward(nextEvent.Location)
+    console.log(geo)
     let response = await fetch(`https://api.open-meteo.com/v1/dwd-icon?latitude=${geo.features[0].center[1]}&longitude=${geo.features[0].center[0]}&hourly=apparent_temperature,weathercode&start_date=${nextEvent.Date}&end_date=${nextEvent.Date}&timezone=CET`)
     let json = await response.json()
     return({

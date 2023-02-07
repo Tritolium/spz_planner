@@ -5,6 +5,7 @@ import { GlobalStyles } from './global';
 import { theme } from './theme';
 import { StyledApp } from './App.styled';
 import Dashboard from './components/dashboard/Dashboard';
+import Scoreboard from './components/scoreboard/Scoreboard';
 
 import('./App.css')
 
@@ -20,7 +21,7 @@ const MemberAdministration = lazy(() => import('./components/memberadministratio
 const Menu = lazy(() => import('./modules/components/menu/Menu'))
 
 
-const version = 'v0.8pre'
+const version = 'v0.8pre2'
 
 const App = () => {
 
@@ -139,8 +140,10 @@ const View = (props) => {
     case 4:
         return(<EventAdministration auth_level={props.auth_level}/>)
     case 5:
-        return(<Administration auth_level={props.auth_level}/>)
+        return(<Scoreboard />)
     case 6:
+        return(<Administration auth_level={props.auth_level}/>)
+    case 7:
         return(<HelpPage auth_level={props.auth_level}/>)
     }
 }

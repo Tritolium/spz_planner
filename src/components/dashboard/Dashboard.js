@@ -57,7 +57,7 @@ const Clothing = ({ clothing }) => {
 
     let icon
 
-    switch(clothing){
+    switch(parseInt(clothing)){
     case 1:
         icon = polo
         break
