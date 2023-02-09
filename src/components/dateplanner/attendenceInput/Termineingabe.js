@@ -82,6 +82,7 @@ const Termineingabe = ({fullname}) => {
                     <tr>
                         <td>Termin:</td>
                         <td>{fullname}</td>
+                        <td></td>
                     </tr>
                 </thead>
                 <tbody>

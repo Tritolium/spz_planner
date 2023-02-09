@@ -22,19 +22,34 @@ export const StyledOverviewTable = styled.table`
     align-self: flex-start;
     margin: 0 2px 0 2px;
 
+    tbody {
+        overflow-x: scroll;
+    }
+
     td {
         border: 1px solid ${({ theme }) => theme.primaryLight};
         padding: 2px;
         text-align: center;
+        position: relative;
+        min-width: 32px;
+        
+        .IconWrapper {
+            min-width: 1.5em;
+            max-width: 32px;
+            min-height: 1.5em;
+            max-height: 32px;
+            position: absolute;
 
-        img {
-            min-width: 15px;
-            max-width: 30px;
+            transform: translateX(-50%) translateY(-50%);
+            :nth-child(1) {
+                z-index: 2;
+            }
         }
     }
 
     th {
-        max-width: 35px;
+        min-width: 15px;
+        max-width: 40px;
     }
 
     @media (max-width: ${({ theme }) => theme.mobile}) {

@@ -35,7 +35,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "react-scripts build && sudo cp -r ./build/* /var/www/html/"
+    "deploy": "react-scripts build && sudo cp -r ./build/* /var/www/html/",
+    "remote-deploy": "react-scripts build && scp -r ./build/* pi@buzzer.dns.army:/home/pi/build/ && ssh pi@buzzer.dns.army 'sudo cp -r ./build/* /var/www/html/'"
   },
   "eslintConfig": {
     "extends": [

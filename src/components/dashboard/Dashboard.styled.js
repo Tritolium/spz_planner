@@ -22,7 +22,7 @@ export const StyledDashboard = styled.div`
     }
 
     svg {
-        height: 30pt;
-        width: 30pt;
+        height: 50pt;
+        width: 50pt;
     }
 `
