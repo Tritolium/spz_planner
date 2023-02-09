@@ -876,7 +876,7 @@ export const updateAssociation = async (id, title, firstchair, clerk, treasurer)
 export const getAssociations = async () => {
     
     let token = localStorage.getItem('api_token')
-    let associations = undefined
+    let associations = new Array(0)
 
     let lastmodified = JSON.parse(localStorage.getItem('associations'))?.lastmodified
     let response = await fetch(`${host}/api/association.php?api_token=${token}`, {
@@ -889,16 +889,9 @@ export const getAssociations = async () => {
     switch(response.status){
     case 200:
         associations = await response.json()
-        let store = {
-            lastmodified: response.headers.get('DB-Last-Modified'),
-            data: associations
-        }
-        localStorage.setItem('associations', JSON.stringify(store))
-        break
-    case 304:
-        associations = JSON.parse(localStorage.getItem('associations'))?.data
         break
     default:
+    case 204:
         break
     }
 
@@ -908,13 +901,93 @@ export const getAssociations = async () => {
 export const getWeather = async (nextEvent) => {
     let hour = parseInt(nextEvent.Begin.slice(0,2))
     let geo = await maptilerClient.geocoding.forward(nextEvent.Location)
-    console.log(geo)
     let response = await fetch(`https://api.open-meteo.com/v1/dwd-icon?latitude=${geo.features[0].center[1]}&longitude=${geo.features[0].center[0]}&hourly=apparent_temperature,weathercode&start_date=${nextEvent.Date}&end_date=${nextEvent.Date}&timezone=CET`)
     let json = await response.json()
     return({
         "Temperature": json.hourly.apparent_temperature[hour],
         "Weathercode": json.hourly.weathercode[hour]
     })
+}
+
+export const getScores = async () => {
+
+    let token = localStorage.getItem('api_token')
+
+    let response = await fetch(`${host}/api/score.php?api_token=${token}`, {
+        method: 'GET'
+    })
+
+    switch(response.status){
+    case 200:
+        let json = await response.json()
+        return(json)
+    case 204:
+        return(new Array(0))
+    default:
+        alert('Ein Fehler ist aufgetreten')
+        break
+    }
+}
+
+export const newScore = async (title, link) => {
+    
+    let token = localStorage.getItem('api_token')
+
+    let response = await fetch(`${host}/api/score.php?api_token=${token}`, {
+        method: 'POST',
+        body: JSON.stringify({
+            Title:  title,
+            Link:   link
+        })
+    })
+
+    switch(response.status){
+    case 201:
+        alert('Notenverweis erstellt')
+        break
+    default:
+        alert('Ein Fehler ist aufgetreten')
+        break
+    }
+}
+
+export const updateScore = async (score_id, title, link) => {
+
+    let token = localStorage.getItem('api_token')
+
+    let response = await fetch(`${host}/api/score.php?api_token=${token}&id=${score_id}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+            Title:  title,
+            Link:   link
+        })
+    })
+
+    switch(response.status){
+    case 200:
+        alert('Notenverweis erstellt')
+        break
+    default:
+        alert('Ein Fehler ist aufgetreten')
+        break
+    }
+}
+
+export const deleteScore = async (score_id) => {
+    
+    let token = localStorage.getItem('api_token')
+    let response = await fetch(`${host}/api/score.php?api_token=${token}&id=${score_id}`, {
+        method: 'DELETE'
+    })
+
+    switch(response.status){
+        case 200:
+            alert('Notenverweis gelöscht')
+            break
+        default:
+            alert('Ein Fehler ist aufgetreten')
+            break
+    }
 }
 
 export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, updateAttendences, getMissingFeedback, getEval }

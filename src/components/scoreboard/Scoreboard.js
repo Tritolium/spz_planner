@@ -1,7 +1,58 @@
+import { useCallback, useEffect, useState } from "react"
+import Selector from "../../modules/components/form/Selector"
+import SelectorItem from "../../modules/components/form/SelectorItem"
+import { getScores } from "../../modules/data/DBConnect"
+import { StyledScoreboard } from "./Scoreboard.styled"
+
 const Scoreboard = () => {
-    return(<>
-        Scoreboard
-    </>)
+    const [scores, setScores] = useState(new Array(0))
+    const [selected, setSelected] = useState(-1)
+    
+    const fetchScores = useCallback(async () => {
+        let scores = await getScores()
+        if(scores !== undefined)
+            setScores(scores)
+        else
+            setScores(new Array(0))
+    }, [])
+
+    const onSelect = useCallback((id) => {
+        setSelected(id)
+    }, [])
+
+    useEffect(() => {
+        fetchScores()
+    }, [fetchScores])
+
+    return(<StyledScoreboard>
+        <ScoreSelector scores={scores} onSelect={onSelect}/>
+        <ScoreFrame score={scores.find((score) => score.Score_ID === selected)}/>
+    </StyledScoreboard>)
+}
+
+const ScoreSelector = ({ scores, onSelect }) => {
+    return(
+        <Selector>
+            {scores.map(score => {
+                return(<Score onSelect={onSelect} key={score.Score_ID} score={score}/>)
+            })}
+        </Selector>
+    )
+}
+
+const Score = ({ onSelect, score }) => {
+
+    const onClick = useCallback(() => {
+        onSelect(score.Score_ID)
+    }, [onSelect, score])
+
+    return(<SelectorItem onClick={onClick}>
+        {score.Title}
+    </SelectorItem>)
+}
+
+const ScoreFrame = ({ score }) => {
+    return(<iframe title="score_view" src={score?.Link}></iframe>)
 }
 
 export default Scoreboard
