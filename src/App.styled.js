@@ -5,7 +5,7 @@ export const StyledApp = styled.div`
     flex-direction: column;
     align-items: center;
     max-height: 100vh;
-    padding: calc(2.5% + 2rem) 0 2rem 0;
+    padding: max(env(safe-area-inset-top), 90px) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
     box-sizing: border-box;
 
     @media (max-width: ${({theme}) => theme.mobile}) {
@@ -15,7 +15,7 @@ export const StyledApp = styled.div`
     .Namefield {
         font-size: 1.5rem;
         position: absolute;
-        top: 5%;
+        top: 0.5rem;
         right: 2rem;
         z-index: 2;
         div {
