@@ -26,3 +26,9 @@ export const StyledDashboard = styled.div`
         width: 50pt;
     }
 `
+
+export const StyledFeedbackArea = styled.textarea`
+    transition: transform 0.3s ease-in-out;
+    transform: ${({ open }) => open ? 'translateX(0)' : 'translateX(-100%)'};
+    visibility: ${({ open }) => open ? 'visible' : 'hidden'};
+`

@@ -1,7 +1,7 @@
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useState } from 'react'
-import { getAttendences, getWeather, updateAttendences } from '../../modules/data/DBConnect'
-import { StyledDashboard } from './Dashboard.styled'
+import { getAttendences, getWeather, newFeedback, updateAttendences } from '../../modules/data/DBConnect'
+import { StyledDashboard, StyledFeedbackArea } from './Dashboard.styled'
 import polo from '../../icons/polo.png'
 import polod from '../../icons/polod.png'
 import shirt from '../../icons//shirt.png'
@@ -9,6 +9,7 @@ import suit from '../../icons//suit.png'
 import cow from '../../icons//cow.png'
 import Terminzusage from '../dateplanner/attendenceInput/Terminzusage'
 import WeatherIcon from './WeatherIcon'
+import Button from '../../modules/components/button/Button'
 
 const Dashboard = () => {
 
@@ -50,6 +51,7 @@ const Dashboard = () => {
                 {nextEvent ? <NextEvent nextEvent={nextEvent} /> : <></>}
             </tbody>
         </table>
+        <Feedback />
     </StyledDashboard>)
 }
 
@@ -161,6 +163,35 @@ const NextEvent = ({ nextEvent }) => {
         </tr>
         <Clothing clothing={nextEvent?.Clothing} />
     </>)
+}
+
+const Feedback = () => {
+
+    const [open, setOpen] = useState(false)
+
+    const onClick = useCallback(() => {
+        setOpen(!open)
+        if(open){
+            let content = document.getElementById('feedbackcontent').value
+            newFeedback(content)
+        }
+        document.getElementById("feedbackform").reset()
+    }, [open])
+
+    const cancel = useCallback(() => {
+        setOpen(false)
+        document.getElementById("feedbackform").reset()
+    }, [])
+
+    return(<div>
+        <div>
+            <Button onClick={onClick}>{open ? "Senden" : "Feedback"}</Button>
+            {open ? <Button onClick={cancel}>Abbrechen</Button> : <></>}
+        </div>
+        <form id="feedbackform">
+            <StyledFeedbackArea open={open} name="content" id="feedbackcontent" cols="30" rows="10"></StyledFeedbackArea>
+        </form>
+    </div>)
 }
 
 export default Dashboard

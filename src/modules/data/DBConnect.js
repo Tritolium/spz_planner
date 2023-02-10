@@ -990,4 +990,14 @@ export const deleteScore = async (score_id) => {
     }
 }
 
+export const newFeedback = async (content) => {
+    let token = localStorage.getItem('api_token')
+    fetch(`${host}/api/feedback.php?api_token=${token}`, {
+        method: 'POST',
+        body: JSON.stringify({
+            Content: content
+        })
+    })
+}
+
 export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, updateAttendences, getMissingFeedback, getEval }
