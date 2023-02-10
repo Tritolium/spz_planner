@@ -11,6 +11,14 @@ export const StyledScoreboard = styled.div`
         width: 100%;
         display: flex;
         flex-direction: column;
+
+        a, a:active {
+            width: fit-content;
+            border-radius: 5px;
+            padding: 2px;
+            background: ${({theme}) => theme.primaryLight};
+            color: ${({theme}) => theme.primaryDark};
+        }
     }
 
     iframe {
