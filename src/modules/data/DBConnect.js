@@ -981,7 +981,7 @@ export const deleteScore = async (score_id) => {
     })
 
     switch(response.status){
-        case 200:
+        case 204:
             alert('Notenverweis gelöscht')
             break
         default:

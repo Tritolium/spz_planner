@@ -52,7 +52,10 @@ const Score = ({ onSelect, score }) => {
 }
 
 const ScoreFrame = ({ score }) => {
-    return(<iframe title="score_view" src={score?.Link}></iframe>)
+    return(<div>
+        {score?.Link ? <a href={score?.Link} target="_blank" rel="noreferrer">In neuem Fenster anzeigen</a> : <></>}
+        {score?.Link ? <iframe title="score_view" src={score.Link}></iframe> : <></>}
+    </div>)
 }
 
 export default Scoreboard

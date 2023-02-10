@@ -7,6 +7,12 @@ export const StyledScoreboard = styled.div`
     position: relative;
     width: 100%;
 
+    div {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
     iframe {
         max-width: 215mm;
         width: 100%;

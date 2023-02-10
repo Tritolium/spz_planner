@@ -81,6 +81,8 @@ const ScoreForm = ({ score, reload }) => {
             await updateScore(score.Score_ID, title, link)
         else
             newScore(title, link)
+        
+        document.getElementById('score_form').reset()
         reload()
     }
 
@@ -100,12 +102,12 @@ const ScoreForm = ({ score, reload }) => {
             <label htmlFor="link">Link:</label>
             <input type="url" name="link" id="link" defaultValue={score?.Link} />
         </FormBox>
-        <iframe title="score_view" src={score?.Link}></iframe>
         <div>
             <Button onClick={cancel}>Abbrechen</Button>
             <Button onClick={update}>Speichern</Button>
             <Button onClick={deleteSC}>Löschen</Button>
         </div>
+        {score?.Link ? <iframe title="score_view" src={score?.Link}></iframe> : <></>}
     </Form>)
 }
 
