@@ -156,6 +156,7 @@ const Table = styled.table`
 
     img {
         max-height: 64px;
+        max-width: 64px;
     }
 `
 
