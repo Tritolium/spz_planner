@@ -122,9 +122,10 @@ const Termineingabe = ({fullname}) => {
                         }
                     })
                     .map((att) => {
+
                         return(
                             <tr key={att.Location + att.Event_ID}>
-                                {!oneUsergroup ? <TableData>{usergroupLogo(att.Usergroup_ID)}</TableData> : <></>}
+                                {!oneUsergroup ? <TableData>{usergroupLogo(att.Usergroup_ID)}</TableData> : <>def</>}
                                 <TableData><DateField dateprops={att} /></TableData>
                                 <TableData><Terminzusage states={ATTENDENCE_STATES} attendence={att.Attendence} onClick={onClick} event_id={att.Event_ID}/></TableData>
                             </tr>
@@ -137,11 +138,14 @@ const Termineingabe = ({fullname}) => {
 }
 
 const usergroupLogo = (usergroup_id) => {
-    switch(usergroup_id){
+    let id = parseInt(usergroup_id)
+    switch(id){
     case 4:
         return <img src={four} alt="Logo Rönk"/>
     case 5:
         return <img src={five} alt="Logo Dün"/>
+    case 7:
+        return <img src="https://sgv.de/assets/images/1/logo_sgv_web-fc5e97ec.svg" alt="Logo SGV" />
     default:
         return <></>
     }
@@ -157,6 +161,9 @@ const Table = styled.table`
 
 const TableData = styled.td`
     border-top: 1px solid #ccc;
+    :nth-child(1) {
+        text-align: center;
+    }
 `
 
 const Form = styled.form`
