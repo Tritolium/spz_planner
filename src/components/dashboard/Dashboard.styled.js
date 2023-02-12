@@ -25,7 +25,7 @@ export const StyledDashboard = styled.div`
     }
 
     th {
-        padding-top: 0.05vh;
+        padding-top: 2.5vh;
     }
 `
 
