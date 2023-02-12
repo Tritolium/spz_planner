@@ -25,6 +25,10 @@ export const StyledDashboard = styled.div`
         height: 50pt;
         width: 50pt;
     }
+
+    th {
+        padding-top: 0.05vh;
+    }
 `
 
 export const StyledFeedbackArea = styled.textarea`

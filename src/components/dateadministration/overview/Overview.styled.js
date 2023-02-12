@@ -35,6 +35,10 @@ export const StyledTable = styled.table`
         white-space: normal;
     }
 
+    img {
+        max-width: 32px;
+    }
+
     @media (max-width: ${({ theme }) => theme.mobile}) {
         font-size: 0.75em;
     }
