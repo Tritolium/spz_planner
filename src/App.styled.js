@@ -5,8 +5,9 @@ export const StyledApp = styled.div`
     flex-direction: column;
     align-items: center;
     max-height: 100vh;
-    padding: max(env(safe-area-inset-top), 90px) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    padding: max(env(safe-area-inset-top), 90px) max(env(safe-area-inset-right), 5px) env(safe-area-inset-bottom) max(env(safe-area-inset-left), 5px);
     box-sizing: border-box;
+    width: 100vw;
 
     @media (max-width: ${({theme}) => theme.mobile}) {
         padding-top: calc(10% + 2rem);
