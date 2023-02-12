@@ -9,6 +9,13 @@ import SelectorItem from "../../../modules/components/form/SelectorItem"
 import { getDateTemplates, getEvents, getUsergroups, newEvent, updateEvent } from "../../../modules/data/DBConnect"
 import { StyledEventForm } from "./EventForm.styled"
 
+import blank from '../../../icons/blank_old.png'
+import polo from '../../../icons/polo.png'
+import polod from '../../../icons/polod.png'
+import shirt from '../../../icons/shirt.png'
+import suit from '../../../icons/suit.png'
+import cow from '../../../icons/cow.png'
+
 const EventForm = () => {
 
     const options = [
@@ -103,9 +110,12 @@ const EventItem = ({ event, onSelect }) => {
 
 const DetailForm = ({ event, usergroups, datetemplates, reload }) => {
 
+    const [clothing, setClothing] = useState()
+
     useEffect(() => {
         document.getElementById('eventform_form').reset()
-        document.getElementById('usergroup').selectedIndex = usergroups?.findIndex(usergroup => usergroup?.Usergroup_ID === event?.Usergroup_ID)
+        document.getElementById('usergroup').selectedIndex = usergroups?.findIndex(usergroup => parseInt(usergroup?.Usergroup_ID) === parseInt(event?.Usergroup_ID))
+        setClothing(event !== undefined ? event.Clothing : 0)
     }, [event, usergroups])
 
     const cancel = async (e) => {
@@ -126,9 +136,9 @@ const DetailForm = ({ event, usergroups, datetemplates, reload }) => {
         let usergroup   = document.getElementById('usergroup').options[document.getElementById('usergroup').selectedIndex].value
 
         if(event !== undefined)
-            await updateEvent(event.Event_ID, type, location, date, begin, departure, leave_dep, accepted, usergroup)
+            await updateEvent(event.Event_ID, type, location, date, begin, departure, leave_dep, accepted, usergroup, clothing)
         else
-            await newEvent(type, location, date, begin, departure, leave_dep, accepted, usergroup)
+            await newEvent(type, location, date, begin, departure, leave_dep, accepted, usergroup, clothing)
 
         reload()
     }
@@ -146,6 +156,10 @@ const DetailForm = ({ event, usergroups, datetemplates, reload }) => {
         document.getElementById('accepted').checked = true
         document.getElementById('usergroup').selectedIndex = usergroups?.findIndex(usergroup => usergroup?.Usergroup_ID === template?.Usergroup_ID)
     }
+
+    const clothingCallback = useCallback(() => {
+        setClothing((clothing + 1) % 6)
+    }, [clothing])
 
     return (
         <Form id="eventform_form">
@@ -172,6 +186,10 @@ const DetailForm = ({ event, usergroups, datetemplates, reload }) => {
             <FormBox>
                 <label htmlFor="leave_dep">Rückfahrt:</label>
                 <input type="time" name="leave_dep" id="leave_dep" step="1" defaultValue={event?.Leave_dep}/>
+            </FormBox>
+            <FormBox>
+                <label htmlFor="clothing">Uniform:</label>
+                <ClothingInput id="clothing" value={clothing} clothingCallback={clothingCallback}/>
             </FormBox>
             <FormBox>
                 <label htmlFor="accepted">Angenommen:</label>
@@ -215,6 +233,24 @@ const DateTemplate = ({ onSelect, datetemplate }) => {
             {datetemplate.Title}
         </SelectorItem>
     )
+}
+
+const ClothingInput = ({ value, clothingCallback}) => {
+    switch(value){
+    default:
+    case 0:
+        return(<img src={blank} alt='n.A.' onClick={clothingCallback}/>)
+    case 1:
+        return(<img src={polo} alt='PoloR' onClick={clothingCallback}/>)
+    case 2:
+        return(<img src={polod} alt='PoloD' onClick={clothingCallback}/>)
+    case 3:
+        return(<img src={shirt} alt='Hemd' onClick={clothingCallback}/>)
+    case 4:
+        return(<img src={suit} alt='Jacke' onClick={clothingCallback}/>)
+    case 5:
+        return(<img src={cow} alt='Kuh' onClick={clothingCallback}/>)
+    }
 }
 
 export default EventForm

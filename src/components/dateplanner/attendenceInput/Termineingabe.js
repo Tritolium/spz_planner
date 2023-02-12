@@ -82,6 +82,7 @@ const Termineingabe = ({fullname}) => {
                     <tr>
                         <td>Termin:</td>
                         <td>{fullname}</td>
+                        <td></td>
                     </tr>
                 </thead>
                 <tbody>
@@ -121,6 +122,7 @@ const Termineingabe = ({fullname}) => {
                         }
                     })
                     .map((att) => {
+
                         return(
                             <tr key={att.Location + att.Event_ID}>
                                 {!oneUsergroup ? <TableData>{usergroupLogo(att.Usergroup_ID)}</TableData> : <></>}
@@ -136,11 +138,14 @@ const Termineingabe = ({fullname}) => {
 }
 
 const usergroupLogo = (usergroup_id) => {
-    switch(usergroup_id){
+    let id = parseInt(usergroup_id)
+    switch(id){
     case 4:
         return <img src={four} alt="Logo Rönk"/>
     case 5:
         return <img src={five} alt="Logo Dün"/>
+    case 7:
+        return <img src="https://sgv.de/assets/images/1/logo_sgv_web-fc5e97ec.svg" alt="Logo SGV" />
     default:
         return <></>
     }
@@ -151,11 +156,15 @@ const Table = styled.table`
 
     img {
         max-height: 64px;
+        max-width: 64px;
     }
 `
 
 const TableData = styled.td`
     border-top: 1px solid #ccc;
+    :nth-child(1) {
+        text-align: center;
+    }
 `
 
 const Form = styled.form`

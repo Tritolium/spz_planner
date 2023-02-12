@@ -15,7 +15,6 @@ const Selector = styled.nav`
 
     @media (max-width: ${({ theme }) => theme.mobile}) {
         white-space: normal;
-        min-width: 0;
     }
 
     ::-webkit-scrollbar {

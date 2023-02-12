@@ -2,14 +2,10 @@ import { useCallback, useEffect, useState } from "react"
 
 import { getAllAttendences, getEval, /*getMissingFeedback,*/ getOwnUsergroups } from '../../../modules/data/DBConnect'
 
-import check from '../check.png'
-import deny from '../delete-button.png'
-import blank from '../blank.png'
-import alert from '../alert.png'
-
 import DateField from "../attendenceInput/DateField"
 import { StyledEvalTable, StyledOverview, StyledOverviewTable } from "./Overview.styled"
 import EvalDiagram from "./EvalDiagram"
+import { Alert, Blank, Check, Deny } from "../attendenceInput/Terminzusage"
 
 const Overview = () => {
 
@@ -84,13 +80,13 @@ const Zusage = ({attendence}) => {
     switch(attendence){
     default:
     case -1:
-        return(<img src={blank} alt="blank"></img>)
+        return(<Blank/>)
     case 0:
-        return(<img src={deny} alt="deny"></img>)
+        return(<Deny />)
     case 1:
-        return(<img src={check} alt="check"></img>)
+        return(<Check />)
     case 2:
-        return(<img src={alert} alt="alert"></img>)
+        return(<Alert />)
     }
 }
 

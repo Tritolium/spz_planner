@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@maptiler/client": "^1.1.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
@@ -18,6 +19,7 @@
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.1",
+    "react-icons": "^4.7.1",
     "react-scripts": "5.0.1",
     "stream": "^0.0.2",
     "styled-components": "^5.3.6",
@@ -32,7 +34,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "react-scripts build && sudo cp -r ./build/* /var/www/html/",
+    "remote-deploy": "react-scripts build && scp -r ./build/* pi@buzzer.dns.army:/home/pi/build/ && ssh pi@buzzer.dns.army 'sudo cp -r ./build/* /var/www/html/'"
   },
   "eslintConfig": {
     "extends": [

@@ -1,4 +1,7 @@
 import Cookies from "universal-cookie"
+import * as maptilerClient from '@maptiler/client'
+
+maptilerClient.config.apiKey = 'm4hEVQNm2k3vfyEB1Bsy'
 
 const cookies = new Cookies()
 
@@ -16,6 +19,9 @@ const login = async (name) => {
             cookies.set('api_token', json.API_token, {maxAge: 604800})
             localStorage.setItem('api_token', json.API_token)
             break
+        case 406:
+            alert('Dein Name scheint mehrfach vergeben zu sein, bitte genauer angeben')
+            break;
         default:
         case 404:
             break
@@ -108,7 +114,7 @@ const getEvents = async (filter) => {
     return events
 }
 
-const updateEvent = async(event_id, type, location, date, begin, departure, leave_dep, accepted, usergroup) => {
+const updateEvent = async(event_id, type, location, date, begin, departure, leave_dep, accepted, usergroup, clothing) => {
     let token = cookies.get('api_token')
     //let token = localStorage.getItem('api_token')
     let response = await fetch(`${host}/api/event.php?api_token=${token}`, {
@@ -122,7 +128,8 @@ const updateEvent = async(event_id, type, location, date, begin, departure, leav
             Departure: departure,
             Leave_dep: leave_dep,
             Accepted: accepted,
-            Usergroup_ID: usergroup
+            Usergroup_ID: usergroup,
+            Clothing: clothing
         })
     })
     switch(response.status){
@@ -135,10 +142,9 @@ const updateEvent = async(event_id, type, location, date, begin, departure, leav
     }
 }
 
-const newEvent = async (type, location, date, begin, departure, leave_dep, accepted, usergroup) => {
+const newEvent = async (type, location, date, begin, departure, leave_dep, accepted, usergroup, clothing) => {
     
     let token = cookies.get('api_token')
-    //let token = localStorage.getItem('api_token')
     
     let response = await fetch(`${host}/api/event.php?api_token=${token}`, {
         method: "POST",
@@ -150,7 +156,8 @@ const newEvent = async (type, location, date, begin, departure, leave_dep, accep
             Departure: departure,
             Leave_dep: leave_dep,
             Accepted: accepted,
-            Usergroup_ID: usergroup
+            Usergroup_ID: usergroup,
+            Clothing: clothing
         })
     })
     switch(response.status){
@@ -345,7 +352,7 @@ export const getAllAttendences = async (usergroup_id) => {
     return attendences
 }
 
-const updateAttendences = async (changes) => {
+const updateAttendences = async (changes, feedback=true) => {
     let token = cookies.get('api_token')
     //let token = localStorage.getItem('api_token')
     
@@ -354,10 +361,12 @@ const updateAttendences = async (changes) => {
         body: JSON.stringify(changes)
     }).then(
         res => {
-            if(res.status === 200)
-                alert('Angaben übernommen')
-            else
-                alert('Ein Fehler ist aufgetreten')
+            if(feedback){
+                if(res.status === 200)
+                    alert('Angaben übernommen')
+                else
+                    alert('Ein Fehler ist aufgetreten')
+            }
         }
     )
 }
@@ -867,7 +876,7 @@ export const updateAssociation = async (id, title, firstchair, clerk, treasurer)
 export const getAssociations = async () => {
     
     let token = localStorage.getItem('api_token')
-    let associations = undefined
+    let associations = new Array(0)
 
     let lastmodified = JSON.parse(localStorage.getItem('associations'))?.lastmodified
     let response = await fetch(`${host}/api/association.php?api_token=${token}`, {
@@ -880,20 +889,115 @@ export const getAssociations = async () => {
     switch(response.status){
     case 200:
         associations = await response.json()
-        let store = {
-            lastmodified: response.headers.get('DB-Last-Modified'),
-            data: associations
-        }
-        localStorage.setItem('associations', JSON.stringify(store))
-        break
-    case 304:
-        associations = JSON.parse(localStorage.getItem('associations'))?.data
         break
     default:
+    case 204:
         break
     }
 
     return associations
+}
+
+export const getWeather = async (nextEvent) => {
+    let hour = parseInt(nextEvent.Begin.slice(0,2))
+    let geo = await maptilerClient.geocoding.forward(nextEvent.Location)
+    let response = await fetch(`https://api.open-meteo.com/v1/dwd-icon?latitude=${geo.features[0].center[1]}&longitude=${geo.features[0].center[0]}&hourly=apparent_temperature,weathercode&start_date=${nextEvent.Date}&end_date=${nextEvent.Date}&timezone=CET`)
+    let json = await response.json()
+    return({
+        "Temperature": json.hourly.apparent_temperature[hour],
+        "Weathercode": json.hourly.weathercode[hour]
+    })
+}
+
+export const getScores = async () => {
+
+    let token = localStorage.getItem('api_token')
+
+    let response = await fetch(`${host}/api/score.php?api_token=${token}`, {
+        method: 'GET'
+    })
+
+    switch(response.status){
+    case 200:
+        let json = await response.json()
+        return(json)
+    case 204:
+        return(new Array(0))
+    default:
+        alert('Ein Fehler ist aufgetreten')
+        break
+    }
+}
+
+export const newScore = async (title, link) => {
+    
+    let token = localStorage.getItem('api_token')
+
+    let response = await fetch(`${host}/api/score.php?api_token=${token}`, {
+        method: 'POST',
+        body: JSON.stringify({
+            Title:  title,
+            Link:   link
+        })
+    })
+
+    switch(response.status){
+    case 201:
+        alert('Notenverweis erstellt')
+        break
+    default:
+        alert('Ein Fehler ist aufgetreten')
+        break
+    }
+}
+
+export const updateScore = async (score_id, title, link) => {
+
+    let token = localStorage.getItem('api_token')
+
+    let response = await fetch(`${host}/api/score.php?api_token=${token}&id=${score_id}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+            Title:  title,
+            Link:   link
+        })
+    })
+
+    switch(response.status){
+    case 200:
+        alert('Notenverweis erstellt')
+        break
+    default:
+        alert('Ein Fehler ist aufgetreten')
+        break
+    }
+}
+
+export const deleteScore = async (score_id) => {
+    
+    let token = localStorage.getItem('api_token')
+    let response = await fetch(`${host}/api/score.php?api_token=${token}&id=${score_id}`, {
+        method: 'DELETE'
+    })
+
+    switch(response.status){
+        case 204:
+            alert('Notenverweis gelöscht')
+            break
+        default:
+            alert('Ein Fehler ist aufgetreten')
+            break
+    }
+}
+
+export const newFeedback = async (content) => {
+    let token = localStorage.getItem('api_token')
+    fetch(`${host}/api/feedback.php?api_token=${token}`, {
+        method: 'POST',
+        body: JSON.stringify({
+            Content: content
+        })
+    })
 }
 
 export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, updateAttendences, getMissingFeedback, getEval }

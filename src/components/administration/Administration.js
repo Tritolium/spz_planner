@@ -4,6 +4,7 @@ import HeaderMenu from "../../modules/components/headermenu/HeaderMenu"
 import { StyledAdministration, StyledView } from "./Administration.styled"
 import Associations from "./association/Associations";
 import DateTemplates from "./datetemplates/DateTemplates";
+import Scores from "./scores/Scores"
 import UsergroupAssignment from "./usergroupassignment/UsergroupAssignment";
 import Usergroups from "./usergroups/Usergroups";
 
@@ -26,6 +27,9 @@ const Administration = () => {
         case 'administration_button_3':
             setView(3)
             break
+        case 'administration_button_4':
+            setView(4)
+            break
         }
     }
 
@@ -36,6 +40,7 @@ const Administration = () => {
                 <Button id='administration_button_1' onClick={navigate}>Benutzergruppen</Button>
                 <Button id='administration_button_2' onClick={navigate}>Gruppenzuordnung</Button>
                 <Button id="administration_button_3" onClick={navigate}>Terminvorlagen</Button>
+                <Button id="administration_button_4" onClick={navigate}>Noten</Button>
             </HeaderMenu>
             <View view={view}/>
         </StyledAdministration>
@@ -53,6 +58,8 @@ const View = ({ view }) => {
         return(<StyledView><UsergroupAssignment /></StyledView>)
     case 3:
         return(<StyledView><DateTemplates /></StyledView>)
+    case 4:
+        return(<StyledView><Scores /></StyledView>)
     }
 }
 

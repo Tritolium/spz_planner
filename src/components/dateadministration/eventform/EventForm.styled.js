@@ -11,4 +11,8 @@ export const StyledEventForm = styled.div`
         margin: 2px;
         border-radius: 5px;
     }
+
+    img {
+        height: 35pt;
+    }
 `
