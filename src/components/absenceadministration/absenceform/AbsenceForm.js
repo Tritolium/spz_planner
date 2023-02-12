@@ -102,9 +102,13 @@ const Form = ({selected, reload}) => {
     const createNew = async (e) => {
         e.preventDefault()
         
+        let until
         let from = document.getElementById("from").value
-        let until = document.getElementById("until").value
+        let _until = document.getElementById("until").value
         let info = document.getElementById("info").value
+
+        _until === '' ? until = from : until = _until
+
         await newAbsence(from, until, info)
 
         reload()
@@ -118,10 +122,14 @@ const Form = ({selected, reload}) => {
             createNew(e)
             return
         }
-
+        
+        let until
         let from = document.getElementById("from").value
-        let until = document.getElementById("until").value
+        let _until = document.getElementById("until").value
         let info = document.getElementById("info").value
+
+        _until === '' ? until = from : until = _until
+
         await updateAbsence(absence.Absence_ID, absence.Member_ID, from, until, info)
 
         reload()
