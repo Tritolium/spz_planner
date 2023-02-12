@@ -99,9 +99,9 @@ const Termineingabe = ({fullname}) => {
                         case 'all':
                             return true
                         case 'practice':
-                            return attendence.Type === 'Probe' || attendence.Type === 'Üben'
+                            return attendence.Type.includes('Probe') || attendence.Type.includes('Üben')
                         case 'else':
-                            return !(attendence.Type === 'Probe' || attendence.Type === 'Üben')
+                            return !(attendence.Type.includes('Probe') || attendence.Type.includes('Üben'))
                         }
                     })
                     .filter(attendence => {
@@ -127,7 +127,7 @@ const Termineingabe = ({fullname}) => {
                             <tr key={att.Location + att.Event_ID}>
                                 {!oneUsergroup ? <TableData>{usergroupLogo(att.Usergroup_ID)}</TableData> : <></>}
                                 <TableData><DateField dateprops={att} /></TableData>
-                                <TableData><Terminzusage states={ATTENDENCE_STATES} attendence={att.Attendence} onClick={onClick} event_id={att.Event_ID}/></TableData>
+                                <TableData><Terminzusage states={ATTENDENCE_STATES} attendence={att.Attendence} onClick={onClick} event_id={att.Event_ID} cancelled={att.Type.includes('Abgesagt')}/></TableData>
                             </tr>
                         )
                     })}

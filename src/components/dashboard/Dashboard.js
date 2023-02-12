@@ -27,11 +27,11 @@ const Dashboard = () => {
         })
 
         let nextEvent = nextAll.filter(event => { // sort out practice
-            return !(event.Type === 'Probe' || event.Type === 'Üben')
+            return !(event.Type.includes('Probe') || event.Type.includes('Üben'))
         })[0]
 
         let nextPractice = nextAll.filter(event => { // sort out practice
-            return event.Type === 'Probe' || event.Type === 'Üben'
+            return event.Type.includes('Probe') || event.Type.includes('Üben')
         })[0]
 
         setNextEvent(nextEvent)
@@ -105,7 +105,7 @@ const NextPractice = ({ nextPractice }) => {
         <tr>
             <td>{nextPractice?.Type}</td>
             <td>{nextPractice?.Location}</td>
-            <td rowSpan={2}><Terminzusage event_id={nextPractice?.Event_ID} states={3} attendence={attendence} onClick={onClick} /></td>
+            <td rowSpan={2}><Terminzusage event_id={nextPractice?.Event_ID} states={3} attendence={attendence} onClick={onClick} cancelled={nextPractice?.Type.includes('Abgesagt')}/></td>
         </tr>
         <tr>
             <td>{practiceDate.getDate()}.{practiceDate.getMonth() + 1}.{practiceDate.getFullYear()}</td>

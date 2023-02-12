@@ -15,4 +15,8 @@ export const StyledEventForm = styled.div`
     img {
         height: 35pt;
     }
+
+    @media (max-width: ${({theme}) => theme.mobile}) {
+        flex-direction: column;
+    }
 `
