@@ -18,7 +18,7 @@ import cow from '../../../icons/cow.png'
 
 const EventForm = () => {
 
-    const options = [
+    const date_options = [
         {value: "current", label: "Aktuell"},
         {value: "past", label: "Vergangen"},
         {value: "all", label: "Alle"}
@@ -29,7 +29,7 @@ const EventForm = () => {
     const [datetemplates, setDatetemplates] = useState(new Array(0))
 
     const [selected, setSelected] = useState(-1)
-    const [filter, setFilter] = useState(options[0].value)
+    const [filter, setFilter] = useState(date_options[0].value)
 
     const fetchEvents = useCallback(async () => {
         let _events = await getEvents(filter)
@@ -76,17 +76,64 @@ const EventForm = () => {
 
     return (
         <StyledEventForm>
-            <EventSelector events={events} onSelect={onSelect} onFilterChange={onFilterChange} options={options}/>
+            <EventSelector events={events} onSelect={onSelect} onFilterChange={onFilterChange} date_options={date_options} usergroups={usergroups}/>
             <DetailForm event={events.find((event) => event.Event_ID === selected)} usergroups={usergroups} datetemplates={datetemplates} reload={reload}/>
         </StyledEventForm>
     )
 }
 
-const EventSelector = ({ events, onSelect, options, onFilterChange }) => {
+const EventSelector = ({ events, onSelect, date_options, usergroups, onFilterChange }) => {
+
+    const event_options = [
+        {value: "all", label: "Alle"},
+        {value: "practice", label: "Probe/Üben"},
+        {value: "event", label: "Auftritt etc."}
+    ]
+
+    const usergroup_options = [
+        {value: "all", label: "Alle"},
+        ...(usergroups.map(usergroup => {
+            return {value: usergroup.Usergroup_ID, label: usergroup.Title}
+        }))
+    ]
+
+    const [eventfilter, setEventfilter] = useState(event_options[0].value)
+    const [usergroupfilter, setUsergroupfilter] = useState(usergroup_options[0].value)
+
+    const onEventFilterChange = useCallback((e) => {
+        setEventfilter(e.target.value)
+    }, [])
+
+    const onUsergroupFilterChange = useCallback((e) => {
+        setUsergroupfilter(e.target.value)
+    }, [])
+
     return (
         <Selector>
-            <Filter options={options} onChange={onFilterChange} />
-            {events.map(event => {
+            <div>
+                <Filter options={date_options} onChange={onFilterChange} />
+                <Filter options={event_options} onChange={onEventFilterChange} />
+                <Filter options={usergroup_options} onChange={onUsergroupFilterChange}/>
+            </div>
+            {events
+            .filter(event => {
+                switch(eventfilter) {
+                default:
+                case 'all':
+                    return true
+                case 'practice':
+                    return event.Type.includes('Probe') || event.Type.includes('Üben')
+                case 'event':
+                    return !(event.Type.includes('Probe') || event.Type.includes('Üben'))
+                }
+            })
+            .filter(event => {
+                if(usergroupfilter === "all")
+                    return true
+                
+                return  parseInt(event.Usergroup_ID) === parseInt(usergroupfilter)
+            })
+            .map(event => {
                 return(
                     <EventItem event={event} onSelect={onSelect}/>
                 )

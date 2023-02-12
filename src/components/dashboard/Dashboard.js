@@ -2,14 +2,10 @@ import { useCallback, useEffect } from 'react'
 import { useState } from 'react'
 import { getAttendences, getWeather, newFeedback, updateAttendences } from '../../modules/data/DBConnect'
 import { StyledDashboard, StyledFeedbackArea } from './Dashboard.styled'
-import polo from '../../icons/polo.png'
-import polod from '../../icons/polod.png'
-import shirt from '../../icons//shirt.png'
-import suit from '../../icons//suit.png'
-import cow from '../../icons//cow.png'
 import Terminzusage from '../dateplanner/attendenceInput/Terminzusage'
 import WeatherIcon from './WeatherIcon'
 import Button from '../../modules/components/button/Button'
+import { Clothing } from '../../modules/components/clothing/Clothing'
 
 const Dashboard = () => {
 
@@ -27,11 +23,11 @@ const Dashboard = () => {
         })
 
         let nextEvent = nextAll.filter(event => { // sort out practice
-            return !(event.Type === 'Probe' || event.Type === 'Üben')
+            return !(event.Type.includes('Probe') || event.Type.includes('Üben'))
         })[0]
 
         let nextPractice = nextAll.filter(event => { // sort out practice
-            return event.Type === 'Probe' || event.Type === 'Üben'
+            return event.Type.includes('Probe') || event.Type.includes('Üben')
         })[0]
 
         setNextEvent(nextEvent)
@@ -55,34 +51,12 @@ const Dashboard = () => {
     </StyledDashboard>)
 }
 
-const Clothing = ({ clothing }) => {
-
-    let icon
-
-    switch(parseInt(clothing)){
-    case 1:
-        icon = polo
-        break
-    case 2:
-        icon = polod
-        break
-    case 3:
-        icon = shirt
-        break
-    case 4:
-        icon = suit
-        break
-    case 5:
-        icon = cow
-        break
-    default:
-        break
-    }
+const ClothingRow = ({ clothing }) => {
 
     return(
         <tr>
             <td>Bekleidung:</td>
-            <td>{icon ? <img src={icon} alt="Uniform" loading="lazy" /> : <>keine Angabe</>}</td>
+            <td>{parseInt(clothing) !== 0 ? <Clothing clothing={parseInt(clothing)} /> : <>keine Angabe</>}</td>
         </tr>
     )
 }
@@ -105,7 +79,7 @@ const NextPractice = ({ nextPractice }) => {
         <tr>
             <td>{nextPractice?.Type}</td>
             <td>{nextPractice?.Location}</td>
-            <td rowSpan={2}><Terminzusage event_id={nextPractice?.Event_ID} states={3} attendence={attendence} onClick={onClick} /></td>
+            <td rowSpan={2}><Terminzusage event_id={nextPractice?.Event_ID} states={3} attendence={attendence} onClick={onClick} cancelled={nextPractice?.Type.includes('Abgesagt')}/></td>
         </tr>
         <tr>
             <td>{practiceDate.getDate()}.{practiceDate.getMonth() + 1}.{practiceDate.getFullYear()}</td>
@@ -161,7 +135,7 @@ const NextEvent = ({ nextEvent }) => {
             <td>Zurück:</td>
             <td>{nextEvent?.Leave_dep !== "12:34:56" ? `${nextEvent?.Leave_dep.slice(0, 5)} Uhr` : "-"}</td>
         </tr>
-        <Clothing clothing={nextEvent?.Clothing} />
+        <ClothingRow clothing={nextEvent?.Clothing} />
     </>)
 }
 

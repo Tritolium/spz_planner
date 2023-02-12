@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react"
+import { Clothing } from "../../../modules/components/clothing/Clothing"
 import Filter from "../../../modules/components/Filter"
 import { getEvents } from "../../../modules/data/DBConnect"
 import { StyledEventTable, StyledEventTableMobile, StyledOverview } from "./Overview.styled"
@@ -12,8 +13,15 @@ const Overview = () => {
         {value: "all", label: "Alle"}
     ]
 
+    const event_options = [
+        {value: "event", label: "Auftritt etc."},
+        {value: "practice", label: "Probe/Üben"},
+        {value: "all", label: "Alle"}
+    ]
+
     const [events, setEvents] = useState(new Array(0))
     const [filter, setFilter] = useState(options[0].value)
+    const [eventfilter, setEventfilter] = useState(event_options[0].value)
 
     const fetchEvents = useCallback(async () => {
         let _events = await getEvents(filter)
@@ -25,20 +33,27 @@ const Overview = () => {
         setFilter(e.target.value)
     }, [setFilter])
 
+    const onEventFilterChange = useCallback((e) => {
+        setEventfilter(e.target.value)
+    }, [setEventfilter])
+
     useEffect(() => {
         fetchEvents()
     }, [fetchEvents])
 
     return(
         <StyledOverview>
-            <Filter options={options} onChange={onFilterChange}/>
-            <EventList events={events} />
-            <EventListMobile events={events} />
+            <div>
+                <Filter options={options} onChange={onFilterChange}/>
+                <Filter options={event_options} onChange={onEventFilterChange}/>
+            </div>
+            <EventList events={events} eventfilter={eventfilter}/>
+            <EventListMobile events={events} eventfilter={eventfilter}/>
         </StyledOverview>
     )
 }
 
-const EventList = ({ events }) => {
+const EventList = ({ events, eventfilter }) => {
     return(
         <StyledEventTable>
             <thead>
@@ -48,10 +63,23 @@ const EventList = ({ events }) => {
                     <th>Beginn</th>
                     <th>Abfahrt</th>
                     <th>Rückfahrt</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                {events.map(event => {
+                {events
+                .filter(event => {
+                    switch(eventfilter) {
+                        default:
+                        case 'all':
+                            return true
+                        case 'practice':
+                            return event.Type.includes('Probe') || event.Type.includes('Üben')
+                        case 'event':
+                            return !(event.Type.includes('Probe') || event.Type.includes('Üben'))
+                        }
+                })
+                .map(event => {
                     return(<Event event={event} />)
                 })}
             </tbody>
@@ -59,19 +87,31 @@ const EventList = ({ events }) => {
     )
 }
 
-const EventListMobile = ({ events }) => {
+const EventListMobile = ({ events, eventfilter }) => {
     return(
         <StyledEventTableMobile>
             <thead>
                 <tr>
                     <th>Ort/Datum</th>
-                    <th>Beginn</th>
-                    <th>Abfahrt</th>
+                    <th>Beginn/Abfahrt</th>
                     <th>Rückfahrt</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                {events.map(event => {
+                {events
+                .filter(event => {
+                    switch(eventfilter) {
+                        default:
+                        case 'all':
+                            return true
+                        case 'practice':
+                            return event.Type.includes('Probe') || event.Type.includes('Üben')
+                        case 'event':
+                            return !(event.Type.includes('Probe') || event.Type.includes('Üben'))
+                        }
+                })
+                .map(event => {
                     return(<EventMobile event={event} />)
                 })}
             </tbody>
@@ -87,6 +127,7 @@ const Event = ({ event }) => {
             <td>{parseTime(event.Begin)}</td>
             <td>{parseTime(event.Departure)}</td>
             <td>{parseTime(event.Leave_dep)}</td>
+            <td>{event.Clothing === 0 ? <></> : <Clothing clothing={event.Clothing}/>}</td>
         </tr>
     )
 }
@@ -95,9 +136,9 @@ const EventMobile = ({ event }) => {
     return(
         <tr>
             <td>{event.Type} {event.Location} {parseDate(event.Date)}</td>
-            <td>{parseTime(event.Begin)}</td>
-            <td>{parseTime(event.Departure)}</td>
+            <td>{parseTime(event.Begin)}<br />{parseTime(event.Departure)}</td>
             <td>{parseTime(event.Leave_dep)}</td>
+            <td>{event.Clothing === 0 ? <></> : <Clothing clothing={event.Clothing}/>}</td>
         </tr>
     )
 }

@@ -1,10 +1,8 @@
 import styled from "styled-components";
 
 export const StyledDashboard = styled.div`
-    padding-top: max(env(safe-area-inset-top), 15px);
-    padding-right: max(env(safe-area-inset-right), 15px);
-    padding-bottom: max(env(safe-area-inset-bottom), 15px);
-    padding-left: max(env(safe-area-inset-left), 15px);
+
+    width: 100%;
 
     .infotext {
         font-size: smaller;
@@ -24,6 +22,10 @@ export const StyledDashboard = styled.div`
     svg {
         height: 50pt;
         width: 50pt;
+    }
+
+    th {
+        padding-top: 2.5vh;
     }
 `
 

@@ -16,7 +16,7 @@ const Terminzusage = (props) => {
 
     return(
         <StyledTerminzusage className="Terminzusage">
-            <Button callback={onClick} attendence={attendence}/>
+            {props.cancelled ? <Button attendence={0}/> : <Button callback={onClick} attendence={attendence}/>}
         </StyledTerminzusage>
     )
 }
