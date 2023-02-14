@@ -80,9 +80,9 @@ const Termineingabe = ({fullname}) => {
             <Table>
                 <thead>
                     <tr>
-                        <td>Termin:</td>
-                        <td>{fullname}</td>
-                        <td></td>
+                        <th>Termine: {oneUsergroup ? usergroupLogo(attendences[0]?.Usergroup_ID) : <></>}</th>
+                        <th>{fullname}</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -158,11 +158,22 @@ const Table = styled.table`
         max-height: 64px;
         max-width: 64px;
     }
+
+    th {
+        img {
+            transform: translateY(20%);
+            max-height: 27px;
+            max-width: 128px;
+        }
+    }
 `
 
 const TableData = styled.td`
     border-top: 1px solid #ccc;
     :nth-child(1) {
+        text-align: center;
+    }
+    :nth-child(2) {
         text-align: center;
     }
 `

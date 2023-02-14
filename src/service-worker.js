@@ -11,7 +11,7 @@ import { clientsClaim } from 'workbox-core';
 import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
-import { StaleWhileRevalidate, NetworkFirst } from 'workbox-strategies';
+import { StaleWhileRevalidate, NetworkFirst, CacheFirst } from 'workbox-strategies';
 
 clientsClaim();
 
@@ -68,6 +68,21 @@ registerRoute(
 
 registerRoute(
 	({ url }) => url.origin === self.location.origin && url.pathname.substring('attendence.php'),
+	new NetworkFirst()
+)
+
+registerRoute(
+	({ url }) => url.origin === self.location.origin && url.pathname.substring('png'),
+	new CacheFirst()
+)
+
+registerRoute(
+	({ url }) => url.origin === self.location.origin && url.pathname.substring('pdf'),
+	new CacheFirst()
+)
+
+registerRoute(
+	({ url }) => url.origin === self.location.origin && url.hostname.substring('api.open-meteo.com'),
 	new NetworkFirst()
 )
 
