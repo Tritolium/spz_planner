@@ -22,6 +22,10 @@ export const StyledDashboard = styled.div`
         height: 30pt;
     }
 
+    tr {
+        border: 1px solid white;
+    }
+
     svg {
         height: 50pt;
         width: 50pt;
