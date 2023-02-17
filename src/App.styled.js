@@ -1,17 +1,17 @@
 import styled from "styled-components";
 
-export const StyledApp = styled.div`
+const StyledApp = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     max-height: 100vh;
-    padding: max(env(safe-area-inset-top), 90px) max(env(safe-area-inset-right), 5px) env(safe-area-inset-bottom) max(env(safe-area-inset-left), 5px);
+    padding: max(env(safe-area-inset-top), 6rem) max(env(safe-area-inset-right), 5px) max(env(safe-area-inset-bottom), 5px) max(env(safe-area-inset-left), 5px);
     box-sizing: border-box;
-    width: 100vw;
+    width: 100%;
 
-    @media (max-width: ${({theme}) => theme.mobile}) {
-        padding-top: calc(10% + 2rem);
-    }
+    // @media (max-width: ${({theme}) => theme.mobile}) {
+    //     padding-top: calc(10% + 2rem);
+    // }
 
     .Namefield {
         font-size: 1.5rem;
@@ -26,3 +26,5 @@ export const StyledApp = styled.div`
         }
     }
 `
+
+export default StyledApp

@@ -124,8 +124,6 @@ const NextEvent = ({ nextEvent }) => {
             <td>{eventDate.getDate()}.{eventDate.getMonth() + 1}.{eventDate.getFullYear()}</td>
             <td>{nextEvent?.Begin.slice(0, 5)} Uhr</td>
             <td rowSpan={3}><Terminzusage event_id={nextEvent?.Event_ID} states={3} attendence={attendence} onClick={onClick}/></td>
-            <td rowSpan={3}>{weather ? `${weather.Temperature}°C` : "keine Wetterdaten"}</td>
-            <td rowSpan={3}>{weather ? <WeatherIcon code={weather.Weathercode} /> : ""}</td>
         </tr>
         <tr>
             <td>Hin:</td>
@@ -136,6 +134,12 @@ const NextEvent = ({ nextEvent }) => {
             <td>{nextEvent?.Leave_dep !== "12:34:56" ? `${nextEvent?.Leave_dep.slice(0, 5)} Uhr` : "-"}</td>
         </tr>
         <ClothingRow clothing={nextEvent?.Clothing} />
+        <tr>
+            <td>Wetter:</td>
+            <td>{weather ? `${weather.Temperature}°C` : "keine Wetterdaten"}</td>
+            <td>{weather ? <WeatherIcon code={weather.Weathercode} /> : ""}</td>
+        </tr>
+
     </>)
 }
 

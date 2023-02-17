@@ -3,9 +3,6 @@ import { login, update_login } from './modules/data/DBConnect';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from './global';
 import { theme } from './theme';
-import { StyledApp } from './App.styled';
-import Dashboard from './components/dashboard/Dashboard';
-import Scoreboard from './components/scoreboard/Scoreboard';
 
 import('./App.css')
 
@@ -13,15 +10,18 @@ const AbsenceAdministration = lazy(() => import('./components/absenceadministrat
 const Administration = lazy(() => import('./components/administration/Administration'))
 const Burger = lazy(() => import('./modules/components/burger/Burger'))
 const Button = lazy(() => import('./modules/components/button/Button'))
+const Dashboard = lazy(() => import('./components/dashboard/Dashboard'))
 const Dateplanner = lazy(() => import('./components/dateplanner/Dateplanner'))
 const EventAdministration = lazy(() => import('./components/dateadministration/EventAdministration'))
 const HelpPage = lazy(() => import('./components/helppage/HelpPage'))
 const Login = lazy(() => import('./components/login/Login'))
 const MemberAdministration = lazy(() => import('./components/memberadministration/MemberAdministration'))
 const Menu = lazy(() => import('./modules/components/menu/Menu'))
+const Scoreboard = lazy(() => import('./components/scoreboard/Scoreboard'))
+const StyledApp = lazy(() => import('./App.styled'))
 
 
-const version = 'v0.8.1'
+const version = 'v0.8.2'
 
 const App = () => {
 
@@ -35,7 +35,7 @@ const App = () => {
     useEffect(() => {
 
         const update = async () =>{
-            let { _forename, _surname, _auth_level } = await update_login()
+            let { _forename, _surname, _auth_level } = await update_login(version)
             
             if(_auth_level !== undefined) {
                 setFullname(_forename + " " + _surname)
@@ -55,7 +55,7 @@ const App = () => {
 
     const sendLogin = useCallback(async (name) => {
 
-        let { _forename, _surname, _api_token } = await login(name)
+        let { _forename, _surname, _api_token } = await login(name, version)
 
         if(_api_token !== undefined) {
             setFullname(_forename + " " + _surname)

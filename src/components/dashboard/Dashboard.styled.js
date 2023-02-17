@@ -3,6 +3,9 @@ import styled from "styled-components";
 export const StyledDashboard = styled.div`
 
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     .infotext {
         font-size: smaller;
@@ -19,6 +22,10 @@ export const StyledDashboard = styled.div`
         height: 30pt;
     }
 
+    tr {
+        border: 1px solid white;
+    }
+
     svg {
         height: 50pt;
         width: 50pt;
@@ -30,7 +37,12 @@ export const StyledDashboard = styled.div`
 `
 
 export const StyledFeedbackArea = styled.textarea`
-    transition: transform 0.3s ease-in-out;
+    transition-property: transform, opacity, max-height;
+    transition-duration: 0.75s;
+    transition-timing-function: ease;
+    
     transform: ${({ open }) => open ? 'translateX(0)' : 'translateX(-100%)'};
-    visibility: ${({ open }) => open ? 'visible' : 'hidden'};
+    opacity: ${({ open }) => open ? '1' : '0'};
+    max-height: ${({ open }) => open ? '160px' : '0'};
+
 `

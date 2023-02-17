@@ -31,9 +31,21 @@ const Scoreboard = () => {
 }
 
 const ScoreSelector = ({ scores, onSelect }) => {
+
+    const [search, setSearch] = useState("")
+
+    const searchChanged = (e) => {
+        setSearch(e.target.value.toLowerCase())
+    }
+
     return(
         <Selector>
-            {scores.map(score => {
+            <input type="text" onChange={searchChanged}></input>
+            {scores
+            .filter(score => {
+                return score.Title.toLowerCase().includes(search)
+            })
+            .map(score => {
                 return(<Score onSelect={onSelect} key={score.Score_ID} score={score}/>)
             })}
         </Selector>
