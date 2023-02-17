@@ -35,7 +35,7 @@ const App = () => {
     useEffect(() => {
 
         const update = async () =>{
-            let { _forename, _surname, _auth_level } = await update_login()
+            let { _forename, _surname, _auth_level } = await update_login(version)
             
             if(_auth_level !== undefined) {
                 setFullname(_forename + " " + _surname)
@@ -55,7 +55,7 @@ const App = () => {
 
     const sendLogin = useCallback(async (name) => {
 
-        let { _forename, _surname, _api_token } = await login(name)
+        let { _forename, _surname, _api_token } = await login(name, version)
 
         if(_api_token !== undefined) {
             setFullname(_forename + " " + _surname)

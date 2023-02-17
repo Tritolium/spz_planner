@@ -4,9 +4,22 @@ maptilerClient.config.apiKey = 'm4hEVQNm2k3vfyEB1Bsy'
 
 let host = (process.env.NODE_ENV !== 'production') ? 'http://localhost' : ''
 
-const login = async (name) => {
+const login = async (name, version) => {
     let _forename, _surname, _api_token
-    let response = await fetch(`${host}/api/login.php?mode=login&name=${name}`, {method: "GET"})
+
+    let displayMode = 'browser tab'
+    if(window.matchMedia('(display-mode: standalone)').matches) {
+        displayMode = 'standalone'
+    }
+
+    let response = await fetch(`${host}/api/login.php?mode=login`, {
+        method: "POST",
+        body: JSON.stringify({
+            Version: version,
+            Name: name,
+            DisplayMode: displayMode
+        })
+    })
     switch(response.status) {
         case 200:
             let json = await response.json()
@@ -26,11 +39,23 @@ const login = async (name) => {
     return { _forename, _surname, _api_token }
 }
 
-const update_login = async () => {
+const update_login = async (version) => {
     let _forename, _surname, _auth_level
+
+    let displayMode = 'browser tab'
+    if(window.matchMedia('(display-mode: standalone)').matches) {
+        displayMode = 'standalone'
+    }
     
     let token = localStorage.getItem('api_token')
-    let response = await fetch(`${host}/api/login.php?mode=update&api_token=${token}`)
+    let response = await fetch(`${host}/api/login.php?mode=update`, {
+        method: "POST",
+        body: JSON.stringify({
+            Version: version,
+            Token: token,
+            DisplayMode: displayMode
+        })
+    })
     switch(response.status) {
         case 200:
             let json = await response.json()
