@@ -4,12 +4,37 @@ maptilerClient.config.apiKey = 'm4hEVQNm2k3vfyEB1Bsy'
 
 let host = (process.env.NODE_ENV !== 'production') ? 'http://localhost' : ''
 
+function getOS() {
+    var userAgent = window.navigator.userAgent,
+        platform = window.navigator?.userAgentData?.platform || window.navigator.platform,
+        macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
+        windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
+        iosPlatforms = ['iPhone', 'iPad', 'iPod'],
+        os = null;
+  
+    if (macosPlatforms.indexOf(platform) !== -1) {
+        os = 'Mac OS';
+    } else if (iosPlatforms.indexOf(platform) !== -1) {
+        os = 'iOS';
+    } else if (windowsPlatforms.indexOf(platform) !== -1) {
+        os = 'Windows';
+    } else if (/Android/.test(userAgent)) {
+        os = 'Android';
+    } else if (/Linux/.test(platform)) {
+        os = 'Linux';
+    }
+  
+    return os;
+}
+
 const login = async (name, version) => {
     let _forename, _surname, _api_token
 
     let displayMode = 'browser tab'
     if(window.matchMedia('(display-mode: standalone)').matches) {
         displayMode = 'standalone'
+    } else if (window.matchMedia('(display-mode: fullscreen)').matches) {
+        displayMode = 'fullscreen'
     }
 
     let response = await fetch(`${host}/api/login.php?mode=login`, {
@@ -17,7 +42,7 @@ const login = async (name, version) => {
         body: JSON.stringify({
             Version: version,
             Name: name,
-            DisplayMode: displayMode
+            DisplayMode: `${getOS()}, ${displayMode}`
         })
     })
     switch(response.status) {
@@ -45,6 +70,8 @@ const update_login = async (version) => {
     let displayMode = 'browser tab'
     if(window.matchMedia('(display-mode: standalone)').matches) {
         displayMode = 'standalone'
+    } else if (window.matchMedia('(display-mode: fullscreen)').matches) {
+        displayMode = 'fullscreen'
     }
     
     let token = localStorage.getItem('api_token')
@@ -53,7 +80,7 @@ const update_login = async (version) => {
         body: JSON.stringify({
             Version: version,
             Token: token,
-            DisplayMode: displayMode
+            DisplayMode: `${getOS()}, ${displayMode}`
         })
     })
     switch(response.status) {
