@@ -21,7 +21,7 @@ const Scoreboard = lazy(() => import('./components/scoreboard/Scoreboard'))
 const StyledApp = lazy(() => import('./App.styled'))
 
 
-const version = 'v0.8.2'
+const version = 'v0.8.3'
 
 const App = () => {
 
