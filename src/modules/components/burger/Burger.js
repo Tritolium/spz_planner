@@ -7,9 +7,7 @@ const Burger = ({open, setOpen}) => {
     const onClick = async () => {
         setOpen(!open)
         const registration = await navigator.serviceWorker?.getRegistration()
-        if(registration?.waiting !== undefined){
-            registration.waiting.postMessage('SKIP_WAITING')
-        }
+        registration?.waiting?.postMessage('SKIP_WAITING')
         // const options = {
         //     body: 'Simple piece of body text.\nSecond line of body text :)'
         // };

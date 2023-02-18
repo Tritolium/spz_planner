@@ -1,6 +1,5 @@
 import { WiCloudDown, WiCloudUp, WiCloudy, WiDayFog, WiDayHaze, WiDayLightning, WiDaySunny, WiDirectionDown, WiDirectionRight, WiDirectionUp, WiDust, WiFog, WiHail, WiRain, WiRaindrops, WiRainMix, WiSandstorm, WiShowers, WiSleet, WiSmoke, WiSnow, WiSprinkle, WiStormWarning, WiStrongWind, WiThunderstorm, WiTime1, WiTornado } from 'react-icons/wi'
 import { TbSnowflake } from 'react-icons/tb'
-import { BsCloudDrizzle} from 'react-icons/bs'
 import { IoWarning } from 'react-icons/io5'
 import { StyledTooltip, StyledWeatherIcon } from './WeatherIcon.styled'
 import { useState } from 'react'
@@ -28,7 +27,7 @@ const WeatherIcon = ({ code }) => {
         17: <WiDayLightning />,
         18: <WiStrongWind />,
         19: <WiTornado />,
-        20: <><WiTime1 /><BsCloudDrizzle /></>,
+        20: <><WiTime1 /><WiShowers /></>,
         21: <><WiTime1 /><WiRain /></>,
         22: <><WiTime1 /><WiSnow /></>,
         23: <><WiTime1 /><WiSleet /></>,
@@ -58,16 +57,16 @@ const WeatherIcon = ({ code }) => {
         47: "Nebel, Himmel verdeckt, zunehmend",
         48: <><WiDayFog /><TbSnowflake /></>,
         49: <><WiFog /><TbSnowflake /></>,
-        50: "Leichter Sprühregen, unterbrochen",
-        51: "Leichter Sprühregen, anhaltend", 
-        52: "Mäßiger Sprühregen, unterbrochen",
-        53: "Mäßiger Sprühregen, anhaltend",
-        54: "Starker Sprühregen, unterbrochen",
-        55: "Starker Sprühregen, anhaltend",
-        56: "Gefrierender Sprühregen, leicht",
-        57: "Gefrierender Sprühregen, mäßig/stark",
-        58: "Leichter Regen und Sprühregen",
-        59: "Mäßiger Regen und Sprühregen",
+        50: <WiShowers />,
+        51: <WiShowers />, 
+        52: <WiShowers />,
+        53: <WiShowers />,
+        54: <WiShowers />,
+        55: <WiShowers />,
+        56: <><WiShowers /><TbSnowflake /></>,
+        57: <><WiShowers /><TbSnowflake /></>,
+        58: <WiRain />,
+        59: <WiRain />,
         60: <WiRainMix />,
         61: <WiRain />,
         62: <WiRainMix />,
