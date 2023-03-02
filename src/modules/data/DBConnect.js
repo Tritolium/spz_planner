@@ -4,7 +4,7 @@ maptilerClient.config.apiKey = 'm4hEVQNm2k3vfyEB1Bsy'
 
 let host = (process.env.NODE_ENV !== 'production') ? 'http://localhost' : ''
 
-const getOS = () => {
+export const getOS = () => {
     var userAgent = window.navigator.userAgent,
         platform = window.navigator?.userAgentData?.platform || window.navigator.platform,
         macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],

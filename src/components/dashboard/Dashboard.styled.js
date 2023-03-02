@@ -7,6 +7,19 @@ export const StyledDashboard = styled.div`
     flex-direction: column;
     align-items: center;
 
+    .iosInstruction {
+        color: red;
+        font-size: 1.5em;
+
+        svg {
+            animation: none;
+            stroke: ${({theme}) => theme.primaryLight};
+            color: ${({theme}) => theme.primaryLight};
+            height: 1.5em;
+            width: 1.5em;
+        }
+    }
+
     table {
         padding-top: 4pt;
         padding-bottom: 24pt;
@@ -35,8 +48,21 @@ export const StyledInfoText = styled.p`
     border-radius: 5px;
     padding: 15px;
 
+    svg {
+        height: 10em;
+        width: 10em;
+        stroke: red;
+        animation: blink 1s linear infinite;
+    }
+
     @media (min-width: ${({theme}) => theme.medium}) {
         display: none;
+    }
+
+    @keyframes blink {
+        0%{stroke: ${({theme}) => theme.primaryLight};}
+        50%{stroke: red;}
+        100%{stroke: ${({theme}) => theme.primaryLight};}
     }
 `
 
