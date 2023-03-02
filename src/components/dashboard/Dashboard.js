@@ -1,17 +1,20 @@
 import { useCallback, useEffect } from 'react'
 import { useState } from 'react'
-import { getAttendences, getWeather, newFeedback, updateAttendences } from '../../modules/data/DBConnect'
-import { StyledDashboard, StyledFeedbackArea } from './Dashboard.styled'
+import { getAttendences, getDisplayMode, getWeather, newFeedback, updateAttendences } from '../../modules/data/DBConnect'
+import { StyledDashboard, StyledFeedbackArea, StyledInfoText } from './Dashboard.styled'
 import Terminzusage from '../dateplanner/attendenceInput/Terminzusage'
 import WeatherIcon from './WeatherIcon'
 import Button from '../../modules/components/button/Button'
 import { Clothing } from '../../modules/components/clothing/Clothing'
+import { TbAlertTriangle } from 'react-icons/tb'
+import { theme } from '../../theme'
 
 const Dashboard = () => {
 
     const [nextEvent, setNextEvent] = useState()
     const [nextPractice, setNextPractice] = useState()
-    
+
+    const mobileBrowser = (getDisplayMode() === 'browser tab' && window.innerWidth < parseInt(theme.medium.split('px')[0]))    
 
     const getNextEvent = async () => {
         let events = await getAttendences()
@@ -39,8 +42,12 @@ const Dashboard = () => {
     }, [])
 
     return(<StyledDashboard>
-        <p className='infotext'>Info: die gesamten Rückmeldungen sind im Menü auf der linken Seite unter "Anwesenheiten" zu finden</p>
-        <p className='infotext'>Auf dieser Seite ist das explizite speichern nicht mehr notwendig</p>
+        <StyledInfoText>Info: die gesamten Rückmeldungen sind im Menü auf der linken Seite unter "Anwesenheiten" zu finden</StyledInfoText>
+        <StyledInfoText>Auf dieser Seite ist das explizite speichern nicht mehr notwendig</StyledInfoText>
+        {mobileBrowser ? <StyledInfoText>
+            <TbAlertTriangle />
+        </StyledInfoText> : <></>}
+        {mobileBrowser ? <StyledInfoText>Diese App kann auch installiert werden!</StyledInfoText> : <></>}
         <table>
             <tbody>
                 {nextPractice ? <NextPractice nextPractice={nextPractice} /> : <></>}

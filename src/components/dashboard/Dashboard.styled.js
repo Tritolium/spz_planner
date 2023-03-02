@@ -7,13 +7,6 @@ export const StyledDashboard = styled.div`
     flex-direction: column;
     align-items: center;
 
-    .infotext {
-        font-size: smaller;
-        font-weight: bold;
-        border-radius: 5px;
-        padding: 15px;
-    }
-
     table {
         padding-top: 4pt;
         padding-bottom: 24pt;
@@ -33,6 +26,17 @@ export const StyledDashboard = styled.div`
 
     th {
         padding-top: 2.5vh;
+    }
+`
+
+export const StyledInfoText = styled.p`
+    font-size: smaller;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 15px;
+
+    @media (min-width: ${({theme}) => theme.medium}) {
+        display: none;
     }
 `
 

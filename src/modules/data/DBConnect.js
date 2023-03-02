@@ -4,7 +4,7 @@ maptilerClient.config.apiKey = 'm4hEVQNm2k3vfyEB1Bsy'
 
 let host = (process.env.NODE_ENV !== 'production') ? 'http://localhost' : ''
 
-function getOS() {
+const getOS = () => {
     var userAgent = window.navigator.userAgent,
         platform = window.navigator?.userAgentData?.platform || window.navigator.platform,
         macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
@@ -27,15 +27,21 @@ function getOS() {
     return os;
 }
 
-const login = async (name, version) => {
-    let _forename, _surname, _api_token
-
+export const getDisplayMode = () => {
     let displayMode = 'browser tab'
     if(window.matchMedia('(display-mode: standalone)').matches) {
         displayMode = 'standalone'
     } else if (window.matchMedia('(display-mode: fullscreen)').matches) {
         displayMode = 'fullscreen'
     }
+
+    return displayMode
+}
+
+const login = async (name, version) => {
+    let _forename, _surname, _api_token
+
+    let displayMode = getDisplayMode()
 
     let response = await fetch(`${host}/api/login.php?mode=login`, {
         method: "POST",
