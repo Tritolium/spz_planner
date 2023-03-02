@@ -63,7 +63,7 @@ const Dashboard = ({installPrompt}) => {
         {mobileBrowser ? <StyledInfoText>
             <TbAlertTriangle onClick={showInstall}/>
         </StyledInfoText> : <></>}
-        {mobileBrowser ? <StyledInfoText>Diese App kann auch installiert werden!</StyledInfoText> : <></>}
+        {mobileBrowser ? <StyledInfoText>Diese App kann auch installiert werden, einfach auf das Icon klicken!</StyledInfoText> : <></>}
         {showiosInstruction ? <StyledInfoText className='iosInstruction'>Erst <IoShareOutline />, dann <BsPlusSquare /></StyledInfoText> : <></>}
         <table>
             <tbody>
