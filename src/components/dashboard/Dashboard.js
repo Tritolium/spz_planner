@@ -1,11 +1,15 @@
-import { useCallback, useEffect } from 'react'
+import { lazy, useCallback, useEffect } from 'react'
 import { useState } from 'react'
 import { getAttendences, getWeather, newFeedback, updateAttendences } from '../../modules/data/DBConnect'
 import { StyledDashboard, StyledFeedbackArea } from './Dashboard.styled'
-import Terminzusage from '../dateplanner/attendenceInput/Terminzusage'
-import WeatherIcon from './WeatherIcon'
-import Button from '../../modules/components/button/Button'
+// import Terminzusage from '../dateplanner/attendenceInput/Terminzusage'
+// import WeatherIcon from './WeatherIcon'
+// import Button from '../../modules/components/button/Button'
 import { Clothing } from '../../modules/components/clothing/Clothing'
+
+const Button = lazy(() => import('../../modules/components/button/Button'))
+const Terminzusage = lazy(() => import('../dateplanner/attendenceInput/Terminzusage'))
+const WeatherIcon = lazy(() => import('./WeatherIcon'))
 
 const Dashboard = () => {
 

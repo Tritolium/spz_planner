@@ -1023,4 +1023,33 @@ export const newFeedback = async (content) => {
     })
 }
 
+export const getAssociationAssignments = async () => {
+    let token = localStorage.getItem('api_token')
+    fetch(`${host}/api/associations.php?api_token=${token}&assignment`)
+    .then(response => {
+        return response.json()
+    }).then(json => {
+        return json
+    })
+}
+
+export const updateAssociationAssignments = async (changedAssignments) => {
+    
+    let token = localStorage.getItem('api_token')
+
+    let response = await fetch(`${host}/api/association.php?api_token=${token}&assign`, {
+        method: 'PUT',
+        body: JSON.stringify(changedAssignments)
+    })
+
+    switch(response.status){
+    case 200:
+        alert('Zuweisungen übernommen')
+        break
+    default:
+        alert('Zuweisung fehlgeschlagen')
+        break
+    }
+}
+
 export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, updateAttendences, getMissingFeedback, getEval }
