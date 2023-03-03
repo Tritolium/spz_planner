@@ -1025,12 +1025,13 @@ export const newFeedback = async (content) => {
 
 export const getAssociationAssignments = async () => {
     let token = localStorage.getItem('api_token')
-    fetch(`${host}/api/associations.php?api_token=${token}&assignment`)
+    let json = fetch(`${host}/api/association.php?api_token=${token}&assign`)
     .then(response => {
         return response.json()
     }).then(json => {
         return json
     })
+    return json
 }
 
 export const updateAssociationAssignments = async (changedAssignments) => {

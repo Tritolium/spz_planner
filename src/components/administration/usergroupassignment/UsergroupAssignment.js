@@ -3,9 +3,8 @@ import { Table } from "../../../modules/components/overview/Table"
 import { getUsergroupAssignments, updateUsergroupAssignments } from "../../../modules/data/DBConnect"
 import { StyledMobileTableHeader, StyledTableHeader, StyledUsergroupAssignment, StyledUsergroupLegend } from "./UsergroupAssignment.styled"
 
-import check from '../../../modules/img/check.png'
-import deny from '../../../modules/img/delete-button.png'
 import Button from "../../../modules/components/button/Button"
+import { Check, Deny } from "../../../icons/Icons"
 
 const UsergroupAssignment = () => {
 
@@ -98,7 +97,7 @@ const Assignment = ({ member_id, usergroup_id, initial, onClick }) => {
 
 const AssignButton = ({ assigned, callback }) => {
     return(
-        <td onClick={callback}>{assigned ? <img src={check} alt="check" /> : <img src={deny} alt="deny" />}</td>
+        <td onClick={callback}>{assigned ? <Check /> : <Deny />}</td>
     )
 }
 

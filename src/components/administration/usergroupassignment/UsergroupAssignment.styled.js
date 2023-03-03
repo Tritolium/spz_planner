@@ -18,6 +18,21 @@ export const StyledUsergroupAssignment = styled.div`
         width: fit-content;
         align-self: center;
     }
+
+    .IconWrapper {
+        max-height: 1.8rem;
+        max-width: 1.8rem;
+        position: absolute;
+        transform: translateX(-50%) translateY(-50%);
+        :nth-child(1) {
+            z-index: 2;
+        }
+    }
+
+    svg {
+        height: 100%;
+        width: 100%;
+    }
 `
 
 export const StyledTableHeader = styled.th`
