@@ -45,7 +45,7 @@ const Dashboard = ({ }) => {
         let os = getOS()
         if(os !== 'Mac OS' && os !== 'iOS'){
             console.log('show install prompt')
-            deferredPrompt.prompt()
+            beforeInstallPrompt.prompt()
         } else {
             setShowiosInstruction(true)
             setMobileBrowser(false)
