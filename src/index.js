@@ -11,7 +11,6 @@ export let beforeInstallPrompt
 
 window.addEventListener('beforeinstallprompt', (e) => {
 	e.preventDefault()
-	console.log('Before Install Prompt')
 	beforeInstallPrompt = e
 })
 

@@ -44,7 +44,6 @@ const Dashboard = ({ }) => {
     const showInstall = () => {
         let os = getOS()
         if(os !== 'Mac OS' && os !== 'iOS'){
-            console.log('show install prompt')
             beforeInstallPrompt.prompt()
         } else {
             setShowiosInstruction(true)
