@@ -7,16 +7,17 @@ import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-let deferredPrompt
+export let beforeInstallPrompt
 
 window.addEventListener('beforeinstallprompt', (e) => {
 	e.preventDefault()
-	deferredPrompt = e
+	console.log('Before Install Prompt')
+	beforeInstallPrompt = e
 })
 
 root.render(
   	<React.StrictMode>
-    	<App installPrompt={deferredPrompt}/>
+    	<App />
   	</React.StrictMode>
 );
 

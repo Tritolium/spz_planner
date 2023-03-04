@@ -23,7 +23,7 @@ const StyledApp = lazy(() => import('./App.styled'))
 
 const version = 'v0.8.4'
 
-const App = ({ installPrompt }) => {
+const App = () => {
 
     const [view, setView] = useState(-1)
     const [open, setOpen] = useState(false)
@@ -111,7 +111,7 @@ const App = ({ installPrompt }) => {
                     <Button onClick={logout}>Logout</Button>
                 </div>
                 <Suspense fallback={<div>Lädt...</div>}>
-                    <View view={view} sendLogin={sendLogin} fullname={fullname} auth_level={auth_level} installPrompt={installPrompt}/>
+                    <View view={view} sendLogin={sendLogin} fullname={fullname} auth_level={auth_level}/>
                 </Suspense>
                 <div id="version-tag">{version}</div>
             </StyledApp>
@@ -130,7 +130,7 @@ const View = (props) => {
     case -1:
         return(<Login sendLogin={sendLogin}/>)
     case 0:
-        return(<Dashboard installPrompt={props.installPrompt}/>)
+        return(<Dashboard />)
     case 1:
         return(<Dateplanner fullname={props.fullname} auth_level={props.auth_level}/>)
     case 2:

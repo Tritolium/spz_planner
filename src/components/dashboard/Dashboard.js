@@ -10,8 +10,9 @@ import { TbAlertTriangle } from 'react-icons/tb'
 import { theme } from '../../theme'
 import { IoShareOutline } from 'react-icons/io5'
 import { BsPlusSquare } from 'react-icons/bs'
+import { beforeInstallPrompt } from '../..'
 
-const Dashboard = ({installPrompt}) => {
+const Dashboard = ({ }) => {
 
     const [nextEvent, setNextEvent] = useState()
     const [nextPractice, setNextPractice] = useState()
@@ -42,10 +43,9 @@ const Dashboard = ({installPrompt}) => {
 
     const showInstall = () => {
         let os = getOS()
-
         if(os !== 'Mac OS' && os !== 'iOS'){
             console.log('show install prompt')
-            installPrompt?.prompt()
+            deferredPrompt.prompt()
         } else {
             setShowiosInstruction(true)
             setMobileBrowser(false)
