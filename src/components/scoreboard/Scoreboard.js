@@ -42,6 +42,7 @@ const ScoreSelector = ({ scores, onSelect }) => {
         <Selector>
             <input type="text" onChange={searchChanged}></input>
             {scores
+            .sort((a, b) => a.Title.localeCompare(b.Title))
             .filter(score => {
                 return score.Title.toLowerCase().includes(search)
             })
