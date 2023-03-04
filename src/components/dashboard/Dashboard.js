@@ -12,7 +12,7 @@ import { IoShareOutline } from 'react-icons/io5'
 import { BsPlusSquare } from 'react-icons/bs'
 import { beforeInstallPrompt } from '../..'
 
-const Dashboard = ({ }) => {
+const Dashboard = () => {
 
     const [nextEvent, setNextEvent] = useState()
     const [nextPractice, setNextPractice] = useState()
