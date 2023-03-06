@@ -11,7 +11,7 @@ const Button = lazy(() => import('../../modules/components/button/Button'))
 const Terminzusage = lazy(() => import('../dateplanner/attendenceInput/Terminzusage'))
 const WeatherIcon = lazy(() => import('./WeatherIcon'))
 
-const Dashboard = () => {
+const Dashboard = ({ fullname }) => {
 
     const [nextEvent, setNextEvent] = useState()
     const [nextPractice, setNextPractice] = useState()
@@ -45,7 +45,7 @@ const Dashboard = () => {
     return(<StyledDashboard>
         <p className='infotext'>Info: die gesamten Rückmeldungen sind im Menü auf der linken Seite unter "Anwesenheiten" zu finden</p>
         <p className='infotext'>Auf dieser Seite ist das explizite speichern nicht mehr notwendig</p>
-        <BirthdayBlog />
+        <BirthdayBlog fullname={fullname}/>
         <table>
             <tbody>
                 {nextPractice ? <NextPractice nextPractice={nextPractice} /> : <></>}
@@ -56,7 +56,7 @@ const Dashboard = () => {
     </StyledDashboard>)
 }
 
-const BirthdayBlog = () => {
+const BirthdayBlog = ({ fullname }) => {
     const [birthdates, setBirthdates] = useState(new Array(0))
 
     const getBDates = async () => {
@@ -75,15 +75,20 @@ const BirthdayBlog = () => {
     useEffect(() => {
         getBDates()
     }, [])
-
-    return(<div>
-        <h3>Geburtstage:</h3>
-        {birthdates?.map(bday => {
-            let birthday = new Date(bday.Birthday)
-            let today = new Date()
-            return(<div key={bday.Fullname}>{bday.Fullname}: {birthday.getDay()}.{birthday.getMonth() + 1}, {today.getFullYear() - birthday.getFullYear()} Jahre</div>)
-        })}
-    </div>)
+    if(birthdates.length > 0){
+        return(<div>
+            <h3>Geburtstage:</h3>
+            {birthdates?.map(bday => {
+                let birthday = new Date(bday.Birthday)
+                let today = new Date()
+                let same = today.getDay() === birthday.getDay()
+                if(fullname === bday.Fullname && same)
+                    return(<div>Herzlichen Glückwunsch, {fullname.split(" ")[0]}!</div>)
+                else
+                    return(<div key={bday.Fullname}>{bday.Fullname}: {birthday.getDay()}.{birthday.getMonth() + 1}, {today.getFullYear() - birthday.getFullYear()} Jahre</div>)
+            })}
+        </div>)
+    }
 }
 
 const ClothingRow = ({ clothing }) => {

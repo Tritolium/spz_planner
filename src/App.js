@@ -130,7 +130,7 @@ const View = (props) => {
     case -1:
         return(<Login sendLogin={sendLogin}/>)
     case 0:
-        return(<Dashboard />)
+        return(<Dashboard fullname={props.fullname}/>)
     case 1:
         return(<Dateplanner fullname={props.fullname} auth_level={props.auth_level}/>)
     case 2:
