@@ -13,7 +13,6 @@ const AssociationAssignment = () => {
 
     const fetchAssociationassignment = useCallback(async () => {
         getAssociationAssignments().then(assignments => {
-            console.log(assignments)
             if(assignments !== undefined)
                 setAssociationassignment(assignments)
         })
@@ -43,7 +42,7 @@ const AssociationAssignment = () => {
             <thead>
                 <tr>
                     <th>Name:</th>
-                    {associationassignment[0]?.Associations.map(association => {
+                    {associationassignment[0]?.Associations?.map(association => {
                         return(
                             <Header key={`h_${association.Association_ID}`} association={association}/>
                         )
@@ -55,7 +54,7 @@ const AssociationAssignment = () => {
                     return(
                         <tr key={member.Member_ID}>
                             <td>{member.Fullname}</td>
-                            {member.Associations.map(association => {
+                            {member.Associations?.map(association => {
                                 return(
                                     <Assignment key={`${association.Association_ID}_${member.Member_ID}`} member_id={member.Member_ID} association_id={association.Association_ID} initial={association.Assigned} onClick={onClick}/>
                                 )

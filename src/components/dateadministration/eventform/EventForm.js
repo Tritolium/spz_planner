@@ -135,7 +135,7 @@ const EventSelector = ({ events, onSelect, date_options, usergroups, onFilterCha
             })
             .map(event => {
                 return(
-                    <EventItem event={event} onSelect={onSelect}/>
+                    <EventItem key={`event_${event.Event_ID}`} event={event} onSelect={onSelect}/>
                 )
             })}
         </Selector>
@@ -246,7 +246,7 @@ const DetailForm = ({ event, usergroups, datetemplates, reload }) => {
                 <label htmlFor="usergroup">Sichtbarkeit:</label>
                 <select name="usergroup" id="usergroup">
                     {usergroups.map(usergroup => {
-                        return(<option value={usergroup.Usergroup_ID}>{usergroup.Title}</option>)
+                        return(<option key={`usergroup_${usergroup.Usergroup_ID}`} value={usergroup.Usergroup_ID}>{usergroup.Title}</option>)
                     })}
                 </select>
             </FormBox>

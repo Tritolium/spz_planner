@@ -39,7 +39,7 @@ const MemberList = ({ members }) => {
             </thead>
             <tbody>
                 {members.map(member => {
-                    return(<Member member={member} />)
+                    return(<Member key={`member_${member.Member_ID}`} member={member} />)
                 })}
             </tbody>
         </Table>

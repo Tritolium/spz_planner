@@ -116,7 +116,7 @@ const AssociationForm = ({ association, members, reload }) => {
                 <label htmlFor="firstchair">Vorsitz:</label>
                 <select id="firstchair">
                     {members.map(member => {
-                        return(<option value={member.Member_ID}>{member.Forename} {member.Surname}</option>)
+                        return(<option key={`fcmember_${member.Member_ID}`} value={member.Member_ID}>{member.Forename} {member.Surname}</option>)
                     })}
                 </select>  
             </FormBox>
@@ -124,7 +124,7 @@ const AssociationForm = ({ association, members, reload }) => {
                 <label htmlFor="clerk">Schrift-/Geschäftsführer/-in:</label>
                 <select id="clerk">
                     {members.map(member => {
-                        return(<option value={member.Member_ID}>{member.Forename} {member.Surname}</option>)
+                        return(<option key={`clmember_${member.Member_ID}`} value={member.Member_ID}>{member.Forename} {member.Surname}</option>)
                     })}
                 </select>  
             </FormBox>
@@ -132,7 +132,7 @@ const AssociationForm = ({ association, members, reload }) => {
                 <label htmlFor="treasurer">Kassierer/-in:</label>
                 <select id="treasurer">
                     {members.map(member => {
-                        return(<option value={member.Member_ID}>{member.Forename} {member.Surname}</option>)
+                        return(<option key={`trmember_${member.Member_ID}`} value={member.Member_ID}>{member.Forename} {member.Surname}</option>)
                     })}
                 </select>  
             </FormBox>

@@ -41,7 +41,7 @@ const Table = () => {
             <tbody>
                 {absences.map(absence => {
                     return(
-                        <tr>
+                        <tr key={absence.Absence_ID}>
                             <td>{formatDate(absence.From)}</td>
                             <td>{formatDate(absence.Until)}</td>
                             <td>{absence.Info}</td>

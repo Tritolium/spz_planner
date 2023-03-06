@@ -38,12 +38,12 @@ const AbsenceInput = ({className}) => {
         <form className={className}>
             <select id="event_select">
                 {events.map(event => {
-                    return(<option value={event.Event_ID} key={event.Event_ID}>{event.Date}: {event.Type} {event.Location}</option>)
+                    return(<option key={`event_${event.Event_ID}`} value={event.Event_ID}>{event.Date}: {event.Type} {event.Location}</option>)
                 })}
             </select>
             <select id="member_select">
                 {members.map(member => {
-                    return(<option value={member.Member_ID}>{member.Forename} {member.Surname}</option>)
+                    return(<option key={`member_${member.Member_ID}`} value={member.Member_ID}>{member.Forename} {member.Surname}</option>)
                 })}
             </select>
             <Terminzusage states={3} attendence={attendence} onClick={onClick}/>
