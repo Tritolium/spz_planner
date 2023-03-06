@@ -1,6 +1,6 @@
 import { lazy, useCallback, useEffect } from 'react'
 import { useState } from 'react'
-import { getAttendences, getWeather, newFeedback, updateAttendences } from '../../modules/data/DBConnect'
+import { getAttendences, getBirthdates, getWeather, newFeedback, updateAttendences } from '../../modules/data/DBConnect'
 import { StyledDashboard, StyledFeedbackArea } from './Dashboard.styled'
 // import Terminzusage from '../dateplanner/attendenceInput/Terminzusage'
 // import WeatherIcon from './WeatherIcon'
@@ -45,6 +45,7 @@ const Dashboard = () => {
     return(<StyledDashboard>
         <p className='infotext'>Info: die gesamten Rückmeldungen sind im Menü auf der linken Seite unter "Anwesenheiten" zu finden</p>
         <p className='infotext'>Auf dieser Seite ist das explizite speichern nicht mehr notwendig</p>
+        <BirthdayBlog />
         <table>
             <tbody>
                 {nextPractice ? <NextPractice nextPractice={nextPractice} /> : <></>}
@@ -53,6 +54,36 @@ const Dashboard = () => {
         </table>
         <Feedback />
     </StyledDashboard>)
+}
+
+const BirthdayBlog = () => {
+    const [birthdates, setBirthdates] = useState(new Array(0))
+
+    const getBDates = async () => {
+        getBirthdates().then(bdays => {
+            let dates = bdays.filter(bday => {
+                let date = new Date(bday.Birthday)
+                date.setFullYear(2023)
+                let now = new Date()
+                let diff = date.getTime() - now.getTime()
+                return (-604800000 < diff && diff < 604800000)
+            })
+            setBirthdates(dates)
+    })
+    }
+
+    useEffect(() => {
+        getBDates()
+    }, [])
+
+    return(<div>
+        <h3>Geburtstage:</h3>
+        {birthdates?.map(bday => {
+            let birthday = new Date(bday.Birthday)
+            let today = new Date()
+            return(<div key={bday.Fullname}>{bday.Fullname}: {birthday.getDay()}.{birthday.getMonth() + 1}, {today.getFullYear() - birthday.getFullYear()} Jahre</div>)
+        })}
+    </div>)
 }
 
 const ClothingRow = ({ clothing }) => {

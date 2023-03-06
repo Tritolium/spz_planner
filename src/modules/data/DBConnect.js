@@ -269,7 +269,7 @@ const getMembers = async () => {
     return members
 }
 
-const updateMember = async(member_id, forename, surname, auth_level, nicknames, instrument, changes) => {
+const updateMember = async(member_id, forename, surname, auth_level, nicknames, instrument, birthdate, changes) => {
     
     let token = localStorage.getItem('api_token')
 
@@ -285,6 +285,7 @@ const updateMember = async(member_id, forename, surname, auth_level, nicknames, 
             Auth_level: auth_level,
             Nicknames: nicknames,
             Instrument: instrument,
+            Birthdate: birthdate,
             UsergroupChanges: changes
         })
     })
@@ -296,7 +297,7 @@ const updateMember = async(member_id, forename, surname, auth_level, nicknames, 
     }
 }
 
-const newMember = async(forename, surname, auth_level, nicknames, instrument) => {
+const newMember = async(forename, surname, auth_level, nicknames, instrument, birthdate) => {
     
     let token = localStorage.getItem('api_token')
 
@@ -307,7 +308,8 @@ const newMember = async(forename, surname, auth_level, nicknames, instrument) =>
             Surname: surname,
             Auth_level: auth_level,
             Nicknames: nicknames,
-            Instrument: instrument
+            Instrument: instrument,
+            Birthdate: birthdate
         })
     })
     switch(response.status){
@@ -1051,6 +1053,13 @@ export const updateAssociationAssignments = async (changedAssignments) => {
         alert('Zuweisung fehlgeschlagen')
         break
     }
+}
+
+export const getBirthdates = async () => {
+    let token = localStorage.getItem('api_token')
+    let response = await fetch(`${host}/api/member.php?api_token=${token}&birthdate`)
+    let json = await response.json()
+    return json
 }
 
 export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, updateAttendences, getMissingFeedback, getEval }

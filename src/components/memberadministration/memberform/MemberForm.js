@@ -85,11 +85,12 @@ const DetailForm = ({member, reload}) => {
         let auth_level = document.getElementById('auth_level').options[document.getElementById('auth_level').selectedIndex].value
         let nicknames = document.getElementById('nicknames').value
         let instrument = document.getElementById('instrument').value
+        let birthdate = document.getElementById('birthdate').value
 
         if(member !== undefined)
-            await updateMember(member.Member_ID, forename, surname, auth_level, nicknames, instrument, changedUsergroups)
+            await updateMember(member.Member_ID, forename, surname, auth_level, nicknames, instrument, birthdate, changedUsergroups)
         else
-            await newMember(forename, surname, auth_level, nicknames, instrument)
+            await newMember(forename, surname, auth_level, nicknames, instrument, birthdate)
 
         reload()
     }
@@ -98,12 +99,6 @@ const DetailForm = ({member, reload}) => {
         e.preventDefault()
         reload()
     }
-
-    const onUsergroupChange = useCallback((id, state) => {
-        let assignments = {...changedUsergroups}
-        assignments[`${id}`] = state
-        setChangedUsergroups(assignments)
-    }, [changedUsergroups])
 
     return (
         <Form id="memberform_form">
@@ -132,33 +127,15 @@ const DetailForm = ({member, reload}) => {
                 <label htmlFor="instrument">Instrument:</label>
                 <input type="text" name="instrument" id="instrument" defaultValue={member?.Instrument}/>
             </FormBox>
-            {member?.Usergroups?.map(usergroup => {
-                return(
-                    <UsergroupAssignment usergroup={usergroup} callback={onUsergroupChange}/>
-                )
-            })}
+            <FormBox>
+                <label htmlFor="birthdate">Geburtstag:</label>
+                <input type="date" id="birthdate" defaultValue={member?.Birthdate}/>
+            </FormBox>
             <div>
                 <Button onClick={cancel}>Abbrechen</Button>
                 <Button onClick={update}>Speichern</Button>
             </div>
         </Form>
-    )
-}
-
-const UsergroupAssignment = ({ usergroup, callback }) => {
-    
-    const [checked, setChecked] = useState(usergroup.Assigned)
-
-    const onClick = useCallback(() => {
-        setChecked(!checked)
-        callback(usergroup.Usergroup_ID, !checked)
-    }, [checked, usergroup, callback])
-
-    return(
-        <FormBox>
-            <label htmlFor={usergroup.Usergroup_ID}>{usergroup.Title}</label>
-            <input type="checkbox" name={usergroup.Usergroup_ID} id={usergroup.Usergroup_ID} defaultChecked={usergroup.Assigned} onClick={onClick}/>
-        </FormBox>
     )
 }
 
