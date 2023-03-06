@@ -89,9 +89,9 @@ const AssociationForm = ({ association, members, reload }) => {
         e.preventDefault()
 
         let title       = document.getElementById('title').value
-        let firstchair  = document.getElementById('firstchair').options[document.getElementById('firstchair').selectedIndex].value
-        let clerk       = document.getElementById('clerk').options[document.getElementById('clerk').selectedIndex].value
-        let treasurer   = document.getElementById('treasurer').options[document.getElementById('treasurer').selectedIndex].value
+        let firstchair  = document.getElementById('firstchair').options[document.getElementById('firstchair').selectedIndex]?.value
+        let clerk       = document.getElementById('clerk').options[document.getElementById('clerk').selectedIndex]?.value
+        let treasurer   = document.getElementById('treasurer').options[document.getElementById('treasurer').selectedIndex]?.value
 
         if(association !== undefined)
             await updateAssociation(association.Association_ID, title, firstchair, clerk, treasurer)
