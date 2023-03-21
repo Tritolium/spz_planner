@@ -39,7 +39,7 @@ export const getDisplayMode = () => {
 }
 
 const login = async (name, version) => {
-    let _forename, _surname, _api_token
+    let _forename, _surname, _api_token, _auth_level
 
     let displayMode = getDisplayMode()
 
@@ -57,6 +57,7 @@ const login = async (name, version) => {
             _forename = json.Forename
             _surname = json.Surname
             _api_token = json.API_token
+            _auth_level = json.Auth_level
             localStorage.setItem('api_token', json.API_token)
             break
         case 406:
@@ -67,7 +68,7 @@ const login = async (name, version) => {
             break
     }
 
-    return { _forename, _surname, _api_token }
+    return { _forename, _surname, _api_token, _auth_level }
 }
 
 const update_login = async (version) => {
