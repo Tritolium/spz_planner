@@ -17,6 +17,7 @@ const HelpPage = lazy(() => import('./components/helppage/HelpPage'))
 const Login = lazy(() => import('./components/login/Login'))
 const MemberAdministration = lazy(() => import('./components/memberadministration/MemberAdministration'))
 const Menu = lazy(() => import('./modules/components/menu/Menu'))
+const OrderAdministration = lazy(() => import('./components/orderadministration/OrderAdministration'))
 const Scoreboard = lazy(() => import('./components/scoreboard/Scoreboard'))
 const StyledApp = lazy(() => import('./App.styled'))
 
@@ -54,9 +55,10 @@ const App = () => {
 
     const sendLogin = useCallback(async (name) => {
         setView(-2)
-        let { _forename, _surname, _api_token } = await login(name, version)
+        let { _forename, _surname, _api_token, _auth_level } = await login(name, version)
         if(_api_token !== undefined) {
             setFullname(_forename + " " + _surname)
+            setAuth_level(_auth_level)
             setView(0)
         } else {
             setView(-1)
@@ -95,6 +97,9 @@ const App = () => {
             break
         case 'main_button_7':
             setView(7)
+            break
+        case 'main_button_8':
+            setView(8)
             break
         }
     }
@@ -149,8 +154,12 @@ const View = (props) => {
     case 5:
         return(<Scoreboard />)
     case 6:
-        return(<Administration auth_level={props.auth_level}/>)
+        return(<Suspense>
+            <OrderAdministration />
+        </Suspense>)
     case 7:
+        return(<Administration auth_level={props.auth_level}/>)
+    case 8:
         return(<HelpPage auth_level={props.auth_level}/>)
     }
 }
