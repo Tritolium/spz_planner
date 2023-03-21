@@ -54,7 +54,7 @@ const login = async (name, version) => {
             localStorage.setItem('api_token', json.API_token)
             break
         case 406:
-            alert('Dein Name scheint mehrfach vergeben zu sein, bitte genauer angeben')
+            alert('Dein Name scheint nicht, oder mehrfach vergeben zu sein, bitte genauer angeben. Sollte das Problem weiterhin bestehen, bitte melden.')
             break;
         default:
         case 404:

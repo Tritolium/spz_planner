@@ -1,10 +1,7 @@
-import { lazy, useCallback, useEffect } from 'react'
+import { lazy, Suspense, useCallback, useEffect } from 'react'
 import { useState } from 'react'
 import { getAttendences, getBirthdates, getWeather, newFeedback, updateAttendences } from '../../modules/data/DBConnect'
 import { StyledDashboard, StyledFeedbackArea } from './Dashboard.styled'
-// import Terminzusage from '../dateplanner/attendenceInput/Terminzusage'
-// import WeatherIcon from './WeatherIcon'
-// import Button from '../../modules/components/button/Button'
 import { Clothing } from '../../modules/components/clothing/Clothing'
 
 const Button = lazy(() => import('../../modules/components/button/Button'))
@@ -48,8 +45,8 @@ const Dashboard = ({ fullname }) => {
         <BirthdayBlog fullname={fullname}/>
         <table>
             <tbody>
-                {nextPractice ? <NextPractice nextPractice={nextPractice} /> : <></>}
-                {nextEvent ? <NextEvent nextEvent={nextEvent} /> : <></>}
+                <Suspense>{nextPractice ? <NextPractice nextPractice={nextPractice} /> : <></>}</Suspense>
+                <Suspense>{nextEvent ? <NextEvent nextEvent={nextEvent} /> : <></>}</Suspense>
             </tbody>
         </table>
         <Feedback />
@@ -81,11 +78,11 @@ const BirthdayBlog = ({ fullname }) => {
             {birthdates?.map(bday => {
                 let birthday = new Date(bday.Birthday)
                 let today = new Date()
-                let same = today.getDay() === birthday.getDay()
+                let same = today.getDate() === birthday.getDate()
                 if(fullname === bday.Fullname && same)
                     return(<div>Herzlichen Glückwunsch, {fullname.split(" ")[0]}!</div>)
                 else
-                    return(<div key={bday.Fullname}>{bday.Fullname}: {birthday.getDay()}.{birthday.getMonth() + 1}, {today.getFullYear() - birthday.getFullYear()} Jahre</div>)
+                    return(<div key={bday.Fullname}>{bday.Fullname}: {birthday.getDate()}.{birthday.getMonth() + 1}, {today.getFullYear() - birthday.getFullYear()} Jahre</div>)
             })}
         </div>)
     }
@@ -94,10 +91,12 @@ const BirthdayBlog = ({ fullname }) => {
 const ClothingRow = ({ clothing }) => {
 
     return(
-        <tr>
-            <td>Bekleidung:</td>
-            <td>{parseInt(clothing) !== 0 ? <Clothing clothing={parseInt(clothing)} /> : <>keine Angabe</>}</td>
-        </tr>
+        <Suspense>
+            <tr>
+                <td>Bekleidung:</td>
+                <td>{parseInt(clothing) !== 0 ? <Clothing clothing={parseInt(clothing)} /> : <>keine Angabe</>}</td>
+            </tr>
+        </Suspense>
     )
 }
 
@@ -163,7 +162,7 @@ const NextEvent = ({ nextEvent }) => {
         <tr>
             <td>{eventDate.getDate()}.{eventDate.getMonth() + 1}.{eventDate.getFullYear()}</td>
             <td>{nextEvent?.Begin.slice(0, 5)} Uhr</td>
-            <td rowSpan={3}><Terminzusage event_id={nextEvent?.Event_ID} states={3} attendence={attendence} onClick={onClick}/></td>
+            <td rowSpan={3}><Suspense><Terminzusage event_id={nextEvent?.Event_ID} states={3} attendence={attendence} onClick={onClick}/></Suspense></td>
         </tr>
         <tr>
             <td>Hin:</td>
@@ -174,12 +173,13 @@ const NextEvent = ({ nextEvent }) => {
             <td>{nextEvent?.Leave_dep !== "12:34:56" ? `${nextEvent?.Leave_dep.slice(0, 5)} Uhr` : "-"}</td>
         </tr>
         <ClothingRow clothing={nextEvent?.Clothing} />
-        <tr>
-            <td>Wetter:</td>
-            <td>{weather ? `${weather.Temperature}°C` : "keine Wetterdaten"}</td>
-            <td>{weather ? <WeatherIcon code={weather.Weathercode} /> : ""}</td>
-        </tr>
-
+        <Suspense>
+            <tr>
+                <td>Wetter:</td>
+                <td>{weather ? `${weather.Temperature}°C` : "keine Wetterdaten"}</td>
+                <td>{weather ? <WeatherIcon code={weather.Weathercode} /> : ""}</td>
+            </tr>
+        </Suspense>
     </>)
 }
 

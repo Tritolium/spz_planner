@@ -18,8 +18,8 @@
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.8.2",
     "react-icons": "^4.7.1",
+    "react-router-dom": "^6.8.2",
     "react-scripts": "5.0.1",
     "stream": "^0.0.2",
     "styled-components": "^5.3.6",
@@ -36,7 +36,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "deploy": "react-scripts build && sudo cp -r ./build/* /var/www/html/",
-    "remote-deploy": "react-scripts build && scp -r ./build/* pi@buzzer.dns.army:/home/pi/build/ && ssh pi@buzzer.dns.army 'sudo cp -r /home/pi/build/* /var/www/html/'"
+    "remote-deploy": "react-scripts build && scp -r ./build/* pi@buzzer.dns.army:/home/pi/build/ && ssh pi@buzzer.dns.army 'sudo cp -r -u /home/pi/build/* /var/www/html/'"
   },
   "eslintConfig": {
     "extends": [
