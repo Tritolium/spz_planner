@@ -41,10 +41,6 @@ const App = () => {
             if(_auth_level !== undefined) {
                 setFullname(_forename + " " + _surname)
                 setAuth_level(_auth_level)
-                // if(_auth_level > 0)
-                //     setView(1)
-                // else
-                //     setView(0)
                 setView(0)
             } else {
                 setView(-1)
@@ -141,7 +137,9 @@ const View = (props) => {
             <Dashboard fullname={props.fullname}/>
         </Suspense>)
     case 1:
-        return(<Dateplanner fullname={props.fullname} auth_level={props.auth_level}/>)
+        return(<Suspense fallback={<div>Planer lädt</div>}>
+            <Dateplanner fullname={props.fullname} auth_level={props.auth_level}/>
+        </Suspense>)
     case 2:
         return(<AbsenceAdministration auth_level={props.auth_level}/>)
     case 3:

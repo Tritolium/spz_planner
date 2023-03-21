@@ -1,24 +1,8 @@
-import { useEffect } from "react"
-import { useCallback, useState } from "react"
+import { Suspense } from "react"
 import { Table } from "../../../modules/components/overview/Table"
-import { getMembers } from "../../../modules/data/DBConnect"
 import { StyledOverview } from "./Overview.styled"
 
-const Overview = () => {
-
-    const [members, setMembers] = useState(new Array(0))
-
-    const fetchMembers = useCallback(async () => {
-        let _members = await getMembers()
-        if(_members !== undefined)
-            setMembers(_members)
-        else
-            setMembers(new Array(0))
-    }, [])
-
-    useEffect(() => {
-        fetchMembers()
-    }, [fetchMembers])
+const Overview = ({ members }) => {
 
     return(
         <StyledOverview>
@@ -29,20 +13,23 @@ const Overview = () => {
 
 const MemberList = ({ members }) => {
     return(
-        <Table>
-            <thead>
-                <tr>
-                    <th>Vorname</th>
-                    <th>Nachname</th>
-                    <th>Instrument</th>
-                </tr>
-            </thead>
-            <tbody>
-                {members.map(member => {
-                    return(<Member key={`member_${member.Member_ID}`} member={member} />)
-                })}
-            </tbody>
-        </Table>
+        <Suspense fallback={<div>Tabelle lädt</div>}>
+            <Table>
+                <thead>
+                    <tr>
+                        <th>Vorname</th>
+                        <th>Nachname</th>
+                        <th>Instrument</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {members.map(member => {
+                        return(<Member key={`member_${member.Member_ID}`} member={member} />)
+                    })}
+                </tbody>
+            </Table>
+        </Suspense>
+        
     )
 }
 

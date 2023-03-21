@@ -3,43 +3,26 @@ import Button from "../../../modules/components/button/Button"
 import Form from "../../../modules/components/form/Form"
 import FormBox from "../../../modules/components/form/FormBox"
 import Selector from "../../../modules/components/form/Selector"
-import { getMembers, newMember, updateMember } from "../../../modules/data/DBConnect"
+import { newMember, updateMember } from "../../../modules/data/DBConnect"
 import { StyledMember, StyledMemberForm } from "./MemberForm.styled"
 
-const MemberForm = () => {
-
-    /**
-     * states derived from server
-     */
-    const [members, setMembers] = useState(new Array(0))
+const MemberForm = ({ members, reload }) => {
 
     const [selected, setSelected] = useState(-1)
 
-    const fetchMembers = useCallback(async () => {
-        let _members = await getMembers()
-        if(_members !== undefined)
-            setMembers(_members)
-        else
-            setMembers(new Array(0))
-    }, [])
-
-    const reload = useCallback(() => {
+    const reloadMembers = useCallback(() => {
         setSelected(-1)
-        fetchMembers()
-    }, [fetchMembers])
+        reload()
+    }, [reload])
 
     const onSelect = useCallback((id) => {
         setSelected(id)
     }, [])
 
-    useEffect(() => {
-        fetchMembers()
-    }, [fetchMembers])
-
     return (
         <StyledMemberForm>
             <MemberSelector onSelect={onSelect} members={members}/>
-            <DetailForm member={members.find((member) => member.Member_ID === selected)} reload={reload}/>
+            <DetailForm member={members.find((member) => member.Member_ID === selected)} reload={reloadMembers}/>
         </StyledMemberForm>
     )
 }
