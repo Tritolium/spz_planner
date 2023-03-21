@@ -25,10 +25,10 @@ const EventAdministration = (props) => {
     
     return(
         <>
-            <HeaderMenu>
+            {props.auth_level > 1 ? <HeaderMenu>
                 <Button id="date_button_0" type="button" onClick={navigate}>Übersicht</Button>
                 {props.auth_level > 2 ? <Button id="date_button_1" type="button" onClick={navigate}>Details</Button> : <></>}
-            </HeaderMenu>
+            </HeaderMenu> : <></>}
             <View view={view} />
         </>
     )
