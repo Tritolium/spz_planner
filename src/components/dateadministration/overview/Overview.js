@@ -80,7 +80,7 @@ const EventList = ({ events, eventfilter }) => {
                         }
                 })
                 .map(event => {
-                    return(<Event event={event} />)
+                    return(<Event key={`event_${event.Event_ID}`} event={event} />)
                 })}
             </tbody>
         </StyledEventTable>
@@ -112,7 +112,7 @@ const EventListMobile = ({ events, eventfilter }) => {
                         }
                 })
                 .map(event => {
-                    return(<EventMobile event={event} />)
+                    return(<EventMobile key={`m_event_${event.Event_ID}`} event={event} />)
                 })}
             </tbody>
         </StyledEventTableMobile>

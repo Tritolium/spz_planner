@@ -60,7 +60,7 @@ const login = async (name, version) => {
             localStorage.setItem('api_token', json.API_token)
             break
         case 406:
-            alert('Dein Name scheint mehrfach vergeben zu sein, bitte genauer angeben')
+            alert('Dein Name scheint nicht, oder mehrfach vergeben zu sein, bitte genauer angeben. Sollte das Problem weiterhin bestehen, bitte melden.')
             break;
         default:
         case 404:
@@ -275,7 +275,7 @@ const getMembers = async () => {
     return members
 }
 
-const updateMember = async(member_id, forename, surname, auth_level, nicknames, instrument, changes) => {
+const updateMember = async(member_id, forename, surname, auth_level, nicknames, instrument, birthdate, changes) => {
     
     let token = localStorage.getItem('api_token')
 
@@ -291,6 +291,7 @@ const updateMember = async(member_id, forename, surname, auth_level, nicknames, 
             Auth_level: auth_level,
             Nicknames: nicknames,
             Instrument: instrument,
+            Birthdate: birthdate,
             UsergroupChanges: changes
         })
     })
@@ -302,7 +303,7 @@ const updateMember = async(member_id, forename, surname, auth_level, nicknames, 
     }
 }
 
-const newMember = async(forename, surname, auth_level, nicknames, instrument) => {
+const newMember = async(forename, surname, auth_level, nicknames, instrument, birthdate) => {
     
     let token = localStorage.getItem('api_token')
 
@@ -313,7 +314,8 @@ const newMember = async(forename, surname, auth_level, nicknames, instrument) =>
             Surname: surname,
             Auth_level: auth_level,
             Nicknames: nicknames,
-            Instrument: instrument
+            Instrument: instrument,
+            Birthdate: birthdate
         })
     })
     switch(response.status){
@@ -1027,6 +1029,43 @@ export const newFeedback = async (content) => {
             Content: content
         })
     })
+}
+
+export const getAssociationAssignments = async () => {
+    let token = localStorage.getItem('api_token')
+    let json = fetch(`${host}/api/association.php?api_token=${token}&assign`)
+    .then(response => {
+        return response.json()
+    }).then(json => {
+        return json
+    })
+    return json
+}
+
+export const updateAssociationAssignments = async (changedAssignments) => {
+    
+    let token = localStorage.getItem('api_token')
+
+    let response = await fetch(`${host}/api/association.php?api_token=${token}&assign`, {
+        method: 'PUT',
+        body: JSON.stringify(changedAssignments)
+    })
+
+    switch(response.status){
+    case 200:
+        alert('Zuweisungen übernommen')
+        break
+    default:
+        alert('Zuweisung fehlgeschlagen')
+        break
+    }
+}
+
+export const getBirthdates = async () => {
+    let token = localStorage.getItem('api_token')
+    let response = await fetch(`${host}/api/member.php?api_token=${token}&birthdate`)
+    let json = await response.json()
+    return json
 }
 
 export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, updateAttendences, getMissingFeedback, getEval }

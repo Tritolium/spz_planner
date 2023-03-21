@@ -1,12 +1,31 @@
-import { useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useState } from 'react'
 import Button from '../../modules/components/button/Button'
 import MemberForm from './memberform/MemberForm'
 import HeaderMenu from "../../modules/components/headermenu/HeaderMenu"
-import Overview from './overview/Overview'
+import { getMembers } from '../../modules/data/DBConnect'
+
+const Overview =lazy(() => import('./overview/Overview'))
 
 const Memberadministration = (props) => {
 
     const [view, setView] = useState(0)
+    const [members, setMembers] = useState(new Array(0))
+
+    const fetchMembers = useCallback(async () => {
+        let _members = await getMembers()
+        if(_members !== undefined)
+            setMembers(_members)
+        else
+            setMembers(new Array(0))
+    }, [])
+
+    useEffect(() => {
+        fetchMembers()
+    }, [fetchMembers])
+
+    const reload = useCallback(() => {
+        fetchMembers()
+    }, [fetchMembers])
 
     const navigate = (e) => {
         switch(e.target.id){
@@ -26,18 +45,20 @@ const Memberadministration = (props) => {
                 <Button id="member_button_0" type='button' onClick={navigate}>Übersicht</Button>
                 {props.auth_level > 2 ? <Button id='member_button_1' type='button' onClick={navigate}>Stammdaten</Button> : <></>}
             </HeaderMenu>
-            <View view={view} />
+            <View view={view} members={members} reload={reload}/>
         </>
     )
 }
 
-const View = (props) => {
-    switch(props.view){
+const View = ({ view, members, reload}) => {
+    switch(view){
     default:
     case 0:
-        return(<Overview />)
+        return(<Suspense fallback={<div>Übersicht lädt</div>}>
+            <Overview members={members}/>
+        </Suspense>)
     case 1:
-        return(<MemberForm />)
+        return(<MemberForm members={members} reload={reload}/>)
     }
 }
 
