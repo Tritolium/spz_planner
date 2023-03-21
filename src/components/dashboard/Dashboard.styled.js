@@ -7,11 +7,17 @@ export const StyledDashboard = styled.div`
     flex-direction: column;
     align-items: center;
 
-    .infotext {
-        font-size: smaller;
-        font-weight: bold;
-        border-radius: 5px;
-        padding: 15px;
+    .iosInstruction {
+        color: red;
+        font-size: 1.5em;
+
+        svg {
+            animation: none;
+            stroke: ${({theme}) => theme.primaryLight};
+            color: ${({theme}) => theme.primaryLight};
+            height: 1.5em;
+            width: 1.5em;
+        }
     }
 
     table {
@@ -33,6 +39,30 @@ export const StyledDashboard = styled.div`
 
     th {
         padding-top: 2.5vh;
+    }
+`
+
+export const StyledInfoText = styled.p`
+    font-size: smaller;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 15px;
+
+    svg {
+        height: 10em;
+        width: 10em;
+        stroke: red;
+        animation: blink 1s linear infinite;
+    }
+
+    @media (min-width: ${({theme}) => theme.medium}) {
+        display: none;
+    }
+
+    @keyframes blink {
+        0%{stroke: ${({theme}) => theme.primaryLight};}
+        50%{stroke: red;}
+        100%{stroke: ${({theme}) => theme.primaryLight};}
     }
 `
 

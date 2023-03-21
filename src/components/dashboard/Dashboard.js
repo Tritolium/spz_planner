@@ -1,8 +1,13 @@
 import { lazy, Suspense, useCallback, useEffect } from 'react'
 import { useState } from 'react'
-import { getAttendences, getBirthdates, getWeather, newFeedback, updateAttendences } from '../../modules/data/DBConnect'
-import { StyledDashboard, StyledFeedbackArea } from './Dashboard.styled'
+import { getAttendences, getBirthdates, getWeather, getDisplayMode, getOS, newFeedback, updateAttendences } from '../../modules/data/DBConnect'
+import { StyledDashboard, StyledFeedbackArea, StyledInfoText } from './Dashboard.styled'
 import { Clothing } from '../../modules/components/clothing/Clothing'
+import { TbAlertTriangle } from 'react-icons/tb'
+import { theme } from '../../theme'
+import { IoShareOutline } from 'react-icons/io5'
+import { BsPlusSquare } from 'react-icons/bs'
+import { beforeInstallPrompt } from '../..'
 
 const Button = lazy(() => import('../../modules/components/button/Button'))
 const Terminzusage = lazy(() => import('../dateplanner/attendenceInput/Terminzusage'))
@@ -12,7 +17,9 @@ const Dashboard = ({ fullname }) => {
 
     const [nextEvent, setNextEvent] = useState()
     const [nextPractice, setNextPractice] = useState()
-    
+    const [showiosInstruction, setShowiosInstruction] = useState(false)
+    const [mobileBrowser, setMobileBrowser] = useState(false)
+    // const mobileBrowser = (getDisplayMode() === 'browser tab' && window.innerWidth < parseInt(theme.medium.split('px')[0]))    
 
     const getNextEvent = async () => {
         let events = await getAttendences()
@@ -35,13 +42,29 @@ const Dashboard = ({ fullname }) => {
         setNextPractice(nextPractice)
     }
 
+    const showInstall = () => {
+        let os = getOS()
+        if(os !== 'Mac OS' && os !== 'iOS'){
+            beforeInstallPrompt.prompt()
+        } else {
+            setShowiosInstruction(true)
+            setMobileBrowser(false)
+        }
+    }
+
     useEffect(() => {
-        getNextEvent()     
+        getNextEvent()
+        setMobileBrowser((getDisplayMode() === 'browser tab' && window.innerWidth < parseInt(theme.medium.split('px')[0])))     
     }, [])
 
     return(<StyledDashboard>
-        <p className='infotext'>Info: die gesamten Rückmeldungen sind im Menü auf der linken Seite unter "Anwesenheiten" zu finden</p>
-        <p className='infotext'>Auf dieser Seite ist das explizite speichern nicht mehr notwendig</p>
+        <StyledInfoText>Info: die gesamten Rückmeldungen sind im Menü auf der linken Seite unter "Anwesenheiten" zu finden</StyledInfoText>
+        <StyledInfoText>Auf dieser Seite ist das explizite speichern nicht mehr notwendig</StyledInfoText>
+        {mobileBrowser ? <StyledInfoText>
+            <TbAlertTriangle onClick={showInstall}/>
+        </StyledInfoText> : <></>}
+        {mobileBrowser ? <StyledInfoText>Diese App kann auch installiert werden, einfach auf das Icon klicken!</StyledInfoText> : <></>}
+        {showiosInstruction ? <StyledInfoText className='iosInstruction'>Erst <IoShareOutline />, dann <BsPlusSquare /></StyledInfoText> : <></>}
         <BirthdayBlog fullname={fullname}/>
         <table>
             <tbody>

@@ -42,7 +42,9 @@ const Scores = () => {
 const ScoreSelector = ({ scores, onSelect }) => {
     return(
         <Selector>
-            {scores.map(score => {
+            {scores
+            .sort((a, b) => a.Title.localeCompare(b.Title))
+            .map(score => {
                 return(<Score onSelect={onSelect} key={score.Score_ID} score={score}/>)
             })}
         </Selector>
