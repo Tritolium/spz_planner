@@ -1,21 +1,140 @@
+import { useCallback, useEffect, useState } from "react"
+import { BsCalendarDate, BsCalendarDateFill, BsFillQuestionCircleFill, BsHash } from "react-icons/bs"
+import { GiMatterStates } from "react-icons/gi"
+import { IoIosResize } from "react-icons/io"
+import { TbNote } from "react-icons/tb"
+import Button from "../../modules/components/button/Button"
+import Form from "../../modules/components/form/Form"
+import FormBox from "../../modules/components/form/FormBox"
 import { StyledOrderAdministration } from "./OrderAdministration.styled"
+import Orders from "./Orders"
 
 const OrderAdministration = () => {
+
+    let host = (process.env.NODE_ENV !== 'production') ? 'http://localhost' : ''
+    let token = localStorage.getItem('api_token')
+
+    const [orders, setOrders] = useState(new Array(0))
+
+    const fetchOrders = useCallback(async () => {
+        fetch(`${host}/api/order.php?api_token=${token}&own`)
+            .then(response => {
+                if (!response.ok)
+                    throw new Error(response.status)
+                return response.json()
+            }).then(json => {
+                setOrders(json)
+            }).catch(error => {
+                //alert(error.message)
+            })
+    }, [host, token])
+
+    const reload = useCallback(() => {
+        fetchOrders()
+    }, [fetchOrders])
+
+    useEffect(() => {
+        fetchOrders()
+    }, [fetchOrders])
+
     return(<StyledOrderAdministration>
-        <OrderList />
-        <OrderForm />
+        {orders.length ? <OrderList orders={orders} reload={reload}/> : <></>}
+        <OrderForm reload={reload}/>
     </StyledOrderAdministration>)
 }
 
-const OrderList = () => {
-    return(<div>
-        Artikel, Größe, Anzahl, Angefordert am, Bestellt am, Notiz, Status
-    </div>)
+const OrderList = ({ orders, reload }) => {
+    return(<table>
+        <thead id="thead-desktop">
+            <tr>
+                <th>Artikel</th>
+                <th>Größe</th>
+                <th>Anzahl</th>
+                <th>Angefordert am</th>
+                <th>Bestellt am</th>
+                <th>Notiz</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <thead id="thead-mobile">
+            <tr>
+                <th><BsFillQuestionCircleFill /></th>
+                <th><IoIosResize /></th>
+                <th><BsHash /></th>
+                <th><BsCalendarDate /></th>
+                <th><BsCalendarDateFill /></th>
+                <th><TbNote /></th>
+                <th><GiMatterStates /></th>
+            </tr>
+        </thead>
+        <tbody>
+            <Orders orders={orders} reload={reload}/>
+        </tbody>
+    </table>)
 }
 
-const OrderForm = () => {
+const OrderForm = ({ reload }) => {
+
+    let host = (process.env.NODE_ENV !== 'production') ? 'http://localhost' : ''
+    let token = localStorage.getItem('api_token')
+
+    const cancel = (e) => {
+        e.preventDefault()
+        document.getElementById('order_form').reset()
+    }
+
+    const submit = (e) => {
+        e.preventDefault()
+        let article = document.getElementById('article').value
+        let size = document.getElementById('size').value
+        let count = document.getElementById('count').value
+        let info = document.getElementById('info').value
+
+        fetch(`${host}/api/order.php?api_token=${token}`,
+        {
+            method: "POST",
+            body: JSON.stringify({
+                Article: article,
+                Size: size,
+                Count: count,
+                Info: info
+            })
+        }
+        )
+        .then(response => {
+            if (!response.ok)
+                throw new Error(response.status)
+            reload()
+            alert("Bestellung eingereicht")
+            document.getElementById('order_form').reset()
+        }).catch(error => {
+            alert(error)
+        })
+    }
+
     return(<div>
-        Artikel, Größe, Anzahl, Notiz
+        <Form id="order_form" onsubmit={submit}>
+            <FormBox>
+                <label htmlFor="article">Was?</label>
+                <input type="text" name="article" id="article" />
+            </FormBox>
+            <FormBox>
+                <label htmlFor="size">Größe?</label>
+                <input type="text" name="size" id="size" />
+            </FormBox>
+            <FormBox>
+                <label htmlFor="count">Anzahl?</label>
+                <input type="number" name="count" id="count" />
+            </FormBox>
+            <FormBox>
+                <label htmlFor="info">Notiz</label>
+                <input type="text" name="info" id="info" />
+            </FormBox>
+            <div>
+                <Button onClick={cancel}>Abbrechen</Button>
+                <Button onClick={submit}>Bestellen</Button>
+            </div>
+        </Form>
     </div>)
 }
 

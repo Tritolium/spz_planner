@@ -97,6 +97,7 @@ const update_login = async (version) => {
             _surname = json.Surname
             _auth_level = json.Auth_level
             localStorage.setItem('api_token', token)
+            localStorage.setItem('auth_level', _auth_level)
             break
         default:
         case 404:
