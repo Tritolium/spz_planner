@@ -89,9 +89,9 @@ const View = (props) => {
             <AttendenceInput dates={dates} fullname={props.fullname}/>
         </Suspense>)
     case 1:
-        return(<Overview dates={dates}/>)
+        return(<Suspense><Overview dates={dates}/></Suspense>)
     case 2:
-        return(<AbsenceInput />)
+        return(<Suspense><AbsenceInput /></Suspense>)
     }
 }
 
