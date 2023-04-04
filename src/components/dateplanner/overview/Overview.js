@@ -6,6 +6,7 @@ import DateField from "../attendenceInput/DateField"
 import { StyledEvalTable, StyledOverview, StyledOverviewTable } from "./Overview.styled"
 import EvalDiagram from "./EvalDiagram"
 import { Alert, Blank, Check, Deny } from "../attendenceInput/Terminzusage"
+import { IoReload } from "react-icons/io5"
 
 const Overview = () => {
 
@@ -42,12 +43,15 @@ const Overview = () => {
         setSelectedUsergroup_ID(e.target.value)
     }, [setSelectedUsergroup_ID])
 
-    useEffect(() => {
-        fetchUsergroups()
+    const reload = useCallback(() => {
         fetchAttendences()
         fetchEval()
-        //fetchMissingFeedback()
     }, [fetchAttendences, fetchEval])
+
+    useEffect(() => {
+        fetchUsergroups()
+        reload()
+    }, [reload])
 
     if(attendences.length === 0){
         return(
@@ -60,11 +64,14 @@ const Overview = () => {
     } else {
         return(
             <StyledOverview>
-                <select name="usergroup" id="usergroup_select" onChange={onUsergroupChange}>
-                    {usergroups.map((usergroup, index) => {
-                        return(<option key={index} value={usergroup.Usergroup_ID}>{usergroup.Title}</option>)
-                    })}
-                </select>
+                <div>
+                    <select name="usergroup" id="usergroup_select" onChange={onUsergroupChange}>
+                        {usergroups.map((usergroup, index) => {
+                            return(<option key={index} value={usergroup.Usergroup_ID}>{usergroup.Title}</option>)
+                        })}
+                    </select>
+                    <IoReload onClick={reload}/>
+                </div>
                 <OverviewTable attendences={attendences}/>
                 <EvalTable evaluation={evaluation}/>
             {/*Fehlende Rückmeldungen:*/}
