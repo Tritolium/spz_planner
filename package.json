@@ -28,7 +28,7 @@
     "typescript": "^5.0.3",
     "universal-cookie": "^4.0.4",
     "utf-8-validate": "^6.0.3",
-    "web-vitals": "^3.3.0"
+    "web-vitals": "^3.3.1"
   },
   "scripts": {
     "start": "react-scripts start",
