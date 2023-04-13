@@ -54,7 +54,8 @@ const Dashboard = ({ fullname }) => {
 
     useEffect(() => {
         getNextEvent()
-        setMobileBrowser((getDisplayMode() === 'browser tab' && window.innerWidth < parseInt(theme.medium.split('px')[0])))     
+        let os = getOS()
+        setMobileBrowser((getDisplayMode() === 'browser tab' && window.innerWidth < parseInt(theme.medium.split('px')[0]) && (beforeInstallPrompt || !(os !== 'Mac OS' && os !== 'iOS'))))
     }, [])
 
     return(<StyledDashboard>
