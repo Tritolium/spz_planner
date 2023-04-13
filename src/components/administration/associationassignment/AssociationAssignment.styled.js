@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const StyledUsergroupAssignment = styled.div`
+export const StyledAssociationAssignment = styled.div`
     display: flex;
     flex-direction: column;
     position: relative;

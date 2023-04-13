@@ -46,7 +46,7 @@ const ManuelAbsenceInput = () => {
                     <select id="member_select">
                         {
                             members.map(member => {
-                                return(<option value={member.Member_ID}>{member.Forename} {member.Surname}</option>)
+                                return(<option key={`member_${member.Member_ID}`} value={member.Member_ID}>{member.Forename} {member.Surname}</option>)
                             })
                         }
                     </select>

@@ -82,8 +82,13 @@ registerRoute(
 )
 
 registerRoute(
-	({ url }) => url.origin === self.location.origin && url.hostname.substring('api.open-meteo.com'),
+	({ url }) => url.origin === self.location.origin && url.hostname.substring('api.maptiler.com'),
 	new NetworkFirst()
+)
+
+registerRoute(
+	({ url }) => url.origin === self.location.origin && url.hostname.substring('api.open-meteo.com'),
+	new CacheFirst()
 )
 
 // This allows the web app to trigger skipWaiting via

@@ -15,6 +15,7 @@
     "https": "^1.0.0",
     "node-notifier": "^10.0.1",
     "node-sass": "^8.0.0",
+    "preval.macro": "^5.0.0",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
@@ -36,7 +37,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "deploy": "react-scripts build && sudo cp -r ./build/* /var/www/html/",
-    "remote-deploy": "react-scripts build && scp -r ./build/* pi@buzzer.dns.army:/home/pi/build/ && ssh pi@buzzer.dns.army 'sudo cp -r /home/pi/build/* /var/www/html/'"
+    "remote-deploy": "react-scripts build && scp -r ./build/* pi@buzzer.dns.army:/home/pi/build/ && ssh pi@buzzer.dns.army 'sudo cp -r -u /home/pi/build/* /var/www/html/'"
   },
   "eslintConfig": {
     "extends": [

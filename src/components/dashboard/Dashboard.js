@@ -1,10 +1,7 @@
-import { useCallback, useEffect } from 'react'
+import { lazy, Suspense, useCallback, useEffect } from 'react'
 import { useState } from 'react'
-import { getAttendences, getDisplayMode, getOS, getWeather, newFeedback, updateAttendences } from '../../modules/data/DBConnect'
+import { getAttendences, getBirthdates, getWeather, getDisplayMode, getOS, newFeedback, updateAttendences } from '../../modules/data/DBConnect'
 import { StyledDashboard, StyledFeedbackArea, StyledInfoText } from './Dashboard.styled'
-import Terminzusage from '../dateplanner/attendenceInput/Terminzusage'
-import WeatherIcon from './WeatherIcon'
-import Button from '../../modules/components/button/Button'
 import { Clothing } from '../../modules/components/clothing/Clothing'
 import { TbAlertTriangle } from 'react-icons/tb'
 import { theme } from '../../theme'
@@ -12,7 +9,11 @@ import { IoShareOutline } from 'react-icons/io5'
 import { BsPlusSquare } from 'react-icons/bs'
 import { beforeInstallPrompt } from '../..'
 
-const Dashboard = () => {
+const Button = lazy(() => import('../../modules/components/button/Button'))
+const Terminzusage = lazy(() => import('../dateplanner/attendenceInput/Terminzusage'))
+const WeatherIcon = lazy(() => import('./WeatherIcon'))
+
+const Dashboard = ({ fullname }) => {
 
     const [nextEvent, setNextEvent] = useState()
     const [nextPractice, setNextPractice] = useState()
@@ -53,7 +54,8 @@ const Dashboard = () => {
 
     useEffect(() => {
         getNextEvent()
-        setMobileBrowser((getDisplayMode() === 'browser tab' && window.innerWidth < parseInt(theme.medium.split('px')[0])))     
+        let os = getOS()
+        setMobileBrowser((getDisplayMode() === 'browser tab' && window.innerWidth < parseInt(theme.medium.split('px')[0]) && (beforeInstallPrompt || !(os !== 'Mac OS' && os !== 'iOS'))))
     }, [])
 
     return(<StyledDashboard>
@@ -64,23 +66,61 @@ const Dashboard = () => {
         </StyledInfoText> : <></>}
         {mobileBrowser ? <StyledInfoText>Diese App kann auch installiert werden, einfach auf das Icon klicken!</StyledInfoText> : <></>}
         {showiosInstruction ? <StyledInfoText className='iosInstruction'>Erst <IoShareOutline />, dann <BsPlusSquare /></StyledInfoText> : <></>}
+        <BirthdayBlog fullname={fullname}/>
         <table>
             <tbody>
-                {nextPractice ? <NextPractice nextPractice={nextPractice} /> : <></>}
-                {nextEvent ? <NextEvent nextEvent={nextEvent} /> : <></>}
+                <Suspense>{nextPractice ? <NextPractice nextPractice={nextPractice} /> : <></>}</Suspense>
+                <Suspense>{nextEvent ? <NextEvent nextEvent={nextEvent} /> : <></>}</Suspense>
             </tbody>
         </table>
         <Feedback />
     </StyledDashboard>)
 }
 
+const BirthdayBlog = ({ fullname }) => {
+    const [birthdates, setBirthdates] = useState(new Array(0))
+
+    const getBDates = async () => {
+        getBirthdates().then(bdays => {
+            let dates = bdays.filter(bday => {
+                let date = new Date(bday.Birthday)
+                date.setFullYear(2023)
+                let now = new Date()
+                let diff = date.getTime() - now.getTime()
+                return (-604800000 < diff && diff < 604800000)
+            })
+            setBirthdates(dates)
+    })
+    }
+
+    useEffect(() => {
+        getBDates()
+    }, [])
+    if(birthdates.length > 0){
+        return(<div>
+            <h3>Geburtstage:</h3>
+            {birthdates?.map(bday => {
+                let birthday = new Date(bday.Birthday)
+                let today = new Date()
+                let same = today.getDate() === birthday.getDate()
+                if(fullname === bday.Fullname && same)
+                    return(<div>Herzlichen Glückwunsch, {fullname.split(" ")[0]}!</div>)
+                else
+                    return(<div key={bday.Fullname}>{bday.Fullname}: {birthday.getDate()}.{birthday.getMonth() + 1}, {today.getFullYear() - birthday.getFullYear()} Jahre</div>)
+            })}
+        </div>)
+    }
+}
+
 const ClothingRow = ({ clothing }) => {
 
     return(
-        <tr>
-            <td>Bekleidung:</td>
-            <td>{parseInt(clothing) !== 0 ? <Clothing clothing={parseInt(clothing)} /> : <>keine Angabe</>}</td>
-        </tr>
+        <Suspense>
+            <tr>
+                <td>Bekleidung:</td>
+                <td>{parseInt(clothing) !== 0 ? <Clothing clothing={parseInt(clothing)} /> : <>keine Angabe</>}</td>
+            </tr>
+        </Suspense>
     )
 }
 
@@ -146,7 +186,7 @@ const NextEvent = ({ nextEvent }) => {
         <tr>
             <td>{eventDate.getDate()}.{eventDate.getMonth() + 1}.{eventDate.getFullYear()}</td>
             <td>{nextEvent?.Begin.slice(0, 5)} Uhr</td>
-            <td rowSpan={3}><Terminzusage event_id={nextEvent?.Event_ID} states={3} attendence={attendence} onClick={onClick}/></td>
+            <td rowSpan={3}><Suspense><Terminzusage event_id={nextEvent?.Event_ID} states={3} attendence={attendence} onClick={onClick}/></Suspense></td>
         </tr>
         <tr>
             <td>Hin:</td>
@@ -157,12 +197,13 @@ const NextEvent = ({ nextEvent }) => {
             <td>{nextEvent?.Leave_dep !== "12:34:56" ? `${nextEvent?.Leave_dep.slice(0, 5)} Uhr` : "-"}</td>
         </tr>
         <ClothingRow clothing={nextEvent?.Clothing} />
-        <tr>
-            <td>Wetter:</td>
-            <td>{weather ? `${weather.Temperature}°C` : "keine Wetterdaten"}</td>
-            <td>{weather ? <WeatherIcon code={weather.Weathercode} /> : ""}</td>
-        </tr>
-
+        <Suspense>
+            <tr>
+                <td>Wetter:</td>
+                <td>{weather ? `${weather.Temperature}°C` : "keine Wetterdaten"}</td>
+                <td>{weather ? <WeatherIcon code={weather.Weathercode} /> : ""}</td>
+            </tr>
+        </Suspense>
     </>)
 }
 

@@ -49,8 +49,8 @@ export const StyledInfoText = styled.p`
     padding: 15px;
 
     svg {
-        height: 10em;
-        width: 10em;
+        height: 5em;
+        width: 5em;
         stroke: red;
         animation: blink 1s linear infinite;
     }

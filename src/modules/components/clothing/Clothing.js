@@ -29,6 +29,6 @@ export const Clothing = ({ clothing }) => {
     }
 
     return(
-        icon ? <img src={icon} alt="Uniform" loading="lazy" /> : <></>
+        icon ? <img src={icon} alt="Uniform" /> : <></>
     )
 }

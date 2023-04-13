@@ -1,12 +1,13 @@
-import Termineingabe from './attendenceInput/Termineingabe'
-import Overview from './overview/Overview'
-import { useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 
 import './Dateplanner.css'
 import UnstyledAbsenceInput from './absenceInput/AbsenceInput'
 import styled from 'styled-components'
 import Button from '../../modules/components/button/Button'
 import HeaderMenu from '../../modules/components/headermenu/HeaderMenu'
+
+const AttendenceInput = lazy(() => import('./attendenceInput/Termineingabe'))
+const Overview = lazy(() => import('./overview/Overview'))
 
 const dates = [
     {
@@ -44,11 +45,11 @@ const Dateplanner = (props) => {
 
     return (
         <>
-            <HeaderMenu>
+            {props.auth_level > 1 ? <HeaderMenu>
                 <Button id='date_button_0' font_size={'1rem'} onClick={navigate}>Eingabe</Button>
                 {props.auth_level > 1 ? <Button id='date_button_1' font_size={'1rem'} onClick={navigate}>Übersicht</Button> : <></>}
                 {props.auth_level > 2 ? <Button id='date_button_2' font_size={'1rem'} onClick={navigate}>manuelle Eingabe</Button> : <></>}
-            </HeaderMenu>
+            </HeaderMenu> : <></>}
             <View view={view} fullname={props.fullname}/>
         </>
     )
@@ -84,11 +85,13 @@ const View = (props) => {
     switch(props.view){
     default:
     case 0:
-        return(<Termineingabe dates={dates} fullname={props.fullname}/>)
+        return(<Suspense>
+            <AttendenceInput dates={dates} fullname={props.fullname}/>
+        </Suspense>)
     case 1:
-        return(<Overview dates={dates}/>)
+        return(<Suspense><Overview dates={dates}/></Suspense>)
     case 2:
-        return(<AbsenceInput />)
+        return(<Suspense><AbsenceInput /></Suspense>)
     }
 }
 
