@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from "react"
-import { BsCalendarDate, BsCalendarDateFill, BsFillQuestionCircleFill, BsHash } from "react-icons/bs"
+import { BsCalendarDate, BsCalendarDateFill, BsFillPersonFill, BsFillQuestionCircleFill, BsHash } from "react-icons/bs"
 import { GiMatterStates } from "react-icons/gi"
 import { IoIosResize } from "react-icons/io"
 import { TbNote } from "react-icons/tb"
 import Button from "../../modules/components/button/Button"
+import Filter from "../../modules/components/Filter"
 import Form from "../../modules/components/form/Form"
 import FormBox from "../../modules/components/form/FormBox"
 import { StyledOrderAdministration } from "./OrderAdministration.styled"
@@ -11,23 +12,37 @@ import Orders from "./Orders"
 
 const OrderAdministration = () => {
 
+    const options = [
+        {value: "own", label: "Eigen"},
+        {value: "all", label: "Alle"}
+    ]
+
     let host = (process.env.NODE_ENV !== 'production') ? 'http://localhost' : ''
     let token = localStorage.getItem('api_token')
+    let auth_level = localStorage.getItem('auth_level')
 
     const [orders, setOrders] = useState(new Array(0))
+    const [filter, setFilter] = useState(options[0].value)
 
     const fetchOrders = useCallback(async () => {
-        fetch(`${host}/api/order.php?api_token=${token}&own`)
+        let url = (filter === 'own') ? `${host}/api/order.php?api_token=${token}&own` : `${host}/api/order.php?api_token=${token}`
+        fetch(url)
             .then(response => {
                 if (!response.ok)
                     throw new Error(response.status)
                 return response.json()
             }).then(json => {
                 setOrders(json)
+            }, () => {
+                setOrders(new Array(0))
             }).catch(error => {
                 //alert(error.message)
             })
-    }, [host, token])
+    }, [host, token, filter])
+
+    const onFilterChange = useCallback((e) => {
+        setFilter(e.target.value)
+    }, [setFilter])
 
     const reload = useCallback(() => {
         fetchOrders()
@@ -38,15 +53,17 @@ const OrderAdministration = () => {
     }, [fetchOrders])
 
     return(<StyledOrderAdministration>
-        {orders.length ? <OrderList orders={orders} reload={reload}/> : <></>}
+        {auth_level > 1 ? <Filter options={options} onChange={onFilterChange}/> : <></>}
+        {orders.length ? <OrderList orders={orders} reload={reload} own={(filter === 'own')}/> : <></>}
         <OrderForm reload={reload}/>
     </StyledOrderAdministration>)
 }
 
-const OrderList = ({ orders, reload }) => {
+const OrderList = ({ orders, reload, own }) => {
     return(<table>
         <thead id="thead-desktop">
             <tr>
+                {!own ? <th>Name</th> : <></>}
                 <th>Artikel</th>
                 <th>Größe</th>
                 <th>Anzahl</th>
@@ -58,6 +75,7 @@ const OrderList = ({ orders, reload }) => {
         </thead>
         <thead id="thead-mobile">
             <tr>
+                {!own ? <th><BsFillPersonFill /></th> : <></>}
                 <th><BsFillQuestionCircleFill /></th>
                 <th><IoIosResize /></th>
                 <th><BsHash /></th>
@@ -68,7 +86,7 @@ const OrderList = ({ orders, reload }) => {
             </tr>
         </thead>
         <tbody>
-            <Orders orders={orders} reload={reload}/>
+            <Orders orders={orders} reload={reload} own={own}/>
         </tbody>
     </table>)
 }
@@ -132,7 +150,7 @@ const OrderForm = ({ reload }) => {
             </FormBox>
             <div>
                 <Button onClick={cancel}>Abbrechen</Button>
-                <Button onClick={submit}>Bestellen</Button>
+                <Button onClick={submit}>Anfragen</Button>
             </div>
         </Form>
     </div>)

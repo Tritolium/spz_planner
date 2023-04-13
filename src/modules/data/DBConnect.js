@@ -59,6 +59,7 @@ const login = async (name, version) => {
             _api_token = json.API_token
             _auth_level = json.Auth_level
             localStorage.setItem('api_token', json.API_token)
+            localStorage.setItem('auth_level', _auth_level)
             break
         case 406:
             alert('Dein Name scheint nicht, oder mehrfach vergeben zu sein, bitte genauer angeben. Sollte das Problem weiterhin bestehen, bitte melden.')

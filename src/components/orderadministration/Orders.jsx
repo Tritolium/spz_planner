@@ -3,12 +3,13 @@ import { MdPendingActions } from 'react-icons/md'
 import { TbTruckDelivery } from 'react-icons/tb'
 import Button from '../../modules/components/button/Button'
 
-const Orders = ({ orders, reload }) => {
+const Orders = ({ orders, reload, own }) => {
 
     let auth_level = localStorage.getItem('auth_level')
 
     return(orders.map(order => {
-            return(<tr id={`order_${order.Order_ID}`}>
+            return(<tr key={`order_${order.Order_ID}`}>
+                {!own ? <td>{order.Forename} {order.Surname[0]}.</td> : <></>}
                 <td>{order.Article}</td>
                 <td>{order.Size}</td>
                 <td>{order.Count}</td>

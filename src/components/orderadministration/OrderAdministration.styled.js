@@ -9,6 +9,10 @@ export const StyledOrderAdministration = styled.div`
     }
     align-items: stretch;
     
+    select {
+        width: fit-content;
+        align-self: center;
+    }
 
     #thead-desktop {
         display: none;
