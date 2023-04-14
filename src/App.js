@@ -3,7 +3,7 @@ import { login, update_login } from './modules/data/DBConnect';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from './global';
 import { theme } from './theme';
-import preval from 'preval.macro'
+// import preval from 'preval.macro'
 
 import('./App.css')
 
