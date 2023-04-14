@@ -48,7 +48,9 @@ const login = async (name, version) => {
         body: JSON.stringify({
             Version: version,
             Name: name,
-            DisplayMode: `${getOS()}, ${displayMode}`
+            DisplayMode: `${getOS()}, ${displayMode}`,
+            Engine: navigator.userAgent.match(/([A-Z][a-z]*)+\/\d+[.\d+]*/g).toString(),
+            Device: navigator.userAgent.match(/(\([^(]+(\n[^(]+)*\))/g)[0]
         })
     })
     switch(response.status) {
@@ -88,7 +90,9 @@ const update_login = async (version) => {
         body: JSON.stringify({
             Version: version,
             Token: token,
-            DisplayMode: `${getOS()}, ${displayMode}`
+            DisplayMode: `${getOS()}, ${displayMode}`,
+            Engine: navigator.userAgent.match(/([A-Z][a-z]*)+\/\d+[.\d+]*/g).toString(),
+            Device: navigator.userAgent.match(/(\([^(]+(\n[^(]+)*\))/g)[0]
         })
     })
     switch(response.status) {

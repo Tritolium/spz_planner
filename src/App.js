@@ -3,7 +3,7 @@ import { login, update_login } from './modules/data/DBConnect';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from './global';
 import { theme } from './theme';
-import preval from 'preval.macro'
+// import preval from 'preval.macro'
 
 import('./App.css')
 
@@ -22,8 +22,8 @@ const OrderAdministration = lazy(() => import('./components/orderadministration/
 const Scoreboard = lazy(() => import('./components/scoreboard/Scoreboard'))
 const StyledApp = lazy(() => import('./App.styled'))
 
-
-const version = `v0.9 - ${preval`module.exports = new Date().toISOString()`}`
+// - ${preval`module.exports = new Date().toISOString()`}
+const version = `v0.9.1`
 
 const App = () => {
 
