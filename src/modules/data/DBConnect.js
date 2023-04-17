@@ -50,7 +50,8 @@ const login = async (name, version) => {
             Name: name,
             DisplayMode: `${getOS()}, ${displayMode}`,
             Engine: navigator.userAgent.match(/([A-Z][a-z]*)+\/\d+[.\d+]*/g).toString(),
-            Device: navigator.userAgent.match(/(\([^(]+(\n[^(]+)*\))/g)[0]
+            Device: navigator.userAgent.match(/(\([^(]+(\n[^(]+)*\))/g)[0],
+            Dimension: `${window.innerWidth}x${window.innerHeight}`
         })
     })
     switch(response.status) {
