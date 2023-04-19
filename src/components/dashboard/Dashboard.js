@@ -15,31 +15,67 @@ const WeatherIcon = lazy(() => import('./WeatherIcon'))
 
 const Dashboard = ({ fullname }) => {
 
-    const [nextEvent, setNextEvent] = useState()
-    const [nextPractice, setNextPractice] = useState()
+    const [nextEvents, setNextEvents] = useState(new Array(0))
+    const [nextPractices, setNextPractices] = useState(new Array(0))
     const [showiosInstruction, setShowiosInstruction] = useState(false)
     const [mobileBrowser, setMobileBrowser] = useState(false)
     // const mobileBrowser = (getDisplayMode() === 'browser tab' && window.innerWidth < parseInt(theme.medium.split('px')[0]))    
 
     const getNextEvent = async () => {
         let events = await getAttendences()
-        let nextAll = events.filter(event => { // sort out past events, if cache contains them
-            let attDate = new Date(event.Date)
-            attDate.setHours(23,59,59,999)
-            let today = new Date()
-            return today <= attDate
+        let nextAll = events.filter((event1, event2) => { //  out past events, if cache contains them
+            if(event1.Date < event2.Date)
+                return 1
+            else if(event1.Date===event2.Date)
+                return event1.Begin < event2.Begin
+            else
+                return -1
         })
 
         let nextEvent = nextAll.filter(event => { // sort out practice
             return !(event.Type.includes('Probe') || event.Type.includes('Üben'))
         })[0]
 
+        let nextEvents = nextAll.filter(event => { // sort out practice
+            return !(event.Type.includes('Probe') || event.Type.includes('Üben'))
+        }).filter(event => { //sort out events too far from event_0
+            let nextDate = new Date(nextEvent.Date)
+            let eventDate = new Date(event.Date)
+            if(eventDate.getTime() === nextDate.getTime())
+                return true
+            eventDate.setDate(eventDate.getDate() - 1)
+            if(eventDate.getTime() === nextDate.getTime())
+                return true
+                eventDate.setDate(eventDate.getDate() - 1)
+            if(eventDate.getTime() === nextDate.getTime())
+                return true
+            return false
+        })
+
         let nextPractice = nextAll.filter(event => { // sort out practice
             return event.Type.includes('Probe') || event.Type.includes('Üben')
         })[0]
 
-        setNextEvent(nextEvent)
-        setNextPractice(nextPractice)
+
+
+        let nextPractices = nextAll.filter(event => { // sort out practice
+            return event.Type.includes('Probe') || event.Type.includes('Üben')
+        }).filter(event => { //sort out practices too far from event_0
+            let nextDate = new Date(nextPractice.Date)
+            let eventDate = new Date(event.Date)
+            if(eventDate.getTime() === nextDate.getTime())
+                return true
+            eventDate.setDate(eventDate.getDate() - 1)
+            if(eventDate.getTime() === nextDate.getTime())
+                return true
+                eventDate.setDate(eventDate.getDate() - 1)
+            if(eventDate.getTime() === nextDate.getTime())
+                return true
+            return false
+        })
+
+        setNextEvents(nextEvents)
+        setNextPractices(nextPractices)
     }
 
     const showInstall = () => {
@@ -69,8 +105,14 @@ const Dashboard = ({ fullname }) => {
         <BirthdayBlog fullname={fullname}/>
         <table>
             <tbody>
-                <Suspense>{nextPractice ? <NextPractice nextPractice={nextPractice} /> : <></>}</Suspense>
-                <Suspense>{nextEvent ? <NextEvent nextEvent={nextEvent} /> : <></>}</Suspense>
+                <Suspense>
+                    {nextPractices.length > 0 ? <tr><th colSpan={3}>Nächste Probe{nextPractices.length > 1 ? "n" : ""}:</th></tr> : <></>}
+                    {nextPractices.length > 0 ? nextPractices.map(nextPractice => {return(<NextPractice nextPractice={nextPractice} />)}) : <></>}
+                </Suspense>
+                <Suspense>
+                    {nextEvents.length > 0 ? <tr><th colSpan={3}>Nächste{nextEvents.length === 1 ? "r" : ""} Termin{nextEvents.length > 1 ? "e" : ""}:</th></tr> : <></>}
+                    {nextEvents.length > 0 ? nextEvents.map(nextEvent => {return(<NextEvent nextEvent={nextEvent} />)}) : <></>}
+                </Suspense>
             </tbody>
         </table>
         <Feedback />
@@ -137,9 +179,6 @@ const NextPractice = ({ nextPractice }) => {
 
     return(<>
         <tr>
-            <th colSpan={3}>Nächste Probe:</th>
-        </tr>
-        <tr>
             <td>{nextPractice?.Type}</td>
             <td>{nextPractice?.Location}</td>
             <td rowSpan={2}><Terminzusage event_id={nextPractice?.Event_ID} states={3} attendence={attendence} onClick={onClick} cancelled={nextPractice?.Type.includes('Abgesagt')}/></td>
@@ -176,9 +215,6 @@ const NextEvent = ({ nextEvent }) => {
     }
 
     return(<>
-        <tr>
-            <th colSpan={3}>Nächster Termin:</th>
-        </tr>
         <tr>
             <td>{nextEvent?.Type}</td>
             <td>{nextEvent?.Location}</td>
