@@ -3,6 +3,6 @@ export const theme = {
     primaryLight: '#fff',
     /*primaryHover: 'rgb(0, 122, 255)',*/
     primaryHover: '#78849c',
-    mobile: '640px',
+    mobile: '530px',
     medium: '1007px'
 }
