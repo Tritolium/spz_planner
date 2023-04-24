@@ -64,11 +64,19 @@ const login = async (name, version) => {
             localStorage.setItem('api_token', json.API_token)
             localStorage.setItem('auth_level', _auth_level)
             break
+        case 404:
+            break
         case 406:
             alert('Dein Name scheint nicht, oder mehrfach vergeben zu sein, bitte genauer angeben. Sollte das Problem weiterhin bestehen, bitte melden.')
             break;
         default:
-        case 404:
+        case 500:
+            // possible issue due to an update, try to renew SW to load update
+            const registration = await navigator.serviceWorker?.getRegistration()
+            if(registration?.waiting){
+                registration?.waiting?.postMessage('SKIP_WAITING')
+                window.location.reload()
+            }
             break
     }
 
@@ -106,8 +114,13 @@ const update_login = async (version) => {
             localStorage.setItem('api_token', token)
             localStorage.setItem('auth_level', _auth_level)
             break
-        default:
         case 404:
+            break
+        default:
+        case 500:
+            // possible issue due to an update, try to renew SW to load update
+            const registration = await navigator.serviceWorker?.getRegistration()
+            registration?.waiting?.postMessage('SKIP_WAITING')
             break
     }
     return { _forename, _surname, _auth_level }
@@ -1065,16 +1078,4 @@ export const updateAssociationAssignments = async (changedAssignments) => {
         alert('Zuweisungen übernommen')
         break
     default:
-        alert('Zuweisung fehlgeschlagen')
-        break
-    }
-}
-
-export const getBirthdates = async () => {
-    let token = localStorage.getItem('api_token')
-    let response = await fetch(`${host}/api/member.php?api_token=${token}&birthdate`)
-    let json = await response.json()
-    return json
-}
-
-export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, updateAttendences, getMissingFeedback, getEval }
+    
