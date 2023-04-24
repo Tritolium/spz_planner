@@ -1078,4 +1078,16 @@ export const updateAssociationAssignments = async (changedAssignments) => {
         alert('Zuweisungen übernommen')
         break
     default:
-    
+        alert('Zuweisung fehlgeschlagen')
+        break
+    }
+}
+
+export const getBirthdates = async () => {
+    let token = localStorage.getItem('api_token')
+    let response = await fetch(`${host}/api/member.php?api_token=${token}&birthdate`)
+    let json = await response.json()
+    return json
+}
+
+export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, updateAttendences, getMissingFeedback, getEval }
