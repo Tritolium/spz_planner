@@ -1,4 +1,4 @@
-name: Publish
+name: Dev Upload
 
 on:
   workflow_dispatch:
