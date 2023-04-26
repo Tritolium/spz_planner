@@ -13,7 +13,6 @@ jobs:
     strategy:
       matrix:
         node-version: [20.x]
-    if: github.event.ref_type == 'tag'
     steps:
       - uses: actions/checkout@v3
       - name: Alter package.json
