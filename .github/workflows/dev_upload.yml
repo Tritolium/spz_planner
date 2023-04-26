@@ -22,13 +22,13 @@ jobs:
           field: homepage
           value: /alpha/
       - name: Alter manifest.json
-        uses: jossef/action-set-json-field@2.1
+        uses: jossef/action-set-json-field@v2.1
         with:
           file: public/manifest.json
           field: start_url
           value: /alpha/
       - name: Alter manifest.json
-        uses: jossef/action-set-json-field@2.1
+        uses: jossef/action-set-json-field@v2.1
         with:
           file: public/manifest.json
           field: scope
