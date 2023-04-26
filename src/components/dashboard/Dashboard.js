@@ -158,10 +158,10 @@ const ClothingRow = ({ clothing }) => {
 
     return(
         <Suspense>
-            <tr>
+            {parseInt(clothing) !== 0 ? <tr>
                 <td>Bekleidung:</td>
-                <td>{parseInt(clothing) !== 0 ? <Clothing clothing={parseInt(clothing)} /> : <>keine Angabe</>}</td>
-            </tr>
+                <td><Clothing clothing={parseInt(clothing)} /></td>
+            </tr> : <></>}
         </Suspense>
     )
 }
@@ -178,7 +178,7 @@ const NextPractice = ({ nextPractice }) => {
     }
 
     return(<>
-        <tr>
+        <tr className='event_header'>
             <td>{nextPractice?.Type}</td>
             <td>{nextPractice?.Location}</td>
             <td rowSpan={2}><Terminzusage event_id={nextPractice?.Event_ID} states={3} attendence={attendence} onClick={onClick} cancelled={nextPractice?.Type.includes('Abgesagt')}/></td>
@@ -215,7 +215,7 @@ const NextEvent = ({ nextEvent }) => {
     }
 
     return(<>
-        <tr>
+        <tr className='event_header'>
             <td>{nextEvent?.Type}</td>
             <td>{nextEvent?.Location}</td>
         </tr>
@@ -233,13 +233,15 @@ const NextEvent = ({ nextEvent }) => {
             <td>{nextEvent?.Leave_dep !== "12:34:56" ? `${nextEvent?.Leave_dep.slice(0, 5)} Uhr` : "-"}</td>
         </tr>
         <ClothingRow clothing={nextEvent?.Clothing} />
-        <Suspense>
+        {weather ? <Suspense>
             <tr>
                 <td>Wetter:</td>
-                <td>{weather ? `${weather.Temperature}°C` : "keine Wetterdaten"}</td>
-                <td>{weather ? <WeatherIcon code={weather.Weathercode} /> : ""}</td>
+                <td>{`${weather.Temperature}°C`}</td>
+                <td><WeatherIcon code={weather.Weathercode} /></td>
             </tr>
-        </Suspense>
+        </Suspense> : <></>
+        }
+        
     </>)
 }
 
