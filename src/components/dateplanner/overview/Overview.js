@@ -147,7 +147,7 @@ const EvalTable = ({evaluation}) => {
             </thead>
             <tbody>
                 {evaluation.map(event => {
-                    return(<EvalRow event={event} />)
+                    return(<EvalRow event={event} key={`eval_${event.Event_ID}`}/>)
                 })}
             </tbody>
         </StyledEvalTable>
