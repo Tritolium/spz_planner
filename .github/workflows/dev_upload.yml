@@ -1,0 +1,52 @@
+name: Publish
+
+on:
+  workflow_dispatch
+  schedule:
+    - cron: '41 9 * * */3'
+    
+jobs:
+  build:
+    
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [20.x]
+    if: github.event.ref_type == 'tag'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Alter package.json
+        uses: jossef/action-set-json-field@v2.1
+        with:
+          file: package.json
+          field: homepage
+          value: /alpha/
+      - name: Alter manifest.json
+        uses: jossef/action-set-json-field@2.1
+        with:
+          file: public/manifest.json
+          field: start_url
+          value: /alpha/
+      - name: Alter manifest.json
+        uses: jossef/action-set-json-field@2.1
+        with:
+          file: public/manifest.json
+          field: scope
+          value: /alpha/
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: npm ci
+      - run: npm run build --if-present
+        
+      - name: Upload Website files
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
+        with:
+          server: spzroenkhausen.bplaced.net
+          username: spzroenkhausen_admin
+          password: ${{ secrets.FPT_PASSWORD }}
+          local-dir: ./build/
+          server-dir: ./www/alpha/
