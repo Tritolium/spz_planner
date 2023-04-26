@@ -102,11 +102,11 @@ const WeatherIcon = ({ code }) => {
         92: "Starker Regen, letzte Stunde Gewitter hörbar",
         93: "Leichter Schnee/Regen-Hagel, letzte Stunde Gewitter hörbar",
         94: "Starker Schnee/Regen-Hagel, letzte Stunde Gewitter hörbar",
-        95: "Leichtes/Mäßiges Gewitter mit Regen/Schnee",
-        96: "Leichtes/Mäßiges Gewitter mit Hagel",
-        97: "Schweres Gewitter mit Regen/Schnee",
+        95: <WiThunderstorm />,
+        96: <WiThunderstorm />,
+        97: <><WiThunderstorm /><IoWarning /></>,
         98: "Gewitter mit Sandsturm",
-        99: "Schweres Gewitter mit Hagel"
+        99: <><WiThunderstorm /><IoWarning /></>
     }
 
     const text = {

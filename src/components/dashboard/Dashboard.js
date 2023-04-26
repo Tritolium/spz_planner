@@ -107,11 +107,11 @@ const Dashboard = ({ fullname }) => {
             <tbody>
                 <Suspense>
                     {nextPractices.length > 0 ? <tr><th colSpan={3}>Nächste Probe{nextPractices.length > 1 ? "n" : ""}:</th></tr> : <></>}
-                    {nextPractices.length > 0 ? nextPractices.map(nextPractice => {return(<NextPractice nextPractice={nextPractice} />)}) : <></>}
+                    {nextPractices.length > 0 ? nextPractices.map(nextPractice => {return(<NextPractice nextPractice={nextPractice} key={`nextPractice_${nextPractice.Event_ID}`}/>)}) : <></>}
                 </Suspense>
                 <Suspense>
                     {nextEvents.length > 0 ? <tr><th colSpan={3}>Nächste{nextEvents.length === 1 ? "r" : ""} Termin{nextEvents.length > 1 ? "e" : ""}:</th></tr> : <></>}
-                    {nextEvents.length > 0 ? nextEvents.map(nextEvent => {return(<NextEvent nextEvent={nextEvent} />)}) : <></>}
+                    {nextEvents.length > 0 ? nextEvents.map(nextEvent => {return(<NextEvent nextEvent={nextEvent} key={`nextEvent_${nextEvent.Event_ID}`}/>)}) : <></>}
                 </Suspense>
             </tbody>
         </table>
