@@ -3,7 +3,7 @@ name: Dev Upload
 on:
   workflow_dispatch:
   schedule:
-    - cron: '41 9 * * */3'
+    - cron: '41 9 */2 * *'
     
 jobs:
   build:
