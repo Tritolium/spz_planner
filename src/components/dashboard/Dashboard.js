@@ -107,11 +107,11 @@ const Dashboard = ({ fullname }) => {
             <tbody>
                 <Suspense>
                     {nextPractices.length > 0 ? <tr><th colSpan={3}>Nächste Probe{nextPractices.length > 1 ? "n" : ""}:</th></tr> : <></>}
-                    {nextPractices.length > 0 ? nextPractices.map(nextPractice => {return(<NextPractice nextPractice={nextPractice} />)}) : <></>}
+                    {nextPractices.length > 0 ? nextPractices.map(nextPractice => {return(<NextPractice nextPractice={nextPractice} key={`nextPractice_${nextPractice.Event_ID}`}/>)}) : <></>}
                 </Suspense>
                 <Suspense>
                     {nextEvents.length > 0 ? <tr><th colSpan={3}>Nächste{nextEvents.length === 1 ? "r" : ""} Termin{nextEvents.length > 1 ? "e" : ""}:</th></tr> : <></>}
-                    {nextEvents.length > 0 ? nextEvents.map(nextEvent => {return(<NextEvent nextEvent={nextEvent} />)}) : <></>}
+                    {nextEvents.length > 0 ? nextEvents.map(nextEvent => {return(<NextEvent nextEvent={nextEvent} key={`nextEvent_${nextEvent.Event_ID}`}/>)}) : <></>}
                 </Suspense>
             </tbody>
         </table>
@@ -221,7 +221,7 @@ const NextEvent = ({ nextEvent }) => {
         </tr>
         <tr>
             <td>{eventDate.getDate()}.{eventDate.getMonth() + 1}.{eventDate.getFullYear()}</td>
-            <td>{nextEvent?.Begin.slice(0, 5)} Uhr</td>
+            <td>{nextEvent?.Begin !== "12:34:56" ? `${nextEvent?.Begin.slice(0, 5)} Uhr` : "-"}</td>
             <td rowSpan={3}><Suspense><Terminzusage event_id={nextEvent?.Event_ID} states={3} attendence={attendence} onClick={onClick}/></Suspense></td>
         </tr>
         <tr>

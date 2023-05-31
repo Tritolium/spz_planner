@@ -37,7 +37,7 @@ const Table = () => {
                     <th>bis</th>
                     <th>Bemerkung</th>
                 </tr>
-            </thead> : <>Keine Abwesenheiten eingetragen</>}
+            </thead> : <thead><tr><th>Keine Abwesenheiten eingetragen</th></tr></thead>}
             <tbody>
                 {absences.map(absence => {
                     return(
