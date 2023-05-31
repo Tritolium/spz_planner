@@ -13,14 +13,15 @@ const StyledApp = styled.div`
     //     padding-top: calc(10% + 2rem);
     // }
 
-    .Namefield {
+    #Namefield {
         font-size: 1.5rem;
         position: absolute;
         top: 0.5rem;
         right: 2rem;
         z-index: 2;
-        div {
-            @media (max-width: ${({theme}) => theme.mobile}) {
+        @media (max-width: ${({theme}) => theme.mobile}) {
+            display: flex;
+            div {
                 display: none;
             }
         }

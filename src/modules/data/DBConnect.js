@@ -38,7 +38,7 @@ export const getDisplayMode = () => {
     return displayMode
 }
 
-const login = async (name, version) => {
+const login = async (name, pwhash, version) => {
     let _forename, _surname, _api_token, _auth_level
 
     let displayMode = getDisplayMode()
@@ -48,6 +48,7 @@ const login = async (name, version) => {
         body: JSON.stringify({
             Version: version,
             Name: name,
+            PWHash: pwhash,
             DisplayMode: `${getOS()}, ${displayMode}`,
             Engine: navigator.userAgent.match(/([A-Z][a-z]*)+\/\d+[.\d+]*/g).toString(),
             Device: navigator.userAgent.match(/(\([^(]+(\n[^(]+)*\))/g)[0],
@@ -63,6 +64,9 @@ const login = async (name, version) => {
             _auth_level = json.Auth_level
             localStorage.setItem('api_token', json.API_token)
             localStorage.setItem('auth_level', _auth_level)
+            break
+        case 403:
+            alert("Falscher Nutzer oder falsches Passwort")
             break
         case 404:
             break
