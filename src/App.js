@@ -3,7 +3,8 @@ import { login, update_login } from './modules/data/DBConnect';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from './global';
 import { theme } from './theme';
-// import preval from 'preval.macro'
+import preval from 'preval.macro'
+import { TbBellFilled, TbBellOff } from 'react-icons/tb';
 
 import('./App.css')
 
@@ -23,12 +24,13 @@ const Scoreboard = lazy(() => import('./components/scoreboard/Scoreboard'))
 const StyledApp = lazy(() => import('./App.styled'))
 
 // - ${preval`module.exports = new Date().toISOString()`}
-const version = `v0.9.5`
+const version = `v0.10pre - ${preval`module.exports = new Date().toISOString()`}`
 
 const App = () => {
 
     const [view, setView] = useState(-1)
     const [open, setOpen] = useState(false)
+    const [notify, setNotify] = useState(false)
 
     const loginRevalidated = useRef(false)
 
@@ -54,9 +56,9 @@ const App = () => {
         update()
     }, [])
 
-    const sendLogin = useCallback(async (name) => {
+    const sendLogin = useCallback(async (name, pwhash) => {
         setView(-2)
-        let { _forename, _surname, _api_token, _auth_level } = await login(name, version)
+        let { _forename, _surname, _api_token, _auth_level } = await login(name, pwhash, version)
         if(_api_token !== undefined) {
             setFullname(_forename + " " + _surname)
             setAuth_level(_auth_level)
@@ -106,14 +108,38 @@ const App = () => {
         }
     }
 
+    const ringBell = () => {
+        console.log('Click')
+        if(!notify) {
+            Notification.requestPermission().then(result => {
+                alert(result)
+                if(result === "granted") {
+                    sendNotification()
+                } else {
+                    alert(result)
+                }
+            })
+        }
+        setNotify(!notify)
+    }
+
+    const sendNotification = () => {
+        alert('before')
+        new Notification("Test", {
+            body: "Ich bin ein Test"
+        })
+        alert('after')
+    }
+
     return (
         <ThemeProvider theme={theme}>
             <GlobalStyles />
             <StyledApp className="App">
                 <Burger open={open} setOpen={setOpen}/>
                 <Menu open={open} setOpen={setOpen} navigate={navigate} auth_level={auth_level} />
-                <div className='Namefield'>
-                    <div>{fullname}</div>
+                <div id='Namefield'>
+                    {notify ? <TbBellFilled onClick={ringBell}/> : <TbBellOff onClick={ringBell} />}
+                    <div id='Name'>{fullname}</div>
                     <Button onClick={logout}>Logout</Button>
                 </div>
                 <Suspense fallback={<div>Lädt...</div>}>
@@ -127,8 +153,8 @@ const App = () => {
 
 const View = (props) => {
 
-    const sendLogin = useCallback((name) => {
-        props.sendLogin(name)
+    const sendLogin = useCallback((name, pwhash) => {
+        props.sendLogin(name, pwhash)
     }, [props])
 
     switch(props.view){

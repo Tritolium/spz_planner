@@ -23,13 +23,16 @@ export const StyledDashboard = styled.div`
     table {
         padding-top: 4pt;
         padding-bottom: 24pt;
+        border-collapse: collapse;
+        cursor: default;
     }
     img {
         height: 30pt;
     }
 
-    tr {
-        border: 1px solid white;
+    .event_header {
+        margin-top: 2vh;
+        border-top: 1px solid white;
     }
 
     svg {
