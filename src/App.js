@@ -115,12 +115,14 @@ const App = () => {
                 alert(result)
                 if(result === "granted") {
                     sendNotification()
+                    setNotify(!notify)
                 } else {
                     alert(result)
                 }
             })
+        } else {
+            setNotify(!notify)
         }
-        setNotify(!notify)
     }
 
     const sendNotification = () => {
