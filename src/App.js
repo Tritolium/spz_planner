@@ -76,36 +76,8 @@ const App = () => {
     }
 
     const navigate = async (e) => {
-        switch(e.target.id){
-        default:
-        case 'main_button_0':
-            setView(0)
-            break
-        case 'main_button_1':
-            setView(1)
-            break
-        case 'main_button_2':
-            setView(2)
-            break
-        case 'main_button_3':
-            setView(3)
-            break
-        case 'main_button_4':
-            setView(4)
-            break
-        case 'main_button_5':
-            setView(5)
-            break
-        case 'main_button_6':
-            setView(6)
-            break
-        case 'main_button_7':
-            setView(7)
-            break
-        case 'main_button_8':
-            setView(8)
-            break
-        }
+        let button_id = e.target.id.split('_')[2]
+        setView(parseInt(button_id))
     }
 
     const ringBell = () => {
