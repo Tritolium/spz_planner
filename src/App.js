@@ -5,6 +5,7 @@ import { GlobalStyles } from './global';
 import { theme } from './theme';
 import preval from 'preval.macro'
 import { TbBellFilled, TbBellOff } from 'react-icons/tb';
+import Settings from './components/settings/Settings';
 
 import('./App.css')
 
@@ -162,6 +163,8 @@ const View = (props) => {
     case 7:
         return(<Administration auth_level={props.auth_level}/>)
     case 8:
+        return(<Settings />)
+    case 9:
         return(<HelpPage auth_level={props.auth_level}/>)
     }
 }
