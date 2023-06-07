@@ -5,6 +5,7 @@ import { GlobalStyles } from './global';
 import { theme } from './theme';
 import preval from 'preval.macro'
 import { TbBellFilled, TbBellOff } from 'react-icons/tb';
+import Settings from './components/settings/Settings';
 
 import('./App.css')
 
@@ -76,36 +77,8 @@ const App = () => {
     }
 
     const navigate = async (e) => {
-        switch(e.target.id){
-        default:
-        case 'main_button_0':
-            setView(0)
-            break
-        case 'main_button_1':
-            setView(1)
-            break
-        case 'main_button_2':
-            setView(2)
-            break
-        case 'main_button_3':
-            setView(3)
-            break
-        case 'main_button_4':
-            setView(4)
-            break
-        case 'main_button_5':
-            setView(5)
-            break
-        case 'main_button_6':
-            setView(6)
-            break
-        case 'main_button_7':
-            setView(7)
-            break
-        case 'main_button_8':
-            setView(8)
-            break
-        }
+        let button_id = e.target.id.split('_')[2]
+        setView(parseInt(button_id))
     }
 
     const ringBell = () => {
@@ -115,12 +88,14 @@ const App = () => {
                 alert(result)
                 if(result === "granted") {
                     sendNotification()
+                    setNotify(!notify)
                 } else {
                     alert(result)
                 }
             })
+        } else {
+            setNotify(!notify)
         }
-        setNotify(!notify)
     }
 
     const sendNotification = () => {
@@ -188,6 +163,8 @@ const View = (props) => {
     case 7:
         return(<Administration auth_level={props.auth_level}/>)
     case 8:
+        return(<Settings />)
+    case 9:
         return(<HelpPage auth_level={props.auth_level}/>)
     }
 }
