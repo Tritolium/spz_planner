@@ -126,10 +126,27 @@ const BirthdayBlog = ({ fullname }) => {
         getBirthdates().then(bdays => {
             let dates = bdays.filter(bday => {
                 let date = new Date(bday.Birthday)
-                date.setFullYear(2023)
                 let now = new Date()
+                date.setFullYear(now.getFullYear())
                 let diff = date.getTime() - now.getTime()
                 return (-604800000 < diff && diff < 604800000)
+            }).sort((bday_a, bday_b) => {
+                let date_a = new Date(bday_a.Birthday)
+                let date_b = new Date(bday_b.Birthday)
+
+                if(date_a.getMonth() < date_b.getMonth()){
+                    return -1
+                } else if(date_a.getMonth() > date_b.getMonth()){
+                    return 1
+                } else {
+                    if(date_a.getDate() < date_b.getDate()){
+                        return -1
+                    } else if(date_a.getDate() > date_b.getDate()){
+                        return 1
+                    } else {
+                        return 0
+                    }
+                }
             })
             setBirthdates(dates)
     })
