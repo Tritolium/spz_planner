@@ -4,7 +4,7 @@ import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from './global';
 import { theme } from './theme';
 // import preval from 'preval.macro'
-import { TbBellFilled, TbBellOff } from 'react-icons/tb';
+// import { TbBellFilled, TbBellOff } from 'react-icons/tb';
 import Settings from './components/settings/Settings';
 
 import('./App.css')
@@ -31,7 +31,7 @@ const App = () => {
 
     const [view, setView] = useState(-1)
     const [open, setOpen] = useState(false)
-    const [notify, setNotify] = useState(false)
+    // const [notify, setNotify] = useState(false)
 
     const loginRevalidated = useRef(false)
 
@@ -81,30 +81,30 @@ const App = () => {
         setView(parseInt(button_id))
     }
 
-    const ringBell = () => {
-        console.log('Click')
-        if(!notify) {
-            Notification.requestPermission().then(result => {
-                alert(result)
-                if(result === "granted") {
-                    sendNotification()
-                    setNotify(!notify)
-                } else {
-                    alert(result)
-                }
-            })
-        } else {
-            setNotify(!notify)
-        }
-    }
+    // const ringBell = () => {
+    //     console.log('Click')
+    //     if(!notify) {
+    //         Notification.requestPermission().then(result => {
+    //             alert(result)
+    //             if(result === "granted") {
+    //                 sendNotification()
+    //                 setNotify(!notify)
+    //             } else {
+    //                 alert(result)
+    //             }
+    //         })
+    //     } else {
+    //         setNotify(!notify)
+    //     }
+    // }
 
-    const sendNotification = () => {
-        alert('before')
-        new Notification("Test", {
-            body: "Ich bin ein Test"
-        })
-        alert('after')
-    }
+    // const sendNotification = () => {
+    //     alert('before')
+    //     new Notification("Test", {
+    //         body: "Ich bin ein Test"
+    //     })
+    //     alert('after')
+    // }
 
     return (
         <ThemeProvider theme={theme}>
@@ -113,7 +113,7 @@ const App = () => {
                 <Burger open={open} setOpen={setOpen}/>
                 <Menu open={open} setOpen={setOpen} navigate={navigate} auth_level={auth_level} />
                 <div id='Namefield'>
-                    {notify ? <TbBellFilled onClick={ringBell}/> : <TbBellOff onClick={ringBell} />}
+                    {/* {notify ? <TbBellFilled onClick={ringBell}/> : <TbBellOff onClick={ringBell} />} */}
                     <div id='Name'>{fullname}</div>
                     <Button onClick={logout}>Logout</Button>
                 </div>
