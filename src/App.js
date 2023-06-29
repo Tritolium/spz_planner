@@ -3,7 +3,7 @@ import { login, update_login } from './modules/data/DBConnect';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from './global';
 import { theme } from './theme';
-import preval from 'preval.macro'
+// import preval from 'preval.macro'
 import { TbBellFilled, TbBellOff } from 'react-icons/tb';
 import Settings from './components/settings/Settings';
 
@@ -25,7 +25,7 @@ const Scoreboard = lazy(() => import('./components/scoreboard/Scoreboard'))
 const StyledApp = lazy(() => import('./App.styled'))
 
 // - ${preval`module.exports = new Date().toISOString()`}
-const version = `v0.10pre - ${preval`module.exports = new Date().toISOString()`}`
+const version = `v0.10`
 
 const App = () => {
 
