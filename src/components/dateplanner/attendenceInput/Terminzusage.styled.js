@@ -6,11 +6,16 @@ export const StyledTerminzusage = styled.div`
     height: 64px;
     width: 64px;
 
+    :nth-child(1) {
+        z-index: 3;
+    }
+
+    :nth-child(1) {
+        z-index: 2;
+    }
+
     .IconWrapper {
         position: absolute;
-        :nth-child(1) {
-            z-index: 2;
-        }
     }
 
     svg {
