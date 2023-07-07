@@ -131,7 +131,7 @@ const OrderForm = ({ reload }) => {
     }
 
     return(<div>
-        <Form id="order_form" onsubmit={submit}>
+        <Form id="order_form" onSubmit={submit}>
             <FormBox>
                 <label htmlFor="article">Was?</label>
                 <input type="text" name="article" id="article" />
