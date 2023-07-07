@@ -1,5 +1,10 @@
 workflows:
   hello-world:
     name: Hello world workflow
+    instance_type: mac_mini_m1
     scripts:
-        - echo "Hello World!"
+        - echo "Let's go!"
+        - name: "Setup NPM"
+          script: npm ci
+        - name: "Build"
+          script: npm run build --if-present
