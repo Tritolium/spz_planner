@@ -17,6 +17,7 @@ export const GlobalStyles = createGlobalStyle`
         height: 100vh;
         justify-content: flex-start;
         text-rendering: optimizeLegibility;
+        forced-color-adjust: none;
     }
 
     button {
