@@ -7,7 +7,7 @@
     "@testing-library/jest-dom": "^6.1.0",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
-    "@types/webpack": "^5.28.1",
+    "@types/webpack": "^5.28.2",
     "assert": "^2.0.0",
     "bufferutil": "^4.0.7",
     "chart.js": "^4.3.3",
