@@ -31,7 +31,7 @@
     "universal-cookie": "^6.1.0",
     "utf-8-validate": "^6.0.3",
     "web-vitals": "^3.4.0",
-    "which": "^3.0.1"
+    "which": "^4.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
