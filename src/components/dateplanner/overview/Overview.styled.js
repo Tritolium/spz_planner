@@ -32,6 +32,14 @@ export const StyledOverviewTable = styled.table`
         text-align: center;
         position: relative;
         min-width: 32px;
+
+        :nth-child(1) {
+            z-index: 3;
+        }
+
+        :nth-child(1) {
+            z-index: 2;
+        }
         
         .IconWrapper {
             min-width: 1.5em;
@@ -41,9 +49,6 @@ export const StyledOverviewTable = styled.table`
             position: absolute;
 
             transform: translateX(-50%) translateY(-50%);
-            :nth-child(1) {
-                z-index: 2;
-            }
         }
     }
 
