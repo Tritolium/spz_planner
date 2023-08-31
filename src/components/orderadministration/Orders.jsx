@@ -50,9 +50,19 @@ const UpdateOrder = ({ order, reload }) => {
         reload()
     }
 
+    const deleteOrder = async () => {
+        let host = (process.env.NODE_ENV !== 'production') ? 'http://localhost' : ''
+        let token = localStorage.getItem('api_token')
+        await fetch(`${host}/api/order.php?api_token=${token}&id=${order.Order_ID}`,
+        {
+            method: 'DELETE'
+        })
+        reload()
+    }
+
     switch(order.Order_State){
     case 0:
-        return(<td><Button onClick={update}>bestellt?</Button></td>)
+        return(<td><Button onClick={update}>bestellt?</Button><br/><Button onClick={deleteOrder}>stornieren</Button></td>)
     case 1:
         return(<td><Button onClick={update}>geliefert?</Button></td>)
     default:
