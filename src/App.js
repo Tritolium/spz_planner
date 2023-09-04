@@ -142,7 +142,7 @@ const View = (props) => {
         </Suspense>)
     case 0:
         return(<Suspense fallback={<div>Startseite lädt</div>}>
-            <Dashboard fullname={props.fullname}/>
+            <Dashboard fullname={props.fullname} auth_level={props.auth_level}/>
         </Suspense>)
     case 1:
         return(<Suspense fallback={<div>Planer lädt</div>}>

@@ -43,6 +43,10 @@ export const StyledDashboard = styled.div`
     th {
         padding-top: 2.5vh;
     }
+
+    canvas {
+        max-heigth: 30px;
+    }
 `
 
 export const StyledInfoText = styled.p`

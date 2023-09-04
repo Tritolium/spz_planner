@@ -458,7 +458,7 @@ const getMissingFeedback = async () => {
     }
 }
 
-const getEval = async (usergroup_id) => {
+const getEvalByUsergroup = async (usergroup_id) => {
     
     let token = localStorage.getItem('api_token')
 
@@ -472,6 +472,21 @@ const getEval = async (usergroup_id) => {
     default:
         return
     }    
+}
+
+export const getEvalByEvent = async (event_id, usergroup_id) => {
+    let token = localStorage.getItem('api_token')
+
+    let response = await fetch(`${host}/api/eval.php?api_token=${token}&id=${event_id}&u_id=${usergroup_id}&events`, {
+        method: "GET"
+    })
+    switch(response.status){
+    case 200:
+        let json = await response.json()
+        return json
+    default:
+        return
+    }
 }
 
 /**
@@ -1094,4 +1109,4 @@ export const getBirthdates = async () => {
     return json
 }
 
-export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, updateAttendences, getMissingFeedback, getEval }
+export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, updateAttendences, getMissingFeedback, getEvalByUsergroup }

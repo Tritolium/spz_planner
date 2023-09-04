@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react"
 
-import { getAllAttendences, getEval, /*getMissingFeedback,*/ getOwnUsergroups } from '../../../modules/data/DBConnect'
+import { getAllAttendences, getEvalByUsergroup, getOwnUsergroups } from '../../../modules/data/DBConnect'
 
 import DateField from "../attendenceInput/DateField"
 import { StyledEvalTable, StyledOverview, StyledOverviewTable } from "./Overview.styled"
@@ -35,7 +35,7 @@ const Overview = () => {
     */
 
     const fetchEval = useCallback(async () => {
-        let _eval = await getEval(selectedUsergroup_ID)
+        let _eval = await getEvalByUsergroup(selectedUsergroup_ID)
         setEvaluation(_eval)
     }, [selectedUsergroup_ID])
 
