@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect } from 'react'
 import { useState } from 'react'
-import { getAttendences, getBirthdates, getWeather, getDisplayMode, getOS, newFeedback, updateAttendences } from '../../modules/data/DBConnect'
+import { getAttendences, getBirthdates, getWeather, getDisplayMode, getOS, newFeedback, updateAttendences, getEvalByEvent } from '../../modules/data/DBConnect'
 import { StyledDashboard, StyledFeedbackArea, StyledInfoText } from './Dashboard.styled'
 import { Clothing } from '../../modules/components/clothing/Clothing'
 import { TbAlertTriangle } from 'react-icons/tb'
@@ -9,11 +9,22 @@ import { IoShareOutline } from 'react-icons/io5'
 import { BsPlusSquare } from 'react-icons/bs'
 import { beforeInstallPrompt } from '../..'
 
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+  } from 'chart.js'
+import { Bar } from "react-chartjs-2"
+
 const Button = lazy(() => import('../../modules/components/button/Button'))
 const Terminzusage = lazy(() => import('../dateplanner/attendenceInput/Terminzusage'))
 const WeatherIcon = lazy(() => import('./WeatherIcon'))
 
-const Dashboard = ({ fullname }) => {
+const Dashboard = ({ fullname, auth_level }) => {
 
     const [nextEvents, setNextEvents] = useState(new Array(0))
     const [nextPractices, setNextPractices] = useState(new Array(0))
@@ -107,11 +118,11 @@ const Dashboard = ({ fullname }) => {
             <tbody>
                 <Suspense>
                     {nextPractices.length > 0 ? <tr><th colSpan={3}>Nächste Probe{nextPractices.length > 1 ? "n" : ""}:</th></tr> : <></>}
-                    {nextPractices.length > 0 ? nextPractices.map(nextPractice => {return(<NextPractice nextPractice={nextPractice} key={`nextPractice_${nextPractice.Event_ID}`}/>)}) : <></>}
+                    {nextPractices.length > 0 ? nextPractices.map(nextPractice => {return(<NextPractice nextPractice={nextPractice} key={`nextPractice_${nextPractice.Event_ID}`} auth_level={auth_level}/>)}) : <></>}
                 </Suspense>
                 <Suspense>
                     {nextEvents.length > 0 ? <tr><th colSpan={3}>Nächste{nextEvents.length === 1 ? "r" : ""} Termin{nextEvents.length > 1 ? "e" : ""}:</th></tr> : <></>}
-                    {nextEvents.length > 0 ? nextEvents.map(nextEvent => {return(<NextEvent nextEvent={nextEvent} key={`nextEvent_${nextEvent.Event_ID}`}/>)}) : <></>}
+                    {nextEvents.length > 0 ? nextEvents.map(nextEvent => {return(<NextEvent nextEvent={nextEvent} key={`nextEvent_${nextEvent.Event_ID}`} auth_level={auth_level}/>)}) : <></>}
                 </Suspense>
             </tbody>
         </table>
@@ -183,10 +194,20 @@ const ClothingRow = ({ clothing }) => {
     )
 }
 
-const NextPractice = ({ nextPractice }) => {
+const NextPractice = ({ nextPractice, auth_level }) => {
+
+    const [evaluation, setEvaluation] = useState()
 
     let practiceDate = new Date(nextPractice?.Date)
     let attendence = nextPractice?.Attendence
+
+    useEffect(() => {
+        if(nextPractice !== undefined){
+            getEvalByEvent(nextPractice?.Event_ID, nextPractice?.Usergroup_ID).then(evaluation => {
+                setEvaluation(evaluation)
+            })
+        }
+    }, [nextPractice])
 
     const onClick = (event_id, att) => {
         let changes = {}
@@ -204,12 +225,16 @@ const NextPractice = ({ nextPractice }) => {
             <td>{practiceDate.getDate()}.{practiceDate.getMonth() + 1}.{practiceDate.getFullYear()}</td>
             <td>{nextPractice?.Begin.slice(0, 5)} Uhr</td>
         </tr>
+        <tr>
+            {auth_level > 1 ? <td colSpan={3}><DashboardDiagram event={evaluation} auth_level={auth_level}/></td> : <></>}
+        </tr>
     </>)
 }
 
-const NextEvent = ({ nextEvent }) => {
+const NextEvent = ({ nextEvent, auth_level }) => {
 
     const [weather, setWeather] = useState()
+    const [evaluation, setEvaluation] = useState()
 
     let attendence = nextEvent?.Attendence
     let eventDate = new Date(nextEvent?.Date)
@@ -221,6 +246,11 @@ const NextEvent = ({ nextEvent }) => {
         if(nextEvent !== undefined && eDate < nextWeek) {
             getWeather(nextEvent).then(weather => {
                 setWeather(weather)
+            })
+        }
+        if(nextEvent !== undefined){
+            getEvalByEvent(nextEvent?.Event_ID, nextEvent?.Usergroup_ID).then(evaluation => {
+                setEvaluation(evaluation)
             })
         }
     }, [nextEvent])
@@ -256,8 +286,10 @@ const NextEvent = ({ nextEvent }) => {
                 <td>{`${weather.Temperature}°C`}</td>
                 <td><WeatherIcon code={weather.Weathercode} /></td>
             </tr>
-        </Suspense> : <></>
-        }
+        </Suspense> : <></>}
+        <tr>
+            {auth_level > 0 ? <td colSpan={3}><DashboardDiagram event={evaluation} auth_level={auth_level}/></td> : <></>}
+        </tr>
         
     </>)
 }
@@ -289,6 +321,72 @@ const Feedback = () => {
             <StyledFeedbackArea open={open} name="content" id="feedbackcontent" cols="30" rows="10"></StyledFeedbackArea>
         </form>
     </div>)
+}
+
+const DashboardDiagram = ({ event, auth_level }) => {
+
+    ChartJS.register(
+        CategoryScale,
+        LinearScale,
+        BarElement,
+        Title,
+        Tooltip,
+        Legend
+    )
+
+    const options = {
+        animation: {
+            duration: 0
+        },
+        indexAxis: 'y',
+        plugins: {
+            title: {
+                display: false
+            },
+            legend: {
+                display: false
+            },
+            tooltip: {
+                enabled: auth_level > 1
+            }
+        },
+        scales: {
+            x: {
+                stacked: true,
+                display: false
+            },
+            y: {
+                stacked: true,
+                display: false
+            }
+        }
+    }
+
+    const labels = ['']
+
+    const data = {
+        labels,
+        datasets: [
+            {
+                data: [event?.Consent],
+                backgroundColor: 'rgb(0, 186, 0)'
+            },
+            {
+                data: [event?.Missing],
+                backgroundColor: 'rgb(37, 183, 211)'
+            },
+            {
+                data: [event?.Maybe],
+                backgroundColor: 'rgb(255, 161, 31)'
+            },
+            {
+                data: [event?.Refusal],
+                backgroundColor: 'rgb(255, 0, 0)'
+            }
+        ]
+    }
+
+    return(<Bar height={"30px"} options={options} data={data}/>)
 }
 
 export default Dashboard
