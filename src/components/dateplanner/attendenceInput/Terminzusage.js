@@ -3,6 +3,7 @@ import { IoIosAlert, IoIosCloseCircle } from 'react-icons/io'
 import { IoCheckmarkCircle } from 'react-icons/io5'
 import { StyledTerminzusage } from './Terminzusage.styled'
 import { IconContext } from 'react-icons'
+import { theme } from '../../../theme'
 
 const Terminzusage = (props) => {
 
@@ -38,7 +39,7 @@ const Button = (props) => {
 export const Blank = ({ callback, size }) => {
     //#24b9d0
     return(
-        <IconContext.Provider value={{color: "#24b9d0", className: "IconWrapper"}}>
+        <IconContext.Provider value={{color: theme.blue, className: "IconWrapper"}}>
             <IoIosAlert size="100%" onClick={callback}/>
             <Circle callback={callback} />
         </IconContext.Provider>
@@ -48,7 +49,7 @@ export const Blank = ({ callback, size }) => {
 export const Check = ({ callback }) => {
     //#00bd00
     return(
-        <IconContext.Provider value={{color: "#00bd00", className: "IconWrapper"}}>
+        <IconContext.Provider value={{color: theme.green, className: "IconWrapper"}}>
             <IoCheckmarkCircle size="100%" onClick={callback}/>
             <Circle callback={callback} />
         </IconContext.Provider>
@@ -58,7 +59,7 @@ export const Check = ({ callback }) => {
 export const Deny = ({ callback }) => {
     //#fe423e
     return(
-        <IconContext.Provider value={{color: "#fe423e", className: "IconWrapper"}}>
+        <IconContext.Provider value={{color: theme.red, className: "IconWrapper"}}>
             <IoIosCloseCircle size="100%" onClick={callback}/>
             <Circle callback={callback} />
         </IconContext.Provider>
@@ -68,7 +69,7 @@ export const Deny = ({ callback }) => {
 export const Alert = ({ callback }) => {
     //#ffa11c
     return(
-        <IconContext.Provider value={{color: "#ffa11c", className: "IconWrapper"}}>
+        <IconContext.Provider value={{color: theme.yellow, className: "IconWrapper"}}>
             <IoIosAlert size="100%" onClick={callback}/>
             <Circle callback={callback} />
         </IconContext.Provider>

@@ -10,6 +10,7 @@ import {
 import { Bar } from "react-chartjs-2"
 import DateField from '../attendenceInput/DateField';
 import { StyledEvalDiagram } from './Overview.styled';
+import { theme } from '../../../theme';
 
 const EvalDiagram = ({ event }) => {
 
@@ -51,19 +52,19 @@ const EvalDiagram = ({ event }) => {
         datasets: [
             {
                 data: [event.Consent],
-                backgroundColor: 'rgb(0, 186, 0)'
+                backgroundColor: theme.greenRGB
             },
             {
                 data: [event.Missing],
-                backgroundColor: 'rgb(37, 183, 211)'
+                backgroundColor: theme.blueRGB
             },
             {
                 data: [event.Maybe],
-                backgroundColor: 'rgb(255, 161, 31)'
+                backgroundColor: theme.yellowRGB
             },
             {
                 data: [event.Refusal],
-                backgroundColor: 'rgb(255, 0, 0)'
+                backgroundColor: theme.redRGB
             }
         ],
     }
