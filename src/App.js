@@ -1,11 +1,12 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
-import { login, update_login } from './modules/data/DBConnect';
+import { login, sendPushSubscription, update_login } from './modules/data/DBConnect';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from './global';
 import { theme } from './theme';
 // import preval from 'preval.macro'
-// import { TbBellFilled, TbBellOff } from 'react-icons/tb';
+import { TbBellFilled, TbBellOff } from 'react-icons/tb';
 import Settings from './components/settings/Settings';
+import { notificationHelper } from './modules/helper/NotificationHelper';
 
 import('./App.css')
 
@@ -31,7 +32,7 @@ const App = () => {
 
     const [view, setView] = useState(-1)
     const [open, setOpen] = useState(false)
-    // const [notify, setNotify] = useState(false)
+    const [notify, setNotify] = useState(Notification.permission === 'granted')
 
     const loginRevalidated = useRef(false)
 
@@ -47,6 +48,12 @@ const App = () => {
                 setFullname(_forename + " " + _surname)
                 setAuth_level(_auth_level)
                 setView(0)
+                if(Notification.permission === 'granted'){
+                    notificationHelper.createNotificationSubscription('BD0AbKmeW7bACNzC9m0XSUddJNx--VoOvU2X0qBF8dODOBhHvFPjrKJEBcL7Yk07l8VpePC1HBT7h2FRK3bS5uA')
+                    .then(subscription => {
+                        console.log(subscription)
+                        sendPushSubscription(subscription)
+                })}
             } else {
                 setView(-1)
             }
@@ -64,6 +71,12 @@ const App = () => {
             setFullname(_forename + " " + _surname)
             setAuth_level(_auth_level)
             setView(0)
+            if(Notification.permision === 'granted'){
+                notificationHelper.createNotificationSubscription('BD0AbKmeW7bACNzC9m0XSUddJNx--VoOvU2X0qBF8dODOBhHvFPjrKJEBcL7Yk07l8VpePC1HBT7h2FRK3bS5uA')
+                .then(subscription => {
+                    console.log(subscription)
+                    sendPushSubscription(subscription)
+            })}
         } else {
             setView(-1)
         }
@@ -81,30 +94,22 @@ const App = () => {
         setView(parseInt(button_id))
     }
 
-    // const ringBell = () => {
-    //     console.log('Click')
-    //     if(!notify) {
-    //         Notification.requestPermission().then(result => {
-    //             alert(result)
-    //             if(result === "granted") {
-    //                 sendNotification()
-    //                 setNotify(!notify)
-    //             } else {
-    //                 alert(result)
-    //             }
-    //         })
-    //     } else {
-    //         setNotify(!notify)
-    //     }
-    // }
-
-    // const sendNotification = () => {
-    //     alert('before')
-    //     new Notification("Test", {
-    //         body: "Ich bin ein Test"
-    //     })
-    //     alert('after')
-    // }
+    const ringBell = () => {
+        if(!notify) {
+            window.Notification.requestPermission().then(result => {
+                if(result === "granted") {
+                    notificationHelper.createNotificationSubscription('BD0AbKmeW7bACNzC9m0XSUddJNx--VoOvU2X0qBF8dODOBhHvFPjrKJEBcL7Yk07l8VpePC1HBT7h2FRK3bS5uA')
+                    .then(subscription => {
+                        console.log(subscription)
+                        sendPushSubscription(subscription)
+                    })
+                    setNotify(!notify)
+                }
+            })
+        } else {
+            setNotify(!notify)
+        }
+    }
 
     return (
         <ThemeProvider theme={theme}>
@@ -113,7 +118,7 @@ const App = () => {
                 <Burger open={open} setOpen={setOpen}/>
                 <Menu open={open} setOpen={setOpen} navigate={navigate} auth_level={auth_level} />
                 <div id='Namefield'>
-                    {/* {notify ? <TbBellFilled onClick={ringBell}/> : <TbBellOff onClick={ringBell} />} */}
+                    {notify ? <TbBellFilled onClick={ringBell}/> : <TbBellOff onClick={ringBell} />}
                     <div id='Name'>{fullname}</div>
                     <Button onClick={logout}>Logout</Button>
                 </div>
