@@ -101,9 +101,8 @@ self.addEventListener('message', (event) => {
 
 // Any other custom service worker logic can go here.
 
-self.addEventListener('push',async (event) => {
+self.addEventListener('push', (event) => {
   console.log('Push erhalten: ' + event.data.text())
-  // self.registration.showNotification("Test", {
-  //   body: "Ich bin ein iOS Test"
-  // })
+  let options = event.data.json()
+  self.registration.showNotification(options.title, options)
 })
