@@ -107,7 +107,8 @@ const App = () => {
                 }
             })
         } else {
-            setNotify(!notify)
+            // setNotify(!notify)
+            // do nothing, notifications are not intended to be turned off again
         }
     }
 
