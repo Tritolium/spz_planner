@@ -19,6 +19,7 @@ import {
     Legend,
   } from 'chart.js'
 import { Bar } from "react-chartjs-2"
+import { version } from '../../App'
 
 const Button = lazy(() => import('../../modules/components/button/Button'))
 const Terminzusage = lazy(() => import('../dateplanner/attendenceInput/Terminzusage'))
@@ -111,7 +112,7 @@ const Dashboard = ({ fullname, auth_level }) => {
         </StyledInfoText> : <></>}
         {mobileBrowser ? <StyledInfoText>Diese App kann auch installiert werden, einfach auf das Icon klicken!</StyledInfoText> : <></>}
         {showiosInstruction ? <StyledInfoText className='iosInstruction'>Erst <IoShareOutline />, dann <BsPlusSquare /></StyledInfoText> : <></>}
-        <Changelog />
+        <Changelog read={localStorage.getItem("changelogRead") === version}/>
         <BirthdayBlog fullname={fullname}/>
         <table>
             <tbody>
@@ -181,19 +182,20 @@ const BirthdayBlog = ({ fullname }) => {
     }
 }
 
-const Changelog = () => {
-    const [open, setOpen] = useState(true)
+const Changelog = ({read}) => {
+    const [clicked, setClicked] = useState(false)
 
     const onClick = () => {
-        setOpen(!open)
+        setClicked(true)
+        localStorage.setItem("changelogRead", version)
     }
 
     return(
         <StyledChangelog>
-            <Button onClick={onClick}>{open  ? "Changelog verbergen" : "Changelog anzeigen"}</Button>
-            {open ? 
+            {!(read || clicked) ? <Button onClick={onClick}>Changelog vergergen</Button> : <></>}
+            {!(read || clicked) ? 
                 <>
-                    <h2>Neu in v0.10.0:</h2>
+                    <h2>Neu in {version}:</h2>
                     <li>
                         <i>Benachrichtigungen:</i> Mit der Glocke oben rechts können Benachrichtigungen aktiviert werden. Vorraussetzung ist, dass die App "installiert" ist.
                     </li>
