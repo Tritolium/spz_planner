@@ -19,6 +19,19 @@ export const StyledBurger = styled.button`
         outline: none;
     }
 
+    :nth-child(1) {
+        rotate: ${props => props.open ? '45deg' : '0'};
+    }
+
+    :nth-child(2) {
+        opacity: ${({open}) => open ? '0' : '1'};
+        translate: ${({open}) => open ? '25px' : '0'};
+    }
+
+    :nth-child(3) {
+        rotate: ${props => props.open ? '-45deg' : '0'};
+    }
+
     div {
         width: 2rem;
         height: 0.25rem;
@@ -27,18 +40,5 @@ export const StyledBurger = styled.button`
         transition: all 0.25s linear;
         position: relative;
         transform-origin: 1px;
-
-        :nth-child(1) {
-            transform: ${({open}) => open ? 'rotate(45deg)' : 'rotate(0)'};
-        }
-
-        :nth-child(2) {
-            opacity: ${({open}) => open ? '0' : '1'};
-            transform: ${({open}) => open ? 'translateX(20px)' : 'translateX(0)'};
-        }
-
-        :nth-child(3) {
-            transform: ${({open}) => open ? 'rotate(-45deg)' : 'rotate(0)'};
-        }
     }
 `
