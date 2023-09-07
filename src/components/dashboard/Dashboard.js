@@ -193,6 +193,7 @@ const Changelog = () => {
             <Button onClick={onClick}>{open  ? "Changelog verbergen" : "Changelog anzeigen"}</Button>
             {open ? 
                 <>
+                    <h2>Neu in v0.10.0:</h2>
                     <li>
                         <i>Benachrichtigungen:</i> Mit der Glocke oben rechts können Benachrichtigungen aktiviert werden. Vorraussetzung ist, dass die App "installiert" ist.
                     </li>
