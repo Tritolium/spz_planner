@@ -1109,4 +1109,12 @@ export const getBirthdates = async () => {
     return json
 }
 
+export const sendPushSubscription = (subscription) => {
+    let token = localStorage.getItem('api_token')
+    fetch(`${host}/api/pushsubscription.php?api_token=${token}`, {
+        method: 'PUT',
+        body: JSON.stringify(subscription)
+    })
+}
+
 export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, updateAttendences, getMissingFeedback, getEvalByUsergroup }
