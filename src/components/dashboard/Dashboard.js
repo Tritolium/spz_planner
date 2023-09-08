@@ -1,7 +1,7 @@
 import { lazy, Suspense, useCallback, useEffect } from 'react'
 import { useState } from 'react'
 import { getAttendences, getBirthdates, getWeather, getDisplayMode, getOS, newFeedback, updateAttendences, getEvalByEvent } from '../../modules/data/DBConnect'
-import { StyledDashboard, StyledFeedbackArea, StyledInfoText } from './Dashboard.styled'
+import { StyledChangelog, StyledDashboard, StyledFeedbackArea, StyledInfoText } from './Dashboard.styled'
 import { Clothing } from '../../modules/components/clothing/Clothing'
 import { TbAlertTriangle } from 'react-icons/tb'
 import { theme } from '../../theme'
@@ -19,6 +19,7 @@ import {
     Legend,
   } from 'chart.js'
 import { Bar } from "react-chartjs-2"
+import { version } from '../../App'
 
 const Button = lazy(() => import('../../modules/components/button/Button'))
 const Terminzusage = lazy(() => import('../dateplanner/attendenceInput/Terminzusage'))
@@ -106,13 +107,12 @@ const Dashboard = ({ fullname, auth_level }) => {
     }, [])
 
     return(<StyledDashboard>
-        <StyledInfoText>Info: die gesamten Rückmeldungen sind im Menü auf der linken Seite unter "Anwesenheiten" zu finden</StyledInfoText>
-        <StyledInfoText>Auf dieser Seite ist das explizite speichern nicht mehr notwendig</StyledInfoText>
         {mobileBrowser ? <StyledInfoText>
             <TbAlertTriangle onClick={showInstall}/>
         </StyledInfoText> : <></>}
         {mobileBrowser ? <StyledInfoText>Diese App kann auch installiert werden, einfach auf das Icon klicken!</StyledInfoText> : <></>}
         {showiosInstruction ? <StyledInfoText className='iosInstruction'>Erst <IoShareOutline />, dann <BsPlusSquare /></StyledInfoText> : <></>}
+        <Changelog read={localStorage.getItem("changelogRead") === version}/>
         <BirthdayBlog fullname={fullname}/>
         <table>
             <tbody>
@@ -180,6 +180,36 @@ const BirthdayBlog = ({ fullname }) => {
             })}
         </div>)
     }
+}
+
+const Changelog = ({read}) => {
+    const [clicked, setClicked] = useState(false)
+
+    const onClick = () => {
+        setClicked(true)
+        localStorage.setItem("changelogRead", version)
+    }
+
+    return(
+        <StyledChangelog>
+            {!(read || clicked) ? <Button onClick={onClick}>Changelog vergergen</Button> : <></>}
+            {!(read || clicked) ? 
+                <>
+                    <h2>Neu in {version}:</h2>
+                    <li>
+                        <i>Benachrichtigungen:</i> Mit der Glocke oben rechts können Benachrichtigungen aktiviert werden. Vorraussetzung ist, dass die App "installiert" ist.
+                    </li>
+                    <li>
+                        <i>Passwörter:</i> Der Zugang kann jetzt mit einem Passwort versehen werden. Unter Einstellung setzen oder verändern.
+                    </li>
+                    <li>
+                        <i>Startseite:</i> Das Layout der Startseite wurde angepasst und erweitert.
+                    </li>
+                </>
+                : <></>
+            }
+        </StyledChangelog>
+    )
 }
 
 const ClothingRow = ({ clothing }) => {

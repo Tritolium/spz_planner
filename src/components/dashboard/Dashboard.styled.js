@@ -73,6 +73,16 @@ export const StyledInfoText = styled.p`
     }
 `
 
+export const StyledChangelog = styled.ul`
+    font-size: smaller;
+    padding-inline-start: 1.5em;
+    padding-inline-end: 1.5em;
+
+    li {
+        padding: 1em 0 1em 0;
+    }
+`
+
 export const StyledFeedbackArea = styled.textarea`
     transition-property: transform, opacity, max-height;
     transition-duration: 0.75s;
