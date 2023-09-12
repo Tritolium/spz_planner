@@ -12,6 +12,9 @@ export const StyledUsergroupAssignment = styled.div`
 
     td {
         text-align: center;
+        :nth-child(1) {
+            z-index: 2;
+        }
     }
 
     button {
@@ -24,9 +27,6 @@ export const StyledUsergroupAssignment = styled.div`
         max-width: 1.8rem;
         position: absolute;
         transform: translateX(-50%) translateY(-50%);
-        :nth-child(1) {
-            z-index: 2;
-        }
     }
 
     svg {
