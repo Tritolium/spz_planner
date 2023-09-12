@@ -103,16 +103,19 @@ const Table = styled.table`
             max-width: 128px;
         }
     }
+
+    tr {
+        td:nth-child(1) {
+            text-align: center;
+        }
+        :nth-child(2) {
+            text-align: center;
+        }
+    }
 `
 
 const TableData = styled.td`
     border-top: 1px solid #ccc;
-    :nth-child(1) {
-        text-align: center;
-    }
-    :nth-child(2) {
-        text-align: center;
-    }
 `
 
 export default AttendenceTable
