@@ -32,7 +32,7 @@ const App = () => {
 
     const [view, setView] = useState(-1)
     const [open, setOpen] = useState(false)
-    const [notify, setNotify] = useState(Notification.permission === 'granted')
+    const [notify, setNotify] = useState(window.Notification?.permission === 'granted')
 
     const loginRevalidated = useRef(false)
 
@@ -48,7 +48,7 @@ const App = () => {
                 setFullname(_forename + " " + _surname)
                 setAuth_level(_auth_level)
                 setView(0)
-                if(Notification.permission === 'granted'){
+                if(window.Notification?.permission === 'granted'){
                     notificationHelper.createNotificationSubscription('BD0AbKmeW7bACNzC9m0XSUddJNx--VoOvU2X0qBF8dODOBhHvFPjrKJEBcL7Yk07l8VpePC1HBT7h2FRK3bS5uA')
                     .then(subscription => {
                         console.log(subscription)
@@ -71,7 +71,7 @@ const App = () => {
             setFullname(_forename + " " + _surname)
             setAuth_level(_auth_level)
             setView(0)
-            if(Notification.permision === 'granted'){
+            if(window.Notification?.permision === 'granted'){
                 notificationHelper.createNotificationSubscription('BD0AbKmeW7bACNzC9m0XSUddJNx--VoOvU2X0qBF8dODOBhHvFPjrKJEBcL7Yk07l8VpePC1HBT7h2FRK3bS5uA')
                 .then(subscription => {
                     console.log(subscription)
@@ -96,7 +96,7 @@ const App = () => {
 
     const ringBell = () => {
         if(!notify) {
-            window.Notification.requestPermission().then(result => {
+            window.Notification?.requestPermission().then(result => {
                 if(result === "granted") {
                     notificationHelper.createNotificationSubscription('BD0AbKmeW7bACNzC9m0XSUddJNx--VoOvU2X0qBF8dODOBhHvFPjrKJEBcL7Yk07l8VpePC1HBT7h2FRK3bS5uA')
                     .then(subscription => {
