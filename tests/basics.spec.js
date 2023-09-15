@@ -5,7 +5,7 @@ test('do login', async ({ page }) => {
 
   page.on('console', msg => console.log(msg.text()))
 
-  await page.goto('https://spzroenkhausen.bplaced.net/alpha.index');
+  await page.goto('https://spzroenkhausen.bplaced.net/alpha/index.html');
   
   const login = page.getByPlaceholder("Namen eingeben")
   const passwd = page.locator("#passwd")
