@@ -4,8 +4,9 @@ import polod from '../../../icons/polod.png'
 import shirt from '../../../icons//shirt.png'
 import suit from '../../../icons//suit.png'
 import cow from '../../../icons/cow.png'
+import pants from '../../../icons/pants.png'
 
-export const clothingStyles = 5
+export const clothingStyles = 7
 
 export const Clothing = ({ clothing }) => {
 
@@ -26,6 +27,9 @@ export const Clothing = ({ clothing }) => {
         break
     case 5:
         icon = cow
+        break
+    case 6:
+        icon = pants
         break
     default:
         break
@@ -58,6 +62,9 @@ export const ClothingInput = ({ clothing, onClick }) => {
         break
     case 5:
         icon = cow
+        break
+    case 6:
+        icon = pants
         break
     default:
         break
