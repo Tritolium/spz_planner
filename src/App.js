@@ -118,11 +118,11 @@ const App = () => {
             <StyledApp className="App">
                 <Burger open={open} setOpen={setOpen}/>
                 <Menu open={open} setOpen={setOpen} navigate={navigate} auth_level={auth_level} />
-                <div id='Namefield'>
+                {fullname !== "" ? <div id='Namefield'>
                     {notify ? <TbBellFilled onClick={ringBell}/> : <TbBellOff onClick={ringBell} />}
                     <div id='Name'>{fullname}</div>
                     <Button onClick={logout}>Logout</Button>
-                </div>
+                </div> : <></>}
                 <Suspense fallback={<div>Lädt...</div>}>
                     <View view={view} sendLogin={sendLogin} fullname={fullname} auth_level={auth_level}/>
                 </Suspense>
