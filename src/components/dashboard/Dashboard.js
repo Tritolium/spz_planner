@@ -192,7 +192,7 @@ const Changelog = ({read}) => {
 
     return(
         <StyledChangelog>
-            {!(read || clicked) ? <Button onClick={onClick}>Changelog vergergen</Button> : <></>}
+            {!(read || clicked) ? <Button onClick={onClick}>Änderungen verbergen</Button> : <></>}
             {!(read || clicked) ? 
                 <>
                     <h2>Neu in {version}:</h2>
