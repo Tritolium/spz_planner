@@ -45,11 +45,11 @@ const Dashboard = ({ fullname, auth_level }) => {
         })
 
         let nextEvent = nextAll.filter(event => { // sort out practice
-            return !(event.Type.includes('Probe') || event.Type.includes('Üben'))
+            return !(event.Type.toLowerCase().includes('probe') || event.Type.toLowerCase().includes('üben'))
         })[0]
 
         let nextEvents = nextAll.filter(event => { // sort out practice
-            return !(event.Type.includes('Probe') || event.Type.includes('Üben'))
+            return !(event.Type.toLowerCase().includes('probe') || event.Type.toLowerCase().includes('üben'))
         }).filter(event => { //sort out events too far from event_0
             let nextDate = new Date(nextEvent.Date)
             let eventDate = new Date(event.Date)
@@ -65,13 +65,13 @@ const Dashboard = ({ fullname, auth_level }) => {
         })
 
         let nextPractice = nextAll.filter(event => { // sort out practice
-            return event.Type.includes('Probe') || event.Type.includes('Üben')
+            return event.Type.toLowerCase().includes('probe') || event.Type.toLowerCase().includes('üben')
         })[0]
 
 
 
         let nextPractices = nextAll.filter(event => { // sort out practice
-            return event.Type.includes('Probe') || event.Type.includes('Üben')
+            return event.Type.toLowerCase().includes('probe') || event.Type.toLowerCase().includes('üben')
         }).filter(event => { //sort out practices too far from event_0
             let nextDate = new Date(nextPractice.Date)
             let eventDate = new Date(event.Date)
