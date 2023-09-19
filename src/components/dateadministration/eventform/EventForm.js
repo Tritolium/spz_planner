@@ -8,13 +8,7 @@ import Selector from "../../../modules/components/form/Selector"
 import SelectorItem from "../../../modules/components/form/SelectorItem"
 import { getDateTemplates, getEvents, getUsergroups, newEvent, updateEvent } from "../../../modules/data/DBConnect"
 import { StyledEventForm } from "./EventForm.styled"
-
-import blank from '../../../icons/blank_old.png'
-import polo from '../../../icons/polo.png'
-import polod from '../../../icons/polod.png'
-import shirt from '../../../icons/shirt.png'
-import suit from '../../../icons/suit.png'
-import cow from '../../../icons/cow.png'
+import { ClothingInput, clothingStyles } from "../../../modules/components/clothing/Clothing"
 
 const EventForm = () => {
 
@@ -205,7 +199,7 @@ const DetailForm = ({ event, usergroups, datetemplates, reload }) => {
     }
 
     const clothingCallback = useCallback(() => {
-        setClothing((clothing + 1) % 6)
+        setClothing((clothing + 1) % clothingStyles)
     }, [clothing])
 
     return (
@@ -236,7 +230,7 @@ const DetailForm = ({ event, usergroups, datetemplates, reload }) => {
             </FormBox>
             <FormBox>
                 <label htmlFor="clothing">Uniform:</label>
-                <ClothingInput id="clothing" value={clothing} clothingCallback={clothingCallback}/>
+                <ClothingInput id="clothing" clothing={clothing} onClick={clothingCallback}/>
             </FormBox>
             <FormBox>
                 <label htmlFor="accepted">Angenommen:</label>
@@ -282,22 +276,23 @@ const DateTemplate = ({ onSelect, datetemplate }) => {
     )
 }
 
-const ClothingInput = ({ value, clothingCallback}) => {
-    switch(value){
-    default:
-    case 0:
-        return(<img src={blank} alt='n.A.' onClick={clothingCallback}/>)
-    case 1:
-        return(<img src={polo} alt='PoloR' onClick={clothingCallback}/>)
-    case 2:
-        return(<img src={polod} alt='PoloD' onClick={clothingCallback}/>)
-    case 3:
-        return(<img src={shirt} alt='Hemd' onClick={clothingCallback}/>)
-    case 4:
-        return(<img src={suit} alt='Jacke' onClick={clothingCallback}/>)
-    case 5:
-        return(<img src={cow} alt='Kuh' onClick={clothingCallback}/>)
-    }
-}
+// const ClothingInput = ({ value, clothingCallback}) => {
+//     return(<Clothing clothing={value} onClick={clothingCallback} />)
+//     // switch(value){
+//     // default:
+//     // case 0:
+//     //     return(<img src={blank} alt='n.A.' onClick={clothingCallback}/>)
+//     // case 1:
+//     //     return(<img src={polo} alt='PoloR' onClick={clothingCallback}/>)
+//     // case 2:
+//     //     return(<img src={polod} alt='PoloD' onClick={clothingCallback}/>)
+//     // case 3:
+//     //     return(<img src={shirt} alt='Hemd' onClick={clothingCallback}/>)
+//     // case 4:
+//     //     return(<img src={suit} alt='Jacke' onClick={clothingCallback}/>)
+//     // case 5:
+//     //     return(<img src={cow} alt='Kuh' onClick={clothingCallback}/>)
+//     // }
+// }
 
 export default EventForm
