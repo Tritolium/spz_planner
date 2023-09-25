@@ -24,7 +24,7 @@ const Settings = () => {
             }).catch(error => {
                 //alert(error.message)
             })
-    }, [host, token])
+    }, [token])
 
     const changePasswd = useCallback(async (e) => {
         e.preventDefault()
@@ -48,7 +48,7 @@ const Settings = () => {
                 })
             })
         }
-    }, [host, token])
+    }, [token])
 
     useEffect(() => {
         fetchUserdata()
