@@ -2,7 +2,7 @@ import * as maptilerClient from '@maptiler/client'
 
 maptilerClient.config.apiKey = 'm4hEVQNm2k3vfyEB1Bsy'
 
-let host = (process.env.NODE_ENV !== 'production') ? 'http://localhost' : ''
+export const host = (process.env.NODE_ENV !== 'production') ? 'http://localhost' : ''
 
 export const getOS = () => {
     var userAgent = window.navigator.userAgent,
