@@ -38,7 +38,7 @@ const OrderAdministration = () => {
             }).catch(error => {
                 //alert(error.message)
             })
-    }, [host, token, filter])
+    }, [token, filter])
 
     const onFilterChange = useCallback((e) => {
         setFilter(e.target.value)
