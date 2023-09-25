@@ -2,6 +2,7 @@ import { BsFillCheckCircleFill } from 'react-icons/bs'
 import { MdPendingActions } from 'react-icons/md'
 import { TbTruckDelivery } from 'react-icons/tb'
 import Button from '../../modules/components/button/Button'
+import { host } from '../../modules/data/DBConnect'
 
 const Orders = ({ orders, reload, own }) => {
 
@@ -38,7 +39,6 @@ const OrderState = ({ state }) => {
 const UpdateOrder = ({ order, reload }) => {
 
     const update = async () => {
-        let host = (process.env.NODE_ENV !== 'production') ? 'http://localhost' : ''
         let token = localStorage.getItem('api_token')
         await fetch(`${host}/api/order.php?api_token=${token}&id=${order.Order_ID}`,
         {
@@ -51,7 +51,6 @@ const UpdateOrder = ({ order, reload }) => {
     }
 
     const deleteOrder = async () => {
-        let host = (process.env.NODE_ENV !== 'production') ? 'http://localhost' : ''
         let token = localStorage.getItem('api_token')
         await fetch(`${host}/api/order.php?api_token=${token}&id=${order.Order_ID}`,
         {
