@@ -2,12 +2,12 @@ import { useCallback, useEffect, useState } from "react"
 import { StyledSettings } from "./Settings.styled"
 import Button from "../../modules/components/button/Button"
 import { sha256 } from "js-sha256"
+import { host } from "../../modules/data/DBConnect"
 
 const Settings = () => {
 
     const [userdata, setUserdata] = useState()
 
-    let host = (process.env.NODE_ENV !== 'production') ? 'http://localhost' : ''
     let token = localStorage.getItem('api_token')
 
     const fetchUserdata = useCallback(async () => {
