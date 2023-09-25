@@ -495,6 +495,9 @@ export const getEvalByEvent = async (event_id, usergroup_id) => {
 
 export const getAbsence = async (absence_id) => {
     
+    if(absence_id === -1)
+        return
+
     let token = localStorage.getItem('api_token')
 
     let response = await fetch(`${host}/api/absence.php?id=${absence_id}&api_token=${token}`, {
@@ -529,7 +532,7 @@ export const updateAbsence = async (absence_id, member_id, from, until, info) =>
 
     let token = localStorage.getItem('api_token')
 
-    let response = await fetch(`/api/absence.php?api_token=${token}&id=${absence_id}`, {
+    let response = await fetch(`${host}/api/absence.php?api_token=${token}&id=${absence_id}`, {
         method: 'PUT',
         body: JSON.stringify({
             Member_ID: member_id,
