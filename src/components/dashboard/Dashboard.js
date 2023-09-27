@@ -234,19 +234,31 @@ const NextPractice = ({ nextPractice, auth_level }) => {
     let practiceDate = new Date(nextPractice?.Date)
     let attendence = nextPractice?.Attendence
 
-    useEffect(() => {
-        if(nextPractice !== undefined){
-            getEvalByEvent(nextPractice?.Event_ID, nextPractice?.Usergroup_ID).then(evaluation => {
-                setEvaluation(evaluation)
-            })
-        }
-    }, [nextPractice])
-
-    const onClick = (event_id, att) => {
+    const onClick = async (event_id, att) => {
         let changes = {}
         changes['' + event_id] = att
-        updateAttendences(changes, false)
+        await updateAttendences(changes, false)
+        updateEventEval()
     }
+
+    const updateEventEval = useCallback(async () => {
+        let _eval = await getEvalByEvent(nextPractice?.Event_ID, nextPractice?.Usergroup_ID)
+        setEvaluation(_eval)
+        return
+    }, [nextPractice])
+
+    useEffect(() => {
+        if(nextPractice !== undefined){
+            updateEventEval()
+        }
+    }, [nextPractice, updateEventEval])
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            updateEventEval()
+        }, 60000);
+        return () => clearInterval(interval);
+      }, [updateEventEval]);
 
     return(<>
         <tr className='event_header'>
@@ -272,6 +284,19 @@ const NextEvent = ({ nextEvent, auth_level }) => {
     let attendence = nextEvent?.Attendence
     let eventDate = new Date(nextEvent?.Date)
 
+    const onClick = async (event_id, att) => {
+        let changes = {}
+        changes['' + event_id] = att
+        await updateAttendences(changes, false)
+        updateEventEval()
+    }
+
+    const updateEventEval = useCallback(async () => {
+        let _eval = await getEvalByEvent(nextEvent?.Event_ID, nextEvent?.Usergroup_ID)
+        setEvaluation(_eval)
+        return
+    }, [nextEvent])
+
     useEffect(() => {
         let eDate = new Date(nextEvent?.Date)
         let nextWeek = new Date()
@@ -282,17 +307,16 @@ const NextEvent = ({ nextEvent, auth_level }) => {
             })
         }
         if(nextEvent !== undefined){
-            getEvalByEvent(nextEvent?.Event_ID, nextEvent?.Usergroup_ID).then(evaluation => {
-                setEvaluation(evaluation)
-            })
+            updateEventEval()
         }
-    }, [nextEvent])
+    }, [nextEvent, updateEventEval])
 
-    const onClick = (event_id, att) => {
-        let changes = {}
-        changes['' + event_id] = att
-        updateAttendences(changes, false)
-    }
+    useEffect(() => {
+        const interval = setInterval(() => {
+            updateEventEval()
+        }, 60000);
+        return () => clearInterval(interval);
+      }, [updateEventEval]);
 
     return(<>
         <tr className='event_header'>

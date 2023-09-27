@@ -427,19 +427,19 @@ export const getAllAttendences = async (usergroup_id) => {
 const updateAttendences = async (changes, feedback=true) => {
     let token = localStorage.getItem('api_token')
     
-    fetch(`${host}/api/attendence.php?api_token=${token}`, {
+    let res = await fetch(`${host}/api/attendence.php?api_token=${token}`, {
         method: "PUT",
         body: JSON.stringify(changes)
-    }).then(
-        res => {
-            if(feedback){
-                if(res.status === 200)
-                    alert('Angaben übernommen')
-                else
-                    alert('Ein Fehler ist aufgetreten')
-            }
-        }
-    )
+    })
+    
+    if(feedback){
+        if(res.status === 200){
+            alert('Angaben übernommen')
+        }else
+            alert('Ein Fehler ist aufgetreten')
+    }
+
+    return
 }
 
 const getMissingFeedback = async () => {
