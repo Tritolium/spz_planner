@@ -9,6 +9,7 @@ import Form from "../../modules/components/form/Form"
 import FormBox from "../../modules/components/form/FormBox"
 import { StyledOrderAdministration } from "./OrderAdministration.styled"
 import Orders from "./Orders"
+import { host } from "../../modules/data/DBConnect"
 
 const OrderAdministration = () => {
 
@@ -17,7 +18,6 @@ const OrderAdministration = () => {
         {value: "all", label: "Alle"}
     ]
 
-    let host = (process.env.NODE_ENV !== 'production') ? 'http://localhost' : ''
     let token = localStorage.getItem('api_token')
     let auth_level = localStorage.getItem('auth_level')
 
@@ -38,7 +38,7 @@ const OrderAdministration = () => {
             }).catch(error => {
                 //alert(error.message)
             })
-    }, [host, token, filter])
+    }, [token, filter])
 
     const onFilterChange = useCallback((e) => {
         setFilter(e.target.value)
@@ -93,7 +93,6 @@ const OrderList = ({ orders, reload, own }) => {
 
 const OrderForm = ({ reload }) => {
 
-    let host = (process.env.NODE_ENV !== 'production') ? 'http://localhost' : ''
     let token = localStorage.getItem('api_token')
 
     const cancel = (e) => {
