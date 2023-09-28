@@ -4,8 +4,10 @@ export const StyledDashboard = styled.div`
 
     width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
 
     .iosInstruction {
         color: red;
@@ -42,10 +44,6 @@ export const StyledDashboard = styled.div`
 
     th {
         padding-top: 2.5vh;
-    }
-
-    canvas {
-        max-heigth: 30px;
     }
 `
 
@@ -92,4 +90,9 @@ export const StyledFeedbackArea = styled.textarea`
     opacity: ${({ open }) => open ? '1' : '0'};
     max-height: ${({ open }) => open ? '160px' : '0'};
 
+`
+
+export const StyledVersionDiagramm = styled.div`
+    width: 100vw;
+    max-width: 400px;
 `
