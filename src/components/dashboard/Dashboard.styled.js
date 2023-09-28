@@ -73,7 +73,7 @@ export const StyledInfoText = styled.p`
     }
 `
 
-export const StyledChangelog = styled.ul`
+export const StyledChangelog = styled.div`
     font-size: smaller;
     padding-inline-start: 1.5em;
     padding-inline-end: 1.5em;

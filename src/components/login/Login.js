@@ -22,8 +22,8 @@ const Login = (props) => {
 
     return(
         <StyledLogin onSubmit={sendLogin}>
-            <input type="text" onChange={onNameChange} placeholder="Namen eingeben"></input>
-            <input id="passwd" type="password" onChange={onPWChange} placeholder=""></input>
+            <input id="loginname" type="text" onChange={onNameChange} placeholder="Namen eingeben"></input>
+            <input id="passwd" type="password" onChange={onPWChange} placeholder="" aria-label="Passwort"></input>
             <button type="submit">Login</button>
         </StyledLogin>
     )

@@ -191,20 +191,22 @@ const Changelog = ({read}) => {
     }
 
     return(
-        <StyledChangelog>
+        <StyledChangelog id="changelog">
             {!(read || clicked) ? <Button onClick={onClick}>Änderungen verbergen</Button> : <></>}
             {!(read || clicked) ? 
                 <>
                     <h2>Neu in {version}:</h2>
-                    <li>
-                        <i>Benachrichtigungen:</i> Mit der Glocke oben rechts können Benachrichtigungen aktiviert werden. Vorraussetzung ist, dass die App "installiert" ist.
-                    </li>
-                    <li>
-                        <i>Passwörter:</i> Der Zugang kann jetzt mit einem Passwort versehen werden. Unter Einstellung setzen oder verändern.
-                    </li>
-                    <li>
-                        <i>Startseite:</i> Das Layout der Startseite wurde angepasst und erweitert.
-                    </li>
+                    <ul>
+                        <li>
+                            <i>Benachrichtigungen:</i> Mit der Glocke oben rechts können Benachrichtigungen aktiviert werden. Vorraussetzung ist, dass die App "installiert" ist.
+                        </li>
+                        <li>
+                            <i>Passwörter:</i> Der Zugang kann jetzt mit einem Passwort versehen werden. Unter Einstellung setzen oder verändern.
+                        </li>
+                        <li>
+                            <i>Startseite:</i> Das Layout der Startseite wurde angepasst und erweitert.
+                        </li>
+                    </ul>
                 </>
                 : <></>
             }
@@ -348,7 +350,7 @@ const Feedback = () => {
             {open ? <Button onClick={cancel}>Abbrechen</Button> : <></>}
         </div>
         <form id="feedbackform">
-            <StyledFeedbackArea open={open} name="content" id="feedbackcontent" cols="30" rows="10"></StyledFeedbackArea>
+            <StyledFeedbackArea aria-label="Feedback-Feld" open={open} name="content" id="feedbackcontent" cols="30" rows="10"></StyledFeedbackArea>
         </form>
     </div>)
 }
