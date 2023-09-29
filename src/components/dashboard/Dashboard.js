@@ -1,7 +1,7 @@
 import { lazy, Suspense, useCallback, useEffect } from 'react'
 import { useState } from 'react'
 import { getAttendences, getBirthdates, getWeather, getDisplayMode, getOS, newFeedback, updateAttendences, getEvalByEvent, host } from '../../modules/data/DBConnect'
-import { StyledChangelog, StyledDashboard, StyledFeedbackArea, StyledInfoText } from './Dashboard.styled'
+import { StyledChangelog, StyledDashboard, StyledFeedbackArea, StyledInfoText, StyledVersionDiagramm } from './Dashboard.styled'
 import { Clothing } from '../../modules/components/clothing/Clothing'
 import { TbAlertTriangle } from 'react-icons/tb'
 import { theme } from '../../theme'
@@ -106,29 +106,29 @@ const Dashboard = ({ fullname, auth_level }) => {
         setMobileBrowser((getDisplayMode() === 'browser tab' && window.innerWidth < parseInt(theme.medium.split('px')[0]) && (beforeInstallPrompt || !(os !== 'Mac OS' && os !== 'iOS'))))
     }, [])
 
-    return(<StyledDashboard>
+    return(<StyledDashboard id="Dashboard">
         {mobileBrowser ? <StyledInfoText>
             <TbAlertTriangle onClick={showInstall}/>
         </StyledInfoText> : <></>}
         {mobileBrowser ? <StyledInfoText>Diese App kann auch installiert werden, einfach auf das Icon klicken!</StyledInfoText> : <></>}
         {showiosInstruction ? <StyledInfoText className='iosInstruction'>Erst <IoShareOutline />, dann <BsPlusSquare /></StyledInfoText> : <></>}
         <Changelog read={localStorage.getItem("changelogRead") === version}/>
-        <BirthdayBlog fullname={fullname}/>
-        <table>
-            <tbody>
-                <Suspense>
-                    {nextPractices.length > 0 ? <tr><th colSpan={3}>Nächste Probe{nextPractices.length > 1 ? "n" : ""}:</th></tr> : <></>}
-                    {nextPractices.length > 0 ? nextPractices.map(nextPractice => {return(<NextPractice nextPractice={nextPractice} key={`nextPractice_${nextPractice.Event_ID}`} auth_level={auth_level}/>)}) : <></>}
-                </Suspense>
-                <Suspense>
-                    {nextEvents.length > 0 ? <tr><th colSpan={3}>Nächste{nextEvents.length === 1 ? "r" : ""} Termin{nextEvents.length > 1 ? "e" : ""}:</th></tr> : <></>}
-                    {nextEvents.length > 0 ? nextEvents.map(nextEvent => {return(<NextEvent nextEvent={nextEvent} key={`nextEvent_${nextEvent.Event_ID}`} auth_level={auth_level}/>)}) : <></>}
-                </Suspense>
-                {auth_level > 2 ? <tr>
-                    <td colSpan={3}><VersionDiagram /></td>
-                </tr> : <></>}
-            </tbody>
-        </table>
+        <div>
+            <BirthdayBlog fullname={fullname}/>
+            <table>
+                <tbody>
+                    <Suspense>
+                        {nextPractices.length > 0 ? <tr><th colSpan={3}>Nächste Probe{nextPractices.length > 1 ? "n" : ""}:</th></tr> : <></>}
+                        {nextPractices.length > 0 ? nextPractices.map(nextPractice => {return(<NextPractice nextPractice={nextPractice} key={`nextPractice_${nextPractice.Event_ID}`} auth_level={auth_level}/>)}) : <></>}
+                    </Suspense>
+                    <Suspense>
+                        {nextEvents.length > 0 ? <tr><th colSpan={3}>Nächste{nextEvents.length === 1 ? "r" : ""} Termin{nextEvents.length > 1 ? "e" : ""}:</th></tr> : <></>}
+                        {nextEvents.length > 0 ? nextEvents.map(nextEvent => {return(<NextEvent nextEvent={nextEvent} key={`nextEvent_${nextEvent.Event_ID}`} auth_level={auth_level}/>)}) : <></>}
+                    </Suspense>
+                </tbody>
+            </table>
+        </div>
+        {auth_level > 2 ? <VersionDiagram /> : <></>}
         <Feedback />
     </StyledDashboard>)
 }
@@ -567,7 +567,11 @@ const VersionDiagram = () => {
         datasets: versionData
     }
 
-    return(<Bar options={options} data={data}/>)
+    return(
+        <StyledVersionDiagramm>
+            <Bar options={options} data={data}/>
+        </StyledVersionDiagramm>
+    )
 }
 
 export default Dashboard
