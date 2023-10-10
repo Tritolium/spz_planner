@@ -328,7 +328,7 @@ const NextEvent = ({ nextEvent, auth_level }) => {
         <tr>
             <td>{eventDate.getDate()}.{eventDate.getMonth() + 1}.{eventDate.getFullYear()}</td>
             <td>{nextEvent?.Begin !== "12:34:56" ? `${nextEvent?.Begin.slice(0, 5)} Uhr` : "-"}</td>
-            <td rowSpan={3}><Suspense><Terminzusage event_id={nextEvent?.Event_ID} states={3} attendence={attendence} onClick={onClick}/></Suspense></td>
+            <td rowSpan={3}><Suspense><Terminzusage event_id={nextEvent?.Event_ID} states={3} attendence={attendence} onClick={onClick} cancelled={nextPractice?.Type.includes('Abgesagt')}/></Suspense></td>
         </tr>
         <tr>
             <td>Hin:</td>
