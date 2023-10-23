@@ -8,6 +8,7 @@ on:
 jobs:
   build-deploy:
     uses: tritolium/spz_planner/.github/workflows/dev_upload.yml@master
+    secrets: inherit
 
   test:
     needs: build-deploy
@@ -30,3 +31,5 @@ jobs:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
+    - name: Delete log
+      run: wget https://spzroenkhausen.bplaced.net/api/playwright.php --method DELETE
