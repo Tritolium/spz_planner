@@ -14,7 +14,7 @@ const Login = (props) => {
     return(
         <StyledLogin onSubmit={sendLogin}>
             <input id="loginname" type="text" placeholder="Namen eingeben"></input>
-            <input id="passwd" type="password" placeholder="" aria-label="Passwort"></input>
+            <input id="passwd" type="password" placeholder="Passwort" aria-label="Passwort"></input>
             <button type="submit">Login</button>
         </StyledLogin>
     )
