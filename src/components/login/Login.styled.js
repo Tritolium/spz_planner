@@ -5,15 +5,20 @@ const StyledLogin = styled.form`
     flex-direction: column;
     align-items: center;
 
-    #passwd {
-        color: ${({theme}) => theme.primaryDark};
-        background: ${({theme}) => theme.primaryDark};
-        border: none;
-        cursor: default;
+    max-width: 6cm;
+    max-height: 3cm;
+    width: 90vw;
+    height: 25vw;
+
+    input {
+        margin: 1px;
+        width: 100%;
+        height: 33%;
     }
 
     button {
         width: max-content;
+        margin: 1px;
     }
 `
 
