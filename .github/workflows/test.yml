@@ -8,7 +8,8 @@ on:
 jobs:
   build-deploy:
     uses: tritolium/spz_planner/.github/workflows/dev_upload.yml@master
-    secrets: inherit
+    secrets: 
+      FPT_PASSWORD: ${{ secrets.FPT_PASSWORD }}
 
   test:
     needs: build-deploy
