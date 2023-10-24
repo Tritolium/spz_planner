@@ -3,6 +3,9 @@ name: Dev Upload
 on:
   workflow_dispatch:
   workflow_call:
+    secrets:
+      FPT_PASSWORD:
+        required: true
   schedule:
     - cron: '30 */12 * * *'
     
