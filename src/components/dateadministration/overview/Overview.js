@@ -152,7 +152,7 @@ const parseDate = (datestring) => {
 }
 
 const parseTime = (timestring) => {
-    if(timestring === '12:34:56'){
+    if(timestring === '12:34:56' || timestring === null){
         return("---")
     }
     var split = timestring.split(':')

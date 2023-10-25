@@ -201,9 +201,9 @@ const updateEvent = async(event_id, type, location, date, begin, departure, leav
             Type: type,
             Location: location,
             Date: date,
-            Begin: begin,
-            Departure: departure,
-            Leave_dep: leave_dep,
+            Begin: begin === '' ? '12:34:56' : begin,
+            Departure: departure === '' ? '12:34:56' : departure,
+            Leave_dep: leave_dep === '' ? '12:34:56' : leave_dep,
             Accepted: accepted,
             Usergroup_ID: usergroup,
             Clothing: clothing
@@ -229,9 +229,9 @@ const newEvent = async (type, location, date, begin, departure, leave_dep, accep
             Type: type,
             Location: location,
             Date: date,
-            Begin: begin,
-            Departure: departure,
-            Leave_dep: leave_dep,
+            Begin: begin === '' ? '12:34:56' : begin,
+            Departure: departure === '' ? '12:34:56' : departure,
+            Leave_dep: leave_dep === '' ? '12:34:56' : leave_dep,
             Accepted: accepted,
             Usergroup_ID: usergroup,
             Clothing: clothing
@@ -976,7 +976,7 @@ export const getAssociations = async () => {
 }
 
 export const getWeather = async (nextEvent) => {
-    let hour = parseInt(nextEvent.Begin.slice(0,2))
+    let hour = nextEvent.Begin === null ? 12 : parseInt(nextEvent.Begin.slice(0,2))
     let geo = await maptilerClient.geocoding.forward(nextEvent.Location)
     let response = await fetch(`https://api.open-meteo.com/v1/dwd-icon?latitude=${geo.features[0].center[1]}&longitude=${geo.features[0].center[0]}&hourly=apparent_temperature,weathercode&start_date=${nextEvent.Date}&end_date=${nextEvent.Date}&timezone=CET`)
     let json = await response.json()
