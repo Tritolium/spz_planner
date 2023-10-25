@@ -255,7 +255,7 @@ const NextPractice = ({ nextPractice, auth_level }) => {
         </tr>
         <tr>
             <td>{practiceDate.getDate()}.{practiceDate.getMonth() + 1}.{practiceDate.getFullYear()}</td>
-            <td>{nextPractice?.Begin.slice(0, 5)} Uhr</td>
+            <td>{nextPractice?.Begin === null ? '-' : `${nextPractice?.Begin.slice(0, 5)} Uhr`}</td>
         </tr>
         <tr>
             {auth_level > 1 ? <td colSpan={3}><DashboardDiagram event={evaluation} auth_level={auth_level}/></td> : <></>}
@@ -300,16 +300,16 @@ const NextEvent = ({ nextEvent, auth_level }) => {
         </tr>
         <tr>
             <td>{eventDate.getDate()}.{eventDate.getMonth() + 1}.{eventDate.getFullYear()}</td>
-            <td>{nextEvent?.Begin !== "12:34:56" ? `${nextEvent?.Begin.slice(0, 5)} Uhr` : "-"}</td>
+            <td>{nextEvent?.Begin !== "12:34:56" && nextEvent?.Begin !== null ? `${nextEvent?.Begin.slice(0, 5)} Uhr` : "-"}</td>
             <td rowSpan={3}><Suspense><Terminzusage event_id={nextEvent?.Event_ID} states={3} attendence={attendence} onClick={onClick} cancelled={nextEvent?.Type.includes('Abgesagt')}/></Suspense></td>
         </tr>
         <tr>
             <td>Hin:</td>
-            <td>{nextEvent?.Departure !== "12:34:56" ? `${nextEvent?.Departure.slice(0, 5)} Uhr` : "-"}</td>
+            <td>{nextEvent?.Departure !== "12:34:56" && nextEvent?.Departure !== null ? `${nextEvent?.Departure.slice(0, 5)} Uhr` : "-"}</td>
         </tr>
         <tr>
             <td>Zurück:</td>
-            <td>{nextEvent?.Leave_dep !== "12:34:56" ? `${nextEvent?.Leave_dep.slice(0, 5)} Uhr` : "-"}</td>
+            <td>{nextEvent?.Leave_dep !== "12:34:56" && nextEvent?.Leave_dep !== null ? `${nextEvent?.Leave_dep.slice(0, 5)} Uhr` : "-"}</td>
         </tr>
         <ClothingRow clothing={nextEvent?.Clothing} />
         {weather ? <Suspense>
