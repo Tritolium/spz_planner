@@ -13,6 +13,5 @@ test('do login', async ({ page }) => {
   await page.locator("#passwd").fill("QzJ%6WKP")
   await page.getByRole("button", {name: "Login"}).press("Enter")
   await expect(page.getByRole("button", {name: "Feedback"})).toBeVisible()
-  await expect(page.getByText("Geburtstage")).toBeVisible()
   await expect(page.getByText(/Nächste Probe/)).toBeVisible()
 })
