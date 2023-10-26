@@ -218,13 +218,7 @@ const Changelog = ({read}) => {
                     <h2>Neu in {version}:</h2>
                     <ul>
                         <li>
-                            <i>Benachrichtigungen:</i> Mit der Glocke oben rechts können Benachrichtigungen aktiviert werden. Vorraussetzung ist, dass die App "installiert" ist.
-                        </li>
-                        <li>
-                            <i>Passwörter:</i> Der Zugang kann jetzt mit einem Passwort versehen werden. Unter Einstellung setzen oder verändern.
-                        </li>
-                        <li>
-                            <i>Startseite:</i> Das Layout der Startseite wurde angepasst und erweitert.
+                            <i>Startseite:</i> Für die Termine auf der Startseite können weitere Informationen hinterlegt werden. Einfach auf den Termin tippen, um das Fenster zu öffnen
                         </li>
                     </ul>
                 </>
