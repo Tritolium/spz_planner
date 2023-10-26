@@ -20,6 +20,7 @@ import {
   } from 'chart.js'
 import { Bar } from "react-chartjs-2"
 import { version } from '../../App'
+import EventInfo from './EventInfo'
 
 const Button = lazy(() => import('../../modules/components/button/Button'))
 const Terminzusage = lazy(() => import('../dateplanner/attendenceInput/Terminzusage'))
@@ -31,7 +32,8 @@ const Dashboard = ({ fullname, auth_level }) => {
     const [nextPractices, setNextPractices] = useState(new Array(0))
     const [showiosInstruction, setShowiosInstruction] = useState(false)
     const [mobileBrowser, setMobileBrowser] = useState(false)
-    // const mobileBrowser = (getDisplayMode() === 'browser tab' && window.innerWidth < parseInt(theme.medium.split('px')[0]))    
+    const [eventInfo, setEventInfo] = useState(false)
+    const [eventInfoData, setEventInfoData] = useState(undefined)
 
     const getNextEvent = async () => {
         let events = await getAttendences()
@@ -100,6 +102,15 @@ const Dashboard = ({ fullname, auth_level }) => {
         }
     }
 
+    const showEventInfo = (eventData) => {
+        setEventInfo(true)
+        setEventInfoData(eventData)
+    }
+
+    const hideEventInfo = () => {
+        setEventInfo(false)
+    }
+
     useEffect(() => {
         getNextEvent()
         let os = getOS()
@@ -113,24 +124,30 @@ const Dashboard = ({ fullname, auth_level }) => {
         {mobileBrowser ? <StyledInfoText>Diese App kann auch installiert werden, einfach auf das Icon klicken!</StyledInfoText> : <></>}
         {showiosInstruction ? <StyledInfoText className='iosInstruction'>Erst <IoShareOutline />, dann <BsPlusSquare /></StyledInfoText> : <></>}
         <Changelog read={localStorage.getItem("changelogRead") === version}/>
+        {eventInfo ? <EventInfo hideEventInfo={hideEventInfo} eventInfoData={eventInfoData} fullname={fullname}/> : <DashboardAttendence fullname={fullname} nextPractices={nextPractices} nextEvents={nextEvents} showEventInfo={showEventInfo} auth_level={auth_level}/>}
+        {auth_level > 2 ? <VersionDiagram /> : <></>}
+        <Feedback />
+    </StyledDashboard>)
+}
+
+const DashboardAttendence = ({ fullname, nextPractices, nextEvents, showEventInfo, auth_level}) => {
+    return(
         <div>
             <BirthdayBlog fullname={fullname}/>
             <table>
                 <tbody>
                     <Suspense>
                         {nextPractices.length > 0 ? <tr><th colSpan={3}>Nächste Probe{nextPractices.length > 1 ? "n" : ""}:</th></tr> : <></>}
-                        {nextPractices.length > 0 ? nextPractices.map(nextPractice => {return(<NextPractice nextPractice={nextPractice} key={`nextPractice_${nextPractice.Event_ID}`} auth_level={auth_level}/>)}) : <></>}
+                        {nextPractices.length > 0 ? nextPractices.map(nextPractice => {return(<NextPractice nextPractice={nextPractice} key={`nextPractice_${nextPractice.Event_ID}`} auth_level={auth_level} showEventInfo={showEventInfo}/>)}) : <></>}
                     </Suspense>
                     <Suspense>
                         {nextEvents.length > 0 ? <tr><th colSpan={3}>Nächste{nextEvents.length === 1 ? "r" : ""} Termin{nextEvents.length > 1 ? "e" : ""}:</th></tr> : <></>}
-                        {nextEvents.length > 0 ? nextEvents.map(nextEvent => {return(<NextEvent nextEvent={nextEvent} key={`nextEvent_${nextEvent.Event_ID}`} auth_level={auth_level}/>)}) : <></>}
+                        {nextEvents.length > 0 ? nextEvents.map(nextEvent => {return(<NextEvent nextEvent={nextEvent} key={`nextEvent_${nextEvent.Event_ID}`} auth_level={auth_level} showEventInfo={showEventInfo}/>)}) : <></>}
                     </Suspense>
                 </tbody>
             </table>
         </div>
-        {auth_level > 2 ? <VersionDiagram /> : <></>}
-        <Feedback />
-    </StyledDashboard>)
+    )
 }
 
 const BirthdayBlog = ({ fullname }) => {
@@ -217,19 +234,19 @@ const Changelog = ({read}) => {
     )
 }
 
-const ClothingRow = ({ clothing }) => {
+const ClothingRow = ({ clothing, onClick }) => {
 
     return(
         <Suspense>
             {parseInt(clothing) !== 0 ? <tr>
-                <td>Bekleidung:</td>
-                <td><Clothing clothing={parseInt(clothing)} /></td>
+                <td onClick={onClick}>Bekleidung:</td>
+                <td onClick={onClick}><Clothing clothing={parseInt(clothing)} /></td>
             </tr> : <></>}
         </Suspense>
     )
 }
 
-const NextPractice = ({ nextPractice, auth_level }) => {
+const NextPractice = ({ nextPractice, auth_level, showEventInfo }) => {
 
     const [evaluation, setEvaluation] = useState()
 
@@ -249,6 +266,10 @@ const NextPractice = ({ nextPractice, auth_level }) => {
         return
     }, [nextPractice])
 
+    const clickTD = useCallback(() => {
+        showEventInfo(nextPractice)
+    }, [showEventInfo, nextPractice])
+
     useEffect(() => {
         if(nextPractice !== undefined){
             updateEventEval()
@@ -264,13 +285,13 @@ const NextPractice = ({ nextPractice, auth_level }) => {
 
     return(<>
         <tr className='event_header'>
-            <td>{nextPractice?.Type}</td>
-            <td>{nextPractice?.Location}</td>
+            <td onClick={clickTD}>{nextPractice?.Type}</td>
+            <td onClick={clickTD}>{nextPractice?.Location}</td>
             <td rowSpan={2}><Terminzusage event_id={nextPractice?.Event_ID} states={3} attendence={attendence} onClick={onClick} cancelled={nextPractice?.Type.includes('Abgesagt')}/></td>
         </tr>
         <tr>
-            <td>{practiceDate.getDate()}.{practiceDate.getMonth() + 1}.{practiceDate.getFullYear()}</td>
-            <td>{nextPractice?.Begin === null ? '-' : `${nextPractice?.Begin.slice(0, 5)} Uhr`}</td>
+            <td onClick={clickTD}>{practiceDate.getDate()}.{practiceDate.getMonth() + 1}.{practiceDate.getFullYear()}</td>
+            <td onClick={clickTD}>{nextPractice?.Begin === null ? '-' : `${nextPractice?.Begin.slice(0, 5)} Uhr`}</td>
         </tr>
         <tr>
             {auth_level > 1 ? <td colSpan={3}><DashboardDiagram event={evaluation} auth_level={auth_level}/></td> : <></>}
@@ -278,7 +299,7 @@ const NextPractice = ({ nextPractice, auth_level }) => {
     </>)
 }
 
-const NextEvent = ({ nextEvent, auth_level }) => {
+const NextEvent = ({ nextEvent, auth_level, showEventInfo }) => {
 
     const [weather, setWeather] = useState()
     const [evaluation, setEvaluation] = useState()
@@ -298,6 +319,10 @@ const NextEvent = ({ nextEvent, auth_level }) => {
         setEvaluation(_eval)
         return
     }, [nextEvent])
+
+    const clickTD = useCallback(() => {
+        showEventInfo(nextEvent)
+    }, [showEventInfo, nextEvent])
 
     useEffect(() => {
         let eDate = new Date(nextEvent?.Date)
@@ -322,23 +347,23 @@ const NextEvent = ({ nextEvent, auth_level }) => {
 
     return(<>
         <tr className='event_header'>
-            <td>{nextEvent?.Type}</td>
-            <td>{nextEvent?.Location}</td>
+            <td onClick={clickTD}>{nextEvent?.Type}</td>
+            <td onClick={clickTD}>{nextEvent?.Location}</td>
         </tr>
         <tr>
-            <td>{eventDate.getDate()}.{eventDate.getMonth() + 1}.{eventDate.getFullYear()}</td>
-            <td>{nextEvent?.Begin !== "12:34:56" && nextEvent?.Begin !== null ? `${nextEvent?.Begin.slice(0, 5)} Uhr` : "-"}</td>
+            <td onClick={clickTD}>{eventDate.getDate()}.{eventDate.getMonth() + 1}.{eventDate.getFullYear()}</td>
+            <td onClick={clickTD}>{nextEvent?.Begin !== "12:34:56" && nextEvent?.Begin !== null ? `${nextEvent?.Begin.slice(0, 5)} Uhr` : "-"}</td>
             <td rowSpan={3}><Suspense><Terminzusage event_id={nextEvent?.Event_ID} states={3} attendence={attendence} onClick={onClick} cancelled={nextEvent?.Type.includes('Abgesagt')}/></Suspense></td>
         </tr>
         <tr>
-            <td>Hin:</td>
-            <td>{nextEvent?.Departure !== "12:34:56" && nextEvent?.Departure !== null ? `${nextEvent?.Departure.slice(0, 5)} Uhr` : "-"}</td>
+            <td onClick={clickTD}>Hin:</td>
+            <td onClick={clickTD}>{nextEvent?.Departure !== "12:34:56" && nextEvent?.Departure !== null ? `${nextEvent?.Departure.slice(0, 5)} Uhr` : "-"}</td>
         </tr>
         <tr>
-            <td>Zurück:</td>
-            <td>{nextEvent?.Leave_dep !== "12:34:56" && nextEvent?.Leave_dep !== null ? `${nextEvent?.Leave_dep.slice(0, 5)} Uhr` : "-"}</td>
+            <td onClick={clickTD}>Zurück:</td>
+            <td onClick={clickTD}>{nextEvent?.Leave_dep !== "12:34:56" && nextEvent?.Leave_dep !== null ? `${nextEvent?.Leave_dep.slice(0, 5)} Uhr` : "-"}</td>
         </tr>
-        <ClothingRow clothing={nextEvent?.Clothing} />
+        <ClothingRow  onClick={clickTD} clothing={nextEvent?.Clothing} />
         {weather ? <Suspense>
             <tr>
                 <td>Wetter:</td>
