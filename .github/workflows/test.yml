@@ -1,5 +1,7 @@
 name: Test PR
 
+concurrency: alpha
+
 on:
   workflow_dispatch:
   pull_request:
