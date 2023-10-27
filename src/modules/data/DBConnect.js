@@ -2,7 +2,7 @@ import * as maptilerClient from '@maptiler/client'
 
 maptilerClient.config.apiKey = 'm4hEVQNm2k3vfyEB1Bsy'
 
-export const host = (process.env.NODE_ENV !== 'production') ? 'http://localhost' : ''
+export const host = (process.env.NODE_ENV !== 'production') ? 'http://localhost' : 'http://localhost'
 
 export const getOS = () => {
     var userAgent = window.navigator.userAgent,
@@ -1114,12 +1114,25 @@ export const getBirthdates = async () => {
     return json
 }
 
-export const sendPushSubscription = (subscription) => {
+export const sendPushSubscription = async (subscription, allowed) => {
     let token = localStorage.getItem('api_token')
-    fetch(`${host}/api/pushsubscription.php?api_token=${token}`, {
+    let permissions
+    subscription.allowed = allowed
+    await fetch(`${host}/api/pushsubscription.php?api_token=${token}`, {
         method: 'PUT',
         body: JSON.stringify(subscription)
     })
+
+    await fetch(`${host}/api/pushsubscription.php?api_token=${token}&endpoint=${subscription.endpoint}`)
+    .then(response => {
+        if(response.status === 200){
+            return response.json()
+        }
+    }).then(json => {
+        permissions = json
+    })
+
+    return permissions
 }
 
 export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, updateAttendences, getMissingFeedback, getEvalByUsergroup }
