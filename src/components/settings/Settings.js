@@ -7,8 +7,10 @@ import { host } from "../../modules/data/DBConnect"
 const Settings = () => {
 
     const [userdata, setUserdata] = useState()
+    const [notifyPermisssion, setNotifyPermission] = useState()
 
     let token = localStorage.getItem('api_token')
+    let endpoint = localStorage.getItem('endpoint')
 
     const fetchUserdata = useCallback(async () => {
         let url = `${host}/api/user_settings.php?api_token=${token}`
@@ -25,6 +27,17 @@ const Settings = () => {
                 //alert(error.message)
             })
     }, [token])
+
+    const fetchNotifyPermission = useCallback(() => {
+        fetch(`${host}/api/pushsubscription.php?api_token=${token}&endpoint=${endpoint}`)
+        .then(response => {
+            if(response.status === 200){
+                return response.json()
+            }
+        }).then(json => {
+            setNotifyPermission(json)
+        })
+    }, [token, endpoint])
 
     const changePasswd = useCallback(async (e) => {
         e.preventDefault()
@@ -50,9 +63,46 @@ const Settings = () => {
         }
     }, [token])
 
+    const notificationChange = useCallback(() => {
+        let notifyCheck = document.getElementById('notification')
+        if(notifyCheck.checked){
+            document.getElementById('event').removeAttribute('disabled')
+            document.getElementById('practice').removeAttribute('disabled')
+        } else {
+            document.getElementById('event').setAttribute('disabled', true)
+            document.getElementById('practice').setAttribute('disabled', true)
+        }
+    }, [])
+
+    const savePermissions = useCallback(() => {
+        let notifyPermissions = {
+            Allowed:    document.getElementById('notification').checked ? 1 : 0,
+            Event:      document.getElementById('event').checked ? 1 : 0,
+            Practice:   document.getElementById('practice').checked ? 1 : 0
+        }
+
+        fetch(`${host}/api/pushsubscription.php?api_token=${token}&endpoint=${endpoint}`, {
+            method: "PATCH",
+            body: JSON.stringify(notifyPermissions)
+        })
+
+        console.log(notifyPermissions)
+    }, [endpoint, token])
+
+    useEffect(() => {
+        if(notifyPermisssion?.Allowed){
+            document.getElementById('event').removeAttribute('disabled')
+            document.getElementById('practice').removeAttribute('disabled')
+        } else {
+            document.getElementById('event').setAttribute('disabled', true)
+            document.getElementById('practice').setAttribute('disabled', true)
+        }
+    }, [notifyPermisssion])
+
     useEffect(() => {
         fetchUserdata()
-    }, [fetchUserdata])
+        fetchNotifyPermission()
+    }, [fetchUserdata, fetchNotifyPermission])
 
     return(<StyledSettings>
         <table>
@@ -82,6 +132,27 @@ const Settings = () => {
                 </tr>
             </tbody>
         </table>
+        <table>
+            <tbody>
+                <tr>
+                    <td colSpan={2}><label htmlFor="notification">Benachrichtigungen:</label></td>
+                    <td><input type="checkbox" id="notification" defaultChecked={notifyPermisssion?.Allowed} onChange={notificationChange}/></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><label htmlFor="event">Auftritte:</label></td>
+                    <td><input type="checkbox" id="event" defaultChecked={notifyPermisssion?.Event}/></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><label htmlFor="practice">Proben:</label></td>
+                    <td><input type="checkbox" id="practice" defaultChecked={notifyPermisssion?.Practice}/></td>
+                </tr>
+                <tr>
+                    <td colSpan={3}><Button onClick={savePermissions}>Einstellungen speichern</Button></td>
+                </tr>
+            </tbody>
+        </table>        
     </StyledSettings>)
 }
 
