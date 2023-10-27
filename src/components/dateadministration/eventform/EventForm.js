@@ -155,6 +155,11 @@ const DetailForm = ({ event, usergroups, datetemplates, reload }) => {
 
     useEffect(() => {
         document.getElementById('eventform_form').reset()
+        let category_select = document.getElementById('category')
+        for(let i = 0; i < category_select.options.length; i++){
+            if(category_select.options[i].value === event?.Category)
+                category_select.selectedIndex = i
+        }        
         document.getElementById('usergroup').selectedIndex = usergroups?.findIndex(usergroup => parseInt(usergroup?.Usergroup_ID) === parseInt(event?.Usergroup_ID))
         setClothing(event !== undefined ? event.Clothing : 0)
     }, [event, usergroups])
@@ -167,6 +172,7 @@ const DetailForm = ({ event, usergroups, datetemplates, reload }) => {
     const update = async (e) => {
         e.preventDefault()
 
+        let category    = document.getElementById('category').options[document.getElementById('category').selectedIndex].value
         let type        = document.getElementById('type').value
         let location    = document.getElementById('location').value
         let date        = document.getElementById('date').value
@@ -177,9 +183,9 @@ const DetailForm = ({ event, usergroups, datetemplates, reload }) => {
         let usergroup   = document.getElementById('usergroup').options[document.getElementById('usergroup').selectedIndex].value
 
         if(event !== undefined)
-            await updateEvent(event.Event_ID, type, location, date, begin, departure, leave_dep, accepted, usergroup, clothing)
+            await updateEvent(event.Event_ID, category, type, location, date, begin, departure, leave_dep, accepted, usergroup, clothing)
         else
-            await newEvent(type, location, date, begin, departure, leave_dep, accepted, usergroup, clothing)
+            await newEvent(category, type, location, date, begin, departure, leave_dep, accepted, usergroup, clothing)
 
         reload()
     }
@@ -189,6 +195,7 @@ const DetailForm = ({ event, usergroups, datetemplates, reload }) => {
 
         let template = datetemplates?.find(template => template.DateTemplate_ID === template_id)
         
+        document.getElementById('category').value   = template.Category
         document.getElementById('type').value       = template.Type
         document.getElementById('location').value   = template.Location
         document.getElementById('begin').value      = template.Begin
@@ -205,7 +212,15 @@ const DetailForm = ({ event, usergroups, datetemplates, reload }) => {
     return (
         <Form id="eventform_form">
             <FormBox>
-                <label htmlFor="type">Art:</label>
+                <label htmlFor="category">Art:</label>
+                <select name="category" id="category">
+                    <option value="event">Auftritt</option>
+                    <option value="practice">Üben/Probe</option>
+                    <option value="other">Sonstiges</option>
+                </select>
+            </FormBox>
+            <FormBox>
+                <label htmlFor="type">Bezeichnung:</label>
                 <input type="text" name="type" id="type" defaultValue={event?.Type}/>
             </FormBox>
             <FormBox>

@@ -192,12 +192,13 @@ const getEvents = async (filter) => {
     return events
 }
 
-const updateEvent = async(event_id, type, location, date, begin, departure, leave_dep, accepted, usergroup, clothing) => {
+const updateEvent = async(event_id, category, type, location, date, begin, departure, leave_dep, accepted, usergroup, clothing) => {
     let token = localStorage.getItem('api_token')
     let response = await fetch(`${host}/api/event.php?api_token=${token}`, {
         method: "PUT",
         body: JSON.stringify({
             Event_ID: event_id,
+            Category: category,
             Type: type,
             Location: location,
             Date: date,
@@ -219,13 +220,14 @@ const updateEvent = async(event_id, type, location, date, begin, departure, leav
     }
 }
 
-const newEvent = async (type, location, date, begin, departure, leave_dep, accepted, usergroup, clothing) => {
+const newEvent = async (category, type, location, date, begin, departure, leave_dep, accepted, usergroup, clothing) => {
     
     let token = localStorage.getItem('api_token')
     
     let response = await fetch(`${host}/api/event.php?api_token=${token}`, {
         method: "POST",
         body: JSON.stringify({
+            Category: category,
             Type: type,
             Location: location,
             Date: date,
@@ -817,7 +819,7 @@ export const updateUsergroupAssignments = async (changedAssignments) => {
  * @param {Date} leave_dep 
  * @param {int} usergroup_id 
  */
-export const newDateTemplate = async (title, description, type, location, begin, departure, leave_dep, usergroup_id) => {
+export const newDateTemplate = async (title, description, category, type, location, begin, departure, leave_dep, usergroup_id) => {
 
     let token = localStorage.getItem('api_token')
 
@@ -826,6 +828,7 @@ export const newDateTemplate = async (title, description, type, location, begin,
         body: JSON.stringify({
             Title           : title,
             Description     : description,
+            Category        : category,
             Type            : type,
             Location        : location,
             Begin           : begin,
@@ -857,7 +860,7 @@ export const newDateTemplate = async (title, description, type, location, begin,
  * @param {Date} leave_dep 
  * @param {int} usergroup_id 
  */
-export const updateDateTemplate = async (template_id, title, description, type, location, begin, departure, leave_dep, usergroup_id) => {
+export const updateDateTemplate = async (template_id, title, description, category, type, location, begin, departure, leave_dep, usergroup_id) => {
 
     let token = localStorage.getItem('api_token')
 
@@ -866,6 +869,7 @@ export const updateDateTemplate = async (template_id, title, description, type, 
         body: JSON.stringify({
             Title           : title,
             Description     : description,
+            Category        : category,
             Type            : type,
             Location        : location,
             Begin           : begin,
