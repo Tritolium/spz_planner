@@ -1116,6 +1116,7 @@ export const getBirthdates = async () => {
 
 export const sendPushSubscription = (subscription) => {
     let token = localStorage.getItem('api_token')
+    localStorage.setItem('endpoint', subscription.endpoint)
     fetch(`${host}/api/pushsubscription.php?api_token=${token}`, {
         method: 'PUT',
         body: JSON.stringify(subscription)
