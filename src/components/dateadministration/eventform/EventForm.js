@@ -276,23 +276,4 @@ const DateTemplate = ({ onSelect, datetemplate }) => {
     )
 }
 
-// const ClothingInput = ({ value, clothingCallback}) => {
-//     return(<Clothing clothing={value} onClick={clothingCallback} />)
-//     // switch(value){
-//     // default:
-//     // case 0:
-//     //     return(<img src={blank} alt='n.A.' onClick={clothingCallback}/>)
-//     // case 1:
-//     //     return(<img src={polo} alt='PoloR' onClick={clothingCallback}/>)
-//     // case 2:
-//     //     return(<img src={polod} alt='PoloD' onClick={clothingCallback}/>)
-//     // case 3:
-//     //     return(<img src={shirt} alt='Hemd' onClick={clothingCallback}/>)
-//     // case 4:
-//     //     return(<img src={suit} alt='Jacke' onClick={clothingCallback}/>)
-//     // case 5:
-//     //     return(<img src={cow} alt='Kuh' onClick={clothingCallback}/>)
-//     // }
-// }
-
 export default EventForm
