@@ -220,6 +220,9 @@ const Changelog = ({read}) => {
                         <li>
                             <i>Startseite:</i> Für die Termine auf der Startseite können weitere Informationen hinterlegt werden. Einfach auf den Termin tippen, um das Fenster zu öffnen
                         </li>
+                        <li>
+                            <i>Allgemein:</i> Benachrichtigungen können an- & abgeschaltet werden, entweder über die Glocke, oder über die Einstellungen. Dort ist auch die Unterscheidung zwischen Üben und Auftritt möglich.
+                        </li>
                     </ul>
                 </>
                 : <></>

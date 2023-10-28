@@ -51,9 +51,11 @@ const App = () => {
                 if(window.Notification?.permission === 'granted'){
                     notificationHelper.createNotificationSubscription('BD0AbKmeW7bACNzC9m0XSUddJNx--VoOvU2X0qBF8dODOBhHvFPjrKJEBcL7Yk07l8VpePC1HBT7h2FRK3bS5uA')
                     .then(subscription => {
-                        console.log(subscription)
-                        sendPushSubscription(subscription)
-                })}
+                        sendPushSubscription(subscription).then(permissions => {
+                            setNotify(permissions.Allowed === 1)
+                        })
+                    })
+                }
             } else {
                 setView(-1)
             }
@@ -71,12 +73,14 @@ const App = () => {
             setFullname(_forename + " " + _surname)
             setAuth_level(_auth_level)
             setView(0)
-            if(window.Notification?.permision === 'granted'){
+            if(window.Notification?.permission === 'granted'){
                 notificationHelper.createNotificationSubscription('BD0AbKmeW7bACNzC9m0XSUddJNx--VoOvU2X0qBF8dODOBhHvFPjrKJEBcL7Yk07l8VpePC1HBT7h2FRK3bS5uA')
                 .then(subscription => {
-                    console.log(subscription)
-                    sendPushSubscription(subscription)
-            })}
+                    sendPushSubscription(subscription).then(permissions => {
+                        setNotify(permissions.Allowed === 1)
+                    })
+                })
+            }
         } else {
             setView(-1)
         }
@@ -95,21 +99,15 @@ const App = () => {
     }
 
     const ringBell = () => {
-        if(!notify) {
-            window.Notification?.requestPermission().then(result => {
-                if(result === "granted") {
-                    notificationHelper.createNotificationSubscription('BD0AbKmeW7bACNzC9m0XSUddJNx--VoOvU2X0qBF8dODOBhHvFPjrKJEBcL7Yk07l8VpePC1HBT7h2FRK3bS5uA')
-                    .then(subscription => {
-                        console.log(subscription)
-                        sendPushSubscription(subscription)
-                    })
-                    setNotify(!notify)
-                }
-            })
-        } else {
-            // setNotify(!notify)
-            // do nothing, notifications are not intended to be turned off again
-        }
+        window.Notification?.requestPermission().then(permission => {
+            if(permission === 'granted'){
+                notificationHelper.createNotificationSubscription('BD0AbKmeW7bACNzC9m0XSUddJNx--VoOvU2X0qBF8dODOBhHvFPjrKJEBcL7Yk07l8VpePC1HBT7h2FRK3bS5uA')
+                .then(subscription => {
+                    sendPushSubscription(subscription, !notify)
+                })
+                setNotify(!notify)
+            }
+        })
     }
 
     return (
