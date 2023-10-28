@@ -1122,6 +1122,7 @@ export const sendPushSubscription = async (subscription, allowed) => {
     let token = localStorage.getItem('api_token')
     let permissions
     subscription.allowed = allowed
+    localStorage.setItem('endpoint', subscription.endpoint)    
     await fetch(`${host}/api/pushsubscription.php?api_token=${token}`, {
         method: 'PUT',
         body: JSON.stringify(subscription)
