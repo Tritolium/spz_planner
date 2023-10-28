@@ -107,6 +107,10 @@ const OrderForm = ({ reload }) => {
         let count = document.getElementById('count').value
         let info = document.getElementById('info').value
 
+        if(article === "" || size === "" || count === "" || count === 0){
+            alert('Angaben unvollständig/nicht zulässig')
+            return
+        }
         fetch(`${host}/api/order.php?api_token=${token}`,
         {
             method: "POST",
