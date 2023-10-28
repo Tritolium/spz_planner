@@ -206,6 +206,9 @@ const Changelog = ({read}) => {
                         <li>
                             <i>Startseite:</i> Das Layout der Startseite wurde angepasst und erweitert.
                         </li>
+                        <li>
+                            <i>Allgemein:</i> Benachrichtigungen können an- & abgeschaltet werden, entweder über die Glocke, oder über die Einstellungen. Dort ist auch die Unterscheidung zwischen Üben und Auftritt möglich.
+                        </li>
                     </ul>
                 </>
                 : <></>
