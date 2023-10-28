@@ -82,6 +82,7 @@ const DateTemplateForm = ({ datetemplate, usergroups, reload }) => {
 
         let title           = document.getElementById('title').value
         let description     = document.getElementById('description').value
+        let category        = document.getElementById('category').options[document.getElementById('category').selectedIndex].value
         let type            = document.getElementById('type').value
         let location        = document.getElementById('location').value
         let begin           = document.getElementById('begin').value
@@ -90,9 +91,9 @@ const DateTemplateForm = ({ datetemplate, usergroups, reload }) => {
         let usergroup_id    = document.getElementById('usergroup').options[document.getElementById('usergroup').selectedIndex].value
 
         if(datetemplate !== undefined)
-            await updateDateTemplate(datetemplate.DateTemplate_ID, title, description, type, location, begin, departure, leave_dep, usergroup_id)
+            await updateDateTemplate(datetemplate.DateTemplate_ID, title, description, category, type, location, begin, departure, leave_dep, usergroup_id)
         else
-            await newDateTemplate(title, description, type, location, begin, departure, leave_dep, usergroup_id)
+            await newDateTemplate(title, description, category, type, location, begin, departure, leave_dep, usergroup_id)
 
         reload()
     }
@@ -104,6 +105,11 @@ const DateTemplateForm = ({ datetemplate, usergroups, reload }) => {
 
     useEffect(() => {
         document.getElementById('datetemplate_form').reset()
+        let category_select = document.getElementById('category')
+        for(let i = 0; i < category_select.options.length; i++){
+            if(category_select.options[i].value === datetemplate?.Category)
+                category_select.selectedIndex = i
+        } 
         document.getElementById('usergroup').selectedIndex = usergroups?.findIndex(usergroup => usergroup?.Usergroup_ID === datetemplate?.Usergroup_ID)
     }, [datetemplate, usergroups])
 
@@ -118,7 +124,15 @@ const DateTemplateForm = ({ datetemplate, usergroups, reload }) => {
                 <textarea name="description" id="description" cols="30" rows="3" defaultValue={datetemplate === undefined ? "" : datetemplate.Description}></textarea>
             </FormBox>
             <FormBox>
-                <label htmlFor="type">Art:</label>
+                <label htmlFor="category">Art:</label>
+                <select name="category" id="category">
+                    <option value="event">Auftritt</option>
+                    <option value="practice">Üben/Probe</option>
+                    <option value="other">Sonstiges</option>
+                </select>
+            </FormBox>
+            <FormBox>
+                <label htmlFor="type">Bezeichnung:</label>
                 <input type="text" name="type" id="type" defaultValue={datetemplate?.Type}/>
             </FormBox>
             <FormBox>
