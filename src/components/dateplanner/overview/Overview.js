@@ -8,7 +8,7 @@ import EvalDiagram from "./EvalDiagram"
 import { Alert, Blank, Check, Deny } from "../attendenceInput/Terminzusage"
 import { IoReload } from "react-icons/io5"
 
-const Overview = () => {
+const Overview = ({ theme }) => {
 
     const [usergroups, setUsergroups] = useState(new Array(0))
     const [selectedUsergroup_ID, setSelectedUsergroup_ID] = useState()
@@ -72,8 +72,8 @@ const Overview = () => {
                     </select>
                     <IoReload onClick={reload}/>
                 </div>
-                <OverviewTable attendences={attendences}/>
-                <EvalTable evaluation={evaluation}/>
+                <OverviewTable attendences={attendences} theme={theme}/>
+                <EvalTable evaluation={evaluation} theme={theme}/>
             {/*Fehlende Rückmeldungen:*/}
             {/*missingFeedback.map(missing => {
                 return(<div>{missing.Forename} {missing.Surname}</div>)
@@ -83,21 +83,21 @@ const Overview = () => {
     }
 }
 
-const Zusage = ({attendence}) => {
+const Zusage = ({attendence, theme}) => {
     switch(attendence){
     default:
     case -1:
-        return(<Blank/>)
+        return(<Blank theme={theme}/>)
     case 0:
-        return(<Deny />)
+        return(<Deny theme={theme}/>)
     case 1:
-        return(<Check />)
+        return(<Check theme={theme}/>)
     case 2:
-        return(<Alert />)
+        return(<Alert theme={theme}/>)
     }
 }
 
-const OverviewTable = ({attendences}) => {
+const OverviewTable = ({attendences, theme}) => {
     return(
         <StyledOverviewTable>
             <thead>
@@ -115,7 +115,7 @@ const OverviewTable = ({attendences}) => {
                             <tr key={event.Event_ID}>
                                 <td><DateField dateprops={event}/></td>
                                 {event.Attendences.map(attendence => {
-                                    return(<td key={attendence.Fullname + event.Event_ID}><Zusage attendence={attendence.Attendence} /></td>)
+                                    return(<td key={attendence.Fullname + event.Event_ID}><Zusage attendence={attendence.Attendence} theme={theme}/></td>)
                                 })}
                             </tr>
                         )
@@ -126,7 +126,7 @@ const OverviewTable = ({attendences}) => {
     )
 }
 
-const EvalTable = ({evaluation}) => {
+const EvalTable = ({evaluation, theme}) => {
     return(
         <StyledEvalTable>
             <thead>
@@ -147,14 +147,14 @@ const EvalTable = ({evaluation}) => {
             </thead>
             <tbody>
                 {evaluation.map(event => {
-                    return(<EvalRow event={event} key={`eval_${event.Event_ID}`}/>)
+                    return(<EvalRow event={event} key={`eval_${event.Event_ID}`} theme={theme}/>)
                 })}
             </tbody>
         </StyledEvalTable>
     )
 }
 
-const EvalRow = ({ event }) => {
+const EvalRow = ({ event, theme }) => {
     return(
         <tr>
             <td><DateField dateprops={event} /></td>
@@ -171,7 +171,7 @@ const EvalRow = ({ event }) => {
             <td>{event.Instruments.Trommel}</td>
             <td>{event.Instruments.Becken}</td>
             <td>{event.Instruments.Pauke}</td>
-            <EvalDiagram event={event}/>
+            <EvalDiagram event={event} theme={theme}/>
         </tr>
     )
 }

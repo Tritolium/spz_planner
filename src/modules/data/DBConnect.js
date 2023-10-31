@@ -39,7 +39,7 @@ export const getDisplayMode = () => {
 }
 
 const login = async (name, pwhash, version) => {
-    let _forename, _surname, _api_token, _auth_level
+    let _forename, _surname, _api_token, _auth_level, _theme
 
     let displayMode = getDisplayMode()
 
@@ -62,6 +62,7 @@ const login = async (name, pwhash, version) => {
             _surname = json.Surname
             _api_token = json.API_token
             _auth_level = json.Auth_level
+            _theme = json.Theme
             localStorage.setItem('api_token', json.API_token)
             localStorage.setItem('auth_level', _auth_level)
             break
@@ -84,11 +85,11 @@ const login = async (name, pwhash, version) => {
             break
     }
 
-    return { _forename, _surname, _api_token, _auth_level }
+    return { _forename, _surname, _api_token, _auth_level, _theme }
 }
 
 const update_login = async (version) => {
-    let _forename, _surname, _auth_level
+    let _forename, _surname, _auth_level, _theme
 
     let displayMode = 'browser tab'
     if(window.matchMedia('(display-mode: standalone)').matches) {
@@ -116,6 +117,7 @@ const update_login = async (version) => {
                 _forename = json.Forename
                 _surname = json.Surname
                 _auth_level = json.Auth_level
+                _theme = json.Theme
                 localStorage.setItem('api_token', token)
                 localStorage.setItem('auth_level', _auth_level)
                 break
@@ -129,7 +131,7 @@ const update_login = async (version) => {
                 break
         }
     }
-    return { _forename, _surname, _auth_level }
+    return { _forename, _surname, _auth_level, _theme }
 }
 
 const getEvent = async (event_id) => {

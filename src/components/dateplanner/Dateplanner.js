@@ -1,10 +1,9 @@
 import { lazy, Suspense, useState } from 'react'
 
 import './Dateplanner.css'
-import UnstyledAbsenceInput from './absenceInput/AbsenceInput'
-import styled from 'styled-components'
 import Button from '../../modules/components/button/Button'
 import HeaderMenu from '../../modules/components/headermenu/HeaderMenu'
+import AbsenceInput from './absenceInput/AbsenceInput'
 
 const AttendenceInput = lazy(() => import('./attendenceInput/Termineingabe'))
 const Overview = lazy(() => import('./overview/Overview'))
@@ -50,48 +49,48 @@ const Dateplanner = (props) => {
                 {props.auth_level > 1 ? <Button id='date_button_1' font_size={'1rem'} onClick={navigate}>Übersicht</Button> : <></>}
                 {props.auth_level > 2 ? <Button id='date_button_2' font_size={'1rem'} onClick={navigate}>manuelle Eingabe</Button> : <></>}
             </HeaderMenu> : <></>}
-            <View view={view} fullname={props.fullname}/>
+            <View view={view} fullname={props.fullname} theme={props.theme}/>
         </>
     )
 }
 
-const AbsenceInput = styled(UnstyledAbsenceInput)`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    flex-wrap: nowrap;
+// const AbsenceInput = styled(UnstyledAbsenceInput)`
+//     display: flex;
+//     flex-direction: row;
+//     align-items: center;
+//     flex-wrap: nowrap;
 
-    @media screen and (max-width: 720px) {
-        flex-direction: column;
-        > select {
-            width: 100%
-        }
-    }
+//     @media screen and (max-width: 720px) {
+//         flex-direction: column;
+//         > select {
+//             width: 100%
+//         }
+//     }
 
-    > select {
-        max-height: 40px;
-        padding: 5px;
-        margin: 5px;
-    }
-    > img {
-        padding: 2px;
-        min-height: 21px;
-        height: 10vh;
-        max-height: 64px;
-    }
-`
+//     > select {
+//         max-height: 40px;
+//         padding: 5px;
+//         margin: 5px;
+//     }
+//     > img {
+//         padding: 2px;
+//         min-height: 21px;
+//         height: 10vh;
+//         max-height: 64px;
+//     }
+// `
 
 const View = (props) => {
     switch(props.view){
     default:
     case 0:
         return(<Suspense>
-            <AttendenceInput dates={dates} fullname={props.fullname}/>
+            <AttendenceInput dates={dates} fullname={props.fullname} theme={props.theme}/>
         </Suspense>)
     case 1:
-        return(<Suspense><Overview dates={dates}/></Suspense>)
+        return(<Suspense><Overview dates={dates} theme={props.theme}/></Suspense>)
     case 2:
-        return(<Suspense><AbsenceInput /></Suspense>)
+        return(<Suspense><AbsenceInput theme={props.theme}/></Suspense>)
     }
 }
 

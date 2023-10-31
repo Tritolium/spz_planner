@@ -1,7 +1,6 @@
 export const theme0 = {
     primaryDark: '#282c34',
     primaryLight: '#fff',
-    /*primaryHover: 'rgb(0, 122, 255)',*/
     primaryHover: '#78849c',
     blue: '#24b9d0',
     blueRGB: 'rgb(32, 185, 208)',
@@ -15,7 +14,7 @@ export const theme0 = {
     medium: '1007px'
 }
 
-export const theme = {
+export const theme1 = {
     primaryDark: '#282c34',
     primaryLight: '#e5e4e2',
     primaryHover: '#78849c',

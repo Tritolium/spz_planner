@@ -5,7 +5,7 @@ import { getAttendences, updateAttendences } from '../../../modules/data/DBConne
 
 const AttendenceTable = lazy(() => import('./AttendenceTable'))
 
-const Termineingabe = ({fullname}) => {
+const Termineingabe = ({fullname, theme}) => {
 
     /**
      * constant, maybe switch to fetch from server
@@ -73,7 +73,7 @@ const Termineingabe = ({fullname}) => {
                 </select>
             </div>
             <Suspense fallback={<div>Tabelle lädt.</div>}>
-                <AttendenceTable attendences={attendences} fullname={fullname} states={ATTENDENCE_STATES} selectedDateFilter={selectedDateFilter} selectedEventFilter={selectedEventFilter} onClick={onClick}/>
+                <AttendenceTable attendences={attendences} fullname={fullname} states={ATTENDENCE_STATES} selectedDateFilter={selectedDateFilter} selectedEventFilter={selectedEventFilter} onClick={onClick} theme={theme}/>
             </Suspense>
         </Form>
     )
