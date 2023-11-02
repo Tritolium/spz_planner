@@ -2,7 +2,7 @@ import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { login, sendPushSubscription, update_login } from './modules/data/DBConnect';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from './global';
-import { theme0, theme1, theme2 } from './theme';
+import { theme0, theme1, theme2, theme3, theme4 } from './theme';
 // import preval from 'preval.macro'
 import { TbBellFilled, TbBellOff } from 'react-icons/tb';
 import Settings from './components/settings/Settings';
@@ -50,7 +50,26 @@ const App = () => {
                 setFullname(_forename + " " + _surname)
                 setAuth_level(_auth_level)
                 if(_theme !== undefined){
-                    setTheme(_theme === 0 ? theme0 : _theme === 1 ? theme1 : theme2)
+                    switch(_theme){
+                    case 0:
+                        setTheme(theme0)
+                        break
+                    case 1:
+                        setTheme(theme1)
+                        break
+                    case 2:
+                        setTheme(theme2)
+                        break
+                    case 3:
+                        setTheme(theme3)
+                        break
+                    case 4:
+                        setTheme(theme4)
+                        break
+                    default:
+                        setTheme(theme1)
+                        break
+                    }
                 }
                 setView(0)
                 if(window.Notification?.permission === 'granted'){
