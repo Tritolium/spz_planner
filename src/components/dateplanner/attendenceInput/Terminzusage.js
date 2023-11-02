@@ -10,6 +10,15 @@ const Terminzusage = (props) => {
     const [attendence, setAttendences] = useState(props.attendence)
 
     const onClick = useCallback(() => {
+        let now = new Date()
+        let event_date = props.event !== undefined ? new Date(props.event?.Date) : undefined
+        if(event_date){
+            event_date.setHours(props.event.Begin.split(':')[0])
+            event_date.setMinutes(props.event.Begin.split(':')[1])
+            if(now.getTime() > event_date.getTime()){
+                return
+            }
+        }
         let new_att = (attendence + 1) % props.states
         setAttendences(new_att)
         props.onClick(props.event_id, new_att)

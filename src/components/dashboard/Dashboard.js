@@ -284,7 +284,7 @@ const NextPractice = ({ nextPractice, auth_level, showEventInfo }) => {
         <tr className='event_header'>
             <td onClick={clickTD}>{nextPractice?.Type}</td>
             <td onClick={clickTD}>{nextPractice?.Location}</td>
-            <td rowSpan={2}><Terminzusage event_id={nextPractice?.Event_ID} states={3} attendence={attendence} onClick={onClick} cancelled={nextPractice?.Type.includes('Abgesagt')}/></td>
+            <td rowSpan={2}><Terminzusage event={nextPractice} event_id={nextPractice?.Event_ID} states={3} attendence={attendence} onClick={onClick} cancelled={nextPractice?.Type.includes('Abgesagt')}/></td>
         </tr>
         <tr>
             <td onClick={clickTD}>{practiceDate.getDate()}.{practiceDate.getMonth() + 1}.{practiceDate.getFullYear()}</td>
@@ -350,7 +350,7 @@ const NextEvent = ({ nextEvent, auth_level, showEventInfo }) => {
         <tr>
             <td onClick={clickTD}>{eventDate.getDate()}.{eventDate.getMonth() + 1}.{eventDate.getFullYear()}</td>
             <td onClick={clickTD}>{nextEvent?.Begin !== "12:34:56" && nextEvent?.Begin !== null ? `${nextEvent?.Begin.slice(0, 5)} Uhr` : "-"}</td>
-            <td rowSpan={3}><Suspense><Terminzusage event_id={nextEvent?.Event_ID} states={3} attendence={attendence} onClick={onClick} cancelled={nextEvent?.Type.includes('Abgesagt')}/></Suspense></td>
+            <td rowSpan={3}><Suspense><Terminzusage event={nextEvent} event_id={nextEvent?.Event_ID} states={3} attendence={attendence} onClick={onClick} cancelled={nextEvent?.Type.includes('Abgesagt')}/></Suspense></td>
         </tr>
         <tr>
             <td onClick={clickTD}>Hin:</td>
