@@ -10,9 +10,8 @@ import {
 import { Bar } from "react-chartjs-2"
 import DateField from '../attendenceInput/DateField';
 import { StyledEvalDiagram } from './Overview.styled';
-import { theme } from '../../../theme';
 
-const EvalDiagram = ({ event }) => {
+const EvalDiagram = ({ event, theme }) => {
 
     ChartJS.register(
         CategoryScale,

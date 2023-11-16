@@ -3,7 +3,6 @@ import { IoIosAlert, IoIosCloseCircle } from 'react-icons/io'
 import { IoCheckmarkCircle } from 'react-icons/io5'
 import { StyledTerminzusage } from './Terminzusage.styled'
 import { IconContext } from 'react-icons'
-import { theme } from '../../../theme'
 
 const Terminzusage = (props) => {
 
@@ -26,7 +25,7 @@ const Terminzusage = (props) => {
 
     return(
         <StyledTerminzusage className="Terminzusage">
-            {props.cancelled ? <Button attendence={0}/> : <Button callback={onClick} attendence={attendence}/>}
+            {props.cancelled ? <Button attendence={0} theme={props.theme}/> : <Button callback={onClick} attendence={attendence} theme={props.theme}/>}
         </StyledTerminzusage>
     )
 }
@@ -35,17 +34,17 @@ const Button = (props) => {
     switch(props.attendence){
     default:
     case -1:
-        return(<Blank callback={props.callback}/>)
+        return(<Blank callback={props.callback} theme={props.theme}/>)
     case 0:
-        return(<Deny callback={props.callback}/>)
+        return(<Deny callback={props.callback} theme={props.theme}/>)
     case 1:
-        return(<Check callback={props.callback}/>)
+        return(<Check callback={props.callback} theme={props.theme}/>)
     case 2:
-        return(<Alert callback={props.callback} />)
+        return(<Alert callback={props.callback} theme={props.theme}/>)
     }
 }
 
-export const Blank = ({ callback, size }) => {
+export const Blank = ({ callback, size, theme }) => {
     //#24b9d0
     return(
         <IconContext.Provider value={{color: theme.blue, className: "IconWrapper"}}>
@@ -55,7 +54,7 @@ export const Blank = ({ callback, size }) => {
     )
 }
 
-export const Check = ({ callback }) => {
+export const Check = ({ callback, theme }) => {
     //#00bd00
     return(
         <IconContext.Provider value={{color: theme.green, className: "IconWrapper"}}>
@@ -65,7 +64,7 @@ export const Check = ({ callback }) => {
     )
 }
 
-export const Deny = ({ callback }) => {
+export const Deny = ({ callback, theme }) => {
     //#fe423e
     return(
         <IconContext.Provider value={{color: theme.red, className: "IconWrapper"}}>
@@ -75,7 +74,7 @@ export const Deny = ({ callback }) => {
     )
 }
 
-export const Alert = ({ callback }) => {
+export const Alert = ({ callback, theme }) => {
     //#ffa11c
     return(
         <IconContext.Provider value={{color: theme.yellow, className: "IconWrapper"}}>

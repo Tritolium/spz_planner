@@ -1,7 +1,6 @@
 export const theme0 = {
     primaryDark: '#282c34',
     primaryLight: '#fff',
-    /*primaryHover: 'rgb(0, 122, 255)',*/
     primaryHover: '#78849c',
     blue: '#24b9d0',
     blueRGB: 'rgb(32, 185, 208)',
@@ -15,7 +14,7 @@ export const theme0 = {
     medium: '1007px'
 }
 
-export const theme = {
+export const theme1 = {
     primaryDark: '#282c34',
     primaryLight: '#e5e4e2',
     primaryHover: '#78849c',
@@ -43,6 +42,38 @@ export const theme2 = {
     yellowRGB: 'rgb(255, 186, 8)',
     green: '47a025',
     greenRGB: 'rgb(71, 160, 37)',
+    mobile: '530px',
+    medium: '1007px'
+}
+
+export const theme3 = {
+    primaryDark: '#386641',
+    primaryLight: '#a7c957',
+    primaryHover: '#6a994e',
+    blue: '#f2e8cf',
+    blueRGB: 'rgb(242, 232, 207)',
+    red: 'bc4749',
+    redRGB: 'rgb(188, 71, 73)',
+    yellow: 'ffca3a',
+    yellowRGB: 'rgb(255, 202, 58)',
+    green: 'a7c957',
+    greenRGB: 'rgb(167, 201, 87)',
+    mobile: '530px',
+    medium: '1007px'
+}
+
+export const theme4 = {
+    primaryDark: '#113d00',
+    primaryLight: '#ebcf96',
+    primaryHover: '#18050e',
+    blue: '#ebcf96',
+    blueRGB: 'rgb(235, 207, 150)',
+    red: 'b00b09',
+    redRGB: 'rgb(176, 11, 9)',
+    yellow: '400823',
+    yellowRGB: 'rgb(64, 8, 35))',
+    green: '67b424',
+    greenRGB: 'rgb(103, 180, 36)',
     mobile: '530px',
     medium: '1007px'
 }

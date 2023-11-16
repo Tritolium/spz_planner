@@ -2,8 +2,9 @@ import { useCallback, useEffect, useState } from "react"
 import SubmitButton from "../../../modules/components/SubmitButton"
 import { getEvents, getMembers, setAttendence as setSingleAttendence } from "../../../modules/data/DBConnect"
 import Terminzusage from "../attendenceInput/Terminzusage"
+import { StyledAbsenceInput } from "./AbsenceInput.styled"
 
-const AbsenceInput = ({className}) => {
+const AbsenceInput = ({ theme }) => {
 
     const [attendence, setAttendence] = useState(-1)
     const [usergroups, setUsergroups] = useState(new Array(0))
@@ -35,6 +36,7 @@ const AbsenceInput = ({className}) => {
             setSelectedUsergroupFilter(-1)
         else
             setSelectedUsergroupFilter(parseInt(e.target.value))
+            console.log(e.target.value)
     }, [setSelectedUsergroupFilter])
 
     const submit = () => {
@@ -46,7 +48,7 @@ const AbsenceInput = ({className}) => {
     }
 
     return(
-        <form className={className}>
+        <StyledAbsenceInput>
             <select id="usergroup_select" onChange={onUsergroupFilterChange}>
                 <option key={"usergroup_all"} value="all">Alle</option>
                 {usergroups.map(usergroup => {
@@ -67,8 +69,9 @@ const AbsenceInput = ({className}) => {
                     if (selectedUsergroupFilter === -1)
                         return true
                     for(let usergroup of member.Usergroups){
-                        if (usergroup.Usergroup_ID === selectedUsergroupFilter)
+                        if (parseInt(usergroup.Usergroup_ID) === selectedUsergroupFilter){
                             return usergroup.Assigned
+                        }
                     }
 
                     return false
@@ -76,9 +79,9 @@ const AbsenceInput = ({className}) => {
                     return(<option key={`member_${member.Member_ID}`} value={member.Member_ID}>{member.Forename} {member.Surname}</option>)
                 })}
             </select>
-            <Terminzusage states={3} attendence={attendence} onClick={onClick}/>
+            <Terminzusage states={3} attendence={attendence} onClick={onClick} theme={theme}/>
             <SubmitButton type="submit" onClick={submit}>Abschicken</SubmitButton>
-        </form>
+        </StyledAbsenceInput>
     )
 }
 

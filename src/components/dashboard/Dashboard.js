@@ -4,7 +4,6 @@ import { getAttendences, getBirthdates, getWeather, getDisplayMode, getOS, newFe
 import { StyledChangelog, StyledDashboard, StyledFeedbackArea, StyledInfoText, StyledVersionDiagramm } from './Dashboard.styled'
 import { Clothing } from '../../modules/components/clothing/Clothing'
 import { TbAlertTriangle } from 'react-icons/tb'
-import { theme } from '../../theme'
 import { IoShareOutline } from 'react-icons/io5'
 import { BsPlusSquare } from 'react-icons/bs'
 import { beforeInstallPrompt } from '../..'
@@ -26,7 +25,7 @@ const Button = lazy(() => import('../../modules/components/button/Button'))
 const Terminzusage = lazy(() => import('../dateplanner/attendenceInput/Terminzusage'))
 const WeatherIcon = lazy(() => import('./WeatherIcon'))
 
-const Dashboard = ({ fullname, auth_level }) => {
+const Dashboard = ({ fullname, auth_level, theme }) => {
 
     const [nextEvents, setNextEvents] = useState(new Array(0))
     const [nextPractices, setNextPractices] = useState(new Array(0))
@@ -115,7 +114,7 @@ const Dashboard = ({ fullname, auth_level }) => {
         getNextEvent()
         let os = getOS()
         setMobileBrowser((getDisplayMode() === 'browser tab' && window.innerWidth < parseInt(theme.medium.split('px')[0]) && (beforeInstallPrompt || !(os !== 'Mac OS' && os !== 'iOS'))))
-    }, [])
+    }, [theme.medium])
 
     return(<StyledDashboard id="Dashboard">
         {mobileBrowser ? <StyledInfoText>
@@ -124,13 +123,13 @@ const Dashboard = ({ fullname, auth_level }) => {
         {mobileBrowser ? <StyledInfoText>Diese App kann auch installiert werden, einfach auf das Icon klicken!</StyledInfoText> : <></>}
         {showiosInstruction ? <StyledInfoText className='iosInstruction'>Erst <IoShareOutline />, dann <BsPlusSquare /></StyledInfoText> : <></>}
         <Changelog read={localStorage.getItem("changelogRead") === version}/>
-        {eventInfo ? <EventInfo hideEventInfo={hideEventInfo} eventInfoData={eventInfoData} fullname={fullname}/> : <DashboardAttendence fullname={fullname} nextPractices={nextPractices} nextEvents={nextEvents} showEventInfo={showEventInfo} auth_level={auth_level}/>}
-        {auth_level > 2 ? <VersionDiagram /> : <></>}
+        {eventInfo ? <EventInfo hideEventInfo={hideEventInfo} eventInfoData={eventInfoData} fullname={fullname}/> : <DashboardAttendence fullname={fullname} nextPractices={nextPractices} nextEvents={nextEvents} showEventInfo={showEventInfo} auth_level={auth_level} theme={theme}/>}
+        {auth_level > 2 ? <VersionDiagram theme={theme}/> : <></>}
         <Feedback />
     </StyledDashboard>)
 }
 
-const DashboardAttendence = ({ fullname, nextPractices, nextEvents, showEventInfo, auth_level}) => {
+const DashboardAttendence = ({ fullname, nextPractices, nextEvents, showEventInfo, auth_level, theme}) => {
     return(
         <div>
             <BirthdayBlog fullname={fullname}/>
@@ -138,11 +137,11 @@ const DashboardAttendence = ({ fullname, nextPractices, nextEvents, showEventInf
                 <tbody>
                     <Suspense>
                         {nextPractices.length > 0 ? <tr><th colSpan={3}>Nächste Probe{nextPractices.length > 1 ? "n" : ""}:</th></tr> : <></>}
-                        {nextPractices.length > 0 ? nextPractices.map(nextPractice => {return(<NextPractice nextPractice={nextPractice} key={`nextPractice_${nextPractice.Event_ID}`} auth_level={auth_level} showEventInfo={showEventInfo}/>)}) : <></>}
+                        {nextPractices.length > 0 ? nextPractices.map(nextPractice => {return(<NextPractice nextPractice={nextPractice} key={`nextPractice_${nextPractice.Event_ID}`} auth_level={auth_level} showEventInfo={showEventInfo} theme={theme}/>)}) : <></>}
                     </Suspense>
                     <Suspense>
                         {nextEvents.length > 0 ? <tr><th colSpan={3}>Nächste{nextEvents.length === 1 ? "r" : ""} Termin{nextEvents.length > 1 ? "e" : ""}:</th></tr> : <></>}
-                        {nextEvents.length > 0 ? nextEvents.map(nextEvent => {return(<NextEvent nextEvent={nextEvent} key={`nextEvent_${nextEvent.Event_ID}`} auth_level={auth_level} showEventInfo={showEventInfo}/>)}) : <></>}
+                        {nextEvents.length > 0 ? nextEvents.map(nextEvent => {return(<NextEvent nextEvent={nextEvent} key={`nextEvent_${nextEvent.Event_ID}`} auth_level={auth_level} showEventInfo={showEventInfo} theme={theme}/>)}) : <></>}
                     </Suspense>
                 </tbody>
             </table>
@@ -243,7 +242,7 @@ const ClothingRow = ({ clothing, onClick }) => {
     )
 }
 
-const NextPractice = ({ nextPractice, auth_level, showEventInfo }) => {
+const NextPractice = ({ nextPractice, auth_level, showEventInfo, theme }) => {
 
     const [evaluation, setEvaluation] = useState()
 
@@ -284,19 +283,19 @@ const NextPractice = ({ nextPractice, auth_level, showEventInfo }) => {
         <tr className='event_header'>
             <td onClick={clickTD}>{nextPractice?.Type}</td>
             <td onClick={clickTD}>{nextPractice?.Location}</td>
-            <td rowSpan={2}><Terminzusage event={nextPractice} event_id={nextPractice?.Event_ID} states={3} attendence={attendence} onClick={onClick} cancelled={nextPractice?.Type.includes('Abgesagt')}/></td>
+            <td rowSpan={2}><Terminzusage event={nextPractice} event_id={nextPractice?.Event_ID} states={3} attendence={attendence} onClick={onClick} cancelled={nextPractice?.Type.includes('Abgesagt')} theme={theme}/></td>
         </tr>
         <tr>
             <td onClick={clickTD}>{practiceDate.getDate()}.{practiceDate.getMonth() + 1}.{practiceDate.getFullYear()}</td>
             <td onClick={clickTD}>{nextPractice?.Begin === null ? '-' : `${nextPractice?.Begin.slice(0, 5)} Uhr`}</td>
         </tr>
         <tr>
-            {auth_level > 1 ? <td colSpan={3}><DashboardDiagram event={evaluation} auth_level={auth_level}/></td> : <></>}
+            {auth_level > 1 ? <td colSpan={3}><DashboardDiagram event={evaluation} auth_level={auth_level} theme={theme}/></td> : <></>}
         </tr>
     </>)
 }
 
-const NextEvent = ({ nextEvent, auth_level, showEventInfo }) => {
+const NextEvent = ({ nextEvent, auth_level, showEventInfo, theme }) => {
 
     const [weather, setWeather] = useState()
     const [evaluation, setEvaluation] = useState()
@@ -350,7 +349,7 @@ const NextEvent = ({ nextEvent, auth_level, showEventInfo }) => {
         <tr>
             <td onClick={clickTD}>{eventDate.getDate()}.{eventDate.getMonth() + 1}.{eventDate.getFullYear()}</td>
             <td onClick={clickTD}>{nextEvent?.Begin !== "12:34:56" && nextEvent?.Begin !== null ? `${nextEvent?.Begin.slice(0, 5)} Uhr` : "-"}</td>
-            <td rowSpan={3}><Suspense><Terminzusage event={nextEvent} event_id={nextEvent?.Event_ID} states={3} attendence={attendence} onClick={onClick} cancelled={nextEvent?.Type.includes('Abgesagt')}/></Suspense></td>
+            <td rowSpan={3}><Suspense><Terminzusage event={nextEvent} event_id={nextEvent?.Event_ID} states={3} attendence={attendence} onClick={onClick} cancelled={nextEvent?.Type.includes('Abgesagt')} theme={theme}/></Suspense></td>
         </tr>
         <tr>
             <td onClick={clickTD}>Hin:</td>
@@ -369,7 +368,7 @@ const NextEvent = ({ nextEvent, auth_level, showEventInfo }) => {
             </tr>
         </Suspense> : <></>}
         <tr>
-            {auth_level > 0 ? <td colSpan={3}><DashboardDiagram event={evaluation} auth_level={auth_level}/></td> : <></>}
+            {auth_level > 0 ? <td colSpan={3}><DashboardDiagram event={evaluation} auth_level={auth_level} theme={theme}/></td> : <></>}
         </tr>
         
     </>)
@@ -404,7 +403,7 @@ const Feedback = () => {
     </div>)
 }
 
-const DashboardDiagram = ({ event, auth_level }) => {
+const DashboardDiagram = ({ event, auth_level, theme }) => {
 
     ChartJS.register(
         CategoryScale,
@@ -470,11 +469,11 @@ const DashboardDiagram = ({ event, auth_level }) => {
     return(<Bar height={"30px"} options={options} data={data}/>)
 }
 
-const VersionDiagram = () => {
+const VersionDiagram = ({ theme }) => {
 
     const [versionData, setVersionData] = useState(new Array(0))
 
-    const fetchVersionEval = async () => {
+    const fetchVersionEval = useCallback(async () => {
         let token = localStorage.getItem('api_token')
 
         let res = await fetch(`${host}/api/eval.php?api_token=${token}&version`)
@@ -551,11 +550,11 @@ const VersionDiagram = () => {
         }
 
         setVersionData(datasets)
-    }
+    }, [theme])
 
     useEffect(() => {
         fetchVersionEval()
-    }, [])
+    }, [fetchVersionEval])
 
     ChartJS.register(
         CategoryScale,

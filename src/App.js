@@ -2,7 +2,7 @@ import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { login, sendPushSubscription, update_login } from './modules/data/DBConnect';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from './global';
-import { theme } from './theme';
+import { theme0, theme1, theme2, theme3, theme4 } from './theme';
 // import preval from 'preval.macro'
 import { TbBellFilled, TbBellOff } from 'react-icons/tb';
 import Settings from './components/settings/Settings';
@@ -39,14 +39,38 @@ const App = () => {
     const [fullname, setFullname] = useState("")
     const [auth_level, setAuth_level] = useState(0)
 
+    const [theme, setTheme] = useState(theme1)
+
     useEffect(() => {
 
         const update = async () =>{
             setView(-2)
-            let { _forename, _surname, _auth_level } = await update_login(version)
+            let { _forename, _surname, _auth_level, _theme } = await update_login(version)
             if(_auth_level !== undefined) {
                 setFullname(_forename + " " + _surname)
                 setAuth_level(_auth_level)
+                if(_theme !== undefined){
+                    switch(_theme){
+                    case 0:
+                        setTheme(theme0)
+                        break
+                    case 1:
+                        setTheme(theme1)
+                        break
+                    case 2:
+                        setTheme(theme2)
+                        break
+                    case 3:
+                        setTheme(theme3)
+                        break
+                    case 4:
+                        setTheme(theme4)
+                        break
+                    default:
+                        setTheme(theme1)
+                        break
+                    }
+                }
                 setView(0)
                 if(window.Notification?.permission === 'granted'){
                     notificationHelper.createNotificationSubscription('BD0AbKmeW7bACNzC9m0XSUddJNx--VoOvU2X0qBF8dODOBhHvFPjrKJEBcL7Yk07l8VpePC1HBT7h2FRK3bS5uA')
@@ -68,10 +92,13 @@ const App = () => {
 
     const sendLogin = useCallback(async (name, pwhash) => {
         setView(-2)
-        let { _forename, _surname, _api_token, _auth_level } = await login(name, pwhash, version)
+        let { _forename, _surname, _api_token, _auth_level, _theme } = await login(name, pwhash, version)
         if(_api_token !== undefined) {
             setFullname(_forename + " " + _surname)
             setAuth_level(_auth_level)
+            if(_theme !== undefined){
+                setTheme(_theme === 0 ? theme0 : _theme === 1 ? theme1 : theme2)
+            }
             setView(0)
             if(window.Notification?.permission === 'granted'){
                 notificationHelper.createNotificationSubscription('BD0AbKmeW7bACNzC9m0XSUddJNx--VoOvU2X0qBF8dODOBhHvFPjrKJEBcL7Yk07l8VpePC1HBT7h2FRK3bS5uA')
@@ -122,7 +149,7 @@ const App = () => {
                     <Button onClick={logout}>Logout</Button>
                 </div> : <></>}
                 <Suspense fallback={<div>Lädt...</div>}>
-                    <View view={view} sendLogin={sendLogin} fullname={fullname} auth_level={auth_level}/>
+                    <View view={view} sendLogin={sendLogin} fullname={fullname} auth_level={auth_level} theme={theme}/>
                 </Suspense>
                 <div id="version-tag">{version}</div>
             </StyledApp>
@@ -146,11 +173,11 @@ const View = (props) => {
         </Suspense>)
     case 0:
         return(<Suspense fallback={<div>Startseite lädt</div>}>
-            <Dashboard fullname={props.fullname} auth_level={props.auth_level}/>
+            <Dashboard fullname={props.fullname} auth_level={props.auth_level} theme={props.theme}/>
         </Suspense>)
     case 1:
         return(<Suspense fallback={<div>Planer lädt</div>}>
-            <Dateplanner fullname={props.fullname} auth_level={props.auth_level}/>
+            <Dateplanner fullname={props.fullname} auth_level={props.auth_level} theme={props.theme}/>
         </Suspense>)
     case 2:
         return(<AbsenceAdministration auth_level={props.auth_level}/>)
