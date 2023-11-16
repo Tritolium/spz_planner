@@ -65,7 +65,7 @@ const AttendenceTable = ({ attendences, fullname, states, selectedDateFilter, se
                         <tr key={att.Location + att.Event_ID}>
                             {!oneUsergroup ? <TableData>{usergroupLogo(att.Usergroup_ID)}</TableData> : <></>}
                             <TableData><DateField dateprops={att} /></TableData>
-                            <TableData><Terminzusage states={states} attendence={att.Attendence} onClick={onClick} event_id={att.Event_ID} cancelled={att.Type.includes('Abgesagt')}/></TableData>
+                            <TableData><Terminzusage event={att} states={states} attendence={att.Attendence} onClick={onClick} event_id={att.Event_ID} cancelled={att.Type.includes('Abgesagt')}/></TableData>
                         </tr>
                     )
                 })}
