@@ -16,6 +16,7 @@ const Burger = lazy(() => import('./modules/components/burger/Burger'))
 const Button = lazy(() => import('./modules/components/button/Button'))
 const Dashboard = lazy(() => import('./components/dashboard/Dashboard'))
 const Dateplanner = lazy(() => import('./components/dateplanner/Dateplanner'))
+const Evaluation = lazy(() => import('./components/evaluation/Evaluation'))
 const EventAdministration = lazy(() => import('./components/dateadministration/EventAdministration'))
 const HelpPage = lazy(() => import('./components/helppage/HelpPage'))
 const Login = lazy(() => import('./components/login/Login'))
@@ -26,7 +27,7 @@ const Scoreboard = lazy(() => import('./components/scoreboard/Scoreboard'))
 const StyledApp = lazy(() => import('./App.styled'))
 
 // - ${preval`module.exports = new Date().toISOString()`}
-export const version = `v0.10`
+export const version = `v0.11`
 
 const App = () => {
 
@@ -182,20 +183,24 @@ const View = (props) => {
     case 2:
         return(<AbsenceAdministration auth_level={props.auth_level}/>)
     case 3:
-        return(<MemberAdministration auth_level={props.auth_level}/>)
+        return(<Suspense>
+            <Evaluation theme={props.theme}/>
+        </Suspense>)
     case 4:
-        return(<EventAdministration auth_level={props.auth_level}/>)
+        return(<MemberAdministration auth_level={props.auth_level}/>)
     case 5:
-        return(<Scoreboard />)
+        return(<EventAdministration auth_level={props.auth_level}/>)
     case 6:
+        return(<Scoreboard />)
+    case 7:
         return(<Suspense>
             <OrderAdministration />
         </Suspense>)
-    case 7:
-        return(<Administration auth_level={props.auth_level}/>)
     case 8:
-        return(<Settings />)
+        return(<Administration auth_level={props.auth_level}/>)
     case 9:
+        return(<Settings />)
+    case 10:
         return(<HelpPage auth_level={props.auth_level}/>)
     }
 }
