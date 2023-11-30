@@ -175,6 +175,7 @@ const DetailForm = ({ event, usergroups, datetemplates, reload }) => {
         let category    = document.getElementById('category').options[document.getElementById('category').selectedIndex].value
         let type        = document.getElementById('type').value
         let location    = document.getElementById('location').value
+        let address     = document.getElementById('address').value
         let date        = document.getElementById('date').value
         let begin       = document.getElementById('begin').value
         let departure   = document.getElementById('departure').value
@@ -183,9 +184,9 @@ const DetailForm = ({ event, usergroups, datetemplates, reload }) => {
         let usergroup   = document.getElementById('usergroup').options[document.getElementById('usergroup').selectedIndex].value
 
         if(event !== undefined)
-            await updateEvent(event.Event_ID, category, type, location, date, begin, departure, leave_dep, accepted, usergroup, clothing)
+            await updateEvent(event.Event_ID, category, type, location, address, date, begin, departure, leave_dep, accepted, usergroup, clothing)
         else
-            await newEvent(category, type, location, date, begin, departure, leave_dep, accepted, usergroup, clothing)
+            await newEvent(category, type, location, address, date, begin, departure, leave_dep, accepted, usergroup, clothing)
 
         reload()
     }
@@ -226,6 +227,10 @@ const DetailForm = ({ event, usergroups, datetemplates, reload }) => {
             <FormBox>
                 <label htmlFor="location">Ort:</label>
                 <input type="text" name="location" id="location" defaultValue={event?.Location}/>
+            </FormBox>
+            <FormBox>
+                <label htmlFor="address">Adresse:</label>
+                <input type="text" name="address" id="address" defaultValue={event?.Address}/>
             </FormBox>
             <FormBox>
                 <label htmlFor="date">Datum:</label>
