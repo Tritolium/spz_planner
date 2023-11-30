@@ -229,7 +229,9 @@ const Changelog = ({read}) => {
                     <h2>Neu in {version}:</h2>
                     <ul>
                         <li>
-                            <i>Startseite:</i> Für die Termine auf der Startseite können weitere Informationen hinterlegt werden. Einfach auf den Termin tippen, um das Fenster zu öffnen
+                            <i>Startseite:</i>
+                            Für die Termine auf der Startseite können weitere Informationen hinterlegt werden. Einfach auf den Termin tippen, um das Fenster zu öffnen.<br/>
+                            Außerdem werden die Termine jetzt in drei Kategorien eingeteilt und angezeigt: Proben, Auftritte und sonstige Termine.
                         </li>
                         <li>
                             <i>Allgemein:</i> Benachrichtigungen können an- & abgeschaltet werden, entweder über die Glocke, oder über die Einstellungen. Dort ist auch die Unterscheidung zwischen Üben und Auftritt möglich.
