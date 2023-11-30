@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import { IoIosAlert, IoIosCloseCircle } from 'react-icons/io'
+import { IoIosAlert, IoIosCloseCircle, IoIosRemoveCircle } from 'react-icons/io'
 import { IoCheckmarkCircle } from 'react-icons/io5'
 import { StyledTerminzusage } from './Terminzusage.styled'
 import { IconContext } from 'react-icons'
@@ -79,6 +79,35 @@ export const Alert = ({ callback, theme }) => {
     return(
         <IconContext.Provider value={{color: theme.yellow, className: "IconWrapper"}}>
             <IoIosAlert size="100%" onClick={callback}/>
+            <Circle callback={callback} />
+        </IconContext.Provider>
+    )
+}
+
+export const Unregistered = ({ callback }) => {
+    //#904c77
+    return(
+        <IconContext.Provider value={{color: "#904c77", className: "IconWrapper"}}>
+            <IoIosRemoveCircle size="100%" onClick={callback}/>
+            <Circle callback={callback} />
+        </IconContext.Provider>
+    )
+}
+
+export const Noshow = ({ callback }) => {
+    //#7d7abc
+    return(
+        <IconContext.Provider value={{color: "#7d7abc", className: "IconWrapper"}}>
+            <IoIosAlert size="100%" onClick={callback}/>
+            <Circle callback={callback} />
+        </IconContext.Provider>
+    )
+}
+
+export const DeniedCheck = ({ callback }) => {
+    return(
+        <IconContext.Provider value={{color: "#00bd00", className: "IconWrapper"}}>
+            <IoIosCloseCircle size="100%" onClick={callback}/>
             <Circle callback={callback} />
         </IconContext.Provider>
     )

@@ -83,7 +83,7 @@ const Overview = ({ theme }) => {
     }
 }
 
-const Zusage = ({attendence, theme}) => {
+export const Zusage = ({attendence, theme}) => {
     switch(attendence){
     default:
     case -1:
