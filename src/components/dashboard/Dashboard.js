@@ -50,41 +50,33 @@ const Dashboard = ({ fullname, auth_level, theme }) => {
             return event.Category === "event"
         })[0]
 
-        let nextEvents = nextAll.filter(event => { // get only events
-            return event.Category === "event"
-        }).filter(event => { //sort out events too far from event_0
-            let nextDate = new Date(nextEvent.Date)
-            let eventDate = new Date(event.Date)
-            if(eventDate.getTime() === nextDate.getTime())
-                return true
-            eventDate.setDate(eventDate.getDate() - 1)
-            if(eventDate.getTime() === nextDate.getTime())
-                return true
-                eventDate.setDate(eventDate.getDate() - 1)
-            if(eventDate.getTime() === nextDate.getTime())
-                return true
-            return false
-        })
+        let nextEvents = nextAll
+            .filter(event => event.Category === "event")
+            .filter(event => {
+                let nextDate = new Date(nextEvent.Date).getTime();
+                let eventDate = new Date(event.Date);
+                for(let i = 0; i < 3; i++) {
+                    if(eventDate.getTime() === nextDate) return true;
+                    eventDate.setDate(eventDate.getDate() - 1);
+                }
+                return false;
+            });
 
         let nextPractice = nextAll.filter(event => { // get only practices
             return event.Category === "practice"
         })[0]
 
-        let nextPractices = nextAll.filter(event => { // sort out practice
-            return event.Category === "practice"
-        }).filter(event => { //sort out practices too far from event_0
-            let nextDate = new Date(nextPractice.Date)
-            let eventDate = new Date(event.Date)
-            if(eventDate.getTime() === nextDate.getTime())
-                return true
-            eventDate.setDate(eventDate.getDate() - 1)
-            if(eventDate.getTime() === nextDate.getTime())
-                return true
-                eventDate.setDate(eventDate.getDate() - 1)
-            if(eventDate.getTime() === nextDate.getTime())
-                return true
-            return false
-        })
+        let nextPractices = nextAll
+            .filter(event => event.Category === "practice")
+            .filter(event => {
+                let nextDate = new Date(nextPractice.Date).getTime();
+                let eventDate = new Date(event.Date);
+                for(let i = 0; i < 3; i++) {
+                    if(eventDate.getTime() === nextDate) return true;
+                    eventDate.setDate(eventDate.getDate() - 1);
+                }
+                return false;
+            });
 
         let nextOther = nextAll.filter(event => { // get only others
             return event.Category === "other"
