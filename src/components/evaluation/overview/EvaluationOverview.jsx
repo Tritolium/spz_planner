@@ -55,7 +55,7 @@ const EvaluationOverview = ({ theme }) => {
         <StyledEvaluationOverview>
             <div>
                 <select name="usergroup" id="usergroup" onChange={onUsergroupChange}>
-                    {usergroups.map((usergroup) => <option value={usergroup.Usergroup_ID}>{usergroup.Title}</option>)}
+                    {usergroups.map((usergroup) => <option key={usergroup.Usergroup_ID} value={usergroup.Usergroup_ID}>{usergroup.Title}</option>)}
                 </select>
                 <input type="date" defaultValue={'2023-11-23'} onChange={(e) => {setFilterFrom(e.target.value)}}/>
                 <input type="date" defaultValue={filterTo} onChange={(e) => {setFilterTo(e.target.value)}}/>
@@ -98,7 +98,7 @@ const OverviewTable = ({ evaluations, filterFrom, filterTo, theme }) => {
                     let date = new Date(evaluation.Date)
                     let datestring = date.getDate() + "." + (date.getMonth()+1) + "." + date.getFullYear()
                     return(
-                        <tr>
+                        <tr key={`evaluation_${evaluation.Type}_${evaluation.Date}`}>
                             <td>{datestring}</td>
                             <td>{evaluation.Type} {evaluation.Location}</td>
                             <td>{evaluation.Evaluations.filter(evalu => {return evalu.Evaluation === 0}).length}</td>
