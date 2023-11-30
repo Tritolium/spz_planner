@@ -194,7 +194,7 @@ const getEvents = async (filter) => {
     return events
 }
 
-const updateEvent = async(event_id, category, type, location, date, begin, departure, leave_dep, accepted, usergroup, clothing) => {
+const updateEvent = async(event_id, category, type, location, address, date, begin, departure, leave_dep, accepted, usergroup, clothing) => {
     let token = localStorage.getItem('api_token')
     let response = await fetch(`${host}/api/event.php?api_token=${token}`, {
         method: "PUT",
@@ -203,6 +203,7 @@ const updateEvent = async(event_id, category, type, location, date, begin, depar
             Category: category,
             Type: type,
             Location: location,
+            Address: address,
             Date: date,
             Begin: begin === '' ? '12:34:56' : begin,
             Departure: departure === '' ? '12:34:56' : departure,
@@ -222,7 +223,7 @@ const updateEvent = async(event_id, category, type, location, date, begin, depar
     }
 }
 
-const newEvent = async (category, type, location, date, begin, departure, leave_dep, accepted, usergroup, clothing) => {
+const newEvent = async (category, type, location, address, date, begin, departure, leave_dep, accepted, usergroup, clothing) => {
     
     let token = localStorage.getItem('api_token')
     
@@ -232,6 +233,7 @@ const newEvent = async (category, type, location, date, begin, departure, leave_
             Category: category,
             Type: type,
             Location: location,
+            Address: address,
             Date: date,
             Begin: begin === '' ? '12:34:56' : begin,
             Departure: departure === '' ? '12:34:56' : departure,
@@ -983,7 +985,11 @@ export const getAssociations = async () => {
 
 export const getWeather = async (nextEvent) => {
     let hour = nextEvent.Begin === null ? 12 : parseInt(nextEvent.Begin.slice(0,2))
-    let geo = await maptilerClient.geocoding.forward(nextEvent.Location)
+    let geo
+    if(nextEvent.Address !== "")
+        geo = await maptilerClient.geocoding.forward(nextEvent.Address)
+    else
+        geo = await maptilerClient.geocoding.forward(nextEvent.Location)
     let response = await fetch(`https://api.open-meteo.com/v1/dwd-icon?latitude=${geo.features[0].center[1]}&longitude=${geo.features[0].center[0]}&hourly=apparent_temperature,weathercode&start_date=${nextEvent.Date}&end_date=${nextEvent.Date}&timezone=CET`)
     let json = await response.json()
     return({
