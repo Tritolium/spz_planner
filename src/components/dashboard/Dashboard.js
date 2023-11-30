@@ -29,6 +29,7 @@ const Dashboard = ({ fullname, auth_level, theme }) => {
 
     const [nextEvents, setNextEvents] = useState(new Array(0))
     const [nextPractices, setNextPractices] = useState(new Array(0))
+    const [nextOthers, setNextOthers] = useState(new Array(0))
     const [showiosInstruction, setShowiosInstruction] = useState(false)
     const [mobileBrowser, setMobileBrowser] = useState(false)
     const [eventInfo, setEventInfo] = useState(false)
@@ -45,12 +46,12 @@ const Dashboard = ({ fullname, auth_level, theme }) => {
                 return -1
         })
 
-        let nextEvent = nextAll.filter(event => { // sort out practice
-            return !(event.Type.toLowerCase().includes('probe') || event.Type.toLowerCase().includes('üben'))
+        let nextEvent = nextAll.filter(event => { // get only events
+            return event.Category === "event"
         })[0]
 
-        let nextEvents = nextAll.filter(event => { // sort out practice
-            return !(event.Type.toLowerCase().includes('probe') || event.Type.toLowerCase().includes('üben'))
+        let nextEvents = nextAll.filter(event => { // get only events
+            return event.Category === "event"
         }).filter(event => { //sort out events too far from event_0
             let nextDate = new Date(nextEvent.Date)
             let eventDate = new Date(event.Date)
@@ -65,14 +66,12 @@ const Dashboard = ({ fullname, auth_level, theme }) => {
             return false
         })
 
-        let nextPractice = nextAll.filter(event => { // sort out practice
-            return event.Type.toLowerCase().includes('probe') || event.Type.toLowerCase().includes('üben')
+        let nextPractice = nextAll.filter(event => { // get only practices
+            return event.Category === "practice"
         })[0]
 
-
-
         let nextPractices = nextAll.filter(event => { // sort out practice
-            return event.Type.toLowerCase().includes('probe') || event.Type.toLowerCase().includes('üben')
+            return event.Category === "practice"
         }).filter(event => { //sort out practices too far from event_0
             let nextDate = new Date(nextPractice.Date)
             let eventDate = new Date(event.Date)
@@ -87,8 +86,25 @@ const Dashboard = ({ fullname, auth_level, theme }) => {
             return false
         })
 
+        let nextOther = nextAll.filter(event => { // get only others
+            return event.Category === "other"
+        })[0]
+
+        let nextOthers = nextAll
+            .filter(event => event.Category === "other")
+            .filter(event => {
+                let nextDate = new Date(nextOther.Date).getTime();
+                let eventDate = new Date(event.Date);
+                for(let i = 0; i < 3; i++) {
+                    if(eventDate.getTime() === nextDate) return true;
+                    eventDate.setDate(eventDate.getDate() - 1);
+                }
+                return false;
+            });
+
         setNextEvents(nextEvents)
         setNextPractices(nextPractices)
+        setNextOthers(nextOthers)
     }
 
     const showInstall = () => {
@@ -123,13 +139,13 @@ const Dashboard = ({ fullname, auth_level, theme }) => {
         {mobileBrowser ? <StyledInfoText>Diese App kann auch installiert werden, einfach auf das Icon klicken!</StyledInfoText> : <></>}
         {showiosInstruction ? <StyledInfoText className='iosInstruction'>Erst <IoShareOutline />, dann <BsPlusSquare /></StyledInfoText> : <></>}
         <Changelog read={localStorage.getItem("changelogRead") === version}/>
-        {eventInfo ? <EventInfo hideEventInfo={hideEventInfo} eventInfoData={eventInfoData} fullname={fullname}/> : <DashboardAttendence fullname={fullname} nextPractices={nextPractices} nextEvents={nextEvents} showEventInfo={showEventInfo} auth_level={auth_level} theme={theme}/>}
+        {eventInfo ? <EventInfo hideEventInfo={hideEventInfo} eventInfoData={eventInfoData} fullname={fullname}/> : <DashboardAttendence fullname={fullname} nextPractices={nextPractices} nextEvents={nextEvents} nextOthers={nextOthers} showEventInfo={showEventInfo} auth_level={auth_level} theme={theme}/>}
         {auth_level > 2 ? <VersionDiagram theme={theme}/> : <></>}
         <Feedback />
     </StyledDashboard>)
 }
 
-const DashboardAttendence = ({ fullname, nextPractices, nextEvents, showEventInfo, auth_level, theme}) => {
+const DashboardAttendence = ({ fullname, nextPractices, nextEvents, nextOthers, showEventInfo, auth_level, theme}) => {
     return(
         <div>
             <BirthdayBlog fullname={fullname}/>
@@ -140,8 +156,12 @@ const DashboardAttendence = ({ fullname, nextPractices, nextEvents, showEventInf
                         {nextPractices.length > 0 ? nextPractices.map(nextPractice => {return(<NextPractice nextPractice={nextPractice} key={`nextPractice_${nextPractice.Event_ID}`} auth_level={auth_level} showEventInfo={showEventInfo} theme={theme}/>)}) : <></>}
                     </Suspense>
                     <Suspense>
-                        {nextEvents.length > 0 ? <tr><th colSpan={3}>Nächste{nextEvents.length === 1 ? "r" : ""} Termin{nextEvents.length > 1 ? "e" : ""}:</th></tr> : <></>}
+                        {nextEvents.length > 0 ? <tr><th colSpan={3}>Nächste{nextEvents.length === 1 ? "r" : ""} Auftritt{nextEvents.length > 1 ? "e" : ""}:</th></tr> : <></>}
                         {nextEvents.length > 0 ? nextEvents.map(nextEvent => {return(<NextEvent nextEvent={nextEvent} key={`nextEvent_${nextEvent.Event_ID}`} auth_level={auth_level} showEventInfo={showEventInfo} theme={theme}/>)}) : <></>}
+                    </Suspense>
+                    <Suspense>
+                        {nextOthers.length > 0 ? <tr><th colSpan={3}>Nächste{nextOthers.length === 1 ? "r" : ""} Termin{nextOthers.length > 1 ? "e" : ""}:</th></tr> : <></>}
+                        {nextOthers.length > 0 ? nextOthers.map(nextOther => {return(<NextOther nextOther={nextOther} key={`nextOther_${nextOther.Event_ID}`} auth_level={auth_level} showEventInfo={showEventInfo} theme={theme}/>)}) : <></>}
                     </Suspense>
                 </tbody>
             </table>
@@ -291,6 +311,84 @@ const NextPractice = ({ nextPractice, auth_level, showEventInfo, theme }) => {
         </tr>
         <tr>
             {auth_level > 1 ? <td colSpan={3}><DashboardDiagram event={evaluation} auth_level={auth_level} theme={theme}/></td> : <></>}
+        </tr>
+    </>)
+}
+
+const NextOther = ({ nextOther, auth_level, showEventInfo, theme }) => {
+
+    const [weather, setWeather] = useState()
+    const [evaluation, setEvaluation] = useState()
+
+    let attendence = nextOther?.Attendence
+    let gigDate = new Date(nextOther?.Date)
+
+    const onClick = async (event_id, att) => {
+        let changes = {}
+        changes['' + event_id] = att
+        await updateAttendences(changes, false)
+        updateEventEval()
+    }
+
+    const updateEventEval = useCallback(async () => {
+        let _eval = await getEvalByEvent(nextOther?.Event_ID, nextOther?.Usergroup_ID)
+        setEvaluation(_eval)
+        return
+    }, [nextOther])
+
+    const clickTD = useCallback(() => {
+        showEventInfo(nextOther)
+    }, [showEventInfo, nextOther])
+
+    useEffect(() => {
+        let eDate = new Date(nextOther?.Date)
+        let nextWeek = new Date()
+        nextWeek.setDate(nextWeek.getDate() + 6)
+        if(nextOther !== undefined && eDate < nextWeek) {
+            getWeather(nextOther).then(weather => {
+                setWeather(weather)
+            })
+        }
+        if(nextOther !== undefined){
+            updateEventEval()
+        }
+    }, [nextOther, updateEventEval])
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            updateEventEval()
+        }, 60000);
+        return () => clearInterval(interval);
+    }, [updateEventEval]);
+    
+    return(<>
+        <tr className='event_header'>
+            <td onClick={clickTD}>{nextOther?.Type}</td>
+            <td onClick={clickTD}>{nextOther?.Location}</td>
+        </tr>
+        <tr>
+            <td onClick={clickTD}>{gigDate.getDate()}.{gigDate.getMonth() + 1}.{gigDate.getFullYear()}</td>
+            <td onClick={clickTD}>{nextOther?.Begin !== "12:34:56" && nextOther?.Begin !== null ? `${nextOther?.Begin.slice(0, 5)} Uhr` : "-"}</td>
+            <td rowSpan={3}><Suspense><Terminzusage event={nextOther} event_id={nextOther?.Event_ID} states={3} attendence={attendence} onClick={onClick} cancelled={nextOther?.Type.includes('Abgesagt')} theme={theme}/></Suspense></td>
+        </tr>
+        <tr>
+            <td onClick={clickTD}>Hin:</td>
+            <td onClick={clickTD}>{nextOther?.Departure !== "12:34:56" && nextOther?.Departure !== null ? `${nextOther?.Departure.slice(0, 5)} Uhr` : "-"}</td>
+        </tr>
+        <tr>
+            <td onClick={clickTD}>Zurück:</td>
+            <td onClick={clickTD}>{nextOther?.Leave_dep !== "12:34:56" && nextOther?.Leave_dep !== null ? `${nextOther?.Leave_dep.slice(0, 5)} Uhr` : "-"}</td>
+        </tr>
+        <ClothingRow  onClick={clickTD} clothing={nextOther?.Clothing} />
+        {weather ? <Suspense>
+            <tr>
+                <td>Wetter:</td>
+                <td>{`${weather.Temperature}°C`}</td>
+                <td><WeatherIcon code={weather.Weathercode} /></td>
+            </tr>
+        </Suspense> : <></>}
+        <tr>
+            {auth_level > 0 ? <td colSpan={3}><DashboardDiagram event={evaluation} auth_level={auth_level} theme={theme}/></td> : <></>}
         </tr>
     </>)
 }
