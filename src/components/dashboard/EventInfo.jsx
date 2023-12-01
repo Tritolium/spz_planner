@@ -36,7 +36,7 @@ const EventInfo = ({ hideEventInfo, eventInfoData, fullname }) => {
         let now = new Date()
         let entry = {
             Fullname: fullname,
-            Timestamp: `${now.getFullYear()}-${now.getMonth()}-${now.getDate()} ${now.toLocaleTimeString("de-DE")}`,
+            Timestamp: `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()} ${now.toLocaleTimeString("de-DE")}`,
             Content: input.value
         }
 
@@ -44,7 +44,7 @@ const EventInfo = ({ hideEventInfo, eventInfoData, fullname }) => {
         fetch(`${host}/api/eventinfo.php?api_token=${token}&event_id=${eventInfoData.Event_ID}`, {
             method: "POST",
             body: JSON.stringify({
-                Timestamp: `${now.getFullYear()}-${now.getMonth()}-${now.getDate()} ${now.toLocaleTimeString("de-DE")}`,
+                Timestamp: `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()} ${now.toLocaleTimeString("de-DE")}`,
                 Content: input.value
             })
         }).then(response => {
