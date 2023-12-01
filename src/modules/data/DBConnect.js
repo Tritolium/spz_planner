@@ -83,6 +83,9 @@ const login = async (name, pwhash, version) => {
                 window.location.reload()
             }
             break
+        case 503:
+            alert('Server nicht erreichbar. Bitte versuche es später erneut.')
+            break
     }
 
     return { _forename, _surname, _api_token, _auth_level, _theme }
@@ -128,6 +131,9 @@ const update_login = async (version) => {
                 // possible issue due to an update, try to renew SW to load update
                 const registration = await navigator.serviceWorker?.getRegistration()
                 registration?.waiting?.postMessage('SKIP_WAITING')
+                break
+            case 503:
+                alert('Server nicht erreichbar. Bitte versuche es später erneut.')
                 break
         }
     }
