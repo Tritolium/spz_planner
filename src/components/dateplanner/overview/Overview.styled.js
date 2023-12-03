@@ -52,9 +52,18 @@ export const StyledOverviewTable = styled.table`
         }
     }
 
-    th {
+    .Header {
         min-width: 15px;
         max-width: 40px;
+        cursor: pointer;
+    }
+
+    .Tooltip {
+        background-color: ${({ theme }) => theme.primaryLight};
+        color: ${({ theme }) => theme.primaryDark};
+        border-radius: 5px;
+        border: 1px solid ${({ theme }) => theme.primaryDark};
+        cursor: pointer;
     }
 
     @media (max-width: ${({ theme }) => theme.mobile}) {
