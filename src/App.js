@@ -164,45 +164,35 @@ const View = (props) => {
         props.sendLogin(name, pwhash)
     }, [props])
 
-    switch(props.view){
-    case -2:
-        return(<>Login wird überprüft</>)
-    default:
-    case -1:
-        return(<Suspense fallback={<div>Login lädt</div>}>
-            <Login sendLogin={sendLogin}/>
-        </Suspense>)
-    case 0:
-        return(<Suspense fallback={<div>Startseite lädt</div>}>
-            <Dashboard fullname={props.fullname} auth_level={props.auth_level} theme={props.theme}/>
-        </Suspense>)
-    case 1:
-        return(<Suspense fallback={<div>Planer lädt</div>}>
-            <Dateplanner fullname={props.fullname} auth_level={props.auth_level} theme={props.theme}/>
-        </Suspense>)
-    case 2:
-        return(<AbsenceAdministration auth_level={props.auth_level}/>)
-    case 3:
-        return(<Suspense>
-            <Evaluation theme={props.theme}/>
-        </Suspense>)
-    case 4:
-        return(<MemberAdministration auth_level={props.auth_level}/>)
-    case 5:
-        return(<EventAdministration auth_level={props.auth_level}/>)
-    case 6:
-        return(<Scoreboard />)
-    case 7:
-        return(<Suspense>
-            <OrderAdministration />
-        </Suspense>)
-    case 8:
-        return(<Administration auth_level={props.auth_level}/>)
-    case 9:
-        return(<Settings />)
-    case 10:
-        return(<HelpPage auth_level={props.auth_level}/>)
-    }
+    const components = {
+        '-2': <>Login wird überprüft</>,
+        '-1': <Login sendLogin={sendLogin}/>,
+        '0': <Dashboard fullname={props.fullname} auth_level={props.auth_level} theme={props.theme}/>,
+        '1': <Dateplanner fullname={props.fullname} auth_level={props.auth_level} theme={props.theme}/>,
+        '2': <AbsenceAdministration auth_level={props.auth_level}/>,
+        '3': <Evaluation theme={props.theme}/>,
+        '4': <MemberAdministration auth_level={props.auth_level}/>,
+        '5': <EventAdministration auth_level={props.auth_level}/>,
+        '6': <Scoreboard />,
+        '7': <OrderAdministration />,
+        '8': <Administration auth_level={props.auth_level}/>,
+        '9': <Settings />,
+        '10': <HelpPage auth_level={props.auth_level}/>
+    };
+    
+    const fallbacks = {
+        '-1': 'Login lädt',
+        '0': 'Startseite lädt',
+        '1': 'Planer lädt',
+        '3': '',
+        '7': ''
+    };
+    
+    return (
+        <Suspense fallback={<div>{fallbacks[props.view] || ''}</div>}>
+            {components[props.view] || <Login sendLogin={sendLogin}/>}
+        </Suspense>
+    );
 }
 
 export default App;
