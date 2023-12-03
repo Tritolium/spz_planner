@@ -1,7 +1,7 @@
 import { lazy, Suspense, useCallback, useEffect } from 'react'
 import { useState } from 'react'
 import { getAttendences, getBirthdates, getWeather, getDisplayMode, getOS, newFeedback, updateAttendences, getEvalByEvent, host } from '../../modules/data/DBConnect'
-import { StyledChangelog, StyledDashboard, StyledFeedbackArea, StyledInfoText, StyledVersionDiagramm } from './Dashboard.styled'
+import { StyledChangelog, StyledDashboard, StyledFeedbackArea, StyledInfoText } from './Dashboard.styled'
 import { Clothing } from '../../modules/components/clothing/Clothing'
 import { TbAlertTriangle } from 'react-icons/tb'
 import { IoShareOutline } from 'react-icons/io5'
@@ -20,6 +20,7 @@ import {
 import { Bar } from "react-chartjs-2"
 import { version } from '../../App'
 import EventInfo from './EventInfo'
+import VersionDiagram from './VersionDiagram'
 
 const Button = lazy(() => import('../../modules/components/button/Button'))
 const Terminzusage = lazy(() => import('../dateplanner/attendenceInput/Terminzusage'))
@@ -559,132 +560,6 @@ const DashboardDiagram = ({ event, auth_level, theme }) => {
     }
 
     return(<Bar height={"30px"} options={options} data={data}/>)
-}
-
-const VersionDiagram = ({ theme }) => {
-
-    const [versionData, setVersionData] = useState(new Array(0))
-
-    const fetchVersionEval = useCallback(async () => {
-        let token = localStorage.getItem('api_token')
-
-        let res = await fetch(`${host}/api/eval.php?api_token=${token}&version`)
-        let versionEval = await res.json()
-
-        let sortable = []
-
-        for(let version in versionEval){
-            sortable.push([version, versionEval[version]])
-        }
-
-        sortable.sort((versA, versB) => {
-            if(versA[0] === "")
-                return -1
-            if(versB[0] === "")
-                return 1
-
-            let aSplit = versA[0].split(".")
-            let bSplit = versB[0].split(".")
-
-            let aMaj = parseInt(aSplit[0].substring(1))
-            let bMaj = parseInt(bSplit[0].substring(1))
-
-            if(aMaj !== bMaj)
-                return aMaj - bMaj
-
-            let aMin = parseInt(aSplit[1])
-            let bMin = parseInt(bSplit[1])
-
-            if(aMin !== bMin)
-                return aMin - bMin
-
-            let aPatch = parseInt(aSplit[2])
-            let bPatch = parseInt(bSplit[2])
-
-            return aPatch - bPatch
-        })
-
-        let datasets = []
-        for(let vers in sortable){
-
-            let aSplit = sortable[vers][0].split(".")
-            let bSplit = version.split(".")
-
-            let aMaj = parseInt(aSplit[0].substring(1))
-            let bMaj = parseInt(bSplit[0].substring(1))
-
-            let aMin = parseInt(aSplit[1])
-            let bMin = parseInt(bSplit[1])
-
-            let aPatch = parseInt(aSplit[2])
-            let bPatch = parseInt(bSplit[2])
-
-            let backgroundColor
-
-            if(aMaj === bMaj){
-                if(aMin === bMin && (aPatch === bPatch || (isNaN(aPatch) && isNaN(bPatch))))
-                    backgroundColor = theme.greenRGB
-                else if (aMin === bMin)
-                    backgroundColor = theme.yellowRGB
-                else
-                    backgroundColor = theme.redRGB
-            } else if (isNaN(aMaj)) {
-                backgroundColor = theme.blueRGB
-            } else {
-                backgroundColor = theme.redRGB
-            }
-
-            datasets.push({
-                label: sortable[vers][0],
-                data: [sortable[vers][1]],
-                backgroundColor: backgroundColor
-            })
-        }
-
-        setVersionData(datasets)
-    }, [theme])
-
-    useEffect(() => {
-        fetchVersionEval()
-    }, [fetchVersionEval])
-
-    ChartJS.register(
-        CategoryScale,
-        LinearScale,
-        BarElement,
-        Title,
-        Tooltip,
-        Legend
-    )
-
-    const options = {
-        plugins: {
-            legend: {
-                display: false
-            }
-        },
-        scales: {
-            x: {
-                display: false
-            },
-            y: {
-                display: false
-            }
-        }
-    }
-
-    const labels = ['']
-
-    const data = {
-        labels,
-        datasets: versionData
-    }
-
-    return(
-        <StyledVersionDiagramm>
-            <Bar options={options} data={data}/>
-        </StyledVersionDiagramm>
-    )
 }
 
 export default Dashboard
