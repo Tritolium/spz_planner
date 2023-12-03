@@ -104,7 +104,7 @@ const OverviewTable = ({attendences, theme}) => {
                 <tr>
                     <th>Termin:</th>
                     {attendences[0].Attendences.map((att) => {
-                        return(<th key={att.Fullname}>{att.Fullname.split(' ')[0].slice(0, 2)}{att.Fullname.split(' ')[1][0]}</th>)
+                        return(<Header key={att.Fullname} Fullname={att.Fullname} />)
                     })}
                 </tr>
             </thead>
@@ -123,6 +123,21 @@ const OverviewTable = ({attendences, theme}) => {
                 }
             </tbody>
             </StyledOverviewTable>
+    )
+}
+
+const Header = ({ Fullname }) => {
+
+    const [showTooltip, setShowTooltip] = useState(false)
+
+    const initials = Fullname.split(' ')[0].slice(0, 2) + Fullname.split(' ')[1][0]
+
+    const toggleTooltip = () => {
+        setShowTooltip(!showTooltip)
+    }
+
+    return(
+        <th className={showTooltip ? "Tooltip" : "Header"} onClick={toggleTooltip}>{showTooltip ? Fullname : initials}</th>
     )
 }
 
