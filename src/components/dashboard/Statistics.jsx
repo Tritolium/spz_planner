@@ -1,0 +1,28 @@
+import { useCallback, useEffect, useState } from "react"
+import VersionDiagram from "./VersionDiagram"
+import { host } from "../../modules/data/DBConnect"
+import UserStats from "./UserStats"
+
+const Statistics = ({ theme, auth_level }) => {
+
+    const [statistics, setStatistics] = useState({})
+
+    const fetchStatistics = useCallback(async () => {
+        fetch(`${host}/api/eval.php?api_token=${localStorage.getItem('api_token')}&statistics`)
+        .then(res => res.json())
+        .then(data => {
+            setStatistics(data)
+        })
+    }, [])
+
+    useEffect(() => {
+        fetchStatistics()
+    }, [fetchStatistics])
+
+    return(<>
+        {auth_level > 2 ? <VersionDiagram versions={statistics.Versions} theme={theme}/> : <></>}
+        <UserStats users={statistics.Users} theme={theme}/>
+    </>)
+}
+
+export default Statistics
