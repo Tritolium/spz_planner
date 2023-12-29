@@ -44,6 +44,8 @@ const App = () => {
 
     useEffect(() => {
 
+        console.log(process.env)
+
         const update = async () =>{
             setView(-2)
             let { _forename, _surname, _auth_level, _theme } = await update_login(version)

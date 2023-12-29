@@ -1,6 +1,6 @@
 import * as maptilerClient from '@maptiler/client'
 
-maptilerClient.config.apiKey = 'm4hEVQNm2k3vfyEB1Bsy'
+maptilerClient.config.apiKey = process.env.REACT_APP_MAPTILER_API_KEY
 
 export const host = (process.env.NODE_ENV !== 'production') ? 'http://localhost' : ''
 
