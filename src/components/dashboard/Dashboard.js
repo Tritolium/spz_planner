@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect } from 'react'
 import { useState } from 'react'
-import { getAttendences, getBirthdates, getWeather, getDisplayMode, getOS, newFeedback, updateAttendences, getEvalByEvent, host } from '../../modules/data/DBConnect'
+import { getAttendences, getBirthdates, getWeather, getDisplayMode, getOS, newFeedback, updateAttendences, getEvalByEvent } from '../../modules/data/DBConnect'
 import { StyledChangelog, StyledDashboard, StyledFeedbackArea, StyledInfoText } from './Dashboard.styled'
 import { Clothing } from '../../modules/components/clothing/Clothing'
 import { TbAlertTriangle } from 'react-icons/tb'
@@ -20,7 +20,7 @@ import {
 import { Bar } from "react-chartjs-2"
 import { version } from '../../App'
 import EventInfo from './EventInfo'
-import VersionDiagram from './VersionDiagram'
+import Statistics from './Statistics'
 
 const Button = lazy(() => import('../../modules/components/button/Button'))
 const Terminzusage = lazy(() => import('../dateplanner/attendenceInput/Terminzusage'))
@@ -133,7 +133,7 @@ const Dashboard = ({ fullname, auth_level, theme }) => {
         {showiosInstruction ? <StyledInfoText className='iosInstruction'>Erst <IoShareOutline />, dann <BsPlusSquare /></StyledInfoText> : <></>}
         <Changelog read={localStorage.getItem("changelogRead") === version}/>
         {eventInfo ? <EventInfo hideEventInfo={hideEventInfo} eventInfoData={eventInfoData} fullname={fullname}/> : <DashboardAttendence fullname={fullname} nextPractices={nextPractices} nextEvents={nextEvents} nextOthers={nextOthers} showEventInfo={showEventInfo} auth_level={auth_level} theme={theme}/>}
-        {auth_level > 2 ? <VersionDiagram theme={theme}/> : <></>}
+        <Statistics theme={theme} auth_level={auth_level} />
         <Feedback />
     </StyledDashboard>)
 }

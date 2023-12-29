@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from "react"
-import { host } from "../../modules/data/DBConnect"
 import { version } from "../../App"
 
 import {
@@ -14,15 +13,12 @@ import {
 import { StyledVersionDiagramm } from "./Dashboard.styled"
 import { Bar } from "react-chartjs-2"
 
-const VersionDiagram = ({ theme }) => {
+const VersionDiagram = ({ versions, theme }) => {
 
     const [versionData, setVersionData] = useState(new Array(0))
 
-    const fetchVersionEval = useCallback(async () => {
-        let token = localStorage.getItem('api_token')
-
-        let res = await fetch(`${host}/api/eval.php?api_token=${token}&version`)
-        let versionEval = await res.json()
+    const fetchVersionEval = useCallback(() => {
+        let versionEval = versions
 
         let sortable = []
 
@@ -95,7 +91,7 @@ const VersionDiagram = ({ theme }) => {
         }
 
         setVersionData(datasets)
-    }, [theme])
+    }, [theme, versions])
 
     useEffect(() => {
         fetchVersionEval()
