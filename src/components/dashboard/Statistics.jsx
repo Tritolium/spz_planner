@@ -3,7 +3,7 @@ import VersionDiagram from "./VersionDiagram"
 import { host } from "../../modules/data/DBConnect"
 import UserStats from "./UserStats"
 
-const Statistics = ({ theme }) => {
+const Statistics = ({ theme, auth_level }) => {
 
     const [statistics, setStatistics] = useState({})
 
@@ -20,7 +20,7 @@ const Statistics = ({ theme }) => {
     }, [fetchStatistics])
 
     return(<>
-        <VersionDiagram versions={statistics.Versions} theme={theme}/>
+        {auth_level > 2 ? <VersionDiagram versions={statistics.Versions} theme={theme}/> : <></>}
         <UserStats users={statistics.Users} theme={theme}/>
     </>)
 }
