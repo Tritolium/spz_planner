@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react"
 import VersionDiagram from "./VersionDiagram"
 import { host } from "../../modules/data/DBConnect"
+import UserStats from "./UserStats"
 
 const Statistics = ({ theme }) => {
 
@@ -20,6 +21,7 @@ const Statistics = ({ theme }) => {
 
     return(<>
         <VersionDiagram versions={statistics.Versions} theme={theme}/>
+        <UserStats users={statistics.Users} theme={theme}/>
     </>)
 }
 
