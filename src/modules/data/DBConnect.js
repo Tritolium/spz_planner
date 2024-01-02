@@ -102,7 +102,7 @@ const update_login = async (version) => {
     }
     
     let token = localStorage.getItem('api_token')
-    if(token !== null){
+    if(!Object.is(token, null)){
         let response = await fetch(`${host}/api/login.php?mode=update`, {
             method: "POST",
             body: JSON.stringify({
