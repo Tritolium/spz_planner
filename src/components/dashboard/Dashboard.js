@@ -338,6 +338,13 @@ const NextOther = ({ nextOther, auth_level, showEventInfo, theme }) => {
         updateEventEval()
     }
 
+    const updatePlusOne = async () => {
+        let changes = {}
+        changes['' + nextOther?.Event_ID] = [attendence, !plusone]
+        await updateAttendences(changes, false)
+        setPlusOne(!plusone)
+    }
+
     const updateEventEval = useCallback(async () => {
         let _eval = await getEvalByEvent(nextOther?.Event_ID, nextOther?.Usergroup_ID)
         setEvaluation(_eval)
@@ -389,7 +396,7 @@ const NextOther = ({ nextOther, auth_level, showEventInfo, theme }) => {
         </tr>
         <tr>
             <ClothingData  onClick={clickTD} clothing={nextOther?.Clothing} />
-            {nextOther?.Ev_PlusOne ? <PlusOneData attendence={attendence} theme={theme} /> : <></>}            
+            {nextOther?.Ev_PlusOne ? <PlusOneData attendence={attendence} theme={theme} callback={updatePlusOne} plusOne={plusone} /> : <></>}            
         </tr>
         {weather ? <Suspense>
             <tr>
