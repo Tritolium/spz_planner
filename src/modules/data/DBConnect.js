@@ -368,7 +368,7 @@ const newMember = async(forename, surname, auth_level, nicknames, instrument, bi
     }
 }
 
-const setAttendence = async (event_id, member_id, attendence) => {
+const setAttendence = async (event_id, member_id, attendence, plusone) => {
 
     let token = localStorage.getItem('api_token')
 
@@ -377,7 +377,7 @@ const setAttendence = async (event_id, member_id, attendence) => {
         body: JSON.stringify({
             Event_ID: event_id,
             Member_ID: member_id,
-            Attendence: [attendence]
+            Attendence: [attendence, plusone]
         })
     })
     switch(response.status){
