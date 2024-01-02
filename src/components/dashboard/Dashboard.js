@@ -2,7 +2,7 @@ import { lazy, Suspense, useCallback, useEffect } from 'react'
 import { useState } from 'react'
 import { getAttendences, getBirthdates, getWeather, getDisplayMode, getOS, newFeedback, updateAttendences, getEvalByEvent } from '../../modules/data/DBConnect'
 import { StyledChangelog, StyledDashboard, StyledFeedbackArea, StyledInfoText } from './Dashboard.styled'
-import { Clothing } from '../../modules/components/clothing/Clothing'
+import { Clothing } from '../../modules/components/icons/Clothing'
 import { TbAlertTriangle } from 'react-icons/tb'
 import { IoShareOutline } from 'react-icons/io5'
 import { BsPlusSquare } from 'react-icons/bs'
@@ -21,6 +21,7 @@ import { Bar } from "react-chartjs-2"
 import { version } from '../../App'
 import EventInfo from './EventInfo'
 import Statistics from './Statistics'
+import PlusOne from '../../modules/components/icons/PlusOne'
 
 const Button = lazy(() => import('../../modules/components/button/Button'))
 const Terminzusage = lazy(() => import('../dateplanner/attendenceInput/Terminzusage'))
@@ -257,6 +258,17 @@ const ClothingData = ({ clothing, onClick }) => {
     )
 }
 
+const PlusOneData = ({ attendence, theme }) => {
+    const [plusOne, setPlusOne] = useState(false)
+
+    const onClick = () => {
+        if(attendence === 1)
+            setPlusOne(!plusOne)
+    }
+
+    return(<td><PlusOne plusOne={plusOne} active={attendence === 1} onClick={onClick} theme={theme} /></td>)
+}
+
 const NextPractice = ({ nextPractice, auth_level, showEventInfo, theme }) => {
 
     const [evaluation, setEvaluation] = useState()
@@ -314,13 +326,14 @@ const NextOther = ({ nextOther, auth_level, showEventInfo, theme }) => {
 
     const [weather, setWeather] = useState()
     const [evaluation, setEvaluation] = useState()
+    const [attendence, setAttendence] = useState(nextOther?.Attendence)
 
-    let attendence = nextOther?.Attendence
     let gigDate = new Date(nextOther?.Date)
 
     const onClick = async (event_id, att) => {
         let changes = {}
         changes['' + event_id] = att
+        setAttendence(att)
         await updateAttendences(changes, false)
         updateEventEval()
     }
@@ -376,6 +389,7 @@ const NextOther = ({ nextOther, auth_level, showEventInfo, theme }) => {
         </tr>
         <tr>
             <ClothingData  onClick={clickTD} clothing={nextOther?.Clothing} />
+            <PlusOneData attendence={attendence} theme={theme} />
         </tr>
         {weather ? <Suspense>
             <tr>
@@ -394,13 +408,13 @@ const NextEvent = ({ nextEvent, auth_level, showEventInfo, theme }) => {
 
     const [weather, setWeather] = useState()
     const [evaluation, setEvaluation] = useState()
-
-    let attendence = nextEvent?.Attendence
+    const [attendence, setAttendence] = useState(nextEvent?.Attendence)
     let eventDate = new Date(nextEvent?.Date)
 
     const onClick = async (event_id, att) => {
         let changes = {}
         changes['' + event_id] = att
+        setAttendence(att)
         await updateAttendences(changes, false)
         updateEventEval()
     }
@@ -456,6 +470,7 @@ const NextEvent = ({ nextEvent, auth_level, showEventInfo, theme }) => {
         </tr>
         <tr>
             <ClothingData  onClick={clickTD} clothing={nextEvent?.Clothing} />
+            <PlusOneData attendence={attendence} theme={theme} />
         </tr>
         {weather ? <Suspense>
             <tr>

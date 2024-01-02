@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react"
-import { Clothing } from "../../../modules/components/clothing/Clothing"
+import { Clothing } from "../../../modules/components/icons/Clothing"
 import Filter from "../../../modules/components/Filter"
 import { getEvents } from "../../../modules/data/DBConnect"
 import { StyledEventTable, StyledEventTableMobile, StyledOverview } from "./Overview.styled"

@@ -8,7 +8,7 @@ import Selector from "../../../modules/components/form/Selector"
 import SelectorItem from "../../../modules/components/form/SelectorItem"
 import { getDateTemplates, getEvents, getUsergroups, newEvent, updateEvent } from "../../../modules/data/DBConnect"
 import { StyledEventForm } from "./EventForm.styled"
-import { ClothingInput, clothingStyles } from "../../../modules/components/clothing/Clothing"
+import { ClothingInput, clothingStyles } from "../../../modules/components/icons/Clothing"
 
 const EventForm = () => {
 
