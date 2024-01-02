@@ -236,6 +236,15 @@ const Changelog = ({read}) => {
                         <li>
                             <i>Allgemein:</i> Benachrichtigungen können an- & abgeschaltet werden, entweder über die Glocke, oder über die Einstellungen. Dort ist auch die Unterscheidung zwischen Üben und Auftritt möglich.
                         </li>
+                        <li>
+                            <i>Allgemein:</i> Weitere Wettericons hinzugefügt.
+                        </li>
+                        <li>
+                            <i>Allgemein:</i> Warnung, wenn keine Verbindung zum Server möglich ist.
+                        </li>
+                        <li>
+                            <i>Fix:</i> Die Termininfo zeigt jetzt den richtigen Monat an.
+                        </li>
                     </ul>
                 </>
                 : <></>
