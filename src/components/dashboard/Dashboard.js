@@ -198,7 +198,7 @@ const BirthdayBlog = ({ fullname }) => {
     useEffect(() => {
         getBDates()
     }, [])
-    if(birthdates.length > 0){
+    if(birthdates?.length > 0){
         return(<div>
             <h3>Geburtstage:</h3>
             {birthdates?.map(bday => {
