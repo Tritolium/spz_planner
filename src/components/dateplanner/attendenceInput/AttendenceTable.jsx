@@ -1,12 +1,14 @@
 import DateField from './DateField'
 import Terminzusage from './Terminzusage'
+import PlusOne from '../../../modules/components/icons/PlusOne'
 
 import four from '../4.png'
 import five from '../5.png'
 import styled from 'styled-components'
 import { useEffect, useState } from 'react'
+import { updateAttendences } from '../../../modules/data/DBConnect'
 
-const AttendenceTable = ({ attendences, fullname, states, selectedDateFilter, selectedEventFilter, onClick, theme}) => {
+const AttendenceTable = ({ attendences, fullname, states, selectedDateFilter, selectedEventFilter, theme}) => {
 
     const [oneUsergroup, setOneUsergroup] = useState(true)
 
@@ -60,17 +62,44 @@ const AttendenceTable = ({ attendences, fullname, states, selectedDateFilter, se
                     }
                 })
                 .map((att) => {
-
                     return(
-                        <tr key={att.Location + att.Event_ID}>
-                            {!oneUsergroup ? <TableData>{usergroupLogo(att.Usergroup_ID)}</TableData> : <></>}
-                            <TableData><DateField dateprops={att} /></TableData>
-                            <TableData><Terminzusage event={att} states={states} attendence={att.Attendence} onClick={onClick} event_id={att.Event_ID} cancelled={att.Type.includes('Abgesagt')} theme={theme}/></TableData>
-                        </tr>
+                        <Event key={att.Location + att.Event_ID} att={att} states={states} oneUsergroup={oneUsergroup} theme={theme} />
                     )
                 })}
             </tbody>
         </Table>
+    )
+}
+
+const Event = ({ att, states, oneUsergroup, theme }) => {
+    const [plusone, setPlusone] = useState(att.PlusOne)
+    const [attendence, setAttendence] = useState(att.Attendence)
+
+    const onClick = async () => {
+        let changes = {}
+        let newAttendence = (attendence + 1) % states
+        changes[att.Event_ID] = [newAttendence, plusone]
+        await updateAttendences(changes, false)
+        setAttendence(newAttendence)
+    }
+
+    const togglePlusOne = async () => {
+        if(attendence === 1){
+            let changes = {}
+            changes[att.Event_ID] = [attendence, !plusone]
+            await updateAttendences(changes, false)
+            setPlusone(!plusone)
+        }
+
+    }
+
+    return(
+        <tr key={att.Location + att.Event_ID}>
+            {!oneUsergroup ? <TableData>{usergroupLogo(att.Usergroup_ID)}</TableData> : <></>}
+            <TableData><DateField dateprops={att} /></TableData>
+            <TableData><Terminzusage event={att} states={states} attendence={attendence} onClick={onClick} event_id={att.Event_ID} cancelled={att.Type.includes('Abgesagt')} theme={theme}/></TableData>
+            {att.Ev_PlusOne ? <TableData><PlusOne active={attendence === 1} plusOne={plusone} onClick={togglePlusOne} theme={theme} /></TableData> : <TableData></TableData>}
+        </tr>
     )
 }
 
