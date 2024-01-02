@@ -200,7 +200,7 @@ const getEvents = async (filter) => {
     return events
 }
 
-const updateEvent = async(event_id, category, type, location, address, date, begin, departure, leave_dep, accepted, usergroup, clothing) => {
+const updateEvent = async(event_id, category, type, location, address, date, begin, departure, leave_dep, accepted, plusone, usergroup, clothing) => {
     let token = localStorage.getItem('api_token')
     let response = await fetch(`${host}/api/event.php?api_token=${token}`, {
         method: "PUT",
@@ -215,6 +215,7 @@ const updateEvent = async(event_id, category, type, location, address, date, beg
             Departure: departure === '' ? '12:34:56' : departure,
             Leave_dep: leave_dep === '' ? '12:34:56' : leave_dep,
             Accepted: accepted,
+            PlusOne: plusone,
             Usergroup_ID: usergroup,
             Clothing: clothing
         })
@@ -229,7 +230,7 @@ const updateEvent = async(event_id, category, type, location, address, date, beg
     }
 }
 
-const newEvent = async (category, type, location, address, date, begin, departure, leave_dep, accepted, usergroup, clothing) => {
+const newEvent = async (category, type, location, address, date, begin, departure, leave_dep, accepted, plusone, usergroup, clothing) => {
     
     let token = localStorage.getItem('api_token')
     
@@ -245,6 +246,7 @@ const newEvent = async (category, type, location, address, date, begin, departur
             Departure: departure === '' ? '12:34:56' : departure,
             Leave_dep: leave_dep === '' ? '12:34:56' : leave_dep,
             Accepted: accepted,
+            PlusOne: plusone,
             Usergroup_ID: usergroup,
             Clothing: clothing
         })
@@ -375,7 +377,7 @@ const setAttendence = async (event_id, member_id, attendence) => {
         body: JSON.stringify({
             Event_ID: event_id,
             Member_ID: member_id,
-            Attendence: attendence
+            Attendence: [attendence]
         })
     })
     switch(response.status){

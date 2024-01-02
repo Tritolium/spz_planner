@@ -258,12 +258,11 @@ const ClothingData = ({ clothing, onClick }) => {
     )
 }
 
-const PlusOneData = ({ attendence, theme }) => {
-    const [plusOne, setPlusOne] = useState(false)
+const PlusOneData = ({ attendence, plusOne, callback, theme }) => {
 
     const onClick = () => {
         if(attendence === 1)
-            setPlusOne(!plusOne)
+            callback()
     }
 
     return(<td><PlusOne plusOne={plusOne} active={attendence === 1} onClick={onClick} theme={theme} /></td>)
@@ -278,7 +277,7 @@ const NextPractice = ({ nextPractice, auth_level, showEventInfo, theme }) => {
 
     const onClick = async (event_id, att) => {
         let changes = {}
-        changes['' + event_id] = att
+        changes['' + event_id] = [att, false]
         await updateAttendences(changes, false)
         updateEventEval()
     }
@@ -327,12 +326,13 @@ const NextOther = ({ nextOther, auth_level, showEventInfo, theme }) => {
     const [weather, setWeather] = useState()
     const [evaluation, setEvaluation] = useState()
     const [attendence, setAttendence] = useState(nextOther?.Attendence)
+    const [plusone, setPlusOne] = useState(nextOther?.PlusOne)
 
     let gigDate = new Date(nextOther?.Date)
 
     const onClick = async (event_id, att) => {
         let changes = {}
-        changes['' + event_id] = att
+        changes['' + event_id] = [att, plusone]
         setAttendence(att)
         await updateAttendences(changes, false)
         updateEventEval()
@@ -389,7 +389,7 @@ const NextOther = ({ nextOther, auth_level, showEventInfo, theme }) => {
         </tr>
         <tr>
             <ClothingData  onClick={clickTD} clothing={nextOther?.Clothing} />
-            <PlusOneData attendence={attendence} theme={theme} />
+            {nextOther?.Ev_PlusOne ? <PlusOneData attendence={attendence} theme={theme} /> : <></>}            
         </tr>
         {weather ? <Suspense>
             <tr>
@@ -409,14 +409,22 @@ const NextEvent = ({ nextEvent, auth_level, showEventInfo, theme }) => {
     const [weather, setWeather] = useState()
     const [evaluation, setEvaluation] = useState()
     const [attendence, setAttendence] = useState(nextEvent?.Attendence)
+    const [plusone, setPlusOne] = useState(nextEvent?.PlusOne)
     let eventDate = new Date(nextEvent?.Date)
 
     const onClick = async (event_id, att) => {
         let changes = {}
-        changes['' + event_id] = att
-        setAttendence(att)
+        changes['' + event_id] = [att, plusone]
         await updateAttendences(changes, false)
+        setAttendence(att)
         updateEventEval()
+    }
+
+    const updatePlusOne = async () => {
+        let changes = {}
+        changes['' + nextEvent?.Event_ID] = [attendence, !plusone]
+        await updateAttendences(changes, false)
+        setPlusOne(!plusone)
     }
 
     const updateEventEval = useCallback(async () => {
@@ -470,7 +478,7 @@ const NextEvent = ({ nextEvent, auth_level, showEventInfo, theme }) => {
         </tr>
         <tr>
             <ClothingData  onClick={clickTD} clothing={nextEvent?.Clothing} />
-            <PlusOneData attendence={attendence} theme={theme} />
+            {nextEvent?.Ev_PlusOne ? <PlusOneData attendence={attendence} theme={theme} callback={updatePlusOne} plusOne={plusone}/> : <></>}
         </tr>
         {weather ? <Suspense>
             <tr>

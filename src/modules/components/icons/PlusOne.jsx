@@ -7,7 +7,7 @@ const PlusOne = ({ active, plusOne, onClick, theme }) => {
     return(
         <StyledPlusOne >
             <IconContext.Provider value={{ color: "white", className: "IconWrapper UserIcon"}}>
-                {plusOne ? <FaUserGroup onClick={onClick} size={"50%"}/> : <FaUser size={"50%"} onClick={onClick} />}
+                {plusOne && active ? <FaUserGroup onClick={onClick} size={"50%"}/> : <FaUser size={"50%"} onClick={onClick} />}
                 <Circle callback={onClick} active={active} theme={theme}/>
             </IconContext.Provider>
         </StyledPlusOne>
