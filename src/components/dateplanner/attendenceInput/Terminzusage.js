@@ -8,7 +8,7 @@ const Terminzusage = (props) => {
 
     const [attendence, setAttendences] = useState(props.attendence)
 
-    const onClick = useCallback(() => {
+    const onClick = useCallback(async () => {
         let now = new Date()
         let event_date = props.event !== undefined ? new Date(props.event?.Date) : undefined
         if(event_date){
@@ -19,8 +19,8 @@ const Terminzusage = (props) => {
             }
         }
         let new_att = (attendence + 1) % props.states
+        await props.onClick(props.event_id, new_att)
         setAttendences(new_att)
-        props.onClick(props.event_id, new_att)
     }, [props, attendence])
 
     return(
