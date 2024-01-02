@@ -206,7 +206,7 @@ const BirthdayBlog = ({ fullname }) => {
                 let today = new Date()
                 let same = today.getDate() === birthday.getDate()
                 if(fullname === bday.Fullname && same)
-                    return(<div>Herzlichen Glückwunsch, {fullname.split(" ")[0]}!</div>)
+                    return(<div key={bday.Fullname}>Herzlichen Glückwunsch, {fullname.split(" ")[0]}!</div>)
                 else
                     return(<div key={bday.Fullname}>{bday.Fullname}: {birthday.getDate()}.{birthday.getMonth() + 1}, {today.getFullYear() - birthday.getFullYear()} Jahre</div>)
             })}
