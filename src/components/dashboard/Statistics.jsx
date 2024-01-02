@@ -19,6 +19,13 @@ const Statistics = ({ theme, auth_level }) => {
         fetchStatistics()
     }, [fetchStatistics])
 
+    useEffect(() => {
+        const interval = setInterval(() => {
+            fetchStatistics()
+        }, 60000)
+        return () => clearInterval(interval)
+    }, [fetchStatistics])
+
     return(<>
         {auth_level > 2 ? <VersionDiagram versions={statistics.Versions} theme={theme}/> : <></>}
         <UserStats users={statistics.Users} theme={theme}/>
