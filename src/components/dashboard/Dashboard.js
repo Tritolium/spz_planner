@@ -245,14 +245,14 @@ const Changelog = ({read}) => {
     )
 }
 
-const ClothingRow = ({ clothing, onClick }) => {
+const ClothingData = ({ clothing, onClick }) => {
 
     return(
         <Suspense>
-            {parseInt(clothing) !== 0 ? <tr>
+            {parseInt(clothing) !== 0 ? <>
                 <td onClick={onClick}>Bekleidung:</td>
                 <td onClick={onClick}><Clothing clothing={parseInt(clothing)} /></td>
-            </tr> : <></>}
+            </> : <><td colSpan={2}></td></>}
         </Suspense>
     )
 }
@@ -374,7 +374,9 @@ const NextOther = ({ nextOther, auth_level, showEventInfo, theme }) => {
             <td onClick={clickTD}>Zurück:</td>
             <td onClick={clickTD}>{nextOther?.Leave_dep !== "12:34:56" && nextOther?.Leave_dep !== null ? `${nextOther?.Leave_dep.slice(0, 5)} Uhr` : "-"}</td>
         </tr>
-        <ClothingRow  onClick={clickTD} clothing={nextOther?.Clothing} />
+        <tr>
+            <ClothingData  onClick={clickTD} clothing={nextOther?.Clothing} />
+        </tr>
         {weather ? <Suspense>
             <tr>
                 <td>Wetter:</td>
@@ -452,7 +454,9 @@ const NextEvent = ({ nextEvent, auth_level, showEventInfo, theme }) => {
             <td onClick={clickTD}>Zurück:</td>
             <td onClick={clickTD}>{nextEvent?.Leave_dep !== "12:34:56" && nextEvent?.Leave_dep !== null ? `${nextEvent?.Leave_dep.slice(0, 5)} Uhr` : "-"}</td>
         </tr>
-        <ClothingRow  onClick={clickTD} clothing={nextEvent?.Clothing} />
+        <tr>
+            <ClothingData  onClick={clickTD} clothing={nextEvent?.Clothing} />
+        </tr>
         {weather ? <Suspense>
             <tr>
                 <td>Wetter:</td>
