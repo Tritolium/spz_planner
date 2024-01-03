@@ -46,7 +46,7 @@ const Dateplanner = (props) => {
         <>
             {props.auth_level > 1 ? <HeaderMenu>
                 <Button id='date_button_0' font_size={'1rem'} onClick={navigate}>Eingabe</Button>
-                {props.auth_level > 1 ? <Button id='date_button_1' font_size={'1rem'} onClick={navigate}>Übersicht</Button> : <></>}
+                <Button id='date_button_1' font_size={'1rem'} onClick={navigate}>Übersicht</Button>
                 {props.auth_level > 2 ? <Button id='date_button_2' font_size={'1rem'} onClick={navigate}>manuelle Eingabe</Button> : <></>}
             </HeaderMenu> : <></>}
             <View view={view} fullname={props.fullname} theme={props.theme}/>
