@@ -5,7 +5,7 @@ maptilerClient.config.apiKey = process.env.REACT_APP_MAPTILER_API_KEY
 export const host = (process.env.NODE_ENV !== 'production') ? 'http://localhost' : ''
 
 export const getOS = () => {
-    var userAgent = window.navigator.userAgent,
+    var userAgent = window.navigator?.userAgent,
         platform = window.navigator?.userAgentData?.platform,
         macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
         windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
