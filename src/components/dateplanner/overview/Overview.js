@@ -145,20 +145,22 @@ const EvalTable = ({evaluation, theme}) => {
     return(
         <StyledEvalTable>
             <thead>
-                <th>Termin</th>
-                <th>Zu.</th>
-                <th>Ab.</th>
-                <th>Aus.</th>
-                <th>Vllt.</th>
-                <th>M</th>
-                <th>S</th>
-                <th>D</th>
-                <th>A</th>
-                <th>T</th>
-                <th>L</th>
-                <th>Tr</th>
-                <th>B</th>
-                <th>P</th>
+                <tr>
+                    <th>Termin</th>
+                    <th>Zu.</th>
+                    <th>Ab.</th>
+                    <th>Aus.</th>
+                    <th>Vllt.</th>
+                    <th>M</th>
+                    <th>S</th>
+                    <th>D</th>
+                    <th>A</th>
+                    <th>T</th>
+                    <th>L</th>
+                    <th>Tr</th>
+                    <th>B</th>
+                    <th>P</th>
+                </tr>
             </thead>
             <tbody>
                 {evaluation.map(event => {
