@@ -8,7 +8,7 @@ import Selector from "../../../modules/components/form/Selector"
 import SelectorItem from "../../../modules/components/form/SelectorItem"
 import { getDateTemplates, getEvents, getUsergroups, newEvent, updateEvent } from "../../../modules/data/DBConnect"
 import { StyledEventForm } from "./EventForm.styled"
-import { ClothingInput, clothingStyles } from "../../../modules/components/clothing/Clothing"
+import { ClothingInput, clothingStyles } from "../../../modules/components/icons/Clothing"
 
 const EventForm = () => {
 
@@ -181,12 +181,13 @@ const DetailForm = ({ event, usergroups, datetemplates, reload }) => {
         let departure   = document.getElementById('departure').value
         let leave_dep   = document.getElementById('leave_dep').value
         let accepted    = document.getElementById('accepted').checked
+        let plusone     = document.getElementById('plusone').checked
         let usergroup   = document.getElementById('usergroup').options[document.getElementById('usergroup').selectedIndex].value
 
         if(event !== undefined)
-            await updateEvent(event.Event_ID, category, type, location, address, date, begin, departure, leave_dep, accepted, usergroup, clothing)
+            await updateEvent(event.Event_ID, category, type, location, address, date, begin, departure, leave_dep, accepted, plusone, usergroup, clothing)
         else
-            await newEvent(category, type, location, address, date, begin, departure, leave_dep, accepted, usergroup, clothing)
+            await newEvent(category, type, location, address, date, begin, departure, leave_dep, accepted, plusone, usergroup, clothing)
 
         reload()
     }
@@ -257,6 +258,10 @@ const DetailForm = ({ event, usergroups, datetemplates, reload }) => {
             <FormBox>
                 <label htmlFor="accepted">Angenommen:</label>
                 <input type="checkbox" name="accepted" id="accepted" defaultChecked={event?.Accepted}/>
+            </FormBox>
+            <FormBox>
+                <label htmlFor="plusone">mit Begleitung:</label>
+                <input type="checkbox" name="plusone" id="plusone" defaultChecked={event?.PlusOne}/>
             </FormBox>
             <FormBox>
                 <label htmlFor="usergroup">Sichtbarkeit:</label>

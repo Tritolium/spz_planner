@@ -5,7 +5,7 @@ import { getAllAttendences, getEvalByUsergroup, getOwnUsergroups } from '../../.
 import DateField from "../attendenceInput/DateField"
 import { StyledEvalTable, StyledOverview, StyledOverviewTable } from "./Overview.styled"
 import EvalDiagram from "./EvalDiagram"
-import { Alert, Blank, Check, Deny } from "../attendenceInput/Terminzusage"
+import { Alert, Blank, Check, Deny, PlusOne } from "../attendenceInput/Terminzusage"
 import { IoReload } from "react-icons/io5"
 
 const Overview = ({ theme }) => {
@@ -83,7 +83,10 @@ const Overview = ({ theme }) => {
     }
 }
 
-export const Zusage = ({attendence, theme}) => {
+export const Zusage = ({attendence, plusone, theme}) => {
+    if(attendence === 1 && plusone === 1)
+        return(<PlusOne theme={theme}/>)
+
     switch(attendence){
     default:
     case -1:
@@ -115,7 +118,7 @@ const OverviewTable = ({attendences, theme}) => {
                             <tr key={event.Event_ID}>
                                 <td><DateField dateprops={event}/></td>
                                 {event.Attendences.map(attendence => {
-                                    return(<td key={attendence.Fullname + event.Event_ID}><Zusage attendence={attendence.Attendence} theme={theme}/></td>)
+                                    return(<td key={attendence.Fullname + event.Event_ID}><Zusage attendence={attendence.Attendence} plusone={attendence.PlusOne} theme={theme}/></td>)
                                 })}
                             </tr>
                         )
@@ -147,14 +150,14 @@ const EvalTable = ({evaluation, theme}) => {
             <thead>
                 <tr>
                     <th>Termin</th>
-                    <th>Zu.</th>
+                    <th colSpan={2}>Zu.</th>
                     <th>Ab.</th>
                     <th>Aus.</th>
                     <th>Vllt.</th>
                     <th>M</th>
                     <th>S</th>
-                    <th>D</th>
                     <th>A</th>
+                    <th>D</th>
                     <th>T</th>
                     <th>L</th>
                     <th>Tr</th>
@@ -175,7 +178,8 @@ const EvalRow = ({ event, theme }) => {
     return(
         <tr>
             <td><DateField dateprops={event} /></td>
-            <td>{event.Consent}</td>
+            <td colSpan={event.PlusOne ? 1 : 2}>{event.Consent}</td>
+            {event.PlusOne ? <td>+{event.PlusOne}</td> : <></>}
             <td>{event.Refusal}</td>
             <td>{event.Missing}</td>
             <td>{event.Maybe}</td>

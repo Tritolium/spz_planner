@@ -42,6 +42,11 @@ export const StyledDashboard = styled.div`
         width: 50pt;
     }
 
+    .Plusone_icon {
+        height: 25pt;
+        width: 25pt;
+    }
+
     th {
         padding-top: 2.5vh;
     }

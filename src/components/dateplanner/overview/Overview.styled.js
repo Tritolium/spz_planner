@@ -42,7 +42,6 @@ export const StyledOverviewTable = styled.table`
         }
         
         .IconWrapper {
-            min-width: 1.5em;
             max-width: 32px;
             min-height: 1.5em;
             max-height: 32px;

@@ -3,10 +3,13 @@ import SubmitButton from "../../../modules/components/SubmitButton"
 import { getEvents, getMembers, setAttendence as setSingleAttendence } from "../../../modules/data/DBConnect"
 import Terminzusage from "../attendenceInput/Terminzusage"
 import { StyledAbsenceInput } from "./AbsenceInput.styled"
+import PlusOne from "../../../modules/components/icons/PlusOne"
 
 const AbsenceInput = ({ theme }) => {
 
     const [attendence, setAttendence] = useState(-1)
+    const [plusone, setPlusone] = useState(false)
+
     const [usergroups, setUsergroups] = useState(new Array(0))
     const [events, setEvents] = useState(new Array(0))
     const [members, setMembers] = useState(new Array(0))
@@ -31,6 +34,9 @@ const AbsenceInput = ({ theme }) => {
         setAttendence(att)
     }, [])
 
+    const togglePlusone = () => {
+        setPlusone(!plusone)
+    }
     const onUsergroupFilterChange = useCallback(e => {
         if (e.target.value === 'all')
             setSelectedUsergroupFilter(-1)
@@ -44,7 +50,7 @@ const AbsenceInput = ({ theme }) => {
         let memberS = document.getElementById("member_select")
         let event = eventS.options[eventS.selectedIndex].value
         let member = memberS.options[memberS.selectedIndex].value
-        setSingleAttendence(event, member, attendence)
+        setSingleAttendence(event, member, attendence, plusone)
     }
 
     return(
@@ -80,6 +86,7 @@ const AbsenceInput = ({ theme }) => {
                 })}
             </select>
             <Terminzusage states={3} attendence={attendence} onClick={onClick} theme={theme}/>
+            <PlusOne plusOne={plusone} onClick={togglePlusone} active={attendence === 1} theme={theme}/>
             <SubmitButton type="submit" onClick={submit}>Abschicken</SubmitButton>
         </StyledAbsenceInput>
     )

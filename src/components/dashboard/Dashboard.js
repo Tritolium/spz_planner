@@ -2,7 +2,7 @@ import { lazy, Suspense, useCallback, useEffect } from 'react'
 import { useState } from 'react'
 import { getAttendences, getBirthdates, getWeather, getDisplayMode, getOS, newFeedback, updateAttendences, getEvalByEvent } from '../../modules/data/DBConnect'
 import { StyledChangelog, StyledDashboard, StyledFeedbackArea, StyledInfoText } from './Dashboard.styled'
-import { Clothing } from '../../modules/components/clothing/Clothing'
+import { Clothing } from '../../modules/components/icons/Clothing'
 import { TbAlertTriangle } from 'react-icons/tb'
 import { IoShareOutline } from 'react-icons/io5'
 import { BsPlusSquare } from 'react-icons/bs'
@@ -21,6 +21,8 @@ import { Bar } from "react-chartjs-2"
 import { version } from '../../App'
 import EventInfo from './EventInfo'
 import Statistics from './Statistics'
+import PlusOne from '../../modules/components/icons/PlusOne'
+import { FaUserGroup } from 'react-icons/fa6'
 
 const Button = lazy(() => import('../../modules/components/button/Button'))
 const Terminzusage = lazy(() => import('../dateplanner/attendenceInput/Terminzusage'))
@@ -247,16 +249,26 @@ const Changelog = ({read}) => {
     )
 }
 
-const ClothingRow = ({ clothing, onClick }) => {
+const ClothingData = ({ clothing, onClick }) => {
 
     return(
         <Suspense>
-            {parseInt(clothing) !== 0 ? <tr>
+            {parseInt(clothing) !== 0 ? <>
                 <td onClick={onClick}>Bekleidung:</td>
                 <td onClick={onClick}><Clothing clothing={parseInt(clothing)} /></td>
-            </tr> : <></>}
+            </> : <><td colSpan={2}></td></>}
         </Suspense>
     )
+}
+
+const PlusOneData = ({ attendence, plusOne, callback, theme }) => {
+
+    const onClick = () => {
+        if(attendence === 1)
+            callback()
+    }
+
+    return(<td><PlusOne plusOne={plusOne} active={attendence === 1} onClick={onClick} theme={theme} /></td>)
 }
 
 const NextPractice = ({ nextPractice, auth_level, showEventInfo, theme }) => {
@@ -268,7 +280,7 @@ const NextPractice = ({ nextPractice, auth_level, showEventInfo, theme }) => {
 
     const onClick = async (event_id, att) => {
         let changes = {}
-        changes['' + event_id] = att
+        changes['' + event_id] = [att, false]
         await updateAttendences(changes, false)
         updateEventEval()
     }
@@ -316,14 +328,24 @@ const NextOther = ({ nextOther, auth_level, showEventInfo, theme }) => {
 
     const [weather, setWeather] = useState()
     const [evaluation, setEvaluation] = useState()
+    const [attendence, setAttendence] = useState(nextOther?.Attendence)
+    const [plusone, setPlusOne] = useState(nextOther?.PlusOne)
 
-    let attendence = nextOther?.Attendence
     let gigDate = new Date(nextOther?.Date)
 
     const onClick = async (event_id, att) => {
         let changes = {}
-        changes['' + event_id] = att
+        changes['' + event_id] = [att, plusone]
+        setAttendence(att)
         await updateAttendences(changes, false)
+        updateEventEval()
+    }
+
+    const updatePlusOne = async () => {
+        let changes = {}
+        changes['' + nextOther?.Event_ID] = [attendence, !plusone]
+        await updateAttendences(changes, false)
+        setPlusOne(!plusone)
         updateEventEval()
     }
 
@@ -376,7 +398,10 @@ const NextOther = ({ nextOther, auth_level, showEventInfo, theme }) => {
             <td onClick={clickTD}>Zurück:</td>
             <td onClick={clickTD}>{nextOther?.Leave_dep !== "12:34:56" && nextOther?.Leave_dep !== null ? `${nextOther?.Leave_dep.slice(0, 5)} Uhr` : "-"}</td>
         </tr>
-        <ClothingRow  onClick={clickTD} clothing={nextOther?.Clothing} />
+        <tr>
+            <ClothingData  onClick={clickTD} clothing={nextOther?.Clothing} />
+            {nextOther?.Ev_PlusOne ? <PlusOneData attendence={attendence} theme={theme} callback={updatePlusOne} plusOne={plusone} /> : <></>}            
+        </tr>
         {weather ? <Suspense>
             <tr>
                 <td>Wetter:</td>
@@ -387,6 +412,10 @@ const NextOther = ({ nextOther, auth_level, showEventInfo, theme }) => {
         <tr>
             {auth_level > 0 ? <td colSpan={3}><DashboardDiagram event={evaluation} auth_level={auth_level} theme={theme}/></td> : <></>}
         </tr>
+        {nextOther?.Ev_PlusOne && evaluation?.PlusOne > 0 ? <tr>
+            <td><FaUserGroup className='Plusone_icon'/></td>
+            <td>+{evaluation?.PlusOne}</td>
+        </tr> : <></>}
     </>)
 }
 
@@ -394,14 +423,23 @@ const NextEvent = ({ nextEvent, auth_level, showEventInfo, theme }) => {
 
     const [weather, setWeather] = useState()
     const [evaluation, setEvaluation] = useState()
-
-    let attendence = nextEvent?.Attendence
+    const [attendence, setAttendence] = useState(nextEvent?.Attendence)
+    const [plusone, setPlusOne] = useState(nextEvent?.PlusOne)
     let eventDate = new Date(nextEvent?.Date)
 
     const onClick = async (event_id, att) => {
         let changes = {}
-        changes['' + event_id] = att
+        changes['' + event_id] = [att, plusone]
         await updateAttendences(changes, false)
+        setAttendence(att)
+        updateEventEval()
+    }
+
+    const updatePlusOne = async () => {
+        let changes = {}
+        changes['' + nextEvent?.Event_ID] = [attendence, !plusone]
+        await updateAttendences(changes, false)
+        setPlusOne(!plusone)
         updateEventEval()
     }
 
@@ -454,7 +492,10 @@ const NextEvent = ({ nextEvent, auth_level, showEventInfo, theme }) => {
             <td onClick={clickTD}>Zurück:</td>
             <td onClick={clickTD}>{nextEvent?.Leave_dep !== "12:34:56" && nextEvent?.Leave_dep !== null ? `${nextEvent?.Leave_dep.slice(0, 5)} Uhr` : "-"}</td>
         </tr>
-        <ClothingRow  onClick={clickTD} clothing={nextEvent?.Clothing} />
+        <tr>
+            <ClothingData  onClick={clickTD} clothing={nextEvent?.Clothing} />
+            {nextEvent?.Ev_PlusOne ? <PlusOneData attendence={attendence} theme={theme} callback={updatePlusOne} plusOne={plusone}/> : <></>}
+        </tr>
         {weather ? <Suspense>
             <tr>
                 <td>Wetter:</td>
@@ -465,6 +506,10 @@ const NextEvent = ({ nextEvent, auth_level, showEventInfo, theme }) => {
         <tr>
             {auth_level > 0 ? <td colSpan={3}><DashboardDiagram event={evaluation} auth_level={auth_level} theme={theme}/></td> : <></>}
         </tr>
+        {nextEvent?.Ev_PlusOne && evaluation?.PlusOne > 0 ? <tr>
+            <td><FaUserGroup className='Plusone_icon'/></td>
+            <td>+{evaluation?.PlusOne}</td>
+        </tr> : <></>}
         
     </>)
 }

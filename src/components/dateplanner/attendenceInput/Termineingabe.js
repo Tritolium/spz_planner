@@ -1,7 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import SubmitButton from '../../../modules/components/SubmitButton'
-import { getAttendences, updateAttendences } from '../../../modules/data/DBConnect'
+import { getAttendences } from '../../../modules/data/DBConnect'
 
 const AttendenceTable = lazy(() => import('./AttendenceTable'))
 
@@ -20,7 +19,6 @@ const Termineingabe = ({fullname, theme}) => {
     /**
      * local states
      */
-    const [changedAttendences, setChangedAttendences] = useState({})
     const [selectedDateFilter, setSelectedDateFilter] = useState('all')
     const [selectedEventFilter, setSelectedEventFilter] = useState('all')
 
@@ -31,12 +29,6 @@ const Termineingabe = ({fullname, theme}) => {
         }
     }
 
-    const onClick = useCallback((event_id, attendence) => {
-        let att = {...changedAttendences}
-        att['' + event_id] = attendence
-        setChangedAttendences(att)
-    }, [changedAttendences])
-
     const onDateFilterChange = useCallback(e => {
         setSelectedDateFilter(e.target.value)
     }, [setSelectedDateFilter])
@@ -45,20 +37,13 @@ const Termineingabe = ({fullname, theme}) => {
         setSelectedEventFilter(e.target.value)
     }, [setSelectedEventFilter])
 
-    const sendForm = (e) => {
-        e.preventDefault()
-        updateAttendences(changedAttendences)
-        fetchEvents()
-    }
-
     useEffect(() => {
         fetchEvents()
     }, [])
 
     return(
-        <Form onSubmit={sendForm} className="DateInput">
+        <Form className="DateInput">
             <div>
-                <SubmitButton onClick={sendForm}>Speichern</SubmitButton>
                 <select name='eventSelect' id='eventSelect' title='event select' onChange={onEventFilterChange}>
                     <option value='all'>Alle</option>
                     <option value='practice'>Üben/Probe</option>
@@ -73,7 +58,7 @@ const Termineingabe = ({fullname, theme}) => {
                 </select>
             </div>
             <Suspense fallback={<div>Tabelle lädt.</div>}>
-                <AttendenceTable attendences={attendences} fullname={fullname} states={ATTENDENCE_STATES} selectedDateFilter={selectedDateFilter} selectedEventFilter={selectedEventFilter} onClick={onClick} theme={theme}/>
+                <AttendenceTable attendences={attendences} fullname={fullname} states={ATTENDENCE_STATES} selectedDateFilter={selectedDateFilter} selectedEventFilter={selectedEventFilter} theme={theme}/>
             </Suspense>
         </Form>
     )
