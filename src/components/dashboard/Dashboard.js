@@ -22,6 +22,7 @@ import { version } from '../../App'
 import EventInfo from './EventInfo'
 import Statistics from './Statistics'
 import PlusOne from '../../modules/components/icons/PlusOne'
+import { FaUserGroup } from 'react-icons/fa6'
 
 const Button = lazy(() => import('../../modules/components/button/Button'))
 const Terminzusage = lazy(() => import('../dateplanner/attendenceInput/Terminzusage'))
@@ -343,6 +344,7 @@ const NextOther = ({ nextOther, auth_level, showEventInfo, theme }) => {
         changes['' + nextOther?.Event_ID] = [attendence, !plusone]
         await updateAttendences(changes, false)
         setPlusOne(!plusone)
+        updateEventEval()
     }
 
     const updateEventEval = useCallback(async () => {
@@ -408,6 +410,10 @@ const NextOther = ({ nextOther, auth_level, showEventInfo, theme }) => {
         <tr>
             {auth_level > 0 ? <td colSpan={3}><DashboardDiagram event={evaluation} auth_level={auth_level} theme={theme}/></td> : <></>}
         </tr>
+        {nextOther?.Ev_PlusOne && evaluation?.PlusOne > 0 ? <tr>
+            <td><FaUserGroup className='Plusone_icon'/></td>
+            <td>+{evaluation?.PlusOne}</td>
+        </tr> : <></>}
     </>)
 }
 
@@ -432,6 +438,7 @@ const NextEvent = ({ nextEvent, auth_level, showEventInfo, theme }) => {
         changes['' + nextEvent?.Event_ID] = [attendence, !plusone]
         await updateAttendences(changes, false)
         setPlusOne(!plusone)
+        updateEventEval()
     }
 
     const updateEventEval = useCallback(async () => {
@@ -497,6 +504,10 @@ const NextEvent = ({ nextEvent, auth_level, showEventInfo, theme }) => {
         <tr>
             {auth_level > 0 ? <td colSpan={3}><DashboardDiagram event={evaluation} auth_level={auth_level} theme={theme}/></td> : <></>}
         </tr>
+        {nextEvent?.Ev_PlusOne && evaluation?.PlusOne > 0 ? <tr>
+            <td><FaUserGroup className='Plusone_icon'/></td>
+            <td>+{evaluation?.PlusOne}</td>
+        </tr> : <></>}
         
     </>)
 }

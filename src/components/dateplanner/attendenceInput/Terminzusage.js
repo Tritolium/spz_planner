@@ -3,6 +3,7 @@ import { IoIosAlert, IoIosCloseCircle, IoIosRemoveCircle } from 'react-icons/io'
 import { IoCheckmarkCircle } from 'react-icons/io5'
 import { StyledTerminzusage } from './Terminzusage.styled'
 import { IconContext } from 'react-icons'
+import { FaUserGroup } from 'react-icons/fa6'
 
 const Terminzusage = (props) => {
 
@@ -113,8 +114,17 @@ export const DeniedCheck = ({ callback }) => {
     )
 }
 
-const Circle = ({ callback }) => {
-    return(<svg size="100%" className='IconWrapper'><circle cx="50%" cy="50%" r="35%" fill='white' onClick={callback}/></svg>)
+export const PlusOne = ({ callback, theme }) => {
+    return(
+        <IconContext.Provider value={{color: "white", className: "IconWrapper"}}>
+            <FaUserGroup size="50%" onClick={callback}/>
+            <Circle callback={callback} fill={theme.greenRGB} r='40.625%'/>
+        </IconContext.Provider>
+    )
+}
+
+const Circle = ({ callback, fill='white', r="35%" }) => {
+    return(<svg size="100%" className='IconWrapper'><circle cx="50%" cy="50%" r={r} fill={fill} onClick={callback}/></svg>)
 }
 
 export default Terminzusage
