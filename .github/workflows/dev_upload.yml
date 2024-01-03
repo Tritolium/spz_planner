@@ -55,7 +55,7 @@ jobs:
           target: "/home/pog/deploy/"
           rm: true
   deploy:
-    runs-on: raspberrypi
+    runs-on: [self-hosted, Linux, ARM64]
     needs: build
     container: 
       image: node:20
