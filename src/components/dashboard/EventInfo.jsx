@@ -82,7 +82,7 @@ const EventInfo = ({ hideEventInfo, eventInfoData, fullname }) => {
 
     return(<StyledEventInfo>
         <div id="chatheader">
-            {eventInfoData?.Type} {eventInfoData.Location}
+            {eventInfoData?.Type} {eventInfoData?.Location}
             <IconContext.Provider value={{className: "IconWrapper"}}>
                 <MdOutlineClose onClick={hideEventInfo} size="100%"/>
             </IconContext.Provider>

@@ -200,7 +200,7 @@ const BirthdayBlog = ({ fullname }) => {
     useEffect(() => {
         getBDates()
     }, [])
-    if(birthdates.length > 0){
+    if(birthdates?.length > 0){
         return(<div>
             <h3>Geburtstage:</h3>
             {birthdates?.map(bday => {
@@ -208,12 +208,14 @@ const BirthdayBlog = ({ fullname }) => {
                 let today = new Date()
                 let same = today.getDate() === birthday.getDate()
                 if(fullname === bday.Fullname && same)
-                    return(<div>Herzlichen Glückwunsch, {fullname.split(" ")[0]}!</div>)
+                    return(<div key={bday.Fullname}>Herzlichen Glückwunsch, {fullname.split(" ")[0]}!</div>)
                 else
                     return(<div key={bday.Fullname}>{bday.Fullname}: {birthday.getDate()}.{birthday.getMonth() + 1}, {today.getFullYear() - birthday.getFullYear()} Jahre</div>)
             })}
         </div>)
     }
+
+    return(<></>)
 }
 
 const Changelog = ({read}) => {

@@ -197,14 +197,16 @@ const DetailForm = ({ event, usergroups, datetemplates, reload }) => {
 
         let template = datetemplates?.find(template => template.DateTemplate_ID === template_id)
         
-        document.getElementById('category').value   = template.Category
-        document.getElementById('type').value       = template.Type
-        document.getElementById('location').value   = template.Location
-        document.getElementById('begin').value      = template.Begin
-        document.getElementById('departure').value  = template.Departure
-        document.getElementById('leave_dep').value  = template.Leave_dep
-        document.getElementById('accepted').checked = true
-        document.getElementById('usergroup').selectedIndex = usergroups?.findIndex(usergroup => usergroup?.Usergroup_ID === template?.Usergroup_ID)
+        if(template){
+            document.getElementById('category').value   = template.Category
+            document.getElementById('type').value       = template.Type
+            document.getElementById('location').value   = template.Location
+            document.getElementById('begin').value      = template.Begin
+            document.getElementById('departure').value  = template.Departure
+            document.getElementById('leave_dep').value  = template.Leave_dep
+            document.getElementById('accepted').checked = true
+            document.getElementById('usergroup').selectedIndex = usergroups?.findIndex(usergroup => usergroup?.Usergroup_ID === template?.Usergroup_ID)
+        }
     }
 
     const clothingCallback = useCallback(() => {
