@@ -36,7 +36,7 @@ const AbsenceInput = ({ theme }) => {
             setSelectedUsergroupFilter(-1)
         else
             setSelectedUsergroupFilter(parseInt(e.target.value))
-            console.log(e.target.value)
+
     }, [setSelectedUsergroupFilter])
 
     const submit = () => {
