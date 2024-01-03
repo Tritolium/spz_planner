@@ -54,9 +54,9 @@ const VersionDiagram = ({ versions, theme }) => {
         })
 
         let datasets = []
-        for(let vers in sortable){
+        for(let vers of sortable){
 
-            let aSplit = sortable[vers][0].split(".")
+            let aSplit = vers[0].split(".")
             let bSplit = version.split(".")
 
             let aMaj = parseInt(aSplit[0].substring(1))
@@ -84,8 +84,8 @@ const VersionDiagram = ({ versions, theme }) => {
             }
 
             datasets.push({
-                label: sortable[vers][0],
-                data: [sortable[vers][1]],
+                label: vers[0],
+                data: [vers[1]],
                 backgroundColor: backgroundColor
             })
         }
