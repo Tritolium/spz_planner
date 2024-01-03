@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react"
-import { version } from "../../App"
+import { version } from "../../../App"
 
 import {
     Chart as ChartJS,
@@ -10,7 +10,7 @@ import {
     Tooltip,
     Legend,
   } from 'chart.js'
-import { StyledVersionDiagramm } from "./Dashboard.styled"
+import { StyledVersionDiagramm } from "../Dashboard.styled"
 import { Bar } from "react-chartjs-2"
 
 const VersionDiagram = ({ versions, theme }) => {

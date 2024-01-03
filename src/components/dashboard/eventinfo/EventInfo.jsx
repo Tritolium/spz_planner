@@ -1,5 +1,5 @@
 import { MdOutlineClose } from "react-icons/md"
-import Button from "../../modules/components/button/Button"
+import Button from "../../../modules/components/button/Button"
 import { StyledBlogEntry, StyledEventInfo, StyledOwnBlogEntry } from "./EventInfo.styled"
 import { IconContext } from "react-icons"
 import { useCallback, useEffect } from "react"
