@@ -212,6 +212,8 @@ const BirthdayBlog = ({ fullname }) => {
             })}
         </div>)
     }
+
+    return(<></>)
 }
 
 const Changelog = ({read}) => {
