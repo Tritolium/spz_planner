@@ -57,10 +57,6 @@ jobs:
   deploy:
     runs-on: [self-hosted, Linux, ARM64]
     needs: build
-    container: 
-      image: node:20
-      volumes:
-        - /home/pog/deploy:/build/
     steps:
       - name: Upload Website files
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
@@ -68,5 +64,5 @@ jobs:
           server: spzroenkhausen.bplaced.net
           username: spzroenkhausen_admin
           password: ${{ secrets.FPT_PASSWORD }}
-          local-dir: ./build/
+          local-dir: /home/pog/deploy/build/
           server-dir: ./www/alpha/
