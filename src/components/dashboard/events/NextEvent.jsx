@@ -4,6 +4,9 @@ import Terminzusage from "../../dateplanner/attendenceInput/Terminzusage"
 import { FaUserGroup } from "react-icons/fa6"
 import { ClothingData, DashboardDiagram, PlusOneData } from "./Event"
 import WeatherIcon from "../WeatherIcon"
+import { StyledEvent } from "./Event.styled"
+import { Clothing } from "../../../modules/components/icons/Clothing"
+import PlusOne from "../../../modules/components/icons/PlusOne"
 
 const NextEvent = ({ nextEvent, auth_level, showEventInfo, theme }) => {
 
@@ -61,42 +64,26 @@ const NextEvent = ({ nextEvent, auth_level, showEventInfo, theme }) => {
       }, [updateEventEval]);
 
     return(<>
-        <tr className='event_header'>
-            <td onClick={clickTD}>{nextEvent?.Type}</td>
-            <td onClick={clickTD}>{nextEvent?.Location}</td>
-        </tr>
-        <tr>
-            <td onClick={clickTD}>{eventDate.getDate()}.{eventDate.getMonth() + 1}.{eventDate.getFullYear()}</td>
-            <td onClick={clickTD}>{nextEvent?.Begin !== "12:34:56" && nextEvent?.Begin !== null ? `${nextEvent?.Begin.slice(0, 5)} Uhr` : "-"}</td>
-            <td rowSpan={3}><Suspense><Terminzusage event={nextEvent} event_id={nextEvent?.Event_ID} states={3} attendence={attendence} onClick={onClick} cancelled={nextEvent?.Type.includes('Abgesagt')} theme={theme}/></Suspense></td>
-        </tr>
-        <tr>
-            <td onClick={clickTD}>Hin:</td>
-            <td onClick={clickTD}>{nextEvent?.Departure !== "12:34:56" && nextEvent?.Departure !== null ? `${nextEvent?.Departure.slice(0, 5)} Uhr` : "-"}</td>
-        </tr>
-        <tr>
-            <td onClick={clickTD}>Zurück:</td>
-            <td onClick={clickTD}>{nextEvent?.Leave_dep !== "12:34:56" && nextEvent?.Leave_dep !== null ? `${nextEvent?.Leave_dep.slice(0, 5)} Uhr` : "-"}</td>
-        </tr>
-        <tr>
-            <ClothingData  onClick={clickTD} clothing={nextEvent?.Clothing} />
-            {nextEvent?.Ev_PlusOne ? <PlusOneData attendence={attendence} theme={theme} callback={updatePlusOne} plusOne={plusone}/> : <></>}
-        </tr>
-        {weather ? <Suspense>
-            <tr>
-                <td>Wetter:</td>
-                <td>{`${weather.Temperature}°C`}</td>
-                <td><WeatherIcon code={weather.Weathercode} /></td>
-            </tr>
-        </Suspense> : <></>}
-        <tr>
-            {auth_level > 0 ? <td colSpan={3}><DashboardDiagram event={evaluation} auth_level={auth_level} theme={theme}/></td> : <></>}
-        </tr>
-        {nextEvent?.Ev_PlusOne && evaluation?.PlusOne > 0 ? <tr>
-            <td><FaUserGroup className='Plusone_icon'/></td>
-            <td>+{evaluation?.PlusOne}</td>
-        </tr> : <></>}
-        
+        <StyledEvent>
+            <div className="event_type" onClick={clickTD}>{nextEvent.Type}</div>
+            <div className="event_location" onClick={clickTD}>{nextEvent.Location}</div>
+            <Terminzusage className="event_attendence" event={nextEvent} event_id={nextEvent?.Event_ID} states={3} attendence={attendence} onClick={onClick} cancelled={nextEvent?.Type.includes('Abgesagt')} theme={theme}/>
+            <div className="event_date" onClick={clickTD}>{eventDate.getDate()}.{eventDate.getMonth() + 1}.{eventDate.getFullYear()}</div>
+            <div className="event_begin" onClick={clickTD}>{nextEvent?.Begin !== "12:34:56" && nextEvent?.Begin !== null ? `${nextEvent?.Begin.slice(0, 5)} Uhr` : "-"}</div>
+            {auth_level > 1 ? <div className="event_diagram"><DashboardDiagram className={"event_diagram"} event={evaluation} auth_level={auth_level} theme={theme}/></div> : <></>}
+            <div className="departure">Abfahrt:</div>
+            <div className="event_departure" onClick={clickTD}>{nextEvent?.Departure !== "12:34:56" && nextEvent?.Departure !== null ? `${nextEvent?.Departure.slice(0, 5)} Uhr` : "-"}</div>
+            <div className="leave_dep">Rückfahrt:</div>
+            <div className="event_leave_dep" onClick={clickTD}>{nextEvent?.Leave_dep !== "12:34:56" && nextEvent?.Leave_dep !== null ? `${nextEvent?.Leave_dep.slice(0, 5)} Uhr` : "-"}</div>
+            {parseInt(nextEvent?.Clothing) !== 0 ? <div className="clothing">Bekleidung:</div> : <></>}
+            {parseInt(nextEvent?.Clothing) !== 0 ? <div className="event_clothing" onClick={clickTD}><Clothing clothing={parseInt(nextEvent?.Clothing)} /></div> : <></>}
+            {nextEvent?.Ev_PlusOne ? <PlusOne className="plusone_input" plusOne={plusone} active={attendence === 1} onClick={updatePlusOne} theme={theme}/> : <></>}
+            {weather ? <div className="weather">Wetter:</div> : <></>}
+            {weather ? <div className="weather_temp" >{`${weather.Temperature}°C`}</div> : <></>}
+            {weather ? <div className="weather_icon"><WeatherIcon code={weather.Weathercode} /></div> : <></>}
+            {nextEvent?.Ev_PlusOne && evaluation?.PlusOne > 0 ? <div className="plusone_icon"><FaUserGroup className='Plusone_icon'/></div> : <></>}
+            {nextEvent?.Ev_PlusOne && evaluation?.PlusOne > 0 ? <div className="plusone">+{evaluation?.PlusOne}</div> : <></>}
+        </StyledEvent>        
     </>)
 }
 

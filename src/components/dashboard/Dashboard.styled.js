@@ -34,7 +34,9 @@ export const StyledDashboard = styled.div`
 
     .event_header {
         margin-top: 2vh;
-        border-top: 1px solid white;
+        margin-bottom: 1vh;
+        font-weight: bold;
+        text-align: center;
     }
 
     svg {

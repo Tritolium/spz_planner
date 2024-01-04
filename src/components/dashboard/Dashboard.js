@@ -12,7 +12,6 @@ import EventInfo from './eventinfo/EventInfo'
 import Statistics from './statistics/Statistics'
 import NextEvent from './events/NextEvent'
 import NextPractice from './events/NextPractice'
-import NextOther from './events/NextOther'
 
 const Button = lazy(() => import('../../modules/components/button/Button'))
 
@@ -132,22 +131,18 @@ const DashboardAttendence = ({ fullname, nextPractices, nextEvents, nextOthers, 
     return(
         <div>
             <BirthdayBlog fullname={fullname}/>
-            <table>
-                <tbody>
-                    <Suspense>
-                        {nextPractices.length > 0 ? <tr><th colSpan={3}>Nächste Probe{nextPractices.length > 1 ? "n" : ""}:</th></tr> : <></>}
-                        {nextPractices.length > 0 ? nextPractices.map(nextPractice => {return(<NextPractice nextPractice={nextPractice} key={`nextPractice_${nextPractice.Event_ID}`} auth_level={auth_level} showEventInfo={showEventInfo} theme={theme}/>)}) : <></>}
-                    </Suspense>
-                    <Suspense>
-                        {nextEvents.length > 0 ? <tr><th colSpan={3}>Nächste{nextEvents.length === 1 ? "r" : ""} Auftritt{nextEvents.length > 1 ? "e" : ""}:</th></tr> : <></>}
-                        {nextEvents.length > 0 ? nextEvents.map(nextEvent => {return(<NextEvent nextEvent={nextEvent} key={`nextEvent_${nextEvent.Event_ID}`} auth_level={auth_level} showEventInfo={showEventInfo} theme={theme}/>)}) : <></>}
-                    </Suspense>
-                    <Suspense>
-                        {nextOthers.length > 0 ? <tr><th colSpan={3}>Nächste{nextOthers.length === 1 ? "r" : ""} Termin{nextOthers.length > 1 ? "e" : ""}:</th></tr> : <></>}
-                        {nextOthers.length > 0 ? nextOthers.map(nextOther => {return(<NextOther nextOther={nextOther} key={`nextOther_${nextOther.Event_ID}`} auth_level={auth_level} showEventInfo={showEventInfo} theme={theme}/>)}) : <></>}
-                    </Suspense>
-                </tbody>
-            </table>
+            <Suspense>
+                {nextPractices.length > 0 ? <div className='event_header'>Nächste Probe{nextPractices.length > 1 ? "n" : ""}:</div> : <></>}
+                {nextPractices.length > 0 ? nextPractices.map(nextPractice => {return(<NextPractice nextPractice={nextPractice} key={`nextPractice_${nextPractice.Event_ID}`} auth_level={auth_level} showEventInfo={showEventInfo} theme={theme}/>)}) : <></>}
+            </Suspense>
+            <Suspense>
+                {nextEvents.length > 0 ? <div className='event_header'>Nächste{nextEvents.length === 1 ? "r" : ""} Auftritt{nextEvents.length > 1 ? "e" : ""}:</div> : <></>}
+                {nextEvents.length > 0 ? nextEvents.map(nextEvent => {return(<NextEvent nextEvent={nextEvent} key={`nextEvent_${nextEvent.Event_ID}`} auth_level={auth_level} showEventInfo={showEventInfo} theme={theme}/>)}) : <></>}
+            </Suspense>
+            <Suspense>
+                {nextOthers.length > 0 ? <div className='event_header'>Nächste{nextOthers.length === 1 ? "r" : ""} Termin{nextOthers.length > 1 ? "e" : ""}:</div> : <></>}
+                {nextOthers.length > 0 ? nextOthers.map(nextOther => {return(<NextEvent nextEvent={nextOther} key={`nextOther_${nextOther.Event_ID}`} auth_level={auth_level} showEventInfo={showEventInfo} theme={theme}/>)}) : <></>}
+            </Suspense>
         </div>
     )
 }
