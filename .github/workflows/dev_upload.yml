@@ -6,6 +6,14 @@ on:
     secrets:
       FPT_PASSWORD:
         required: true
+      SCP_HOST:
+        required: true
+      SCP_USER:
+        required: true
+      SCP_PASSWORD:
+        required: true
+      MAPTILER_API_KEY:
+        required: true
   schedule:
     - cron: '30 */12 * * *'
     

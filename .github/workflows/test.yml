@@ -12,6 +12,10 @@ jobs:
     uses: tritolium/spz_planner/.github/workflows/dev_upload.yml@master
     secrets: 
       FPT_PASSWORD: ${{ secrets.FPT_PASSWORD }}
+      SCP_HOST: ${{ secrets.SCP_HOST }}
+      SCP_PASSWORD: ${{ secrets.SCP_PASSWORD }}
+      SCP_USER: ${{ secrets.SCP_USER }}
+      MAPTILER_API_KEY: ${{ secrets.MAPTILER_API_KEY }}
 
   test:
     needs: build-deploy
