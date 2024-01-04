@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react"
 import { getEvalByEvent, updateAttendences } from "../../../modules/data/DBConnect"
 import Terminzusage from "../../dateplanner/attendenceInput/Terminzusage"
-import { DashboardDiagram } from "./Event"
+import DashboardDiagram from "./DashboardDiagram"
 import { StyledEvent } from "./Event.styled"
 
 const NextPractice = ({ nextPractice, auth_level, showEventInfo, theme }) => {

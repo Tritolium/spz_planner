@@ -1,32 +1,7 @@
-import { Suspense } from "react"
-import { Clothing } from "../../../modules/components/icons/Clothing"
 import { Bar } from "react-chartjs-2"
 import { Chart as ChartJS, BarElement, CategoryScale, Legend, LinearScale, Title, Tooltip } from "chart.js"
-import PlusOne from "../../../modules/components/icons/PlusOne"
 
-export const ClothingData = ({ clothing, onClick }) => {
-
-    return(
-        <Suspense>
-            {parseInt(clothing) !== 0 ? <>
-                <td onClick={onClick}>Bekleidung:</td>
-                <td onClick={onClick}><Clothing clothing={parseInt(clothing)} /></td>
-            </> : <><td colSpan={2}></td></>}
-        </Suspense>
-    )
-}
-
-export const PlusOneData = ({ attendence, plusOne, callback, theme }) => {
-
-    const onClick = () => {
-        if(attendence === 1)
-            callback()
-    }
-
-    return(<td><PlusOne plusOne={plusOne} active={attendence === 1} onClick={onClick} theme={theme} /></td>)
-}
-
-export const DashboardDiagram = ({ event, auth_level, theme }) => {
+const DashboardDiagram = ({ event, auth_level, theme }) => {
 
     ChartJS.register(
         CategoryScale,
@@ -91,3 +66,5 @@ export const DashboardDiagram = ({ event, auth_level, theme }) => {
 
     return(<Bar height={"30px"} options={options} data={data}/>)
 }
+
+export default DashboardDiagram
