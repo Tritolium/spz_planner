@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react"
 import VersionDiagram from "./VersionDiagram"
-import { host } from "../../modules/data/DBConnect"
+import { host } from "../../../modules/data/DBConnect"
 import UserStats from "./UserStats"
 
 const Statistics = ({ theme, auth_level }) => {

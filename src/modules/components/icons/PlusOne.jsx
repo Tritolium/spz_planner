@@ -2,10 +2,10 @@ import { IconContext } from "react-icons"
 import { FaUser, FaUserGroup } from "react-icons/fa6"
 import { StyledPlusOne } from "./PlusOne.styled"
 
-const PlusOne = ({ active, plusOne, onClick, theme }) => {
+const PlusOne = ({ active, plusOne, onClick, theme, className }) => {
 
     return(
-        <StyledPlusOne >
+        <StyledPlusOne className={className} >
             <IconContext.Provider value={{ color: "white", className: "IconWrapper UserIcon"}}>
                 {plusOne && active ? <FaUserGroup onClick={onClick} size={"50%"}/> : <FaUser size={"50%"} onClick={onClick} />}
                 <Circle callback={onClick} active={active} theme={theme}/>
