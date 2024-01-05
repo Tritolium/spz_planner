@@ -1,12 +1,11 @@
 import { useCallback, useEffect, useState } from "react"
 import { getEvalByEvent, getWeather, updateAttendences } from "../../../modules/data/DBConnect"
-import Terminzusage from "../../dateplanner/attendenceInput/Terminzusage"
 import { FaUserGroup } from "react-icons/fa6"
-import DashboardDiagram from "./DashboardDiagram"
 import WeatherIcon from "../WeatherIcon"
 import { StyledEvent } from "./Event.styled"
 import { Clothing } from "../../../modules/components/icons/Clothing"
 import PlusOne from "../../../modules/components/icons/PlusOne"
+import Event from "./Event"
 
 const NextEvent = ({ nextEvent, auth_level, showEventInfo, theme }) => {
 
@@ -14,7 +13,6 @@ const NextEvent = ({ nextEvent, auth_level, showEventInfo, theme }) => {
     const [evaluation, setEvaluation] = useState()
     const [attendence, setAttendence] = useState(nextEvent?.Attendence)
     const [plusone, setPlusOne] = useState(nextEvent?.PlusOne)
-    let eventDate = new Date(nextEvent?.Date)
 
     const onClick = async (event_id, att) => {
         let changes = {}
@@ -65,12 +63,7 @@ const NextEvent = ({ nextEvent, auth_level, showEventInfo, theme }) => {
 
     return(<>
         <StyledEvent>
-            <div className="event_type" onClick={clickTD}>{nextEvent.Type}</div>
-            <div className="event_location" onClick={clickTD}>{nextEvent.Location}</div>
-            <Terminzusage className="event_attendence" event={nextEvent} event_id={nextEvent?.Event_ID} states={3} attendence={attendence} onClick={onClick} cancelled={nextEvent?.Type.includes('Abgesagt')} theme={theme}/>
-            <div className="event_date" onClick={clickTD}>{eventDate.getDate()}.{eventDate.getMonth() + 1}.{eventDate.getFullYear()}</div>
-            <div className="event_begin" onClick={clickTD}>{nextEvent?.Begin !== "12:34:56" && nextEvent?.Begin !== null ? `${nextEvent?.Begin.slice(0, 5)} Uhr` : "-"}</div>
-            {auth_level > 1 ? <div className="event_diagram"><DashboardDiagram className={"event_diagram"} event={evaluation} auth_level={auth_level} theme={theme}/></div> : <></>}
+            <Event event={nextEvent} attendence={attendence} evaluation={evaluation} auth_level={auth_level} onClick={onClick} clickTD={clickTD} theme={theme}/>
             <div className="departure">Abfahrt:</div>
             <div className="event_departure" onClick={clickTD}>{nextEvent?.Departure !== "12:34:56" && nextEvent?.Departure !== null ? `${nextEvent?.Departure.slice(0, 5)} Uhr` : "-"}</div>
             <div className="leave_dep">Rückfahrt:</div>
