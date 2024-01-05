@@ -10,8 +10,8 @@ const Event = ({ event, evaluation, auth_level, onClick, showEventInfo, theme })
     }
 
     return(<>
-        <div className="event_type" onClick={clickEvent}>{event.Type}</div>
-        <div className="event_location" onClick={clickEvent}>{event.Location}</div>
+        <div className="event_type" onClick={clickEvent}>{event?.Type}</div>
+        <div className="event_location" onClick={clickEvent}>{event?.Location}</div>
         <Terminzusage className="event_attendence" event={event} event_id={event?.Event_ID} states={3} attendence={attendence} onClick={onClick} cancelled={event?.Type.includes('Abgesagt')} theme={theme}/>
         <div className="event_date" onClick={clickEvent}>{eventDate.getDate()}.{eventDate.getMonth() + 1}.{eventDate.getFullYear()}</div>
         <div className="event_begin" onClick={clickEvent}>{event?.Begin !== "12:34:56" && event?.Begin !== null ? `${event?.Begin.slice(0, 5)} Uhr` : "-"}</div>
