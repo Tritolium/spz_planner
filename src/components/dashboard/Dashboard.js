@@ -11,7 +11,6 @@ import { version } from '../../App'
 import EventInfo from './eventinfo/EventInfo'
 import Statistics from './statistics/Statistics'
 import NextEvent from './events/NextEvent'
-import NextPractice from './events/NextPractice'
 
 const Button = lazy(() => import('../../modules/components/button/Button'))
 
@@ -133,7 +132,7 @@ const DashboardAttendence = ({ fullname, nextPractices, nextEvents, nextOthers, 
             <BirthdayBlog fullname={fullname}/>
             <Suspense>
                 {nextPractices.length > 0 ? <div className='event_header'>Nächste Probe{nextPractices.length > 1 ? "n" : ""}:</div> : <></>}
-                {nextPractices.length > 0 ? nextPractices.map(nextPractice => {return(<NextPractice nextPractice={nextPractice} key={`nextPractice_${nextPractice.Event_ID}`} auth_level={auth_level} showEventInfo={showEventInfo} theme={theme}/>)}) : <></>}
+                {nextPractices.length > 0 ? nextPractices.map(nextPractice => {return(<NextEvent nextEvent={nextPractice} key={`nextPractice_${nextPractice.Event_ID}`} auth_level={auth_level} showEventInfo={showEventInfo} theme={theme} practice={true}/>)}) : <></>}
             </Suspense>
             <Suspense>
                 {nextEvents.length > 0 ? <div className='event_header'>Nächste{nextEvents.length === 1 ? "r" : ""} Auftritt{nextEvents.length > 1 ? "e" : ""}:</div> : <></>}
