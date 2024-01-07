@@ -652,17 +652,18 @@ export const getAllAbsences = async (filter) => {
     }
 }
 
-export const newUsergroup = async (title, admin, moderator, info) => {
+export const newUsergroup = async (title, admin, moderator, info, association) => {
     
     let token = localStorage.getItem('api_token')
 
     let response = await fetch(`${host}/api/usergroup.php?api_token=${token}`, {
         method: 'POST',
         body: JSON.stringify({
-            Title:      title,
-            Admin:      admin,
-            Moderator:  moderator,
-            Info:       info
+            Title:          title,
+            Admin:          admin,
+            Moderator:      moderator,
+            Info:           info,
+            Association_ID: parseInt(association)
         })
     })
 
@@ -676,17 +677,18 @@ export const newUsergroup = async (title, admin, moderator, info) => {
     }
 }
 
-export const updateUsergroup = async (usergroup_id, title, admin, moderator, info) => {
+export const updateUsergroup = async (usergroup_id, title, admin, moderator, info, association) => {
 
     let token = localStorage.getItem('api_token')
 
     let response = await fetch(`${host}/api/usergroup.php?api_token=${token}&id=${usergroup_id}`, {
         method: 'PUT',
         body: JSON.stringify({
-            Title:      title,
-            Admin:      admin,
-            Moderator:  moderator,
-            Info:       info
+            Title:          title,
+            Admin:          admin,
+            Moderator:      moderator,
+            Info:           info,
+            Association_ID: parseInt(association)
         })
     })
 

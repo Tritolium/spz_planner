@@ -4,12 +4,13 @@ import Form from "../../../modules/components/form/Form"
 import FormBox from "../../../modules/components/form/FormBox"
 import Selector from "../../../modules/components/form/Selector"
 import SelectorItem from "../../../modules/components/form/SelectorItem"
-import { deleteUsergroup, getUsergroups, newUsergroup, updateUsergroup } from "../../../modules/data/DBConnect"
+import { deleteUsergroup, getAssociations, getUsergroups, newUsergroup, updateUsergroup } from "../../../modules/data/DBConnect"
 import { StyledUsergroups } from "./Usergroups.styled"
 
 const Usergroups = () => {
 
     const [usergroups, setUsergroups] = useState(new Array(0))
+    const [associations, setAssociations] = useState(new Array(0))
     const [selected, setSelected] = useState(-1)
 
     const fetchUsergroups = useCallback(async () => {
@@ -30,13 +31,24 @@ const Usergroups = () => {
     }, [])
 
     useEffect(() => {
-        fetchUsergroups()
+        getUsergroups().then((usergroups) => {
+            if(usergroups !== undefined)
+                setUsergroups(usergroups)
+            else
+                setUsergroups(new Array(0))
+        })
+        getAssociations().then((associations) => {
+            if(associations !== undefined)
+                setAssociations(associations)
+            else
+                setAssociations(new Array(0))
+        })
     }, [fetchUsergroups])
 
     return(
         <StyledUsergroups>
             <UsergroupSelector onSelect={onSelect} usergroups={usergroups}/>
-            <UsergroupForm usergroup={usergroups.find((usergroup) => usergroup.Usergroup_ID === selected)} reload={reload}/>
+            <UsergroupForm usergroup={usergroups.find((usergroup) => usergroup.Usergroup_ID === selected)} associations={associations} reload={reload}/>
         </StyledUsergroups>
     )
 }
@@ -64,11 +76,14 @@ const Usergroup = ({ onSelect, usergroup}) => {
     )
 }
 
-const UsergroupForm = ({ usergroup, reload }) => {
+const UsergroupForm = ({ usergroup, associations, reload }) => {
 
     useEffect(() => {
         document.getElementById('usergroup_form').reset()
-    }, [usergroup])
+        document.getElementById('association').selectedIndex = associations?.findIndex(association => usergroup?.Association_ID === association.Association_ID)
+        document.getElementById('admin').checked = usergroup?.Admin === "1"
+        document.getElementById('moderator').checked = usergroup?.Moderator === "1"
+    }, [usergroup, associations])
 
     const cancel = async (e) => {
         e.preventDefault()
@@ -82,11 +97,24 @@ const UsergroupForm = ({ usergroup, reload }) => {
         let admin       = document.getElementById('admin').checked
         let moderator   = document.getElementById('moderator').checked
         let info        = document.getElementById('info').value
+        let association = document.getElementById('association').options[document.getElementById('association').selectedIndex]?.value
+
+        if (title === "") {
+            alert("Bitte gib eine Bezeichnung ein!")
+            return
+        }
+
+        console.log(association)
+
+        if (association === undefined) {
+            alert("Bitte wähl einen Verein aus!")
+            return
+        }
 
         if(usergroup !== undefined)
-            await updateUsergroup(usergroup.Usergroup_ID, title, admin, moderator, info)
+            await updateUsergroup(usergroup.Usergroup_ID, title, admin, moderator, info, association)
         else
-            await newUsergroup(title, admin, moderator, info)
+            await newUsergroup(title, admin, moderator, info, association)
 
         reload()
     }
@@ -115,6 +143,14 @@ const UsergroupForm = ({ usergroup, reload }) => {
             <FormBox>
                 <label htmlFor="info">Info:</label>
                 <textarea name="info" id="info" cols="30" rows="3" defaultValue={usergroup === undefined ? "" : usergroup.Info}></textarea>
+            </FormBox>
+            <FormBox>
+                <label htmlFor="association">Verein:</label>
+                <select name="association" id="association">
+                    {associations.map(association => {
+                        return(<option key={association.Association_ID} value={association.Association_ID}>{association.Title}</option>)
+                    })}
+                </select>
             </FormBox>
 
             <div>
