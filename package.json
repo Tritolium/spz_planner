@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/core": "^7.23.7",
-    "@babel/runtime": "^7.23.7",
+    "@babel/runtime": "^7.23.8",
     "@maptiler/client": "^1.8.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
     "@svgr/webpack": "^8.1.0",
