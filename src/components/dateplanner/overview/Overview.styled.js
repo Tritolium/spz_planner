@@ -74,6 +74,10 @@ export const StyledOverviewTable = styled.div`
         transform: translateX(-50%) translateY(-50%);
     }
 
+    .PlusOneIcon {
+        width: 18px;
+    }
+
     @media (max-width: ${({ theme }) => theme.mobile}) {
         display: none;
     }

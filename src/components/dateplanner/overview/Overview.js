@@ -86,7 +86,7 @@ const Overview = ({ theme }) => {
 
 export const Zusage = ({attendence, plusone, theme}) => {
     if(attendence === 1 && plusone === 1)
-        return(<PlusOne theme={theme}/>)
+        return(<PlusOne theme={theme} className="PlusOneIcon"/>)
 
     switch(attendence){
     default:

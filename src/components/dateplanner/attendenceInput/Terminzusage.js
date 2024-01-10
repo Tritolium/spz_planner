@@ -114,9 +114,9 @@ export const DeniedCheck = ({ callback }) => {
     )
 }
 
-export const PlusOne = ({ callback, theme }) => {
+export const PlusOne = ({ callback, theme, className="" }) => {
     return(
-        <IconContext.Provider value={{color: "white", className: "IconWrapper"}}>
+        <IconContext.Provider value={{color: "white", className: `IconWrapper ${className}`}}>
             <FaUserGroup size="50%" onClick={callback}/>
             <Circle callback={callback} fill={theme.greenRGB} r='40.625%'/>
         </IconContext.Provider>
