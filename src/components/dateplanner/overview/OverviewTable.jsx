@@ -4,36 +4,24 @@ import { StyledOverviewTable } from "./Overview.styled"
 import { Zusage } from "./Overview"
 
 export const OverviewTable = ({attendences, theme}) => {
-    return(
-        <StyledOverviewTable>
-            <thead>
-                <tr>
-                    <th>Termin:</th>
-                    {attendences[0].Attendences.map((att) => {
-                        return(<Header key={att.Fullname} Fullname={att.Fullname} />)
+    return(<StyledOverviewTable>
+            <span className="Date">Termin:</span>
+            {attendences[0].Attendences.map((att) => {
+                return(<NameTag key={att.Fullname} Fullname={att.Fullname}/>)
+            })}
+            {attendences.map(event => {
+                return(<>
+                    <span key={event.Event_ID} className="DateTag"><DateField dateprops={event}/></span>
+                    {event.Attendences.map((attendence, index) => {
+                        const className = index === event.Attendences.length - 1 ? "AttendenceTag Last" : "AttendenceTag"
+                        return(<span key={attendence.Fullname + event.Event_ID} className={className}><Zusage attendence={attendence.Attendence} plusone={attendence.PlusOne} theme={theme}/></span>)
                     })}
-                </tr>
-            </thead>
-            <tbody>
-                {
-                    attendences.map(event => {
-                        return(
-                            <tr key={event.Event_ID}>
-                                <td><DateField dateprops={event}/></td>
-                                {event.Attendences.map(attendence => {
-                                    return(<td key={attendence.Fullname + event.Event_ID}><Zusage attendence={attendence.Attendence} plusone={attendence.PlusOne} theme={theme}/></td>)
-                                })}
-                            </tr>
-                        )
-                    })
-                }
-            </tbody>
-            </StyledOverviewTable>
-    )
+                </>)
+            })}
+        </StyledOverviewTable>)
 }
 
-const Header = ({ Fullname }) => {
-
+const NameTag = ({ Fullname }) => {    
     const [showTooltip, setShowTooltip] = useState(false)
 
     const initials = Fullname.split(' ')[0].slice(0, 2) + Fullname.split(' ')[1][0]
@@ -43,6 +31,6 @@ const Header = ({ Fullname }) => {
     }
 
     return(
-        <th className={showTooltip ? "Tooltip" : "Header"} onClick={toggleTooltip}>{showTooltip ? Fullname : initials}</th>
+        <span className={showTooltip ? "NameTagActive" : "NameTag"} onClick={toggleTooltip}>{showTooltip ? Fullname : initials}</span>
     )
 }
