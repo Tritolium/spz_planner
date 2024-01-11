@@ -10,17 +10,17 @@ import { updateAttendences } from '../../../modules/data/DBConnect'
 
 const AttendenceTable = ({ attendences, fullname, states, selectedDateFilter, selectedEventFilter, theme}) => {
 
-    const [oneUsergroup, setOneUsergroup] = useState(true)
+    const [oneAssociation, setOneAssociation] = useState(true)
 
     useEffect(() => {
-        setOneUsergroup(attendences.every(att => att.Usergroup_ID === attendences[0].Usergroup_ID))
+        setOneAssociation(attendences.every(att => att.Association_ID === attendences[0].Association_ID))
     }, [attendences])
 
     return(
         <Table>
             <thead>
                 <tr>
-                    <th>Termine: {oneUsergroup ? usergroupLogo(attendences[0]?.Usergroup_ID) : <></>}</th>
+                    <th>Termine: {oneAssociation ? associationLogo(attendences[0]?.Association_ID) : <></>}</th>
                     <th>{fullname}</th>
                     <th></th>
                 </tr>
@@ -65,7 +65,7 @@ const AttendenceTable = ({ attendences, fullname, states, selectedDateFilter, se
                 })
                 .map((att) => {
                     return(
-                        <Event key={att.Location + att.Event_ID} att={att} states={states} oneUsergroup={oneUsergroup} theme={theme} />
+                        <Event key={att.Location + att.Event_ID} att={att} states={states} oneAssociation={oneAssociation} theme={theme} />
                     )
                 })}
             </tbody>
@@ -73,7 +73,7 @@ const AttendenceTable = ({ attendences, fullname, states, selectedDateFilter, se
     )
 }
 
-const Event = ({ att, states, oneUsergroup, theme }) => {
+const Event = ({ att, states, oneAssociation, theme }) => {
     const [plusone, setPlusone] = useState(att.PlusOne)
     const [attendence, setAttendence] = useState(att.Attendence)
 
@@ -97,7 +97,7 @@ const Event = ({ att, states, oneUsergroup, theme }) => {
 
     return(
         <tr key={att.Location + att.Event_ID}>
-            {!oneUsergroup ? <TableData>{usergroupLogo(att.Usergroup_ID)}</TableData> : <></>}
+            {!oneAssociation ? <TableData>{associationLogo(att.Association_ID)}</TableData> : <></>}
             <TableData><DateField dateprops={att} /></TableData>
             <TableData><Terminzusage event={att} states={states} attendence={attendence} onClick={onClick} event_id={att.Event_ID} cancelled={att.Type.includes('Abgesagt')} theme={theme}/></TableData>
             {att.Ev_PlusOne ? <TableData><PlusOne active={attendence === 1} plusOne={plusone} onClick={togglePlusOne} theme={theme} /></TableData> : <TableData></TableData>}
@@ -105,14 +105,14 @@ const Event = ({ att, states, oneUsergroup, theme }) => {
     )
 }
 
-const usergroupLogo = (usergroup_id) => {
-    let id = parseInt(usergroup_id)
+const associationLogo = (association_id) => {
+    const id = parseInt(association_id)
     switch(id){
-    case 4:
+    case 1:
         return <img src={four} alt="Logo Rönk"/>
-    case 5:
+    case 2:
         return <img src={five} alt="Logo Dün"/>
-    case 7:
+    case 3:
         return <img src="https://sgv.de/assets/images/1/logo_sgv_web-fc5e97ec.svg" alt="Logo SGV" />
     default:
         return <></>
