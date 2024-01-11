@@ -68,9 +68,11 @@ const Settings = () => {
         if(notifyCheck.checked){
             document.getElementById('event').removeAttribute('disabled')
             document.getElementById('practice').removeAttribute('disabled')
+            document.getElementById('other').removeAttribute('disabled')
         } else {
             document.getElementById('event').setAttribute('disabled', true)
             document.getElementById('practice').setAttribute('disabled', true)
+            document.getElementById('other').setAttribute('disabled', true)
         }
     }, [])
 
@@ -78,7 +80,8 @@ const Settings = () => {
         let notifyPermissions = {
             Allowed:    document.getElementById('notification').checked ? 1 : 0,
             Event:      document.getElementById('event').checked ? 1 : 0,
-            Practice:   document.getElementById('practice').checked ? 1 : 0
+            Practice:   document.getElementById('practice').checked ? 1 : 0,
+            Other:      document.getElementById('other').checked ? 1 : 0
         }
 
         fetch(`${host}/api/pushsubscription.php?api_token=${token}&endpoint=${endpoint}`, {
@@ -93,9 +96,11 @@ const Settings = () => {
         if(notifyPermisssion?.Allowed){
             document.getElementById('event').removeAttribute('disabled')
             document.getElementById('practice').removeAttribute('disabled')
+            document.getElementById('other').removeAttribute('disabled')
         } else {
             document.getElementById('event').setAttribute('disabled', true)
             document.getElementById('practice').setAttribute('disabled', true)
+            document.getElementById('other').setAttribute('disabled', true)
         }
     }, [notifyPermisssion])
 
@@ -147,6 +152,11 @@ const Settings = () => {
                     <td></td>
                     <td><label htmlFor="practice">Proben:</label></td>
                     <td><input type="checkbox" id="practice" defaultChecked={notifyPermisssion?.Practice}/></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><label htmlFor="other">Sonstige Termine:</label></td>
+                    <td><input type="checkbox" id="other" defaultChecked={notifyPermisssion?.Other}/></td>
                 </tr>
                 <tr>
                     <td colSpan={3}><Button onClick={savePermissions}>Einstellungen speichern</Button></td>
