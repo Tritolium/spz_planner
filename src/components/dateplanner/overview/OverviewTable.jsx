@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { Fragment, useState } from "react"
 import DateField from "../attendenceInput/DateField"
 import { StyledOverviewTable } from "./Overview.styled"
 import { Zusage } from "./Overview"
@@ -10,13 +10,13 @@ export const OverviewTable = ({attendences, theme}) => {
                 return(<NameTag key={att.Fullname} Fullname={att.Fullname}/>)
             })}
             {attendences.map(event => {
-                return(<>
+                return(<Fragment key={`row_${event.Event_ID}`}>
                     <span key={event.Event_ID} className="DateTag"><DateField dateprops={event}/></span>
                     {event.Attendences.map((attendence, index) => {
                         const className = index === event.Attendences.length - 1 ? "AttendenceTag Last" : "AttendenceTag"
                         return(<span key={attendence.Fullname + event.Event_ID} className={className}><Zusage attendence={attendence.Attendence} plusone={attendence.PlusOne} theme={theme}/></span>)
                     })}
-                </>)
+                </Fragment>)
             })}
         </StyledOverviewTable>)
 }
