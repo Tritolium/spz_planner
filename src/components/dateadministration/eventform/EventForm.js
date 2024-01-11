@@ -81,7 +81,8 @@ const EventSelector = ({ events, onSelect, date_options, usergroups, onFilterCha
     const event_options = [
         {value: "all", label: "Alle"},
         {value: "practice", label: "Probe/Üben"},
-        {value: "event", label: "Auftritt etc."}
+        {value: "event", label: "Auftritt"},
+        {value: "other", label: "Sonstige Termine"}
     ]
 
     const usergroup_options = [
@@ -116,9 +117,11 @@ const EventSelector = ({ events, onSelect, date_options, usergroups, onFilterCha
                 case 'all':
                     return true
                 case 'practice':
-                    return event.Type.includes('Probe') || event.Type.includes('Üben')
+                    return event.Category === 'practice'
                 case 'event':
-                    return !(event.Type.includes('Probe') || event.Type.includes('Üben'))
+                    return event.Category === 'event'
+                case 'other':
+                    return event.Category === 'other'
                 }
             })
             .filter(event => {

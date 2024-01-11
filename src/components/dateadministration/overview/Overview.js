@@ -14,8 +14,9 @@ const Overview = () => {
     ]
 
     const event_options = [
-        {value: "event", label: "Auftritt etc."},
+        {value: "event", label: "Auftritt"},
         {value: "practice", label: "Probe/Üben"},
+        {value: "other", label: "Sonstige Termine"},
         {value: "all", label: "Alle"}
     ]
 
@@ -74,9 +75,11 @@ const EventList = ({ events, eventfilter }) => {
                         case 'all':
                             return true
                         case 'practice':
-                            return event.Type.includes('Probe') || event.Type.includes('Üben')
+                            return event.Category === 'practice'
                         case 'event':
-                            return !(event.Type.includes('Probe') || event.Type.includes('Üben'))
+                            return event.Category === 'event'
+                        case 'other':
+                            return event.Category === 'other'
                         }
                 })
                 .map(event => {
@@ -106,9 +109,11 @@ const EventListMobile = ({ events, eventfilter }) => {
                         case 'all':
                             return true
                         case 'practice':
-                            return event.Type.includes('Probe') || event.Type.includes('Üben')
+                            return event.Category === 'practice'
                         case 'event':
-                            return !(event.Type.includes('Probe') || event.Type.includes('Üben'))
+                            return event.Category === 'event'
+                        case 'other':
+                            return event.Category === 'other'
                         }
                 })
                 .map(event => {

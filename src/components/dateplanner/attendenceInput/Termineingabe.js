@@ -47,7 +47,8 @@ const Termineingabe = ({fullname, theme}) => {
                 <select name='eventSelect' id='eventSelect' title='event select' onChange={onEventFilterChange}>
                     <option value='all'>Alle</option>
                     <option value='practice'>Üben/Probe</option>
-                    <option value='else'>Auftritte etc.</option>
+                    <option value='event'>Auftritt</option>
+                    <option value='other'>Sonstige Termine</option>
                 </select>
                 <select name="dateSelect" id="dateSelect" title='date select' onChange={onDateFilterChange}>
                     <option value="all">Alle</option>

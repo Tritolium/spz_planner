@@ -39,9 +39,11 @@ const AttendenceTable = ({ attendences, fullname, states, selectedDateFilter, se
                     case 'all':
                         return true
                     case 'practice':
-                        return attendence.Type.includes('Probe') || attendence.Type.includes('Üben')
-                    case 'else':
-                        return !(attendence.Type.includes('Probe') || attendence.Type.includes('Üben'))
+                        return attendence.Category === 'practice'
+                    case 'event':
+                        return attendence.Category === 'event'
+                    case 'other':
+                        return attendence.Category === 'other'
                     }
                 })
                 .filter(attendence => {
