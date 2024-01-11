@@ -12,57 +12,70 @@ export const StyledOverview = styled.div`
     }
 `
 
-export const StyledOverviewTable = styled.table`
+export const StyledOverviewTable = styled.div`
+    display: grid;
+    border-bottom: 1px solid ${({ theme }) => theme.primaryLight};
 
-    table-layout: fixed;
-
-    border-collapse: collapse;
-    position: relative;
-    overflow: scroll;
-    align-self: flex-start;
-    margin: 0 2px 0 2px;
-
-    tbody {
-        overflow-x: scroll;
+    .Date {
+        grid-row: 1;
     }
 
-    td {
-        border: 1px solid ${({ theme }) => theme.primaryLight};
+    .NameTag {
+        grid-row: 1;
+        font-weight: bold;
         padding: 2px;
-        text-align: center;
-        position: relative;
-        min-width: 32px;
-
-        :nth-child(1) {
-            z-index: 3;
-        }
-
-        :nth-child(1) {
-            z-index: 2;
-        }
-        
-        .IconWrapper {
-            max-width: 32px;
-            min-height: 1.5em;
-            max-height: 32px;
-            position: absolute;
-
-            transform: translateX(-50%) translateY(-50%);
-        }
-    }
-
-    .Header {
-        min-width: 15px;
-        max-width: 40px;
         cursor: pointer;
     }
 
-    .Tooltip {
+    .NameTagActive {
+        grid-row: 1;
+        font-weight: bold;
+        padding: 2px;
+        cursor: pointer;
         background-color: ${({ theme }) => theme.primaryLight};
         color: ${({ theme }) => theme.primaryDark};
         border-radius: 5px;
         border: 1px solid ${({ theme }) => theme.primaryDark};
         cursor: pointer;
+    }
+
+    .DateTag {
+        text-align: center;
+        border-left: 1px solid ${({ theme }) => theme.primaryLight};
+        border-top: 1px solid ${({ theme }) => theme.primaryLight};
+    }
+
+    .AttendenceTag {
+        position: relative;
+        min-width: 32px;
+        min-height: 32px;
+        padding: 5px;
+
+        border-left: 1px solid ${({ theme }) => theme.primaryLight};
+        border-top: 1px solid ${({ theme }) => theme.primaryLight};
+
+        :nth-child(1) {
+            z-index: 3;
+        }
+    }
+
+    .Last {
+        border-right: 1px solid ${({ theme }) => theme.primaryLight};
+    }
+
+    .IconWrapper {
+        width: 32px;
+        height: 32px;
+        position: absolute;
+
+        left: 50%;
+        top: 50%;
+
+        transform: translateX(-50%) translateY(-50%);
+    }
+
+    .PlusOneIcon {
+        width: 18px;
     }
 
     @media (max-width: ${({ theme }) => theme.mobile}) {
