@@ -8,8 +8,6 @@ const Burger = ({open, setOpen}) => {
 
     const onClick = async () => {
         setOpen(!open)
-        const registration = await navigator.serviceWorker?.getRegistration()
-        registration?.waiting?.postMessage('SKIP_WAITING')
         
         window.Notification?.requestPermission().then(permission => {
             if(permission === 'granted'){
