@@ -27,7 +27,7 @@ const Scoreboard = lazy(() => import('./components/scoreboard/Scoreboard'))
 const StyledApp = lazy(() => import('./App.styled'))
 
 // - ${preval`module.exports = new Date().toISOString()`}
-export const version = `v0.11`
+export const version = `v0.12`
 
 const App = () => {
 
