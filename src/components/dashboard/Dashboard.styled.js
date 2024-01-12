@@ -83,8 +83,14 @@ export const StyledChangelog = styled.div`
     padding-inline-start: 1.5em;
     padding-inline-end: 1.5em;
 
+    max-width: 450px;
+
     li {
         padding: 1em 0 1em 0;
+    }
+
+    .Previous {
+        display: none;
     }
 `
 

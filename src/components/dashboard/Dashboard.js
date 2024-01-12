@@ -1,7 +1,7 @@
 import { lazy, Suspense, useCallback, useEffect } from 'react'
 import { useState } from 'react'
 import { getAttendences, getBirthdates, getDisplayMode, getOS, newFeedback } from '../../modules/data/DBConnect'
-import { StyledChangelog, StyledDashboard, StyledFeedbackArea, StyledInfoText } from './Dashboard.styled'
+import { StyledDashboard, StyledFeedbackArea, StyledInfoText } from './Dashboard.styled'
 import { TbAlertTriangle } from 'react-icons/tb'
 import { IoShareOutline } from 'react-icons/io5'
 import { BsPlusSquare } from 'react-icons/bs'
@@ -11,6 +11,7 @@ import { version } from '../../App'
 import EventInfo from './eventinfo/EventInfo'
 import Statistics from './statistics/Statistics'
 import NextEvent from './events/NextEvent'
+import { Changelog } from './Changelog'
 
 const Button = lazy(() => import('../../modules/components/button/Button'))
 
@@ -119,7 +120,7 @@ const Dashboard = ({ fullname, auth_level, theme }) => {
         </StyledInfoText> : <></>}
         {mobileBrowser ? <StyledInfoText>Diese App kann auch installiert werden, einfach auf das Icon klicken!</StyledInfoText> : <></>}
         {showiosInstruction ? <StyledInfoText className='iosInstruction'>Erst <IoShareOutline />, dann <BsPlusSquare /></StyledInfoText> : <></>}
-        <Changelog read={localStorage.getItem("changelogRead") === version}/>
+        <Changelog read={localStorage.getItem("changelogRead") === version} version={version}/>
         {eventInfo ? <EventInfo hideEventInfo={hideEventInfo} eventInfoData={eventInfoData} fullname={fullname}/> : <DashboardAttendence fullname={fullname} nextPractices={nextPractices} nextEvents={nextEvents} nextOthers={nextOthers} showEventInfo={showEventInfo} auth_level={auth_level} theme={theme}/>}
         <Statistics theme={theme} auth_level={auth_level} />
         <Feedback />
@@ -198,37 +199,6 @@ const BirthdayBlog = ({ fullname }) => {
     }
 
     return(<></>)
-}
-
-const Changelog = ({read}) => {
-    const [clicked, setClicked] = useState(false)
-
-    const onClick = () => {
-        setClicked(true)
-        localStorage.setItem("changelogRead", version)
-    }
-
-    return(
-        <StyledChangelog id="changelog">
-            {!(read || clicked) ? <Button onClick={onClick}>Änderungen verbergen</Button> : <></>}
-            {!(read || clicked) ? 
-                <>
-                    <h2>Neu in {version}:</h2>
-                    <ul>
-                        <li>
-                            <i>Startseite:</i>
-                            Für die Termine auf der Startseite können weitere Informationen hinterlegt werden. Einfach auf den Termin tippen, um das Fenster zu öffnen.<br/>
-                            Außerdem werden die Termine jetzt in drei Kategorien eingeteilt und angezeigt: Proben, Auftritte und sonstige Termine.
-                        </li>
-                        <li>
-                            <i>Allgemein:</i> Benachrichtigungen können an- & abgeschaltet werden, entweder über die Glocke, oder über die Einstellungen. Dort ist auch die Unterscheidung zwischen Üben und Auftritt möglich.
-                        </li>
-                    </ul>
-                </>
-                : <></>
-            }
-        </StyledChangelog>
-    )
 }
 
 const Feedback = () => {
