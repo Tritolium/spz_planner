@@ -14,23 +14,23 @@ const UserStats = ({ users }) => {
             <tbody>
                 <tr>
                     <td>Heute</td>
-                    <td>{users?.Today.Daily}</td>
-                    <td>{users?.Today.Calls}</td>
+                    <td>{users?.Today?.Daily}</td>
+                    <td>{users?.Today?.Calls}</td>
                 </tr>
                 <tr>
                     <td>Gestern</td>
-                    <td>{users?.Yesterday.Daily}</td>
-                    <td>{users?.Yesterday.Calls}</td>
+                    <td>{users?.Yesterday?.Daily}</td>
+                    <td>{users?.Yesterday?.Calls}</td>
                 </tr>
                 <tr>
                     <td>7 Tage</td>
-                    <td>{users?.Seven.Daily}</td>
-                    <td>{users?.Seven.Calls}</td>
+                    <td>{users?.Seven?.Daily}</td>
+                    <td>{users?.Seven?.Calls}</td>
                 </tr>
                 <tr>
                     <td>30 Tage</td>
-                    <td>{users?.Thirty.Daily}</td>
-                    <td>{users?.Thirty.Calls}</td>
+                    <td>{users?.Thirty?.Daily}</td>
+                    <td>{users?.Thirty?.Calls}</td>
                 </tr>
             </tbody>
         </table>
