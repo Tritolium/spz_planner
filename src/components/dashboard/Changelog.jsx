@@ -12,7 +12,6 @@ export const Changelog = ({ read, version }) => {
 
     return(
         <StyledChangelog id="changelog">
-            {!(read || clicked) ? <Button onClick={onClick}>Änderungen verbergen</Button> : <></>}
             {!(read || clicked) ? 
                 <>
                     <h2 className="New">Neu in {version}:</h2>
@@ -55,6 +54,7 @@ export const Changelog = ({ read, version }) => {
                 </>
                 : <></>
             }
+            {!(read || clicked) ? <Button onClick={onClick}>Änderungen verbergen</Button> : <></>}
         </StyledChangelog>
     )
 }
