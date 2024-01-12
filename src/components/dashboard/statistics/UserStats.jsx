@@ -6,14 +6,31 @@ const UserStats = ({ users }) => {
         <table>
             <thead>
                 <tr>
-                    <th>Nutzer heute</th>
+                    <th></th>
+                    <th>Nutzer</th>
                     <th>Aufrufe</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>{users?.Daily}</td>
-                    <td>{users?.Calls}</td>
+                    <td>Heute</td>
+                    <td>{users?.Today?.Daily}</td>
+                    <td>{users?.Today?.Calls}</td>
+                </tr>
+                <tr>
+                    <td>Gestern</td>
+                    <td>{users?.Yesterday?.Daily}</td>
+                    <td>{users?.Yesterday?.Calls}</td>
+                </tr>
+                <tr>
+                    <td>7 Tage</td>
+                    <td>{users?.Seven?.Daily}</td>
+                    <td>{users?.Seven?.Calls}</td>
+                </tr>
+                <tr>
+                    <td>30 Tage</td>
+                    <td>{users?.Thirty?.Daily}</td>
+                    <td>{users?.Thirty?.Calls}</td>
                 </tr>
             </tbody>
         </table>
