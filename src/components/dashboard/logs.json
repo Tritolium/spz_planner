@@ -1,5 +1,16 @@
 [
     {
+        "version": "v0.12.1",
+        "entries": [
+            {
+                "page": "Abwesenheiten",
+                "changes": [
+                    "Für das bessere Verständnis wurde die Bezeichnung \"Abwesenheiten\" in \"Urlaub\" geändert. Die Funktionalität bleibt gleich."
+                ]
+            }
+        ]
+    },
+    {
         "version": "v0.12",
         "entries": [
             {

@@ -33,7 +33,7 @@ const HelpPage = ({ auth_level }) => {
     const Absence = () => {
         return (
             <div>
-                <h1>Abwesenheiten</h1>
+                <h1>Urlaub</h1>
                 <p>Eingetragene Abwesenheiten sorgen dafür, dass neue Termine in diesem Zeitraum automatisch als Abwesend eingetragen werden. Auch bei bestehenden Terminen wird die Person auf Abwesend gesetzt.</p>
                 <h2>Übersicht</h2>
                 <p>Hier werden die eingetragenen persönlichen Abwesenheiten angezeigt. Abgelaufene Zeiten tauchen nicht mehr auf.</p>
