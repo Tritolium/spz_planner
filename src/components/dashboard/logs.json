@@ -1,0 +1,57 @@
+[
+    {
+        "version": "v0.12",
+        "entries": [
+            {
+                "page": "Startseite/Anwesenheiten",
+                "changes": [
+                    "Auf der Startseite und unter Anwesenheiten können jetzt für freigeschaltete Termine Partner mit angegeben werden. Das soll die Planung für Busse etc. erleichtern."
+                ]
+            },
+            {
+                "page": "Startseite",
+                "changes": [
+                    "Am Ende der Startseite wird eine kleine Nutzungsstatistik angezeigt."
+                ]   
+            },
+            {
+                "page": "Benachrichtigungen",
+                "changes": [
+                    "Benachrichtigungen können jetzt auch für die neue Terminkategorie \"Sonstige Termine\" aktiviert/deaktiviert werden. Siehe Einstellungen."
+                ]
+            },
+            {
+                "page": "Termine",
+                "changes": [
+                    "Die Termine können jetzt auch nach Kategorien gefiltert werden. Vorher passierte dies nur über den Titel Üben/Probe."
+                ]
+            },
+            {
+                "page": "Allgemein",
+                "changes": [
+                    "Darüber hinaus wurden einge Dinge im Hintergrund angepasst, damit die App in Zukunft noch besser funktioniert.",
+                    "Kleine Aussicht für die Zukunft: Passwörter werden demnächst notwendig, damit z.B. Bildergalerien nur für Mitglieder sichtbar sind. Wer die App bereits installiert hat, wird davon wenig mitbekommen, da ein Login nicht jedes Mal notwendig ist.",
+                    "Einige neue Funktionen werden daher auch nur für installierte Apps verfügbar sein."
+                ]
+            }
+        ]
+    },
+    {
+        "version": "v0.11",
+        "entries": [
+            {
+                "page": "Startseite",
+                "changes": [
+                    "Für die Termine auf der Startseite können weitere Informationen hinterlegt werden. Einfach auf den Termin tippen, um das Fenster zu öffnen.",
+                    "Außerdem werden die Termine jetzt in drei Kategorien eingeteilt und angezeigt: Proben, Auftritte und sonstige Termine."
+                ]
+            },
+            {
+                "page": "Allgemein",
+                "changes": [
+                    "Benachrichtigungen können an- & abgeschaltet werden, entweder über die Glocke, oder über die Einstellungen. Dort ist auch die Unterscheidung zwischen Üben und Auftritt möglich."
+                ]
+            }
+        ]
+    }
+]
