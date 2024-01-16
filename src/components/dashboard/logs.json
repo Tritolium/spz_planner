@@ -7,6 +7,12 @@
                 "changes": [
                     "Ladeanimation bei Terminen hinzugefügt"
                 ]
+            },
+            {
+                "page": "Login",
+                "changes": [
+                    "Der Nutzer wird jetzt informiert, wenn er noch kein Passwort gesetzt hat."
+                ]
             }
         ]
     },
