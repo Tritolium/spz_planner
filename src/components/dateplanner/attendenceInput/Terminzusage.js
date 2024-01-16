@@ -4,10 +4,12 @@ import { IoCheckmarkCircle } from 'react-icons/io5'
 import { StyledTerminzusage } from './Terminzusage.styled'
 import { IconContext } from 'react-icons'
 import { FaUserGroup } from 'react-icons/fa6'
+import { ImSpinner10 } from 'react-icons/im'
 
 const Terminzusage = (props) => {
 
     const [attendence, setAttendences] = useState(props.attendence)
+    const [loading, setLoading] = useState(false)
 
     const onClick = useCallback(async () => {
         let now = new Date()
@@ -20,13 +22,16 @@ const Terminzusage = (props) => {
             }
         }
         let new_att = (attendence + 1) % props.states
+        setLoading(true)
         await props.onClick(props.event_id, new_att)
+        setLoading(false)
         setAttendences(new_att)
     }, [props, attendence])
 
     return(
         <StyledTerminzusage className="Terminzusage">
             {props.cancelled ? <Button attendence={0} theme={props.theme}/> : <Button callback={onClick} attendence={attendence} theme={props.theme}/>}
+            {loading ? <ImSpinner10 className='LoadingSpinner'/> : null}
         </StyledTerminzusage>
     )
 }
