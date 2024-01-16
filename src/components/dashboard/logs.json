@@ -1,5 +1,16 @@
 [
     {
+        "version": "v0.13",
+        "entries": [
+            {
+                "page": "Startseite",
+                "changes": [
+                    "Ladeanimation bei Terminen hinzugefügt"
+                ]
+            }
+        ]
+    },
+    {
         "version": "v0.12.1",
         "entries": [
             {
