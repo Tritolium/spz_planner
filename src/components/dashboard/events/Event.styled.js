@@ -124,4 +124,36 @@ export const StyledEvent = styled.div`
         grid-column-start: 2;
         grid-row-start: 8;
     }
+
+    .fallback {
+        background-image: linear-gradient(to right, transparent, grey);
+        padding: 5px;
+        margin: 5px;
+        width: 100%;
+        min-width: min(100px, 25vw);
+        min-height: 28px;
+        animation: blink 4s linear infinite;
+
+        @keyframes blink {
+            0% {opacity: 0.5;}
+            50% {opacity: 1;}
+            100% {opacity: 0.5;}
+        }
+    }
+
+    .fallback_icon {
+        animation: blink_icon 1s linear infinite;
+        
+
+        @keyframes blink_icon {
+            0% {fill: white; transform: rotate(0deg);}
+            50% {fill: grey;}
+            100% {fill: white; transform: rotate(360deg);}
+        }
+
+        @keyframes rotate_icon {
+            0% {transform: rotate(0deg);}
+            100% {transform: rotate(360deg);}
+        }
+    }
 `

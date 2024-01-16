@@ -12,14 +12,15 @@ import EventInfo from './eventinfo/EventInfo'
 import Statistics from './statistics/Statistics'
 import NextEvent from './events/NextEvent'
 import { Changelog } from './Changelog'
+import { EventFallback } from './events/EventFallback'
 
 const Button = lazy(() => import('../../modules/components/button/Button'))
 
 const Dashboard = ({ fullname, auth_level, theme }) => {
 
-    const [nextEvents, setNextEvents] = useState(new Array(0))
-    const [nextPractices, setNextPractices] = useState(new Array(0))
-    const [nextOthers, setNextOthers] = useState(new Array(0))
+    const [nextEvents, setNextEvents] = useState()
+    const [nextPractices, setNextPractices] = useState()
+    const [nextOthers, setNextOthers] = useState()
     const [showiosInstruction, setShowiosInstruction] = useState(false)
     const [mobileBrowser, setMobileBrowser] = useState(false)
     const [eventInfo, setEventInfo] = useState(false)
@@ -132,16 +133,19 @@ const DashboardAttendence = ({ fullname, nextPractices, nextEvents, nextOthers, 
         <div>
             <BirthdayBlog fullname={fullname}/>
             <Suspense>
-                {nextPractices.length > 0 ? <div className='event_header'>Nächste Probe{nextPractices.length > 1 ? "n" : ""}:</div> : <></>}
-                {nextPractices.length > 0 ? nextPractices.map(nextPractice => {return(<NextEvent nextEvent={nextPractice} key={`nextPractice_${nextPractice.Event_ID}`} auth_level={auth_level} showEventInfo={showEventInfo} theme={theme} practice={true}/>)}) : <></>}
+                {nextPractices === undefined ? <EventFallback theme={theme} /> : <></>}
+                {nextPractices?.length > 0 ? <div className='event_header'>Nächste Probe{nextPractices.length > 1 ? "n" : ""}:</div> : <></>}
+                {nextPractices?.length > 0 ? nextPractices.map(nextPractice => {return(<NextEvent nextEvent={nextPractice} key={`nextPractice_${nextPractice.Event_ID}`} auth_level={auth_level} showEventInfo={showEventInfo} theme={theme} practice={true}/>)}) : <></>}
             </Suspense>
             <Suspense>
-                {nextEvents.length > 0 ? <div className='event_header'>Nächste{nextEvents.length === 1 ? "r" : ""} Auftritt{nextEvents.length > 1 ? "e" : ""}:</div> : <></>}
-                {nextEvents.length > 0 ? nextEvents.map(nextEvent => {return(<NextEvent nextEvent={nextEvent} key={`nextEvent_${nextEvent.Event_ID}`} auth_level={auth_level} showEventInfo={showEventInfo} theme={theme}/>)}) : <></>}
+                {nextEvents === undefined ? <EventFallback theme={theme} /> : <></>}
+                {nextEvents?.length > 0 ? <div className='event_header'>Nächste{nextEvents.length === 1 ? "r" : ""} Auftritt{nextEvents.length > 1 ? "e" : ""}:</div> : <></>}
+                {nextEvents?.length > 0 ? nextEvents.map(nextEvent => {return(<NextEvent nextEvent={nextEvent} key={`nextEvent_${nextEvent.Event_ID}`} auth_level={auth_level} showEventInfo={showEventInfo} theme={theme}/>)}) : <></>}
             </Suspense>
             <Suspense>
-                {nextOthers.length > 0 ? <div className='event_header'>Nächste{nextOthers.length === 1 ? "r" : ""} Termin{nextOthers.length > 1 ? "e" : ""}:</div> : <></>}
-                {nextOthers.length > 0 ? nextOthers.map(nextOther => {return(<NextEvent nextEvent={nextOther} key={`nextOther_${nextOther.Event_ID}`} auth_level={auth_level} showEventInfo={showEventInfo} theme={theme}/>)}) : <></>}
+                {nextOthers === undefined ? <EventFallback theme={theme} /> : <></>}
+                {nextOthers?.length > 0 ? <div className='event_header'>Nächste{nextOthers.length === 1 ? "r" : ""} Termin{nextOthers.length > 1 ? "e" : ""}:</div> : <></>}
+                {nextOthers?.length > 0 ? nextOthers.map(nextOther => {return(<NextEvent nextEvent={nextOther} key={`nextOther_${nextOther.Event_ID}`} auth_level={auth_level} showEventInfo={showEventInfo} theme={theme}/>)}) : <></>}
             </Suspense>
         </div>
     )
