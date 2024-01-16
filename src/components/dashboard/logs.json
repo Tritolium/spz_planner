@@ -7,6 +7,12 @@
                 "changes": [
                     "Für das bessere Verständnis wurde die Bezeichnung \"Abwesenheiten\" in \"Urlaub\" geändert. Die Funktionalität bleibt gleich."
                 ]
+            },
+            {
+                "page": "Startseite, Anwesenheiten",
+                "changes": [
+                    "Die App wartet auf die Rückmeldung vom Server, ob eine Zusage/Absage gespeichert wurde. Um dies zu verdeutlichen, wird während der Wartezeit ein Ladebalken angezeigt."
+                ]
             }
         ]
     },
