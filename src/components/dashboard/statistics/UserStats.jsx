@@ -2,6 +2,8 @@ import { StyledUserStats } from "./UserStats.styled"
 
 const UserStats = ({ users }) => {
 
+    if (!users) return <></>
+    
     return (<StyledUserStats>
         <table>
             <thead>
