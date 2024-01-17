@@ -36,6 +36,22 @@ const UserStats = ({ users }) => {
                 </tr>
             </tbody>
         </table>
+        {users?.Today?.Users ? <table>
+            <thead>
+                <tr>
+                    <th>Zeitstempel</th>
+                    <th>Nutzer</th>
+                </tr>
+            </thead>
+            <tbody>
+                {users?.Today?.Users?.map((user, index) => {
+                    return <tr key={index}>
+                        <td>{user.Timestamp.split(" ")[1]}</td>
+                        <td>{user.Fullname}</td>
+                    </tr>
+                })}
+            </tbody>
+        </table> : <></>}
     </StyledUserStats>)
 }
 
