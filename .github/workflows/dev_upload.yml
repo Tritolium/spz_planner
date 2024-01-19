@@ -55,12 +55,10 @@ jobs:
       - run: npm run build --if-present
         env:
           REACT_APP_MAPTILER_API_KEY: ${{ secrets.MAPTILER_API_KEY }}
-      - run: apt update && apt install -y dnsutils
-      - run: echo "RPI_IP=$(dig ${{ secrets.SCP_HOST}} | grep ^${{ secrets.SCP_HOST}} | grep -oP '\d+\.\d+\.\d+\.\d+')" >> $GITHUB_ENV
       - name: Deploy to RPI
         uses: appleboy/scp-action@master
         with:
-          host: ${{ env.RPI_IP }}
+          host: ${{ secrets.SCP_HOST }}
           username: ${{ secrets.SCP_USER }}
           password: ${{ secrets.SCP_PASSWORD }}
           port: 22
