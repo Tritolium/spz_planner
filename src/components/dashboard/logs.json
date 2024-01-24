@@ -17,6 +17,17 @@
         ]
     },
     {
+        "version": "v0.12.2",
+        "entries": [
+            {
+                "page": "Allgemein",
+                "changes": [
+                    "Fehler in der Farbanzeige bei Firefox behoben."
+                ]
+            }
+        ]
+    },
+    {
         "version": "v0.12.1",
         "entries": [
             {
