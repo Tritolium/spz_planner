@@ -6,7 +6,7 @@ import Form from "../../../modules/components/form/Form"
 import FormBox from "../../../modules/components/form/FormBox"
 import Selector from "../../../modules/components/form/Selector"
 import SelectorItem from "../../../modules/components/form/SelectorItem"
-import { getDateTemplates, getEvents, getUsergroups, newEvent, updateEvent } from "../../../modules/data/DBConnect"
+import { getDateTemplates, getEvent, getEvents, getUsergroups, newEvent, updateEvent } from "../../../modules/data/DBConnect"
 import { StyledEventForm } from "./EventForm.styled"
 import { ClothingInput, clothingStyles } from "../../../modules/components/icons/Clothing"
 
@@ -71,7 +71,7 @@ const EventForm = () => {
     return (
         <StyledEventForm>
             <EventSelector events={events} onSelect={onSelect} onFilterChange={onFilterChange} date_options={date_options} usergroups={usergroups}/>
-            <DetailForm event={events.find((event) => event.Event_ID === selected)} usergroups={usergroups} datetemplates={datetemplates} reload={reload}/>
+            <DetailForm usergroups={usergroups} datetemplates={datetemplates} reload={reload} selected={selected}/>
         </StyledEventForm>
     )
 }
@@ -152,11 +152,13 @@ const EventItem = ({ event, onSelect }) => {
     )
 }
 
-const DetailForm = ({ event, usergroups, datetemplates, reload }) => {
+const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
 
+    const [event, setEvent] = useState()
     const [clothing, setClothing] = useState()
 
     useEffect(() => {
+        console.log(event)
         document.getElementById('eventform_form').reset()
         let category_select = document.getElementById('category')
         for(let i = 0; i < category_select.options.length; i++){
@@ -167,8 +169,19 @@ const DetailForm = ({ event, usergroups, datetemplates, reload }) => {
         setClothing(event !== undefined ? event.Clothing : 0)
     }, [event, usergroups])
 
+    useEffect(() => {
+        const fetchEvent = async () => {
+            let _event = await getEvent(selected)
+            if(_event !== undefined)
+                setEvent(_event)
+        }
+
+        fetchEvent()
+    }, [selected])
+
     const cancel = async (e) => {
         e.preventDefault()
+        setEvent(undefined)
         reload()
     }
 
@@ -187,7 +200,7 @@ const DetailForm = ({ event, usergroups, datetemplates, reload }) => {
         let plusone     = document.getElementById('plusone').checked
         let usergroup   = document.getElementById('usergroup').options[document.getElementById('usergroup').selectedIndex].value
 
-        if(event !== undefined)
+        if(event && event.Event_ID !== -1)
             await updateEvent(event.Event_ID, category, type, location, address, date, begin, departure, leave_dep, accepted, plusone, usergroup, clothing)
         else
             await newEvent(category, type, location, address, date, begin, departure, leave_dep, accepted, plusone, usergroup, clothing)
