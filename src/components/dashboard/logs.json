@@ -13,6 +13,12 @@
                 "changes": [
                     "Der Nutzer wird jetzt informiert, wenn er noch kein Passwort gesetzt hat."
                 ]
+            },
+            {
+                "page": "Allgemein",
+                "changes": [
+                    "Die App wurde für bessere Offline-Nutzbarkeit optimiert. Es wird weiterhin eine Internetverbindung benötigt, die Verwendung ist aber bei schlechter Verbindung robuster geworden."
+                ]
             }
         ]
     },

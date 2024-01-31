@@ -62,33 +62,66 @@ registerRoute(
 );
 
 registerRoute(
-	({ url }) => url.origin === self.location.origin && url.pathname.substring('login.php'),
-	new NetworkFirst()
+  ({ url }) => url.origin === self.location.origin && url.pathname.startsWith('/api/v0/attendence'),
+  new NetworkFirst({
+    cacheName: 'attendence',
+    networkTimeoutSeconds: 5,
+    plugins: [
+      new ExpirationPlugin({ maxAgeSeconds: 600 }),
+    ],
+  })
 )
 
 registerRoute(
-	({ url }) => url.origin === self.location.origin && url.pathname.substring('attendence.php'),
-	new NetworkFirst()
+	({ url }) => url.origin === self.location.origin && url.pathname.startsWith('/api/login.php'),
+	new NetworkFirst(
+    {
+      cacheName: 'login',
+      networkTimeoutSeconds: 5,
+      plugins: [
+        new ExpirationPlugin({ maxAgeSeconds: 60 }),
+      ],
+    }
+  ),
 )
 
 registerRoute(
-	({ url }) => url.origin === self.location.origin && url.pathname.substring('png'),
-	new CacheFirst()
+  ({ url }) => url.origin === self.location.origin && url.pathname.startsWith('/api/v0/events'),
+  new NetworkFirst({
+    cacheName: 'events',
+    networkTimeoutSeconds: 5,
+    plugins: [
+      new ExpirationPlugin({ maxAgeSeconds: 600 }),
+    ],
+  })
 )
 
 registerRoute(
-	({ url }) => url.origin === self.location.origin && url.pathname.substring('pdf'),
-	new CacheFirst()
+  ({ url }) => url.origin === self.location.origin && url.pathname.endsWith('.pdf'),
+  new CacheFirst({
+    cacheName: 'pdf',
+    plugins: [
+      new ExpirationPlugin({ maxEntries: 10 }),
+    ],
+  })
 )
 
 registerRoute(
-	({ url }) => url.origin === self.location.origin && url.hostname.substring('api.maptiler.com'),
-	new NetworkFirst()
+  ({ url }) => url.origin === self.location.origin && url.hostname === 'api.maptiler.com',
+  new CacheFirst({
+    cacheName: 'maptiler'
+  })
 )
 
 registerRoute(
-	({ url }) => url.origin === self.location.origin && url.hostname.substring('api.open-meteo.com'),
-	new CacheFirst()
+  ({ url }) => url.origin === self.location.origin && url.hostname === 'api.open-meteo.com',
+  new NetworkFirst({
+    cacheName: 'open-meteo',
+    networkTimeoutSeconds: 5,
+    plugins: [
+      new ExpirationPlugin({ maxAgeSeconds: 600 }),
+    ],
+  })
 )
 
 // This allows the web app to trigger skipWaiting via

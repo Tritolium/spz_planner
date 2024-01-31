@@ -106,17 +106,15 @@ const update_login = async (version) => {
     
     let token = localStorage.getItem('api_token')
     if(!Object.is(token, null)){
-        let response = await fetch(`${host}/api/login.php?mode=update`, {
-            method: "POST",
-            body: JSON.stringify({
-                Version: version,
-                Token: token,
-                DisplayMode: `${getOS()}, ${displayMode}`,
-                Engine: navigator.userAgent.match(/([A-Z][a-z]*)+\/\d+[.\d+]*/g).toString(),
-                Device: navigator.userAgent.match(/(\([^(]+(\n[^(]+)*\))/g)[0],
-                Dimension: `${window.innerWidth}x${window.innerHeight}`
-            })
+        let body = JSON.stringify({
+            Version: version,
+            Token: token,
+            DisplayMode: `${getOS()}, ${displayMode}`,
+            Engine: navigator.userAgent.match(/([A-Z][a-z]*)+\/\d+[.\d+]*/g).toString(),
+            Device: navigator.userAgent.match(/(\([^(]+(\n[^(]+)*\))/g)[0],
+            Dimension: `${window.innerWidth}x${window.innerHeight}`
         })
+        let response = await fetch(`${host}/api/login.php?mode=update&body=` + body)
         switch(response.status) {
             case 200:
                 let json = await response.json()
