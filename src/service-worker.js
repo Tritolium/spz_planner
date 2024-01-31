@@ -73,12 +73,7 @@ registerRoute(
 )
 
 registerRoute(
-	({ url }) => {
-    let ret = url.origin === self.location.origin && url.pathname.startsWith('/api/login.php')
-    console.log(url)
-    console.log(ret)
-    return ret
-  },
+	({ url }) => url.origin === self.location.origin && url.pathname.startsWith('/api/login.php'),
 	new NetworkFirst(
     {
       cacheName: 'login',
