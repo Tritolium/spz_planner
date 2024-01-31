@@ -496,21 +496,6 @@ const getEvalByUsergroup = async (usergroup_id) => {
     }    
 }
 
-export const getEvalByEvent = async (event_id, usergroup_id) => {
-    let token = localStorage.getItem('api_token')
-
-    let response = await fetch(`${host}/api/eval.php?api_token=${token}&id=${event_id}&u_id=${usergroup_id}&events`, {
-        method: "GET"
-    })
-    switch(response.status){
-    case 200:
-        let json = await response.json()
-        return json
-    default:
-        return
-    }
-}
-
 /**
  * Absence
  */

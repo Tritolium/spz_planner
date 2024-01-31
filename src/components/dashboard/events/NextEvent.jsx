@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react"
-import { getEvalByEvent, getWeather, host, updateAttendence } from "../../../modules/data/DBConnect"
+import { getWeather, host, updateAttendence } from "../../../modules/data/DBConnect"
 import { FaUserGroup } from "react-icons/fa6"
 import WeatherIcon from "../WeatherIcon"
 import { StyledEvent } from "./Event.styled"

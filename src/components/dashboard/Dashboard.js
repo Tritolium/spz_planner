@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect } from 'react'
 import { useState } from 'react'
-import { getAttendences, getBirthdates, getDisplayMode, getOS, host, newFeedback } from '../../modules/data/DBConnect'
+import { getBirthdates, getDisplayMode, getOS, host, newFeedback } from '../../modules/data/DBConnect'
 import { StyledDashboard, StyledFeedbackArea, StyledInfoText } from './Dashboard.styled'
 import { TbAlertTriangle } from 'react-icons/tb'
 import { IoShareOutline } from 'react-icons/io5'
@@ -12,18 +12,14 @@ import EventInfo from './eventinfo/EventInfo'
 import Statistics from './statistics/Statistics'
 import NextEvent from './events/NextEvent'
 import { Changelog } from './Changelog'
-import { EventFallback } from './events/EventFallback'
 
 const Button = lazy(() => import('../../modules/components/button/Button'))
 
 const Dashboard = ({ fullname, auth_level, theme }) => {
 
-    const [nextEvents, setNextEvents] = useState()
-    const [nextPractices, setNextPractices] = useState()
     const [nextPracticeIDs, setNextPracticeIDs] = useState()
     const [nextEventIDs, setNextEventIDs] = useState()
     const [nextOtherIDs, setNextOtherIDs] = useState()
-    const [nextOthers, setNextOthers] = useState()
     const [showiosInstruction, setShowiosInstruction] = useState(false)
     const [mobileBrowser, setMobileBrowser] = useState(false)
     const [eventInfo, setEventInfo] = useState(false)
