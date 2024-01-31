@@ -365,21 +365,22 @@ const setAttendence = async (event_id, member_id, attendence, plusone) => {
 
     let token = localStorage.getItem('api_token')
 
-    let response = await fetch(`${host}/api/attendence.php?api_token=${token}&single`, {
-        method: "PUT",
+    await fetch(`${host}/api/v0/attendence/${event_id}?api_token=${token}`, {
+        method: "PATCH",
         body: JSON.stringify({
-            Event_ID: event_id,
             Member_ID: member_id,
-            Attendence: [attendence, plusone]
+            Attendence: attendence,
+            PlusOne: plusone
         })
+    }).then(response => {
+        switch(response.status){
+            case 200:
+                break
+            default:
+                alert("Ein Fehler ist aufgetreten")
+                break
+        }
     })
-    switch(response.status){
-    case 200:
-        alert("Angaben übernommen")
-        break
-    default:
-        alert("Ein Fehler ist aufgetreten")
-    }
 }
 
 const getAttendences = async () => {
@@ -433,22 +434,24 @@ export const getAllAttendences = async (usergroup_id) => {
     return attendences
 }
 
-const updateAttendences = async (changes, feedback=true) => {
+export const updateAttendence = async (event_id, attendence, plusone) => {
     let token = localStorage.getItem('api_token')
-    
-    let res = await fetch(`${host}/api/attendence.php?api_token=${token}`, {
-        method: "PUT",
-        body: JSON.stringify(changes)
-    })
-    
-    if(feedback){
-        if(res.status === 200){
-            alert('Angaben übernommen')
-        }else
-            alert('Ein Fehler ist aufgetreten')
-    }
 
-    return
+    await fetch(`${host}/api/v0/attendence/${event_id}?api_token=${token}`, {
+        method: "PATCH",
+        body: JSON.stringify({
+            Attendence: attendence,
+            PlusOne: plusone
+        })
+    }).then(response => {
+        switch(response.status){
+            case 200:
+                break
+            default:
+                alert("Ein Fehler ist aufgetreten")
+                break
+        }
+    })
 }
 
 const getMissingFeedback = async () => {
@@ -481,21 +484,6 @@ const getEvalByUsergroup = async (usergroup_id) => {
     default:
         return
     }    
-}
-
-export const getEvalByEvent = async (event_id, usergroup_id) => {
-    let token = localStorage.getItem('api_token')
-
-    let response = await fetch(`${host}/api/eval.php?api_token=${token}&id=${event_id}&u_id=${usergroup_id}&events`, {
-        method: "GET"
-    })
-    switch(response.status){
-    case 200:
-        let json = await response.json()
-        return json
-    default:
-        return
-    }
 }
 
 /**
@@ -1151,4 +1139,4 @@ export const sendPushSubscription = async (subscription, allowed) => {
     return permissions
 }
 
-export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, updateAttendences, getMissingFeedback, getEvalByUsergroup }
+export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, getMissingFeedback, getEvalByUsergroup }

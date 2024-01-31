@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { IoIosAlert, IoIosCloseCircle, IoIosRemoveCircle } from 'react-icons/io'
 import { IoCheckmarkCircle } from 'react-icons/io5'
 import { StyledTerminzusage } from './Terminzusage.styled'
@@ -27,6 +27,10 @@ const Terminzusage = (props) => {
         setLoading(false)
         setAttendences(new_att)
     }, [props, attendence])
+
+    useEffect(() => {
+        setAttendences(props.attendence)
+    }, [props.attendence])
 
     return(
         <StyledTerminzusage className="Terminzusage">

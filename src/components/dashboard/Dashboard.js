@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect } from 'react'
 import { useState } from 'react'
-import { getAttendences, getBirthdates, getDisplayMode, getOS, newFeedback } from '../../modules/data/DBConnect'
+import { getBirthdates, getDisplayMode, getOS, host, newFeedback } from '../../modules/data/DBConnect'
 import { StyledDashboard, StyledFeedbackArea, StyledInfoText } from './Dashboard.styled'
 import { TbAlertTriangle } from 'react-icons/tb'
 import { IoShareOutline } from 'react-icons/io5'
@@ -12,82 +12,41 @@ import EventInfo from './eventinfo/EventInfo'
 import Statistics from './statistics/Statistics'
 import NextEvent from './events/NextEvent'
 import { Changelog } from './Changelog'
-import { EventFallback } from './events/EventFallback'
 
 const Button = lazy(() => import('../../modules/components/button/Button'))
 
 const Dashboard = ({ fullname, auth_level, theme }) => {
 
-    const [nextEvents, setNextEvents] = useState()
-    const [nextPractices, setNextPractices] = useState()
-    const [nextOthers, setNextOthers] = useState()
+    const [nextPracticeIDs, setNextPracticeIDs] = useState()
+    const [nextEventIDs, setNextEventIDs] = useState()
+    const [nextOtherIDs, setNextOtherIDs] = useState()
     const [showiosInstruction, setShowiosInstruction] = useState(false)
     const [mobileBrowser, setMobileBrowser] = useState(false)
     const [eventInfo, setEventInfo] = useState(false)
     const [eventInfoData, setEventInfoData] = useState(undefined)
 
     const getNextEvent = async () => {
-        let events = await getAttendences()
-        let nextAll = events.filter((event1, event2) => { //  out past events, if cache contains them
-            if(event1.Date < event2.Date)
-                return 1
-            else if(event1.Date===event2.Date)
-                return event1.Begin < event2.Begin
-            else
-                return -1
-        })
+        fetch(`${host}/api/v0/events?next=event&api_token=${localStorage.getItem("api_token")}`)
+            .then(res => res.json())
+            .then(data => {
+                setNextEventIDs(data)
+            })
+    }
 
-        let nextEvent = nextAll.filter(event => { // get only events
-            return event.Category === "event"
-        })[0]
+    const getNextPractice = async () => {
+        fetch(`${host}/api/v0/events?next=practice&api_token=${localStorage.getItem("api_token")}`)
+            .then(res => res.json())
+            .then(data => {
+                setNextPracticeIDs(data)
+            })
+    }
 
-        let nextEvents = nextAll
-            .filter(event => event.Category === "event")
-            .filter(event => {
-                let nextDate = new Date(nextEvent.Date).getTime();
-                let eventDate = new Date(event.Date);
-                for(let i = 0; i < 3; i++) {
-                    if(eventDate.getTime() === nextDate) return true;
-                    eventDate.setDate(eventDate.getDate() - 1);
-                }
-                return false;
-            });
-
-        let nextPractice = nextAll.filter(event => { // get only practices
-            return event.Category === "practice"
-        })[0]
-
-        let nextPractices = nextAll
-            .filter(event => event.Category === "practice")
-            .filter(event => {
-                let nextDate = new Date(nextPractice.Date).getTime();
-                let eventDate = new Date(event.Date);
-                for(let i = 0; i < 3; i++) {
-                    if(eventDate.getTime() === nextDate) return true;
-                    eventDate.setDate(eventDate.getDate() - 1);
-                }
-                return false;
-            });
-
-        let nextOther = nextAll.filter(event => { // get only others
-            return event.Category === "other"
-        })[0]
-
-        let nextOthers = nextAll
-            .filter(event => event.Category === "other")
-            .filter(event => {
-                let nextDate = new Date(nextOther.Date).getTime();
-                let eventDate = new Date(event.Date);
-                for(let i = 0; i < 3; i++) {
-                    if(eventDate.getTime() === nextDate) return true;
-                    eventDate.setDate(eventDate.getDate() - 1);
-                }
-                return false;
-            });
-
-        setNextEvents(nextEvents)
-        setNextPractices(nextPractices)
-        setNextOthers(nextOthers)
+    const getNextOther = async () => {
+        fetch(`${host}/api/v0/events?next=other&api_token=${localStorage.getItem("api_token")}`)
+            .then(res => res.json())
+            .then(data => {
+                setNextOtherIDs(data)
+            })
     }
 
     const showInstall = () => {
@@ -111,6 +70,8 @@ const Dashboard = ({ fullname, auth_level, theme }) => {
 
     useEffect(() => {
         getNextEvent()
+        getNextPractice()
+        getNextOther()
         let os = getOS()
         setMobileBrowser((getDisplayMode() === 'browser tab' && window.innerWidth < parseInt(theme.medium.split('px')[0]) && (beforeInstallPrompt || !(os !== 'Mac OS' && os !== 'iOS'))))
     }, [theme.medium])
@@ -122,30 +83,27 @@ const Dashboard = ({ fullname, auth_level, theme }) => {
         {mobileBrowser ? <StyledInfoText>Diese App kann auch installiert werden, einfach auf das Icon klicken!</StyledInfoText> : <></>}
         {showiosInstruction ? <StyledInfoText className='iosInstruction'>Erst <IoShareOutline />, dann <BsPlusSquare /></StyledInfoText> : <></>}
         <Changelog read={localStorage.getItem("changelogRead") === version} version={version}/>
-        {eventInfo ? <EventInfo hideEventInfo={hideEventInfo} eventInfoData={eventInfoData} fullname={fullname}/> : <DashboardAttendence fullname={fullname} nextPractices={nextPractices} nextEvents={nextEvents} nextOthers={nextOthers} showEventInfo={showEventInfo} auth_level={auth_level} theme={theme}/>}
+        {eventInfo ? <EventInfo hideEventInfo={hideEventInfo} eventInfoData={eventInfoData} fullname={fullname}/> : <DashboardAttendence fullname={fullname} nextPracticeIDs={nextPracticeIDs} nextEventIDs={nextEventIDs} nextOtherIDs={nextOtherIDs} showEventInfo={showEventInfo} auth_level={auth_level} theme={theme}/>}
         <Statistics theme={theme} auth_level={auth_level} />
         <Feedback />
     </StyledDashboard>)
 }
 
-const DashboardAttendence = ({ fullname, nextPractices, nextEvents, nextOthers, showEventInfo, auth_level, theme}) => {
+const DashboardAttendence = ({ fullname, nextPracticeIDs, nextEventIDs, nextOtherIDs, showEventInfo, auth_level, theme}) => {
     return(
         <div>
             <BirthdayBlog fullname={fullname}/>
             <Suspense>
-                {nextPractices === undefined ? <EventFallback theme={theme} /> : <></>}
-                {nextPractices?.length > 0 ? <div className='event_header'>Nächste Probe{nextPractices.length > 1 ? "n" : ""}:</div> : <></>}
-                {nextPractices?.length > 0 ? nextPractices.map(nextPractice => {return(<NextEvent nextEvent={nextPractice} key={`nextPractice_${nextPractice.Event_ID}`} auth_level={auth_level} showEventInfo={showEventInfo} theme={theme} practice={true}/>)}) : <></>}
+                {nextPracticeIDs?.length > 0 ? <div className='event_header'>Nächste Probe{nextPracticeIDs.length > 1 ? "n" : ""}:</div> : <></>}
+                {nextPracticeIDs?.length > 0 ? nextPracticeIDs.map(nextPracticeID => {return(<NextEvent nextEventID={nextPracticeID} key={`nextPractice_${nextPracticeID}`} auth_level={auth_level} showEventInfo={showEventInfo} theme={theme} practice={true}/>)}) : <></>}
             </Suspense>
             <Suspense>
-                {nextEvents === undefined ? <EventFallback theme={theme} /> : <></>}
-                {nextEvents?.length > 0 ? <div className='event_header'>Nächste{nextEvents.length === 1 ? "r" : ""} Auftritt{nextEvents.length > 1 ? "e" : ""}:</div> : <></>}
-                {nextEvents?.length > 0 ? nextEvents.map(nextEvent => {return(<NextEvent nextEvent={nextEvent} key={`nextEvent_${nextEvent.Event_ID}`} auth_level={auth_level} showEventInfo={showEventInfo} theme={theme}/>)}) : <></>}
+                {nextEventIDs?.length > 0 ? <div className='event_header'>Nächste{nextEventIDs.length === 1 ? "r" : ""} Auftritt{nextEventIDs.length > 1 ? "e" : ""}:</div> : <></>}
+                {nextEventIDs?.length > 0 ? nextEventIDs.map(nextEventID => {return(<NextEvent nextEventID={nextEventID} key={`nextEvent_${nextEventID}`} auth_level={auth_level} showEventInfo={showEventInfo} theme={theme}/>)}) : <></>}
             </Suspense>
             <Suspense>
-                {nextOthers === undefined ? <EventFallback theme={theme} /> : <></>}
-                {nextOthers?.length > 0 ? <div className='event_header'>Nächste{nextOthers.length === 1 ? "r" : ""} Termin{nextOthers.length > 1 ? "e" : ""}:</div> : <></>}
-                {nextOthers?.length > 0 ? nextOthers.map(nextOther => {return(<NextEvent nextEvent={nextOther} key={`nextOther_${nextOther.Event_ID}`} auth_level={auth_level} showEventInfo={showEventInfo} theme={theme}/>)}) : <></>}
+                {nextOtherIDs?.length > 0 ? <div className='event_header'>Nächste{nextOtherIDs.length === 1 ? "r" : ""} Termin{nextOtherIDs.length > 1 ? "e" : ""}:</div> : <></>}
+                {nextOtherIDs?.length > 0 ? nextOtherIDs.map(nextOtherID => {return(<NextEvent nextEventID={nextOtherID} key={`nextOther_${nextOtherID}`} auth_level={auth_level} showEventInfo={showEventInfo} theme={theme}/>)}) : <></>}
             </Suspense>
         </div>
     )
