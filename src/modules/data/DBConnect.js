@@ -147,66 +147,56 @@ const getEvent = async (event_id) => {
     let event
     let token = localStorage.getItem('api_token')
 
-    if(event_id < 0){
-        return {
-            Event_ID: -1,
-            Type: "",
-            Location: "",
-            Date: "01-01-1901",
-            Begin: "12:12",
-            Departure: "12:12",
-            Leave_dep: "12:12"
+    
+    if (event_id > 0) {
+        let response = await fetch(`${host}/api/v0/events/${event_id}?api_token=${token}`, {method: "GET"})
+
+        switch (response.status) {
+        case 200:
+            event = await response.json()
+            break
+        default:
+            break
         }
-    }
-
-    let response = await fetch(`${host}/api/event.php?api_token=${token}"&id=${event_id}`, {method: "GET"})
-
-    switch (response.status) {
-    case 200:
-        event = await response.json()
-        break
-    default:
-        break
     }
     
     return event
 }
 
 const getEvents = async (filter) => {
-    let events = new Array(0)
-    
     let token = localStorage.getItem('api_token')
-    let lastmodified = JSON.parse(localStorage.getItem('events_' + filter))?.lastmodified
-    let response = await fetch(`${host}/api/event.php?filter=${filter}&api_token=${token}`, {
-        method: 'GET',
-        headers: lastmodified ? {
-            'If-Modified-Since': lastmodified
-        } : {}
-    })
-
-    switch(response.status) {
-        case 200:
-            events = await response.json()
-            let store = {
-                lastmodified: response.headers.get('DB-Last-Modified'),
-                data: events
-            }
-            localStorage.setItem('events_' + filter, JSON.stringify(store))
+    let url = `${host}/api/v0/events?api_token=${token}`
+    switch(filter){
+        case 'current':
+            url += '&current'
             break
-        case 304:
-            events = JSON.parse(localStorage.getItem('events_' + filter))?.data
+        case 'past':
+            url += '&past'
             break
         default:
             break
     }
-    
-    return events
+
+    return fetch(url, {
+        method: 'GET',
+        mode: 'cors'
+    }).then(response => {
+        switch(response.status){
+            case 200:
+                return response.json()
+            default:
+                break
+        }
+    }).then(json => {
+        return json
+    })
 }
 
 const updateEvent = async(event_id, category, type, location, address, date, begin, departure, leave_dep, accepted, plusone, usergroup, clothing) => {
     let token = localStorage.getItem('api_token')
-    let response = await fetch(`${host}/api/event.php?api_token=${token}`, {
+    let response = await fetch(`${host}/api/v0/events/${event_id}?api_token=${token}`, {
         method: "PUT",
+        mode: 'cors',
         body: JSON.stringify({
             Event_ID: event_id,
             Category: category,
@@ -214,9 +204,9 @@ const updateEvent = async(event_id, category, type, location, address, date, beg
             Location: location,
             Address: address,
             Date: date,
-            Begin: begin === '' ? '12:34:56' : begin,
-            Departure: departure === '' ? '12:34:56' : departure,
-            Leave_dep: leave_dep === '' ? '12:34:56' : leave_dep,
+            Begin: begin === '' ? null : begin,
+            Departure: departure === '' ? null : departure,
+            Leave_dep: leave_dep === '' ? null : leave_dep,
             Accepted: accepted,
             PlusOne: plusone,
             Usergroup_ID: usergroup,
@@ -237,7 +227,7 @@ const newEvent = async (category, type, location, address, date, begin, departur
     
     let token = localStorage.getItem('api_token')
     
-    let response = await fetch(`${host}/api/event.php?api_token=${token}`, {
+    let response = await fetch(`${host}/api/v0/events?api_token=${token}`, {
         method: "POST",
         body: JSON.stringify({
             Category: category,
@@ -245,9 +235,9 @@ const newEvent = async (category, type, location, address, date, begin, departur
             Location: location,
             Address: address,
             Date: date,
-            Begin: begin === '' ? '12:34:56' : begin,
-            Departure: departure === '' ? '12:34:56' : departure,
-            Leave_dep: leave_dep === '' ? '12:34:56' : leave_dep,
+            Begin: begin === '' ? null : begin,
+            Departure: departure === '' ? null : departure,
+            Leave_dep: leave_dep === '' ? null : leave_dep,
             Accepted: accepted,
             PlusOne: plusone,
             Usergroup_ID: usergroup,
