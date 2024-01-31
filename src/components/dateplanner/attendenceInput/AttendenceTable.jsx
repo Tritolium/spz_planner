@@ -6,7 +6,7 @@ import four from '../4.png'
 import five from '../5.png'
 import styled from 'styled-components'
 import { useEffect, useState } from 'react'
-import { updateAttendences } from '../../../modules/data/DBConnect'
+import { updateAttendence } from '../../../modules/data/DBConnect'
 
 const AttendenceTable = ({ attendences, fullname, states, selectedDateFilter, selectedEventFilter, theme}) => {
 
@@ -78,18 +78,14 @@ const Event = ({ att, states, oneAssociation, theme }) => {
     const [attendence, setAttendence] = useState(att.Attendence)
 
     const onClick = async () => {
-        let changes = {}
         let newAttendence = (attendence + 1) % states
-        changes[att.Event_ID] = [newAttendence, plusone]
-        await updateAttendences(changes, false)
+        await updateAttendence(att.Event_ID, newAttendence, plusone)
         setAttendence(newAttendence)
     }
 
     const togglePlusOne = async () => {
         if(attendence === 1){
-            let changes = {}
-            changes[att.Event_ID] = [attendence, !plusone]
-            await updateAttendences(changes, false)
+            await updateAttendence(att.Event_ID, attendence, !plusone)
             setPlusone(!plusone)
         }
 

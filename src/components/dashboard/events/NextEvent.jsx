@@ -1,40 +1,53 @@
 import { useCallback, useEffect, useState } from "react"
-import { getEvalByEvent, getWeather, updateAttendences } from "../../../modules/data/DBConnect"
+import { getEvalByEvent, getWeather, host, updateAttendence } from "../../../modules/data/DBConnect"
 import { FaUserGroup } from "react-icons/fa6"
 import WeatherIcon from "../WeatherIcon"
 import { StyledEvent } from "./Event.styled"
 import { Clothing } from "../../../modules/components/icons/Clothing"
 import PlusOne from "../../../modules/components/icons/PlusOne"
 import Event from "./Event"
+import { EventFallback } from "./EventFallback"
 
-const NextEvent = ({ nextEvent, auth_level, showEventInfo, practice=false, theme }) => {
+const NextEvent = ({ nextEventID, auth_level, showEventInfo, practice=false, theme }) => {
 
+    const [nextEvent, setNextEvent] = useState()
     const [weather, setWeather] = useState()
     const [evaluation, setEvaluation] = useState()
-    const [attendence, setAttendence] = useState(nextEvent?.Attendence)
-    const [plusone, setPlusOne] = useState(nextEvent?.PlusOne)
+    const [attendence, setAttendence] = useState()
+    const [plusone, setPlusOne] = useState()
 
     const onClick = async (event_id, att) => {
-        let changes = {}
-        changes['' + event_id] = [att, plusone]
-        await updateAttendences(changes, false)
+        await updateAttendence(event_id, att)
         setAttendence(att)
         updateEventEval()
     }
 
     const updatePlusOne = async () => {
-        let changes = {}
-        changes['' + nextEvent?.Event_ID] = [attendence, !plusone]
-        await updateAttendences(changes, false)
+        await updateAttendence(nextEvent?.Event_ID, attendence, !plusone)
         setPlusOne(!plusone)
         updateEventEval()
     }
 
     const updateEventEval = useCallback(async () => {
-        let _eval = await getEvalByEvent(nextEvent?.Event_ID, nextEvent?.Usergroup_ID)
-        setEvaluation(_eval)
-        return
-    }, [nextEvent])
+        fetch(`${host}/api/v0/attendence/${nextEventID}?api_token=${localStorage.getItem('api_token')}`)
+        .then(res => res.json())
+        .then(res => {
+            setAttendence(res.Event.Attendence)
+            setPlusOne(res.Event.PlusOne)
+            setEvaluation(res.Attendence)
+        })
+    }, [nextEventID])
+
+    useEffect(() => {
+        fetch(`${host}/api/v0/attendence/${nextEventID}?api_token=${localStorage.getItem('api_token')}`)
+        .then(res => res.json())
+        .then(res => {
+            setNextEvent(res.Event)
+            setAttendence(res.Event.Attendence)
+            setPlusOne(res.Event.PlusOne)
+            setEvaluation(res.Attendence)
+        })
+    }, [nextEventID])
 
     useEffect(() => {
         let eDate = new Date(nextEvent?.Date)
@@ -57,11 +70,12 @@ const NextEvent = ({ nextEvent, auth_level, showEventInfo, practice=false, theme
         return () => clearInterval(interval);
       }, [updateEventEval]);
 
-    return(<StyledEvent>
-        <Event event={nextEvent} evaluation={evaluation} auth_level={auth_level} onClick={onClick} showEventInfo={showEventInfo} theme={theme}/>
-        {!practice ? <Additional event={nextEvent} plusone={plusone} attendence={attendence} updatePlusOne={updatePlusOne} weather={weather} evaluation={evaluation} theme={theme}/> : <></>}
-    </StyledEvent>)
-    
+    return(<>
+        {nextEvent !== undefined ? <StyledEvent>
+            <Event event={nextEvent} evaluation={evaluation} auth_level={auth_level} onClick={onClick} showEventInfo={showEventInfo} theme={theme}/>
+            {!practice ? <Additional event={nextEvent} plusone={plusone} attendence={attendence} updatePlusOne={updatePlusOne} weather={weather} evaluation={evaluation} theme={theme}/> : <></>}
+        </StyledEvent> : <EventFallback theme={theme}/>}
+    </>)
 }
 
 const Additional = ({ event, plusone, attendence, updatePlusOne, weather, evaluation, theme }) => {
