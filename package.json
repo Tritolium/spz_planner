@@ -3,7 +3,7 @@
   "version": "0.12.0",
   "private": true,
   "dependencies": {
-    "@babel/core": "^7.23.7",
+    "@babel/core": "^7.23.9",
     "@babel/runtime": "^7.23.8",
     "@maptiler/client": "^1.8.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
