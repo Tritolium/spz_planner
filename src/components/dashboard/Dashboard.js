@@ -27,7 +27,14 @@ const Dashboard = ({ fullname, auth_level, theme }) => {
 
     const getNextEvent = async () => {
         fetch(`${host}/api/v0/events?next=event&api_token=${localStorage.getItem("api_token")}`)
-            .then(res => res.json())
+            .then(res => {
+                switch(res.status){
+                    case 200:
+                        return res.json()
+                    default:
+                        return []
+                }
+            })
             .then(data => {
                 setNextEventIDs(data)
             })
@@ -35,7 +42,14 @@ const Dashboard = ({ fullname, auth_level, theme }) => {
 
     const getNextPractice = async () => {
         fetch(`${host}/api/v0/events?next=practice&api_token=${localStorage.getItem("api_token")}`)
-            .then(res => res.json())
+            .then(res => {
+                switch(res.status){
+                    case 200:
+                        return res.json()
+                    default:
+                        return []
+                }
+            })
             .then(data => {
                 setNextPracticeIDs(data)
             })
@@ -43,7 +57,14 @@ const Dashboard = ({ fullname, auth_level, theme }) => {
 
     const getNextOther = async () => {
         fetch(`${host}/api/v0/events?next=other&api_token=${localStorage.getItem("api_token")}`)
-            .then(res => res.json())
+            .then(res => {
+                switch(res.status){
+                    case 200:
+                        return res.json()
+                    default:
+                        return []
+                }
+            })
             .then(data => {
                 setNextOtherIDs(data)
             })
