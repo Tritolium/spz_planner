@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect } from 'react'
 import { useState } from 'react'
-import { getBirthdates, getDisplayMode, getOS, host, newFeedback } from '../../modules/data/DBConnect'
+import { getBirthdates, getDisplayMode, host, newFeedback } from '../../modules/data/DBConnect'
 import { StyledDashboard, StyledFeedbackArea, StyledInfoText } from './Dashboard.styled'
 import { TbAlertTriangle } from 'react-icons/tb'
 import { IoShareOutline } from 'react-icons/io5'
@@ -71,8 +71,8 @@ const Dashboard = ({ fullname, auth_level, theme }) => {
     }
 
     const showInstall = () => {
-        let os = getOS()
-        if(os !== 'Mac OS' && os !== 'iOS'){
+        let isiPhone = navigator.userAgent.toLowerCase().includes('iphone')
+        if(!isiPhone && beforeInstallPrompt){
             beforeInstallPrompt.prompt()
         } else {
             setShowiosInstruction(true)
@@ -93,8 +93,8 @@ const Dashboard = ({ fullname, auth_level, theme }) => {
         getNextEvent()
         getNextPractice()
         getNextOther()
-        let os = getOS()
-        setMobileBrowser((getDisplayMode() === 'browser tab' && window.innerWidth < parseInt(theme.medium.split('px')[0]) && (beforeInstallPrompt || !(os !== 'Mac OS' && os !== 'iOS'))))
+        let isiPhone = navigator.userAgent.toLowerCase().includes('iphone')
+        setMobileBrowser((getDisplayMode() === 'browser tab' && window.innerWidth < parseInt(theme.medium.split('px')[0]) && (beforeInstallPrompt || isiPhone)))
     }, [theme.medium])
 
     return(<StyledDashboard id="Dashboard">

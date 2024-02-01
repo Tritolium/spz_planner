@@ -4,29 +4,6 @@ maptilerClient.config.apiKey = process.env.REACT_APP_MAPTILER_API_KEY
 
 export const host = (process.env.NODE_ENV !== 'production') ? 'http://localhost' : ''
 
-export const getOS = () => {
-    var userAgent = window.navigator?.userAgent,
-        platform = window.navigator?.userAgentData?.platform,
-        macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
-        windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
-        iosPlatforms = ['iPhone', 'iPad', 'iPod'],
-        os = null;
-  
-    if (macosPlatforms.indexOf(platform) !== -1) {
-        os = 'Mac OS';
-    } else if (iosPlatforms.indexOf(platform) !== -1) {
-        os = 'iOS';
-    } else if (windowsPlatforms.indexOf(platform) !== -1) {
-        os = 'Windows';
-    } else if (/Android/.test(userAgent)) {
-        os = 'Android';
-    } else if (/Linux/.test(platform)) {
-        os = 'Linux';
-    }
-  
-    return os;
-}
-
 export const getDisplayMode = () => {
     let displayMode = 'browser tab'
     if(window.matchMedia('(display-mode: standalone)').matches) {
@@ -49,7 +26,7 @@ const login = async (name, pwhash, version) => {
             Version: version,
             Name: name,
             PWHash: pwhash,
-            DisplayMode: `${getOS()}, ${displayMode}`,
+            DisplayMode: displayMode,
             Engine: navigator.userAgent.match(/([A-Z][a-z]*)+\/\d+[.\d+]*/g).toString(),
             Device: navigator.userAgent.match(/(\([^(]+(\n[^(]+)*\))/g)[0],
             Dimension: `${window.innerWidth}x${window.innerHeight}`
@@ -109,7 +86,7 @@ const update_login = async (version) => {
         let body = JSON.stringify({
             Version: version,
             Token: token,
-            DisplayMode: `${getOS()}, ${displayMode}`,
+            DisplayMode: displayMode,
             Engine: navigator.userAgent.match(/([A-Z][a-z]*)+\/\d+[.\d+]*/g).toString(),
             Device: navigator.userAgent.match(/(\([^(]+(\n[^(]+)*\))/g)[0],
             Dimension: `${window.innerWidth}x${window.innerHeight}`
