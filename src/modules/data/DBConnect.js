@@ -1,4 +1,5 @@
 import * as maptilerClient from '@maptiler/client'
+import { version } from '../../App'
 
 maptilerClient.config.apiKey = process.env.REACT_APP_MAPTILER_API_KEY
 
@@ -36,6 +37,21 @@ export const getDisplayMode = () => {
     }
 
     return displayMode
+}
+
+export const sendError = async (error_msg) => {
+    fetch(`${host}/api/v0/error`, {
+        method: 'POST',
+        body: JSON.stringify({
+            Error_Msg: error_msg,
+            Engine: navigator.userAgent.match(/([A-Z][a-z]*)+\/\d+[.\d+]*/g).toString(),
+            Device: navigator.userAgent.match(/(\([^(]+(\n[^(]+)*\))/g)[0],
+            Dimension: `${window.innerWidth}x${window.innerHeight}`,
+            DisplayMode: getDisplayMode(),
+            Version: version,
+            Token: localStorage.getItem('api_token')
+        })
+    }).catch(() => {})
 }
 
 const login = async (name, pwhash, version) => {

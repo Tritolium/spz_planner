@@ -5,7 +5,8 @@
             {
                 "page": "Allgemein",
                 "changes": [
-                    "Um eine bessere Nutzbarkeit zu garantieren, aktualisiert sich die App jetzt automatisch, wenn eine neue Version verfügbar ist."
+                    "Um eine bessere Nutzbarkeit zu garantieren, aktualisiert sich die App jetzt automatisch, wenn eine neue Version verfügbar ist.",
+                    "Zudem werden Fehlermeldungen jetzt abgefangen, damit sich die App nicht mehr im Login aufhängt."
                 ]
             }
         ]
