@@ -1,5 +1,16 @@
 [
     {
+        "version": "v0.12.3",
+        "entries": [
+            {
+                "page": "Allgemein",
+                "changes": [
+                    "Um eine bessere Nutzbarkeit zu garantieren, aktualisiert sich die App jetzt automatisch, wenn eine neue Version verfügbar ist."
+                ]
+            }
+        ]
+    },
+    {
         "version": "v0.12.2",
         "entries": [
             {
