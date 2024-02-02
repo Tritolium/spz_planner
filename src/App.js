@@ -141,10 +141,8 @@ const App = () => {
     const checkSW = async () => {
         if('serviceWorker' in navigator){
             const registration = await navigator.serviceWorker.getRegistration()
-            if(registration){
-                registration.update()
-            }
-            registration.waiting?.postMessage('SKIP_WAITING')
+            registration?.update()
+            registration?.waiting?.postMessage('SKIP_WAITING')
         }
     }
 
