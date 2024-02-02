@@ -138,6 +138,23 @@ const App = () => {
         })
     }
 
+    const checkSW = async () => {
+        if('serviceWorker' in navigator){
+            const registration = await navigator.serviceWorker.getRegistration()
+            if(registration){
+                registration.update()
+            }
+            registration.waiting?.postMessage('SKIP_WAITING')
+        }
+    }
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            checkSW()
+        }, 5000)
+        return () => clearInterval(interval)
+    }, [])
+
     return (
         <ThemeProvider theme={theme}>
             <GlobalStyles />

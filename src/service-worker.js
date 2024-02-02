@@ -139,3 +139,11 @@ self.addEventListener('push', (event) => {
   let options = event.data.json()
   self.registration.showNotification(options.title, options)
 })
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(self.clients.matchAll({ type: 'window' }).then(clients => {
+    clients.forEach(client => {
+      client.navigate(client.url)
+    })
+  }))
+})
