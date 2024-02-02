@@ -1,5 +1,5 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
-import { login, sendPushSubscription, update_login } from './modules/data/DBConnect';
+import { login, sendError, sendPushSubscription, update_login } from './modules/data/DBConnect';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from './global';
 import { theme0, theme1, theme2, theme3, theme4 } from './theme';
@@ -46,8 +46,62 @@ const App = () => {
 
         const update = async () =>{
             setView(-2)
-            let { _forename, _surname, _auth_level, _theme } = await update_login(version)
-            if(_auth_level !== undefined) {
+            update_login(version)
+            .then(({ _forename, _surname, _auth_level, _theme }) => {
+                if(_auth_level !== undefined) {
+                    setFullname(_forename + " " + _surname)
+                    setAuth_level(_auth_level)
+                    if(_theme !== undefined){
+                        switch(_theme){
+                        case 0:
+                            setTheme(theme0)
+                            break
+                        case 1:
+                            setTheme(theme1)
+                            break
+                        case 2:
+                            setTheme(theme2)
+                            break
+                        case 3:
+                            setTheme(theme3)
+                            break
+                        case 4:
+                            setTheme(theme4)
+                            break
+                        default:
+                            setTheme(theme1)
+                            break
+                        }
+                    }
+                    setView(0)
+                    if(window.Notification?.permission === 'granted'){
+                        notificationHelper.createNotificationSubscription('BD0AbKmeW7bACNzC9m0XSUddJNx--VoOvU2X0qBF8dODOBhHvFPjrKJEBcL7Yk07l8VpePC1HBT7h2FRK3bS5uA')
+                        .then(subscription => {
+                            sendPushSubscription(subscription).then(permissions => {
+                                setNotify(permissions.Allowed === 1)
+                            })
+                        })
+                    }
+                } else {
+                    setView(-1)
+                }
+            }).catch(err => {
+                sendError(err.toString())
+                alert("Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.")
+                setView(-1)
+            })
+        }
+
+        if(loginRevalidated.current) return
+        loginRevalidated.current = true
+        update()
+    }, [])
+
+    const sendLogin = useCallback(async (name, pwhash) => {
+        setView(-2)
+        login(name, pwhash, version)
+        .then(({ _forename, _surname, _api_token, _auth_level, _theme }) => {
+            if(_api_token !== undefined) {
                 setFullname(_forename + " " + _surname)
                 setAuth_level(_auth_level)
                 if(_theme !== undefined){
@@ -84,34 +138,11 @@ const App = () => {
             } else {
                 setView(-1)
             }
-        }
-
-        if(loginRevalidated.current) return
-        loginRevalidated.current = true
-        update()
-    }, [])
-
-    const sendLogin = useCallback(async (name, pwhash) => {
-        setView(-2)
-        let { _forename, _surname, _api_token, _auth_level, _theme } = await login(name, pwhash, version)
-        if(_api_token !== undefined) {
-            setFullname(_forename + " " + _surname)
-            setAuth_level(_auth_level)
-            if(_theme !== undefined){
-                setTheme(_theme === 0 ? theme0 : _theme === 1 ? theme1 : theme2)
-            }
-            setView(0)
-            if(window.Notification?.permission === 'granted'){
-                notificationHelper.createNotificationSubscription('BD0AbKmeW7bACNzC9m0XSUddJNx--VoOvU2X0qBF8dODOBhHvFPjrKJEBcL7Yk07l8VpePC1HBT7h2FRK3bS5uA')
-                .then(subscription => {
-                    sendPushSubscription(subscription).then(permissions => {
-                        setNotify(permissions.Allowed === 1)
-                    })
-                })
-            }
-        } else {
+        }).catch(err => {
+            sendError(err.toString())
+            alert("Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.")
             setView(-1)
-        }
+        })
     }, [])
 
     const logout = () =>{
