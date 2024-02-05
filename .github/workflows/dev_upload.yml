@@ -65,7 +65,7 @@ jobs:
         env:
           REACT_APP_MAPTILER_API_KEY: ${{ secrets.MAPTILER_API_KEY }}
       - name: Deploy to RPI
-        uses: appleboy/scp-action@master
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SCP_HOST }}
           username: ${{ secrets.SCP_USER }}
