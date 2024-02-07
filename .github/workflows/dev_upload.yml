@@ -18,6 +18,8 @@ on:
         required: true
       SCP_PASSWORD:
         required: true
+      SCP_PORT:
+        required: true
       MAPTILER_API_KEY:
         required: true
   schedule:
@@ -70,7 +72,7 @@ jobs:
           host: ${{ secrets.SCP_HOST }}
           username: ${{ secrets.SCP_USER }}
           password: ${{ secrets.SCP_PASSWORD }}
-          port: 22
+          port: ${{ secrets.SCP_PORT }}
           source: "./build/"
           target: "/home/pog/deploy/"
           rm: true

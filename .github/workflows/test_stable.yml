@@ -17,6 +17,7 @@ jobs:
             FPT_PASSWORD: ${{ secrets.FPT_PASSWORD }}
             SCP_HOST: ${{ secrets.SCP_HOST }}
             SCP_PASSWORD: ${{ secrets.SCP_PASSWORD }}
+            SCP_PORT: ${{ secrets.SCP_PORT }}
             SCP_USER: ${{ secrets.SCP_USER }}
             MAPTILER_API_KEY: ${{ secrets.MAPTILER_API_KEY }}
         with:
