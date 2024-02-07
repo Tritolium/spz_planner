@@ -50,17 +50,23 @@ const login = async (name, pwhash, version) => {
     })
     switch(response.status) {
         case 200:
-            let json = await response.json()
-            _forename = json.Forename
-            _surname = json.Surname
-            _api_token = json.API_token
-            _auth_level = json.Auth_level
-            _theme = json.Theme
-            error = json.Err
-            if(error === 4)
-                alert("Kein Passwort gesetzt. Bitte Passwort setzen unter \"Einstellungen\".")
-            localStorage.setItem('api_token', json.API_token)
-            localStorage.setItem('auth_level', _auth_level)
+            if (response.headers.get('Content-Type') === 'application/json') {
+                let json = await response.json()
+                _forename = json.Forename
+                _surname = json.Surname
+                _api_token = json.API_token
+                _auth_level = json.Auth_level
+                _theme = json.Theme
+                error = json.Err
+                if(error === 4)
+                    alert("Kein Passwort gesetzt. Bitte Passwort setzen unter \"Einstellungen\".")
+                localStorage.setItem('api_token', json.API_token)
+                localStorage.setItem('auth_level', _auth_level)
+            } else {
+                response.text().then(text => {
+                    sendError(text)
+                })
+            }
             break
         case 403:
             alert("Falscher Nutzer oder falsches Passwort")
@@ -110,13 +116,19 @@ const update_login = async (version) => {
         let response = await fetch(`${host}/api/login.php?mode=update&body=` + body)
         switch(response.status) {
             case 200:
-                let json = await response.json()
-                _forename = json.Forename
-                _surname = json.Surname
-                _auth_level = json.Auth_level
-                _theme = json.Theme
-                localStorage.setItem('api_token', token)
-                localStorage.setItem('auth_level', _auth_level)
+                if (response.headers.get('Content-Type') === 'application/json') {
+                    let json = await response.json()
+                    _forename = json.Forename
+                    _surname = json.Surname
+                    _auth_level = json.Auth_level
+                    _theme = json.Theme
+                    localStorage.setItem('api_token', token)
+                    localStorage.setItem('auth_level', _auth_level)
+                } else {
+                    response.text().then(text => {
+                        sendError(text)
+                    })
+                }
                 break
             case 404:
                 break
