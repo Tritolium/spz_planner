@@ -23,6 +23,17 @@
         ]
     },
     {
+        "version": "v0.12.4",
+        "entries": [
+            {
+                "page": "Allgemein",
+                "changes": [
+                    "Die Fehlermeldungen sammeln mehr Informationen, um Fehler besser nachvollziehen zu können."
+                ]
+            }
+        ]
+    },
+    {
         "version": "v0.12.3",
         "entries": [
             {
