@@ -82,7 +82,9 @@ const EventSelector = ({ events, onSelect, usergroups }) => {
 			.filter(event => {
 				let now = new Date()
 				let eventDate = new Date(event.Date)
-				eventDate.setHours(event.Begin.split(':')[0], event.Begin.split(':')[1], 0, 0)
+                if (event.Begin !== null) {
+                    eventDate.setHours(event?.Begin.split(':')[0], event?.Begin.split(':')[1], 0, 0)
+                }
 				return eventDate < now
 			})
             .filter(event => {
