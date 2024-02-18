@@ -23,7 +23,7 @@ const EvaluationOverview = ({ theme }) => {
 
     const fetchEvaluations = useCallback(async () => {
         if(selectedUsergroupID !== -1){
-            fetch(`${host}/api/attendence.php?api_token=${localStorage.getItem("api_token")}&usergroup=${selectedUsergroupID}&eval&all=true`)
+            fetch(`${host}/api/v0/attendenceeval?api_token=${localStorage.getItem("api_token")}&usergroup_id=${selectedUsergroupID}`)
                 .then((response) => {
                     if(response.status === 200) 
                         return response.json()
