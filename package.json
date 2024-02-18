@@ -71,7 +71,8 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
     "deploy": "node scripts/build.js && sudo cp -r ./build/* /var/www/html/",
-    "remote-deploy": "node scripts/build.js && scp -r ./build/* pi@buzzer.dns.army:/home/pi/build/ && ssh pi@buzzer.dns.army 'sudo cp -r -u /home/pi/build/* /var/www/html/'"
+    "remote-deploy": "node scripts/build.js && scp -r ./build/* pi@buzzer.dns.army:/home/pi/build/ && ssh pi@buzzer.dns.army 'sudo cp -r -u /home/pi/build/* /var/www/html/'",
+    "publish": "node scripts/publish.js"
   },
   "eslintConfig": {
     "extends": [
