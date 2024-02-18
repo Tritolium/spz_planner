@@ -404,7 +404,7 @@ export const getAllAttendences = async (usergroup_id) => {
     let attendences = new Array(0)
     let token = localStorage.getItem('api_token')
 
-    let response = await fetch(`${host}/api/attendence.php?api_token=${token}&all=true&usergroup=${usergroup_id}`, {
+    let response = await fetch(`${host}/api/v0/attendence?api_token=${token}&all=true&usergroup_id=${usergroup_id}`, {
         method: "GET"
     })
 
