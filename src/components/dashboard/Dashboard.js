@@ -120,10 +120,10 @@ const Dashboard = ({ fullname, auth_level, theme }) => {
         </StyledInfoText> : <></>}
         {mobileBrowser ? <StyledInfoText>Diese App kann auch installiert werden, einfach auf das Icon klicken!</StyledInfoText> : <></>}
         {showiosInstruction ? <StyledInfoText className='iosInstruction'>Erst <IoShareOutline />, dann <BsPlusSquare /></StyledInfoText> : <></>}
-        <Changelog read={localStorage.getItem("changelogRead") === version} version={version}/>
         {eventInfo ? <EventInfo hideEventInfo={hideEventInfo} eventInfoData={eventInfoData} fullname={fullname}/> : <DashboardAttendence fullname={fullname} nextPractices={nextPractices} nextEvents={nextEvents} nextOthers={nextOthers} showEventInfo={showEventInfo} auth_level={auth_level} theme={theme}/>}
         <Statistics theme={theme} auth_level={auth_level} />
         <Feedback />
+        <Changelog read={localStorage.getItem("changelogRead") === version} version={version}/>
     </StyledDashboard>)
 }
 
