@@ -386,43 +386,25 @@ const setAttendence = async (event_id, member_id, attendence, plusone) => {
     })
 }
 
-const getAttendences = async () => {
-    
-    let attendences = new Array(0)
-    
+const getAttendences = async () => {    
     let token = localStorage.getItem('api_token')
-
-    let lastmodified = JSON.parse(localStorage.getItem('attendences'))?.lastmodified    
-    let response = await fetch(`${host}/api/attendence.php?api_token=${token}`, {
-        method: "GET",
-        headers: lastmodified ? {
-            'If-Modified-Since': lastmodified
-        } : {}
+  
+    return fetch(`${host}/api/v0/attendence?api_token=${token}`)
+    .then(response => {
+        return response.json()
+    }).then(json => {
+        return json
+    }, error => {
+        sendError(error)
+        return new Array(0)
     })
-    switch(response.status){
-    case 200:
-        attendences = await response.json()
-        let store = {
-            lastmodified: response.headers.get('DB-Last-Modified'),
-            data: attendences
-        }
-        localStorage.setItem('attendences', JSON.stringify(store))
-        break
-    case 304:
-        attendences = JSON.parse(localStorage.getItem('attendences'))?.data
-        break
-    default:
-        break
-    }
-
-    return attendences
 }
 
 export const getAllAttendences = async (usergroup_id) => {
     let attendences = new Array(0)
     let token = localStorage.getItem('api_token')
 
-    let response = await fetch(`${host}/api/attendence.php?api_token=${token}&all=true&usergroup=${usergroup_id}`, {
+    let response = await fetch(`${host}/api/v0/attendence?api_token=${token}&all=true&usergroup_id=${usergroup_id}`, {
         method: "GET"
     })
 
@@ -455,22 +437,6 @@ export const updateAttendence = async (event_id, attendence, plusone) => {
                 break
         }
     })
-}
-
-const getMissingFeedback = async () => {
-    
-    let token = localStorage.getItem('api_token')
-
-    let response = await fetch(`${host}/api/attendence.php?api_token=${token}&missing`, {
-        method: "GET"
-    })
-    switch(response.status){
-    case 200:
-        let json = await response.json()
-        return json
-    default:
-        return
-    }
 }
 
 const getEvalByUsergroup = async (usergroup_id) => {
@@ -1142,4 +1108,4 @@ export const sendPushSubscription = async (subscription, allowed) => {
     return permissions
 }
 
-export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, getMissingFeedback, getEvalByUsergroup }
+export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, getEvalByUsergroup }

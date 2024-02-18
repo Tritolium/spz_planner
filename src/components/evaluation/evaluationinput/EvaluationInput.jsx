@@ -120,7 +120,9 @@ const DetailForm = ({ event, reload, theme }) => {
 	const [evaluated, setEvaluated] = useState({})
 
 	const getAttendenceByEvent = useCallback(async () => {
-		fetch(`${host}/api/attendence.php?event_id=${event?.Event_ID}&api_token=${localStorage.getItem('api_token')}`)
+        if(event === undefined)
+            return
+		fetch(`${host}/api/v0/attendenceeval/${event?.Event_ID}?api_token=${localStorage.getItem('api_token')}`)
 		.then(res => res.json())
 		.then(data => {
 			setAttendence(data)
