@@ -5,7 +5,8 @@
             {
                 "page": "Startseite",
                 "changes": [
-                    "Ladeanimation bei Terminen hinzugefügt"
+                    "Ladeanimation bei Terminen hinzugefügt",
+                    "Die Zusage ist jetzt nur noch für anstehende Termine möglich. Sobald der Termin begonnen hat, ist das Feld deaktiviert."
                 ]
             },
             {

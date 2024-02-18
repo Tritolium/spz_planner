@@ -18,6 +18,10 @@ const Terminzusage = (props) => {
             event_date.setHours(props.event.Begin.split(':')[0])
             event_date.setMinutes(props.event.Begin.split(':')[1])
             if(now.getTime() > event_date.getTime()){
+                alert("Du kannst deine Zusage nicht mehr ändern, da der Termin bereits begonnen hat. Solltest du vergessen haben abzusagen, schick bitte eine WhatsApp.")
+                return
+            } else if (props.event?.Category === "event" && now.getTime() > event_date.getTime() - 5400000){
+                alert("Du kannst deine Zusage nicht mehr ändern, da der Termin in weniger als 1,5 Stunden beginnt. Schick bitte eine WhatsApp zum An- oder Abmelden.")
                 return
             }
         }
