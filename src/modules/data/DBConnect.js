@@ -439,22 +439,6 @@ export const updateAttendence = async (event_id, attendence, plusone) => {
     })
 }
 
-const getMissingFeedback = async () => {
-    
-    let token = localStorage.getItem('api_token')
-
-    let response = await fetch(`${host}/api/attendence.php?api_token=${token}&missing`, {
-        method: "GET"
-    })
-    switch(response.status){
-    case 200:
-        let json = await response.json()
-        return json
-    default:
-        return
-    }
-}
-
 const getEvalByUsergroup = async (usergroup_id) => {
     
     let token = localStorage.getItem('api_token')
@@ -1124,4 +1108,4 @@ export const sendPushSubscription = async (subscription, allowed) => {
     return permissions
 }
 
-export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, getMissingFeedback, getEvalByUsergroup }
+export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, getEvalByUsergroup }

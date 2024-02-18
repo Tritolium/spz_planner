@@ -16,7 +16,6 @@ const Overview = ({ theme }) => {
 
     const [attendences, setAttendences] = useState(new Array(0))
     const [evaluation, setEvaluation] = useState(new Array(0))
-    //const [missingFeedback, setMissingFeedback] = useState(new Array(0))
 
     const fetchUsergroups = async () => {
         let _usergroups = await getOwnUsergroups()
@@ -27,13 +26,6 @@ const Overview = ({ theme }) => {
         let _attendences = await getAllAttendences(selectedUsergroup_ID)
         setAttendences(_attendences)
     }, [selectedUsergroup_ID])
-
-    /*
-    const fetchMissingFeedback = async () => {
-        let _missingFeedback = await getMissingFeedback()
-        setMissingFeedback(_missingFeedback)
-    }
-    */
 
     const fetchEval = useCallback(async () => {
         let _eval = await getEvalByUsergroup(selectedUsergroup_ID)
