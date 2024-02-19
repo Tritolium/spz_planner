@@ -5,11 +5,14 @@ const strippedVersion = version.split(".")[0] + "." + version.split(".")[1]
 
 console.log("Setting version to " + version)
 
-if(version.split(".")[2] === "0")
+execSync("git fetch")
+
+if(version.split(".")[2] === "0"){
+    execSync(`git switch master`)
+    execSync("git pull")
     exec(`sed -i 's/const version = .*/const version = "${strippedVersion}"/' src/App.js`)
-else{
+}else{
     // version is a patch, so there already is a branch for it. Switch to it
-    execSync("git fetch")
     execSync(`git switch ${strippedVersion}`)
     execSync("git pull")
     exec(`sed -i 's/const version = .*/const version = "${version}"/' src/App.js`)
