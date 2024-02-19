@@ -10,7 +10,7 @@ if(version.split(".")[2] === "0")
 else{
     // version is a patch, so there already is a branch for it. Switch to it
     execSync("git fetch")
-    execSync(`git switch v${strippedVersion}`)
+    execSync(`git switch ${strippedVersion}`)
     execSync("git pull")
     exec(`sed -i 's/const version = .*/const version = "${version}"/' src/App.js`)
 }
@@ -24,6 +24,6 @@ execSync("git push origin master")
 execSync(`git push origin ${version}`)
 
 if(version.split(".")[2] === "0"){
-    execSync(`git branch -c v${strippedVersion}`)
+    execSync(`git branch -c ${strippedVersion}`)
     exec(`git push origin ${strippedVersion}`)
 }
