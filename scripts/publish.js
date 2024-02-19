@@ -20,7 +20,7 @@ exec(`sed -i 's/"version": .*/"version": "${version}",/' public/manifest.json`)
 execSync("git add src/App.js package.json public/manifest.json")
 execSync(`git commit -m "Planer ${version}"`)
 execSync(`git tag -a ${version} -m "Planer ${version}"`)
-execSync("git push origin master")
+execSync("git push origin")
 execSync(`git push origin ${version}`)
 
 if(version.split(".")[2] === "0"){
