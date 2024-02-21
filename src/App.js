@@ -2,7 +2,7 @@ import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { login, sendError, sendPushSubscription, update_login } from './modules/data/DBConnect';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from './global';
-import { theme0, theme1, theme2, theme3, theme4 } from './theme';
+import { themes } from './theme';
 // import preval from 'preval.macro'
 import { TbBellFilled, TbBellOff } from 'react-icons/tb';
 import Settings from './components/settings/Settings';
@@ -27,7 +27,7 @@ const Scoreboard = lazy(() => import('./components/scoreboard/Scoreboard'))
 const StyledApp = lazy(() => import('./App.styled'))
 
 // - ${preval`module.exports = new Date().toISOString()`}
-export const version = `v0.12`
+export const version = `v0.13`
 
 const App = () => {
 
@@ -40,7 +40,7 @@ const App = () => {
     const [fullname, setFullname] = useState("")
     const [auth_level, setAuth_level] = useState(0)
 
-    const [theme, setTheme] = useState(theme1)
+    const [theme, setTheme] = useState(themes[1])
 
     useEffect(() => {
 
@@ -52,26 +52,7 @@ const App = () => {
                     setFullname(_forename + " " + _surname)
                     setAuth_level(_auth_level)
                     if(_theme !== undefined){
-                        switch(_theme){
-                        case 0:
-                            setTheme(theme0)
-                            break
-                        case 1:
-                            setTheme(theme1)
-                            break
-                        case 2:
-                            setTheme(theme2)
-                            break
-                        case 3:
-                            setTheme(theme3)
-                            break
-                        case 4:
-                            setTheme(theme4)
-                            break
-                        default:
-                            setTheme(theme1)
-                            break
-                        }
+                        setTheme(themes[_theme] || themes[1])
                     }
                     setView(0)
                     if(window.Notification?.permission === 'granted'){
@@ -105,26 +86,7 @@ const App = () => {
                 setFullname(_forename + " " + _surname)
                 setAuth_level(_auth_level)
                 if(_theme !== undefined){
-                    switch(_theme){
-                    case 0:
-                        setTheme(theme0)
-                        break
-                    case 1:
-                        setTheme(theme1)
-                        break
-                    case 2:
-                        setTheme(theme2)
-                        break
-                    case 3:
-                        setTheme(theme3)
-                        break
-                    case 4:
-                        setTheme(theme4)
-                        break
-                    default:
-                        setTheme(theme1)
-                        break
-                    }
+                    setTheme(themes[_theme] || themes[1])
                 }
                 setView(0)
                 if(window.Notification?.permission === 'granted'){
