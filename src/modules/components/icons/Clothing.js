@@ -49,6 +49,7 @@ export const ClothingInput = ({ clothing, onClick }) => {
     let icon
 
     switch(parseInt(clothing)){
+    default:
     case 0:
         icon = blank
         break
@@ -72,8 +73,6 @@ export const ClothingInput = ({ clothing, onClick }) => {
         break
     case 7:
         icon = suit_2
-        break
-    default:
         break
     }
 
