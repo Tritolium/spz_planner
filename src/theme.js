@@ -77,3 +77,5 @@ export const theme4 = {
     mobile: '530px',
     medium: '1007px'
 }
+
+export const themes = [theme0, theme1, theme2, theme3, theme4]
