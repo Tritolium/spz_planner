@@ -14,4 +14,13 @@ test('do login', async ({ page }) => {
   await page.getByRole("button", {name: "Login"}).press("Enter")
   await expect(page.getByRole("button", {name: "Feedback"})).toBeVisible()
   await expect(page.getByText(/Nächste Probe/)).toBeVisible()
+  await page.getByRole("button", {name: "Hauptmenü"}).click()
+  // test the attendence page
+  await expect(page.locator("#main_button_1")).toBeVisible()
+  await page.locator("#main_button_1").click()
+  await expect(page.locator("tbody > tr").first()).toBeVisible()
+  // test the attendence overview page
+  await page.locator("#date_button_1").click()
+  await page.locator("#usergroup_select").selectOption("Rönkhausen")
+  await expect(page.locator("tbody > tr").first()).toBeVisible()
 })
