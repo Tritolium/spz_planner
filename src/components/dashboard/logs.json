@@ -20,6 +20,12 @@
                 "changes": [
                     "Die App wurde für bessere Offline-Nutzbarkeit optimiert. Es wird weiterhin eine Internetverbindung benötigt, die Verwendung ist aber bei schlechter Verbindung robuster geworden."
                 ]
+            },
+            {
+                "page": "Startseite/Termine",
+                "changes": [
+                    "Neues Icon für die Bekleidung hinzugefügt"
+                ]
             }
         ]
     },
