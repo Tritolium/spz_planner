@@ -92,6 +92,7 @@ const OverviewTable = ({ evaluations, filterFrom, filterTo, theme }) => {
                     }
                     return true
                 })
+                .filter((evaluation) => evaluation.Type.includes("Abgesagt") === false)
                 .map((evaluation) => {
                     let att = evaluation.Evaluations.filter(evalu => {return evalu.Evaluation === 3 || evalu.Evaluation === 4}).length
                     let all = evaluation.Evaluations.length
