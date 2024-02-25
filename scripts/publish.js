@@ -19,7 +19,7 @@ if(version.split(".")[2] === "0"){
     exec(`sed -i 's/const version = .*/const version = "${version}"/' src/App.js`)
 }
 
-exec(`sed -i 's/"version": .*/"version": "${version}",/' package.json`)
+exec(`sed -i 's/"version": .*/"version": "${version.substring(1)}",/' package.json`)
 exec(`sed -i 's/"version": .*/"version": "${version}",/' public/manifest.json`)
 execSync("git add src/App.js package.json public/manifest.json .github/workflows/test_stable.yml")
 execSync(`git commit -m "Planer ${version}"`)
