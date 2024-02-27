@@ -188,7 +188,15 @@ const DetailForm = ({ event, reload, theme }) => {
 				</thead>
 				<tbody>
 					{
-						attendence.map((attendence) => {
+						attendence
+                        .sort((a, b) => {
+                            if(a.Fullname.split(" ")[1] < b.Fullname.split(" ")[1])
+                                return -1
+                            if(a.Fullname.split(" ")[1] > b.Fullname.split(" ")[1])
+                                return 1
+                            return 0
+                        })
+                        .map((attendence) => {
 							return(<tr key={`attendence_${attendence.Member_ID}`}>
 								<td>{attendence.Fullname}</td>
 								<td><Zusage attendence={attendence.Attendence} theme={theme}/></td>

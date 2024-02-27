@@ -92,9 +92,10 @@ const OverviewTable = ({ evaluations, filterFrom, filterTo, theme }) => {
                     }
                     return true
                 })
+                .filter((evaluation) => evaluation.Type.includes("Abgesagt") === false)
                 .map((evaluation) => {
                     let att = evaluation.Evaluations.filter(evalu => {return evalu.Evaluation === 3 || evalu.Evaluation === 4}).length
-                    let all = evaluation.Evaluations.length
+                    let all = evaluation.Evaluations.filter(evalu => evalu.Evaluation !== -1).length
                     let date = new Date(evaluation.Date)
                     let datestring = date.getDate() + "." + (date.getMonth()+1) + "." + date.getFullYear()
                     return(
