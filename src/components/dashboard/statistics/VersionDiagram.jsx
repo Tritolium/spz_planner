@@ -75,8 +75,12 @@ const VersionDiagram = ({ versions, theme }) => {
                     backgroundColor = theme.greenRGB
                 else if (aMin === bMin)
                     backgroundColor = theme.yellowRGB
-                else
-                    backgroundColor = theme.redRGB
+                else {
+                    if((aMin + 1) === bMin)
+                        backgroundColor = theme.redRGB
+                    else
+                        backgroundColor = theme.darkredRGB
+                }
             } else if (isNaN(aMaj)) {
                 backgroundColor = theme.blueRGB
             } else {
