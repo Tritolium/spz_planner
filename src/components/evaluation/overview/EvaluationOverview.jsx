@@ -8,6 +8,7 @@ const EvaluationOverview = ({ theme }) => {
 
     const [usergroups, setUsergroups] = useState(new Array(0))
     const [selectedUsergroupID, setSelectedUsergroupID] = useState(-1)
+    const [selectedCategory, setSelectedCategory] = useState("all")
     const [filterFrom, setFilterFrom] = useState(new Date('2023-11-23').toISOString().split('T')[0])
     const [filterTo, setFilterTo] = useState(new Date().toISOString().split('T')[0])
 
@@ -42,6 +43,10 @@ const EvaluationOverview = ({ theme }) => {
         setSelectedUsergroupID(e.target.value)
     }, [])
 
+    const onCategoryChange = useCallback((e) => {
+        setSelectedCategory(e.target.value)
+    }, [])
+
     const reload = useCallback(() => {
         fetchEvaluations()
     }, [fetchEvaluations])
@@ -57,15 +62,21 @@ const EvaluationOverview = ({ theme }) => {
                 <select name="usergroup" id="usergroup" onChange={onUsergroupChange}>
                     {usergroups.map((usergroup) => <option key={usergroup.Usergroup_ID} value={usergroup.Usergroup_ID}>{usergroup.Title}</option>)}
                 </select>
+                <select name="type" id="type" onChange={onCategoryChange}>
+                    <option value="all">Alle</option>
+                    <option value="practice">Üben/Probe</option>
+                    <option value="event">Auftritt</option>
+                    <option value="other">sonstige Termine</option>
+                </select>
                 <input type="date" defaultValue={'2023-11-23'} onChange={(e) => {setFilterFrom(e.target.value)}}/>
                 <input type="date" defaultValue={filterTo} onChange={(e) => {setFilterTo(e.target.value)}}/>
             </div>
-            <OverviewTable evaluations={evaluations} filterFrom={filterFrom} filterTo={filterTo} theme={theme}/>
+            <OverviewTable evaluations={evaluations} filterFrom={filterFrom} filterTo={filterTo} category={selectedCategory} theme={theme}/>
         </StyledEvaluationOverview>
     );
 };
 
-const OverviewTable = ({ evaluations, filterFrom, filterTo, theme }) => {
+const OverviewTable = ({ evaluations, filterFrom, filterTo, category, theme }) => {
     return(
         <Table>
             <thead>
@@ -93,28 +104,33 @@ const OverviewTable = ({ evaluations, filterFrom, filterTo, theme }) => {
                     return true
                 })
                 .filter((evaluation) => evaluation.Type.includes("Abgesagt") === false)
+                .filter((evaluation) => evaluation.Category === category || category === "all")
                 .map((evaluation) => {
-                    let att = evaluation.Evaluations.filter(evalu => {return evalu.Evaluation === 3 || evalu.Evaluation === 4}).length
-                    let all = evaluation.Evaluations.filter(evalu => evalu.Evaluation !== -1).length
-                    let date = new Date(evaluation.Date)
-                    let datestring = date.getDate() + "." + (date.getMonth()+1) + "." + date.getFullYear()
-                    return(
-                        <tr key={`evaluation_${evaluation.Type}_${evaluation.Date}`}>
-                            <td>{datestring}</td>
-                            <td>{evaluation.Type} {evaluation.Location}</td>
-                            <td>{evaluation.Evaluations.filter(evalu => {return evalu.Evaluation === 0}).length}</td>
-                            <td>{evaluation.Evaluations.filter(evalu => {return evalu.Evaluation === 1}).length}</td>
-                            <td>{evaluation.Evaluations.filter(evalu => {return evalu.Evaluation === 2}).length}</td>
-                            <td>{evaluation.Evaluations.filter(evalu => {return evalu.Evaluation === 3}).length}</td>
-                            <td>{evaluation.Evaluations.filter(evalu => {return evalu.Evaluation === 4}).length}</td>
-                            <td>{evaluation.Evaluations.filter(evalu => {return evalu.Evaluation === 3 || evalu.Evaluation === 4}).length}</td>
-                            <td>{evaluation.Evaluations.filter(evalu => {return !(evalu.Evaluation === 3 || evalu.Evaluation === 4 || evalu.Evaluation === -1)}).length}</td>
-                            <td>{att}/{all} ({Math.round(att/all*100)}%)</td>
-                        </tr>
-                    )
+                    return <EvaluationRow key={`evaluation_${evaluation.Type}_${evaluation.Date}`} evaluation={evaluation}/>
                 })}
             </tbody>
         </Table>
+    )
+}
+
+const EvaluationRow = ({ evaluation }) => {
+    let att = evaluation.Evaluations.filter(evalu => {return evalu.Evaluation === 3 || evalu.Evaluation === 4}).length
+    let all = evaluation.Evaluations.filter(evalu => evalu.Evaluation !== -1).length
+    let date = new Date(evaluation.Date)
+    let datestring = date.getDate() + "." + (date.getMonth()+1) + "." + date.getFullYear()
+    return(
+        <tr>
+            <td>{datestring}</td>
+            <td>{evaluation.Type} {evaluation.Location}</td>
+            <td>{evaluation.Evaluations.filter(evalu => {return evalu.Evaluation === 0}).length}</td>
+            <td>{evaluation.Evaluations.filter(evalu => {return evalu.Evaluation === 1}).length}</td>
+            <td>{evaluation.Evaluations.filter(evalu => {return evalu.Evaluation === 2}).length}</td>
+            <td>{evaluation.Evaluations.filter(evalu => {return evalu.Evaluation === 3}).length}</td>
+            <td>{evaluation.Evaluations.filter(evalu => {return evalu.Evaluation === 4}).length}</td>
+            <td>{evaluation.Evaluations.filter(evalu => {return evalu.Evaluation === 3 || evalu.Evaluation === 4}).length}</td>
+            <td>{evaluation.Evaluations.filter(evalu => {return !(evalu.Evaluation === 3 || evalu.Evaluation === 4 || evalu.Evaluation === -1)}).length}</td>
+            <td>{att}/{all} ({Math.round(att/all*100)}%)</td>
+        </tr>
     )
 }
 
