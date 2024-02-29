@@ -42,7 +42,31 @@ const DashboardDiagram = ({ event, auth_level, theme }) => {
 
     const labels = ['']
 
-    const data = {
+    const data = auth_level > 1 ? {
+        labels,
+        datasets: [
+            {
+                data: [event?.Consent],
+                backgroundColor: theme.greenRGB
+            },
+            {
+                data: [event?.ProbAttending],
+                backgroundColor: theme.lightgreenRGB
+            },
+            {
+                data: [event?.Maybe],
+                backgroundColor: theme.yellowRGB
+            },
+            {
+                data: [event?.ProbMissing],
+                backgroundColor: theme.lightredRGB
+            },
+            {
+                data: [event?.Refusal],
+                backgroundColor: theme.redRGB
+            }
+        ]
+    } : {
         labels,
         datasets: [
             {
