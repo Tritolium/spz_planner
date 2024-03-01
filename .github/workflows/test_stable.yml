@@ -43,5 +43,3 @@ jobs:
             name: playwright-report
             path: playwright-report/
             retention-days: 30
-        - name: Delete log
-          run: wget https://spzroenkhausen.bplaced.net/api/playwright.php --method DELETE
