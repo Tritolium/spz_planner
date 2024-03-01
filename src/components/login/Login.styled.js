@@ -6,7 +6,7 @@ const StyledLogin = styled.form`
     align-items: center;
 
     max-width: 6cm;
-    max-height: 3cm;
+    max-height: 4cm;
     width: 90vw;
     height: 25vw;
 
