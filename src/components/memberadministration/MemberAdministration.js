@@ -2,7 +2,7 @@ import { lazy, Suspense, useCallback, useEffect, useState } from 'react'
 import Button from '../../modules/components/button/Button'
 import MemberForm from './memberform/MemberForm'
 import HeaderMenu from "../../modules/components/headermenu/HeaderMenu"
-import { getMembers } from '../../modules/data/DBConnect'
+import { host } from '../../modules/data/DBConnect'
 
 const Overview =lazy(() => import('./overview/Overview'))
 
@@ -12,11 +12,11 @@ const Memberadministration = (props) => {
     const [members, setMembers] = useState(new Array(0))
 
     const fetchMembers = useCallback(async () => {
-        let _members = await getMembers()
-        if(_members !== undefined)
-            setMembers(_members)
-        else
-            setMembers(new Array(0))
+        fetch(`${host}/api/v0/member?api_token=${localStorage.getItem('api_token')}`)
+            .then(response => response.json())
+            .then(data => {
+                setMembers(data)
+            })
     }, [])
 
     useEffect(() => {
