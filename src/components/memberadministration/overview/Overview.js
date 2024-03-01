@@ -1,6 +1,7 @@
 import { Suspense } from "react"
 import { Table } from "../../../modules/components/overview/Table"
 import { StyledOverview } from "./Overview.styled"
+import { getSQLDateString } from "../../../modules/helper/DateFormat"
 
 const Overview = ({ members }) => {
 
@@ -19,7 +20,7 @@ const MemberList = ({ members }) => {
                     <tr>
                         <th>Vorname</th>
                         <th>Nachname</th>
-                        <th>Instrument</th>
+                        <th>Geburtstag</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,7 +39,7 @@ const Member = ({ member }) => {
         <tr>
             <td>{member.Forename}</td>
             <td>{member.Surname}</td>
-            <td>{member.Instrument}</td>
+            <td>{getSQLDateString(member.Birthdate)}</td>
         </tr>
     )
 }
