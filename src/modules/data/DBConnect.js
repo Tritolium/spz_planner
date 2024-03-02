@@ -341,29 +341,6 @@ const updateMember = async(member_id, forename, surname, auth_level, nicknames, 
     }
 }
 
-const newMember = async(forename, surname, auth_level, nicknames, instrument, birthdate) => {
-    
-    let token = localStorage.getItem('api_token')
-
-    let response = await fetch(`${host}/api/member.php?api_token=${token}`, {
-        method: "POST",
-        body: JSON.stringify({
-            Forename: forename,
-            Surname: surname,
-            Auth_level: auth_level,
-            Nicknames: nicknames,
-            Instrument: instrument,
-            Birthdate: birthdate
-        })
-    })
-    switch(response.status){
-    case 200:
-        return true
-    default:
-        return false
-    }
-}
-
 const setAttendence = async (event_id, member_id, attendence, plusone) => {
 
     let token = localStorage.getItem('api_token')
@@ -1108,4 +1085,4 @@ export const sendPushSubscription = async (subscription, allowed) => {
     return permissions
 }
 
-export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, newMember, setAttendence, getAttendences, getEvalByUsergroup }
+export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, setAttendence, getAttendences, getEvalByUsergroup }

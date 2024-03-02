@@ -3,26 +3,29 @@ import Button from "../../../modules/components/button/Button"
 import Form from "../../../modules/components/form/Form"
 import FormBox from "../../../modules/components/form/FormBox"
 import Selector from "../../../modules/components/form/Selector"
-import { newMember, updateMember } from "../../../modules/data/DBConnect"
+import { host, updateMember } from "../../../modules/data/DBConnect"
 import { StyledMember, StyledMemberForm } from "./MemberForm.styled"
 
 const MemberForm = ({ members, reload }) => {
-
-    const [selected, setSelected] = useState(-1)
+    const [member, setMember] = useState()
 
     const reloadMembers = useCallback(() => {
-        setSelected(-1)
+        setMember({})
         reload()
     }, [reload])
 
     const onSelect = useCallback((id) => {
-        setSelected(id)
+        fetch(`${host}/api/v0/member/${id}?api_token=${localStorage.getItem('api_token')}`)
+            .then(response => response.json())
+            .then(data => {
+                setMember(data)
+            })
     }, [])
 
     return (
         <StyledMemberForm>
             <MemberSelector onSelect={onSelect} members={members}/>
-            <DetailForm member={members.find((member) => member.Member_ID === selected)} reload={reloadMembers}/>
+            <DetailForm member={member} reload={reloadMembers}/>
         </StyledMemberForm>
     )
 }
@@ -72,10 +75,26 @@ const DetailForm = ({member, reload}) => {
 
         if(member !== undefined)
             await updateMember(member.Member_ID, forename, surname, auth_level, nicknames, instrument, birthdate, changedUsergroups)
-        else
-            await newMember(forename, surname, auth_level, nicknames, instrument, birthdate)
-
-        reload()
+        else {
+            fetch(`${host}/api/v0/member?api_token=${localStorage.getItem('api_token')}`,
+                {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        Forename: forename,
+                        Surname: surname,
+                        Auth_level: auth_level,
+                        Nicknames: nicknames,
+                        Birthdate: birthdate
+                    })
+                })
+                .then(response => {
+                    if(response.status === 201)
+                        reload()
+                    else {
+                        alert('Fehler beim Speichern')
+                    }
+                })
+        }
     }
 
     const cancel = async (e) => {
