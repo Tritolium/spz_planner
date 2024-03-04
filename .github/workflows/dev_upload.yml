@@ -81,7 +81,7 @@ jobs:
     needs: build
     steps:
       - name: Upload Website files
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: spzroenkhausen.bplaced.net
           username: spzroenkhausen_admin
