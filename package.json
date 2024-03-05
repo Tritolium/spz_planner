@@ -20,7 +20,7 @@
     "chart.js": "^4.4.1",
     "css-loader": "^6.9.1",
     "css-minimizer-webpack-plugin": "^6.0.0",
-    "dotenv": "^16.4.1",
+    "dotenv": "^16.4.5",
     "dotenv-expand": "^11.0.6",
     "eslint": "^8.57.0",
     "eslint-config-react-app": "^7.0.1",
