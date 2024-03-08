@@ -7,7 +7,7 @@
                 "changes": [
                     "Ladeanimation bei Terminen hinzugefügt",
                     "Die Zusage ist jetzt nur noch für anstehende Termine möglich. Sobald der Termin begonnen hat, ist das Feld deaktiviert.",
-                    "Der Balken unter den Terminen zeigt für den Vorstand an, wie viele Zusagen noch zu erwarten sind."
+                    "Der Balken unter den Terminen zeigt in hellen Farbtönen die erwarteten Rückmeldungen an. Das System wird noch getestet, die Vorhersage liegt aber recht nah am tatsächlichen Ergebnis."
                 ]
             },
             {
