@@ -3,14 +3,14 @@ import Button from "../../../modules/components/button/Button"
 import Form from "../../../modules/components/form/Form"
 import FormBox from "../../../modules/components/form/FormBox"
 import Selector from "../../../modules/components/form/Selector"
-import { host, updateMember } from "../../../modules/data/DBConnect"
+import { host, updateAssociationAssignments, updateMember } from "../../../modules/data/DBConnect"
 import { StyledMember, StyledMemberForm } from "./MemberForm.styled"
 
 const MemberForm = ({ members, reload }) => {
     const [member, setMember] = useState()
 
     const reloadMembers = useCallback(() => {
-        setMember({})
+        setMember(undefined)
         reload()
     }, [reload])
 
@@ -56,12 +56,26 @@ const Member = ({member, onSelect}) => {
 const DetailForm = ({member, reload}) => {
 
     const [changedUsergroups, setChangedUsergroups] = useState({})
+    const [associations, setAssociations] = useState([])
 
     useEffect(() => {
         document.getElementById('memberform_form').reset()
         document.getElementById('auth_level').selectedIndex = member?.Auth_level
         setChangedUsergroups({})
+        fetch(`${host}/api/v0/association?api_token=${localStorage.getItem('api_token')}`)
+            .then(response => response.json())
+            .then(data => {
+                setAssociations(data)
+            })
     }, [member])
+
+    const assignAssociations = async (member_id) => {
+        let assign = {}
+        let association_id = document.getElementById('associations').options[document.getElementById('associations').selectedIndex].value
+        assign[`${member_id}`] = {}        
+        assign[`${member_id}`][`${association_id}`] = true
+        await updateAssociationAssignments(assign)
+    }
 
     const update = async (e) => {
         e.preventDefault()
@@ -87,12 +101,10 @@ const DetailForm = ({member, reload}) => {
                         Birthdate: birthdate
                     })
                 })
-                .then(response => {
-                    if(response.status === 201)
-                        reload()
-                    else {
-                        alert('Fehler beim Speichern')
-                    }
+                .then(response => response.json())
+                .then(data => {
+                    assignAssociations(data.Member_ID)
+                    .then(() => reload())
                 })
         }
     }
@@ -133,6 +145,14 @@ const DetailForm = ({member, reload}) => {
                 <label htmlFor="birthdate">Geburtstag:</label>
                 <input type="date" id="birthdate" defaultValue={member?.Birthdate}/>
             </FormBox>
+            {member !== undefined ? <></> : <FormBox>
+                <label htmlFor="associations">Verein:</label>
+                <select name="associations" id="associations">
+                    {associations.map(association => {
+                        return(<option key={association.Association_ID} value={association.Association_ID}>{association.Title}</option>)
+                    })}
+                </select>
+            </FormBox>}
             <div>
                 <Button onClick={cancel}>Abbrechen</Button>
                 <Button onClick={update}>Speichern</Button>
