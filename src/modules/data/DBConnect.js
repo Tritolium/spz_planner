@@ -130,6 +130,10 @@ const update_login = async (version) => {
                     })
                 }
                 break
+            case 204:
+                // the stored token is invalid, clear local storage
+                localStorage.clear()
+                break
             case 404:
                 break
             default:
