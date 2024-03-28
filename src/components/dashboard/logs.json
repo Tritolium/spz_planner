@@ -1,172 +1,180 @@
-[
-    {
-        "version": "v0.13.2",
-        "entries": [
+{
+    "v0": {
+        "13": [
             {
-                "page": "Startseite",
-                "changes": [
-                    "Die Anzeige der Zusagen im Diagramm wurde gefixt. Zusagen mit Partnern wurden nicht als Zusage angezeigt"
-                ]
-            }
-        ]
-    },
-    {
-        "version": "v0.13.1",
-        "entries": [
-            {
-                "page": "Login",
-                "changes": [
-                    "Wenn Rechte verändert werden, ändert sich Access-Token. Ungültige \"alte\" Access-Token werden abgefangen und der Nutzer wird aufgefordert, sich neu einzuloggen."
-                ]
-            }
-        ]
-    },
-    {
-        "version": "v0.13",
-        "entries": [
-            {
-                "page": "Startseite",
-                "changes": [
-                    "Ladeanimation bei Terminen hinzugefügt",
-                    "Die Zusage ist jetzt nur noch für anstehende Termine möglich. Sobald der Termin begonnen hat, ist das Feld deaktiviert.",
-                    "Der Balken unter den Terminen zeigt in hellen Farbtönen die erwarteten Rückmeldungen an. Das System wird noch getestet, die Vorhersage liegt aber recht nah am tatsächlichen Ergebnis."
+                "patch": 2,
+                "entries":[
+                    {
+                        "page": "Startseite",
+                        "changes": [
+                            "Die Anzeige der Zusagen im Diagramm wurde gefixt. Zusagen mit Partnern wurden nicht als Zusage angezeigt"
+                        ]
+                    }
                 ]
             },
             {
-                "page": "Login",
-                "changes": [
-                    "Der Nutzer wird jetzt informiert, wenn er noch kein Passwort gesetzt hat."
+                "patch": 1,
+                "entries":[
+                    {
+                        "page": "Login",
+                        "changes": [
+                            "Wenn Rechte verändert werden, ändert sich Access-Token. Ungültige \"alte\" Access-Token werden abgefangen und der Nutzer wird aufgefordert, sich neu einzuloggen."
+                        ]
+                    }
                 ]
             },
             {
-                "page": "Allgemein",
-                "changes": [
-                    "Die App wurde für bessere Offline-Nutzbarkeit optimiert. Es wird weiterhin eine Internetverbindung benötigt, die Verwendung ist aber bei schlechter Verbindung robuster geworden."
-                ]
-            },
-            {
-                "page": "Startseite/Termine",
-                "changes": [
-                    "Neues Icon für die Bekleidung hinzugefügt"
+                "patch": 0,
+                "entries":[
+                    {
+                        "page": "Startseite",
+                        "changes": [
+                            "Ladeanimation bei Terminen hinzugefügt",
+                            "Die Zusage ist jetzt nur noch für anstehende Termine möglich. Sobald der Termin begonnen hat, ist das Feld deaktiviert.",
+                            "Der Balken unter den Terminen zeigt in hellen Farbtönen die erwarteten Rückmeldungen an. Das System wird noch getestet, die Vorhersage liegt aber recht nah am tatsächlichen Ergebnis."
+                        ]
+                    },
+                    {
+                        "page": "Login",
+                        "changes": [
+                            "Der Nutzer wird jetzt informiert, wenn er noch kein Passwort gesetzt hat."
+                        ]
+                    },
+                    {
+                        "page": "Allgemein",
+                        "changes": [
+                            "Die App wurde für bessere Offline-Nutzbarkeit optimiert. Es wird weiterhin eine Internetverbindung benötigt, die Verwendung ist aber bei schlechter Verbindung robuster geworden."
+                        ]
+                    },
+                    {
+                        "page": "Startseite/Termine",
+                        "changes": [
+                            "Neues Icon für die Bekleidung hinzugefügt"
+                        ]
+                    }
                 ]
             }
-        ]
-    },
-    {
-        "version": "v0.12.5",
-        "entries": [
+        ],
+        "12": [
             {
-                "page": "Startseite",
-                "changes": [
-                    "Die Änderungen werden jetzt am Ende der Startseite angezeigt"
-                ]
-            }
-        ]
-    },
-    {
-        "version": "v0.12.4",
-        "entries": [
-            {
-                "page": "Allgemein",
-                "changes": [
-                    "Die Fehlermeldungen sammeln mehr Informationen, um Fehler besser nachvollziehen zu können."
-                ]
-            }
-        ]
-    },
-    {
-        "version": "v0.12.3",
-        "entries": [
-            {
-                "page": "Allgemein",
-                "changes": [
-                    "Um eine bessere Nutzbarkeit zu garantieren, aktualisiert sich die App jetzt automatisch, wenn eine neue Version verfügbar ist.",
-                    "Zudem werden Fehlermeldungen jetzt abgefangen, damit sich die App nicht mehr im Login aufhängt."
-                ]
-            }
-        ]
-    },
-    {
-        "version": "v0.12.2",
-        "entries": [
-            {
-                "page": "Allgemein",
-                "changes": [
-                    "Fehler in der Farbanzeige bei Firefox behoben."
-                ]
-            }
-        ]
-    },
-    {
-        "version": "v0.12.1",
-        "entries": [
-            {
-                "page": "Abwesenheiten",
-                "changes": [
-                    "Für das bessere Verständnis wurde die Bezeichnung \"Abwesenheiten\" in \"Urlaub\" geändert. Die Funktionalität bleibt gleich."
+                "patch": 5,
+                "entries": [
+                    {
+                        "page": "Startseite",
+                        "changes": [
+                            "Die Änderungen werden jetzt am Ende der Startseite angezeigt"
+                        ]
+                    }
                 ]
             },
             {
-                "page": "Startseite, Anwesenheiten",
-                "changes": [
-                    "Die App wartet auf die Rückmeldung vom Server, ob eine Zusage/Absage gespeichert wurde. Um dies zu verdeutlichen, wird während der Wartezeit ein Ladebalken angezeigt."
+                "patch": 4,
+                "entries": [
+                    {
+                        "page": "Allgemein",
+                        "changes": [
+                            "Die Fehlermeldungen sammeln mehr Informationen, um Fehler besser nachvollziehen zu können."
+                        ]
+                    }
+                ]
+            },
+            {
+                "patch": 3,
+                "entries": [
+                    {
+                        "page": "Allgemein",
+                        "changes": [
+                            "Um eine bessere Nutzbarkeit zu garantieren, aktualisiert sich die App jetzt automatisch, wenn eine neue Version verfügbar ist.",
+                            "Zudem werden Fehlermeldungen jetzt abgefangen, damit sich die App nicht mehr im Login aufhängt."
+                        ]
+                    }
+                ]
+            },
+            {
+                "patch": 2,
+                "entries": [
+                    {
+                        "page": "Allgemein",
+                        "changes": [
+                            "Fehler in der Farbanzeige bei Firefox behoben."
+                        ]
+                    }
+                ]
+            },
+            {
+                "patch": 1,
+                "entries": [
+                    {
+                        "page": "Abwesenheiten",
+                        "changes": [
+                            "Für das bessere Verständnis wurde die Bezeichnung \"Abwesenheiten\" in \"Urlaub\" geändert. Die Funktionalität bleibt gleich."
+                        ]
+                    },
+                    {
+                        "page": "Startseite, Anwesenheiten",
+                        "changes": [
+                            "Die App wartet auf die Rückmeldung vom Server, ob eine Zusage/Absage gespeichert wurde. Um dies zu verdeutlichen, wird während der Wartezeit ein Ladebalken angezeigt."
+                        ]
+                    }
+                ]
+            },
+            {
+                "patch": 0,
+                "entries": [
+                    {
+                        "page": "Startseite/Anwesenheiten",
+                        "changes": [
+                            "Auf der Startseite und unter Anwesenheiten können jetzt für freigeschaltete Termine Partner mit angegeben werden. Das soll die Planung für Busse etc. erleichtern."
+                        ]
+                    },
+                    {
+                        "page": "Startseite",
+                        "changes": [
+                            "Am Ende der Startseite wird eine kleine Nutzungsstatistik angezeigt."
+                        ]
+                    },
+                    {
+                        "page": "Benachrichtigungen",
+                        "changes": [
+                            "Benachrichtigungen können jetzt auch für die neue Terminkategorie \"Sonstige Termine\" aktiviert/deaktiviert werden. Siehe Einstellungen."
+                        ]
+                    },
+                    {
+                        "page": "Termine",
+                        "changes": [
+                            "Die Termine können jetzt auch nach Kategorien gefiltert werden. Vorher passierte dies nur über den Titel Üben/Probe."
+                        ]
+                    },
+                    {
+                        "page": "Allgemein",
+                        "changes": [
+                            "Darüber hinaus wurden einge Dinge im Hintergrund angepasst, damit die App in Zukunft noch besser funktioniert.",
+                            "Kleine Aussicht für die Zukunft: Passwörter werden demnächst notwendig, damit z.B. Bildergalerien nur für Mitglieder sichtbar sind. Wer die App bereits installiert hat, wird davon wenig mitbekommen, da ein Login nicht jedes Mal notwendig ist.",
+                            "Einige neue Funktionen werden daher auch nur für installierte Apps verfügbar sein."
+                        ]
+                    }
                 ]
             }
-        ]
-    },
-    {
-        "version": "v0.12",
-        "entries": [
+        ],
+        "11": [
             {
-                "page": "Startseite/Anwesenheiten",
-                "changes": [
-                    "Auf der Startseite und unter Anwesenheiten können jetzt für freigeschaltete Termine Partner mit angegeben werden. Das soll die Planung für Busse etc. erleichtern."
-                ]
-            },
-            {
-                "page": "Startseite",
-                "changes": [
-                    "Am Ende der Startseite wird eine kleine Nutzungsstatistik angezeigt."
-                ]   
-            },
-            {
-                "page": "Benachrichtigungen",
-                "changes": [
-                    "Benachrichtigungen können jetzt auch für die neue Terminkategorie \"Sonstige Termine\" aktiviert/deaktiviert werden. Siehe Einstellungen."
-                ]
-            },
-            {
-                "page": "Termine",
-                "changes": [
-                    "Die Termine können jetzt auch nach Kategorien gefiltert werden. Vorher passierte dies nur über den Titel Üben/Probe."
-                ]
-            },
-            {
-                "page": "Allgemein",
-                "changes": [
-                    "Darüber hinaus wurden einge Dinge im Hintergrund angepasst, damit die App in Zukunft noch besser funktioniert.",
-                    "Kleine Aussicht für die Zukunft: Passwörter werden demnächst notwendig, damit z.B. Bildergalerien nur für Mitglieder sichtbar sind. Wer die App bereits installiert hat, wird davon wenig mitbekommen, da ein Login nicht jedes Mal notwendig ist.",
-                    "Einige neue Funktionen werden daher auch nur für installierte Apps verfügbar sein."
-                ]
-            }
-        ]
-    },
-    {
-        "version": "v0.11",
-        "entries": [
-            {
-                "page": "Startseite",
-                "changes": [
-                    "Für die Termine auf der Startseite können weitere Informationen hinterlegt werden. Einfach auf den Termin tippen, um das Fenster zu öffnen.",
-                    "Außerdem werden die Termine jetzt in drei Kategorien eingeteilt und angezeigt: Proben, Auftritte und sonstige Termine."
-                ]
-            },
-            {
-                "page": "Allgemein",
-                "changes": [
-                    "Benachrichtigungen können an- & abgeschaltet werden, entweder über die Glocke, oder über die Einstellungen. Dort ist auch die Unterscheidung zwischen Üben und Auftritt möglich."
+                "patch": 0,
+                "entries": [
+                    {
+                        "page": "Startseite",
+                        "changes": [
+                            "Für die Termine auf der Startseite können weitere Informationen hinterlegt werden. Einfach auf den Termin tippen, um das Fenster zu öffnen.",
+                            "Außerdem werden die Termine jetzt in drei Kategorien eingeteilt und angezeigt: Proben, Auftritte und sonstige Termine."
+                        ]
+                    },
+                    {
+                        "page": "Allgemein",
+                        "changes": [
+                            "Benachrichtigungen können an- & abgeschaltet werden, entweder über die Glocke, oder über die Einstellungen. Dort ist auch die Unterscheidung zwischen Üben und Auftritt möglich."
+                        ]
+                    }
                 ]
             }
         ]
     }
-]
+}
