@@ -46,7 +46,7 @@ const DashboardDiagram = ({ event, auth_level, theme }) => {
         labels,
         datasets: [
             {
-                data: [event?.Consent],
+                data: [event?.Consent + event?.PlusOne],
                 backgroundColor: theme.greenRGB
             },
             {
