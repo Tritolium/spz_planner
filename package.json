@@ -1,6 +1,6 @@
 {
   "name": "spz_planner",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "private": true,
   "dependencies": {
     "@babel/core": "^7.24.3",
