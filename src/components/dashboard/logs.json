@@ -1,5 +1,27 @@
 [
     {
+        "version": "v0.13.2",
+        "entries": [
+            {
+                "page": "Startseite",
+                "changes": [
+                    "Die Anzeige der Zusagen im Diagramm wurde gefixt. Zusagen mit Partnern wurden nicht als Zusage angezeigt"
+                ]
+            }
+        ]
+    },
+    {
+        "version": "v0.13.1",
+        "entries": [
+            {
+                "page": "Login",
+                "changes": [
+                    "Wenn Rechte verändert werden, ändert sich Access-Token. Ungültige \"alte\" Access-Token werden abgefangen und der Nutzer wird aufgefordert, sich neu einzuloggen."
+                ]
+            }
+        ]
+    },
+    {
         "version": "v0.13",
         "entries": [
             {
