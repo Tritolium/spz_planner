@@ -7,6 +7,9 @@ import changeData from "./logs.json"
 export const Changelog = ({ read, version }) => {
     const [clicked, setClicked] = useState(false)
 
+    let major = version.split(".")[0]
+    let minor = version.split(".")[1]
+
     const onClick = () => {
         setClicked(true)
         localStorage.setItem("changelogRead", version)
@@ -15,11 +18,9 @@ export const Changelog = ({ read, version }) => {
     return(
         <StyledChangelog id="changelog">
             {!(read || clicked) ? 
-                changeData.map((change, index) => {
-                    const major = change.version.split(".")[0] === version.split(".")[0]
-                    const ispatch = change.version.split(".")[1] === version.split(".")[1]
-                    return (
-                        <ChangelogVersion key={`changelog_${index}`} change={change} ispatch={ispatch && major} />
+                changeData[major][minor]?.map((change, index) => {
+                    return(
+                        <ChangelogVersion key={index} change={change} majmin={major + "." + minor}/>
                     )
                 })
                 : <></>
@@ -29,10 +30,10 @@ export const Changelog = ({ read, version }) => {
     )
 }
 
-const ChangelogVersion= ({ change, ispatch }) => {    
+const ChangelogVersion= ({ change, majmin }) => {
     return(
-        <div className={ispatch ? "Current" : "Previous"}>
-            <h2>{change.version}</h2>
+        <div className={"Current"}>
+            <h2>{majmin}{change.patch > 0 ? "." + change.patch : ""}</h2>
             <ul>
                 {change.entries?.map((entry, index) => {
                     return(
