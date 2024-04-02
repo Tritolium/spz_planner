@@ -33,6 +33,7 @@ export const sendError = async (error_msg) => {
 
 const login = async (name, pwhash, version) => {
     let _forename, _surname, _api_token, _auth_level, _theme, error
+    let _secure = true
 
     let displayMode = getDisplayMode()
 
@@ -58,8 +59,10 @@ const login = async (name, pwhash, version) => {
                 _auth_level = json.Auth_level
                 _theme = json.Theme
                 error = json.Err
-                if(error === 4)
+                if(error === 4){
                     alert("Kein Passwort gesetzt. Bitte Passwort setzen unter \"Einstellungen\".")
+                    _secure = false
+                }
                 localStorage.setItem('api_token', json.API_token)
                 localStorage.setItem('auth_level', _auth_level)
             } else {
@@ -90,11 +93,12 @@ const login = async (name, pwhash, version) => {
             break
     }
 
-    return { _forename, _surname, _api_token, _auth_level, _theme }
+    return { _forename, _surname, _api_token, _auth_level, _theme, _secure }
 }
-// TODO: evaluate json.Err, if 4, alert to set password
+// TODO: alert to set password
 const update_login = async (version) => {
-    let _forename, _surname, _auth_level, _theme
+    let _forename, _surname, _auth_level, _theme, error
+    let _secure = true
 
     let displayMode = 'browser tab'
     if(window.matchMedia('(display-mode: standalone)').matches) {
@@ -122,6 +126,10 @@ const update_login = async (version) => {
                     _surname = json.Surname
                     _auth_level = json.Auth_level
                     _theme = json.Theme
+                    error = json.Err
+                    if(error === 4){
+                        _secure = false
+                    }
                     localStorage.setItem('api_token', token)
                     localStorage.setItem('auth_level', _auth_level)
                 } else {
@@ -147,7 +155,7 @@ const update_login = async (version) => {
                 break
         }
     }
-    return { _forename, _surname, _auth_level, _theme }
+    return { _forename, _surname, _auth_level, _theme, _secure }
 }
 
 const getEvent = async (event_id) => {

@@ -36,6 +36,7 @@ const App = () => {
     const [notify, setNotify] = useState(window.Notification?.permission === 'granted')
 
     const loginRevalidated = useRef(false)
+    const secure = useRef(false)
 
     const [fullname, setFullname] = useState("")
     const [auth_level, setAuth_level] = useState(0)
@@ -47,7 +48,7 @@ const App = () => {
         const update = async () =>{
             setView(-2)
             update_login(version)
-            .then(({ _forename, _surname, _auth_level, _theme }) => {
+            .then(({ _forename, _surname, _auth_level, _theme, _secure }) => {
                 if(_auth_level !== undefined) {
                     setFullname(_forename + " " + _surname)
                     setAuth_level(_auth_level)
@@ -55,6 +56,7 @@ const App = () => {
                         setTheme(themes[_theme] || themes[1])
                     }
                     setView(0)
+                    secure.current = _secure
                     if(window.Notification?.permission === 'granted'){
                         notificationHelper.createNotificationSubscription('BD0AbKmeW7bACNzC9m0XSUddJNx--VoOvU2X0qBF8dODOBhHvFPjrKJEBcL7Yk07l8VpePC1HBT7h2FRK3bS5uA')
                         .then(subscription => {
@@ -81,7 +83,7 @@ const App = () => {
     const sendLogin = useCallback(async (name, pwhash) => {
         setView(-2)
         login(name, pwhash, version)
-        .then(({ _forename, _surname, _api_token, _auth_level, _theme }) => {
+        .then(({ _forename, _surname, _api_token, _auth_level, _theme, _secure }) => {
             if(_api_token !== undefined) {
                 setFullname(_forename + " " + _surname)
                 setAuth_level(_auth_level)
@@ -89,6 +91,7 @@ const App = () => {
                     setTheme(themes[_theme] || themes[1])
                 }
                 setView(0)
+                secure.current = _secure
                 if(window.Notification?.permission === 'granted'){
                     notificationHelper.createNotificationSubscription('BD0AbKmeW7bACNzC9m0XSUddJNx--VoOvU2X0qBF8dODOBhHvFPjrKJEBcL7Yk07l8VpePC1HBT7h2FRK3bS5uA')
                     .then(subscription => {
