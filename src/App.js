@@ -154,7 +154,7 @@ const App = () => {
             <GlobalStyles />
             <StyledApp className="App">
                 <Burger open={open} setOpen={setOpen}/>
-                <Menu open={open} setOpen={setOpen} navigate={navigate} auth_level={auth_level} />
+                <Menu open={open} setOpen={setOpen} navigate={navigate} auth_level={auth_level} secure={secure.current}/>
                 {fullname !== "" ? <div id='Namefield'>
                     {notify ? <TbBellFilled onClick={ringBell}/> : <TbBellOff onClick={ringBell} />}
                     <div id='Name'>{fullname}</div>
