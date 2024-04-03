@@ -1,5 +1,18 @@
 {
     "v0": {
+        "14": [
+            {
+                "patch": 0,
+                "entries":[
+                    {
+                        "page": "Noten",
+                        "changes": [
+                            "Die Noten können nur noch eingesehen werden, wenn der Nutzer ein Passwort gesetzt hat. Das Passwort kann in den Einstellungen gesetzt werden."
+                        ]
+                    }
+                ]
+            }
+        ],
         "13": [
             {
                 "patch": 2,
