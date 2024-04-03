@@ -109,3 +109,12 @@ export const StyledVersionDiagramm = styled.div`
     width: 100vw;
     max-width: 400px;
 `
+
+export const StyledDisplayDiagram = styled.div`
+    width: 100vw;
+    height: 25vh;
+    max-width: 400px;
+    max-height: 50px;
+    display: flex;
+    justify-content: center;
+`

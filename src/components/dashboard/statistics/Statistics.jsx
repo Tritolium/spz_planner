@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react"
 import VersionDiagram from "./VersionDiagram"
 import { host } from "../../../modules/data/DBConnect"
 import UserStats from "./UserStats"
+import DisplayDiagram from "./DisplayDiagram"
 
 const Statistics = ({ theme, auth_level }) => {
 
@@ -28,6 +29,7 @@ const Statistics = ({ theme, auth_level }) => {
 
     return(<>
         {auth_level > 2 ? <VersionDiagram versions={statistics.Versions} theme={theme}/> : <></>}
+        {auth_level > 2 ? <DisplayDiagram displays={statistics.Displays} theme={theme}/> : <></>}
         <UserStats users={statistics.Users} theme={theme}/>
     </>)
 }
