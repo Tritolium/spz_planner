@@ -28,9 +28,9 @@ const Statistics = ({ theme, auth_level }) => {
     }, [fetchStatistics])
 
     return(<>
+        <UserStats users={statistics.Users} theme={theme}/>
         {auth_level > 2 ? <VersionDiagram versions={statistics.Versions} theme={theme}/> : <></>}
         {auth_level > 2 ? <DisplayDiagram displays={statistics.Displays} theme={theme}/> : <></>}
-        <UserStats users={statistics.Users} theme={theme}/>
     </>)
 }
 
