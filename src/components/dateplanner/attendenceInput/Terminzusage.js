@@ -14,7 +14,7 @@ const Terminzusage = (props) => {
     const onClick = useCallback(async () => {
         let now = new Date()
         let event_date = props.event !== undefined ? new Date(props.event?.Date) : undefined
-        if(event_date){
+        if(event_date && props.event.Begin){
             event_date.setHours(props.event.Begin.split(':')[0])
             event_date.setMinutes(props.event.Begin.split(':')[1])
             if(now.getTime() > event_date.getTime()){
