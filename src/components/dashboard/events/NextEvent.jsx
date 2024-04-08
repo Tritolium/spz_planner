@@ -16,6 +16,17 @@ const NextEvent = ({ nextEventID, auth_level, showEventInfo, practice=false, the
     const [attendence, setAttendence] = useState()
     const [plusone, setPlusOne] = useState()
 
+    const updateWeather = useCallback(async () => {
+        let eDate = new Date(nextEvent?.Date)
+        let nextWeek = new Date()
+        nextWeek.setDate(nextWeek.getDate() + 6)
+        if(nextEvent !== undefined && eDate < nextWeek) {
+            getWeather(nextEvent).then(weather => {
+                setWeather(weather)
+            })
+        }
+    }, [nextEvent])
+
     const onClick = async (event_id, att) => {
         await updateAttendence(event_id, att)
         setAttendence(att)
@@ -50,25 +61,19 @@ const NextEvent = ({ nextEventID, auth_level, showEventInfo, practice=false, the
     }, [nextEventID])
 
     useEffect(() => {
-        let eDate = new Date(nextEvent?.Date)
-        let nextWeek = new Date()
-        nextWeek.setDate(nextWeek.getDate() + 6)
-        if(nextEvent !== undefined && eDate < nextWeek) {
-            getWeather(nextEvent).then(weather => {
-                setWeather(weather)
-            })
-        }
         if(nextEvent !== undefined){
             updateEventEval()
+            updateWeather()
         }
-    }, [nextEvent, updateEventEval])
+    }, [nextEvent, updateEventEval, updateWeather])
 
     useEffect(() => {
         const interval = setInterval(() => {
             updateEventEval()
+            updateWeather()
         }, 60000);
         return () => clearInterval(interval);
-      }, [updateEventEval]);
+      }, [updateEventEval, updateWeather]);
 
     return(<>
         {nextEvent !== undefined ? <StyledEvent>
