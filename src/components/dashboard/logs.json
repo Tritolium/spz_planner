@@ -15,6 +15,13 @@
                         "changes": [
                             "Die App wurde für bessere Offline-Nutzbarkeit optimiert. Es wird weiterhin eine Internetverbindung benötigt, die Verwendung ist aber bei schlechter Verbindung robuster geworden."
                         ]
+                    },
+                    {
+                        "page": "Startseite",
+                        "changes": [
+                            "Weitere Ladeanimation hinzugefügt, damit der Nutzer weiß, dass die App noch arbeitet.",
+                            "Das Wetter wird jetzt laufend aktualisiert, auch wenn die App eine Weile geöffnet war"
+                        ]
                     }
                 ]
             }
