@@ -12,6 +12,7 @@ import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { StaleWhileRevalidate, NetworkFirst, CacheFirst } from 'workbox-strategies';
+import { CacheNetworkRace } from './sw-strategies';
 
 clientsClaim();
 
@@ -50,7 +51,7 @@ registerRoute(
 // precache, in this case same-origin .png requests like those from in public/
 registerRoute(
   // Add in any other file extensions or routing criteria as needed.
-  ({ url }) => url.origin === self.location.origin && url.pathname.endsWith('.png'), // Customize this strategy as needed, e.g., by changing to CacheFirst.
+  ({ url }) => url.pathname.endsWith('.png'), // Customize this strategy as needed, e.g., by changing to CacheFirst.
   new StaleWhileRevalidate({
     cacheName: 'images',
     plugins: [
@@ -62,10 +63,10 @@ registerRoute(
 );
 
 registerRoute(
-  ({ url }) => url.origin === self.location.origin && url.pathname.startsWith('/api/v0/attendence'),
+  ({ url }) => url.pathname.startsWith('/api/v0/attendence'),
   new NetworkFirst({
     cacheName: 'attendence',
-    networkTimeoutSeconds: 5,
+    networkTimeoutSeconds: 3,
     plugins: [
       new ExpirationPlugin({ maxAgeSeconds: 600 }),
     ],
@@ -73,31 +74,30 @@ registerRoute(
 )
 
 registerRoute(
-	({ url }) => url.origin === self.location.origin && url.pathname.startsWith('/api/login.php'),
-	new NetworkFirst(
-    {
-      cacheName: 'login',
-      networkTimeoutSeconds: 5,
-      plugins: [
-        new ExpirationPlugin({ maxAgeSeconds: 60 }),
-      ],
-    }
-  ),
+  ({ url }) => url.pathname.startsWith('/api/login.php'),
+  new CacheNetworkRace({
+    cacheName: 'login'
+  })
 )
 
 registerRoute(
-  ({ url }) => url.origin === self.location.origin && url.pathname.startsWith('/api/v0/events'),
+  ({ url }) => url.pathname.startsWith('/api/v0/events'),
   new NetworkFirst({
     cacheName: 'events',
-    networkTimeoutSeconds: 5,
-    plugins: [
-      new ExpirationPlugin({ maxAgeSeconds: 600 }),
-    ],
+    networkTimeoutSeconds: 3
   })
 )
 
 registerRoute(
-  ({ url }) => url.origin === self.location.origin && url.pathname.endsWith('.pdf'),
+  ({ url }) => url.pathname.startsWith('/api/usergroup.php'),
+  new NetworkFirst({
+    cacheName: 'usergroups',
+    networkTimeoutSeconds: 3
+  })
+)
+
+registerRoute(
+  ({ url }) => url.pathname.endsWith('.pdf'),
   new CacheFirst({
     cacheName: 'pdf',
     plugins: [
@@ -107,20 +107,28 @@ registerRoute(
 )
 
 registerRoute(
-  ({ url }) => url.origin === self.location.origin && url.hostname === 'api.maptiler.com',
+  ({ url }) => url.hostname === 'api.maptiler.com',
   new CacheFirst({
     cacheName: 'maptiler'
   })
 )
 
 registerRoute(
-  ({ url }) => url.origin === self.location.origin && url.hostname === 'api.open-meteo.com',
+  ({ url }) => url.hostname === 'api.open-meteo.com',
   new NetworkFirst({
     cacheName: 'open-meteo',
-    networkTimeoutSeconds: 5,
+    networkTimeoutSeconds: 3,
     plugins: [
       new ExpirationPlugin({ maxAgeSeconds: 600 }),
     ],
+  })
+)
+
+registerRoute(
+  ({ url }) => url.pathname.startsWith('/api/eval.php'),
+  new NetworkFirst({
+    cacheName: 'evaluation',
+    networkTimeoutSeconds: 3
   })
 )
 

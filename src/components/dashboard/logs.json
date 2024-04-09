@@ -9,6 +9,12 @@
                         "changes": [
                             "Die Noten können nur noch eingesehen werden, wenn der Nutzer ein Passwort gesetzt hat. Das Passwort kann in den Einstellungen gesetzt werden."
                         ]
+                    },
+                    {
+                        "page": "Allgemein",
+                        "changes": [
+                            "Die App wurde für bessere Offline-Nutzbarkeit optimiert. Es wird weiterhin eine Internetverbindung benötigt, die Verwendung ist aber bei schlechter Verbindung robuster geworden."
+                        ]
                     }
                 ]
             }
