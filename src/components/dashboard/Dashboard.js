@@ -114,6 +114,7 @@ const DashboardAttendence = ({ fullname, nextPracticeIDs, nextEventIDs, nextOthe
     return(
         <div>
             <BirthdayBlog fullname={fullname}/>
+            {!nextPracticeIDs && !nextEventIDs && !nextOtherIDs ? <NextEvent nextEventID={undefined} /> : <></>}
             <Suspense>
                 {nextPracticeIDs?.length > 0 ? <div className='event_header'>Nächste Probe{nextPracticeIDs.length > 1 ? "n" : ""}:</div> : <></>}
                 {nextPracticeIDs?.length > 0 ? nextPracticeIDs.map(nextPracticeID => {return(<NextEvent nextEventID={nextPracticeID} key={`nextPractice_${nextPracticeID}`} auth_level={auth_level} showEventInfo={showEventInfo} theme={theme} practice={true}/>)}) : <></>}
