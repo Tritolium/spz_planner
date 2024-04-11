@@ -82,6 +82,9 @@ const EventList = ({ events, eventfilter }) => {
                             return event.Category === 'other'
                         }
                 })
+                .filter(event => {
+                    return event.Accepted
+                })
                 .map(event => {
                     return(<Event key={`event_${event.Event_ID}`} event={event} />)
                 })}
