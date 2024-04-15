@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useRef } from 'react'
 import { useState } from 'react'
 import { getBirthdates, getDisplayMode, host, newFeedback } from '../../modules/data/DBConnect'
 import { StyledDashboard, StyledFeedbackArea, StyledInfoText } from './Dashboard.styled'
@@ -20,10 +20,13 @@ const Dashboard = ({ fullname, auth_level, theme }) => {
     const [nextPracticeIDs, setNextPracticeIDs] = useState()
     const [nextEventIDs, setNextEventIDs] = useState()
     const [nextOtherIDs, setNextOtherIDs] = useState()
+    const [fixedEventIDs, setFixedEventIDs] = useState()
     const [showiosInstruction, setShowiosInstruction] = useState(false)
     const [mobileBrowser, setMobileBrowser] = useState(false)
     const [eventInfo, setEventInfo] = useState(false)
     const [eventInfoData, setEventInfoData] = useState(undefined)
+
+    const fixedEventIDsRef = useRef()
 
     const getNextEvent = async () => {
         fetch(`${host}/api/v0/events?next=event&api_token=${localStorage.getItem("api_token")}`)
@@ -70,6 +73,21 @@ const Dashboard = ({ fullname, auth_level, theme }) => {
             })
     }
 
+    const getFixedEvents = async () => {
+        fetch(`${host}/api/v0/events?fixed&api_token=${localStorage.getItem("api_token")}`)
+            .then(res => {
+                switch(res.status){
+                    case 200:
+                        return res.json()
+                    default:
+                        return []
+                }
+            })
+            .then(data => {
+                fixedEventIDsRef.current = data
+            })
+    }
+
     const showInstall = () => {
         let isiPhone = navigator.userAgent.toLowerCase().includes('iphone')
         if(!isiPhone && beforeInstallPrompt){
@@ -90,6 +108,7 @@ const Dashboard = ({ fullname, auth_level, theme }) => {
     }
 
     useEffect(() => {
+        getFixedEvents()
         getNextEvent()
         getNextPractice()
         getNextOther()
@@ -97,24 +116,41 @@ const Dashboard = ({ fullname, auth_level, theme }) => {
         setMobileBrowser((getDisplayMode() === 'browser tab' && window.innerWidth < parseInt(theme.medium.split('px')[0]) && (beforeInstallPrompt || isiPhone)))
     }, [theme.medium])
 
+    useEffect(() => {
+        let _fixedEventIDs = fixedEventIDsRef.current?.filter(eventID => {
+            if (nextPracticeIDs && nextPracticeIDs.includes(eventID))
+                return false
+            if (nextEventIDs && nextEventIDs.includes(eventID))
+                return false
+            if (nextOtherIDs && nextOtherIDs.includes(eventID))
+                return false
+            return true
+        })
+        setFixedEventIDs(_fixedEventIDs)
+    }, [nextPracticeIDs, nextEventIDs, nextOtherIDs])
+
     return(<StyledDashboard id="Dashboard">
         {mobileBrowser ? <StyledInfoText>
             <TbAlertTriangle onClick={showInstall}/>
         </StyledInfoText> : <></>}
         {mobileBrowser ? <StyledInfoText>Diese App kann auch installiert werden, einfach auf das Icon klicken!</StyledInfoText> : <></>}
         {showiosInstruction ? <StyledInfoText className='iosInstruction'>Erst <IoShareOutline />, dann <BsPlusSquare /></StyledInfoText> : <></>}
-        {eventInfo ? <EventInfo hideEventInfo={hideEventInfo} eventInfoData={eventInfoData} fullname={fullname}/> : <DashboardAttendence fullname={fullname} nextPracticeIDs={nextPracticeIDs} nextEventIDs={nextEventIDs} nextOtherIDs={nextOtherIDs} showEventInfo={showEventInfo} auth_level={auth_level} theme={theme}/>}
+        {eventInfo ? <EventInfo hideEventInfo={hideEventInfo} eventInfoData={eventInfoData} fullname={fullname}/> : <DashboardAttendence fullname={fullname} nextPracticeIDs={nextPracticeIDs} nextEventIDs={nextEventIDs} nextOtherIDs={nextOtherIDs} fixedEventIDs={fixedEventIDs} showEventInfo={showEventInfo} auth_level={auth_level} theme={theme}/>}
         <Statistics theme={theme} auth_level={auth_level} />
         <Feedback />
         <Changelog read={localStorage.getItem("changelogRead") === version} version={version}/>
     </StyledDashboard>)
 }
 
-const DashboardAttendence = ({ fullname, nextPracticeIDs, nextEventIDs, nextOtherIDs, showEventInfo, auth_level, theme}) => {
+const DashboardAttendence = ({ fullname, nextPracticeIDs, nextEventIDs, nextOtherIDs, fixedEventIDs, showEventInfo, auth_level, theme}) => {
     return(
         <div>
             <BirthdayBlog fullname={fullname}/>
             {!nextPracticeIDs && !nextEventIDs && !nextOtherIDs ? <NextEvent nextEventID={undefined} /> : <></>}
+            <Suspense>
+                {fixedEventIDs?.length > 0 ? <div className='event_header'>Fixierte{fixedEventIDs.length === 1 ? "r" : ""} Termin{fixedEventIDs.length > 1 ? "e": ""}:</div> : <></>}
+                {fixedEventIDs?.length > 0 ? fixedEventIDs.map(fixedEventID => {return(<NextEvent nextEventID={fixedEventID} key={`fixedEvent_${fixedEventID}`} auth_level={auth_level} showEventInfo={showEventInfo} theme={theme}/>)}) : <></>}
+            </Suspense>
             <Suspense>
                 {nextPracticeIDs?.length > 0 ? <div className='event_header'>Nächste Probe{nextPracticeIDs.length > 1 ? "n" : ""}:</div> : <></>}
                 {nextPracticeIDs?.length > 0 ? nextPracticeIDs.map(nextPracticeID => {return(<NextEvent nextEventID={nextPracticeID} key={`nextPractice_${nextPracticeID}`} auth_level={auth_level} showEventInfo={showEventInfo} theme={theme} practice={true}/>)}) : <></>}

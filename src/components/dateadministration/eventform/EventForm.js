@@ -158,7 +158,6 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
     const [clothing, setClothing] = useState()
 
     useEffect(() => {
-        console.log(event)
         document.getElementById('eventform_form').reset()
         let category_select = document.getElementById('category')
         for(let i = 0; i < category_select.options.length; i++){
@@ -199,11 +198,12 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
         let accepted    = document.getElementById('accepted').checked
         let plusone     = document.getElementById('plusone').checked
         let usergroup   = document.getElementById('usergroup').options[document.getElementById('usergroup').selectedIndex].value
+        let fixed       = document.getElementById('fixed').checked
 
         if(event && event.Event_ID !== -1)
-            await updateEvent(event.Event_ID, category, type, location, address, date, begin, departure, leave_dep, accepted, plusone, usergroup, clothing)
+            await updateEvent(event.Event_ID, category, type, location, address, date, begin, departure, leave_dep, accepted, plusone, usergroup, clothing, fixed)
         else
-            await newEvent(category, type, location, address, date, begin, departure, leave_dep, accepted, plusone, usergroup, clothing)
+            await newEvent(category, type, location, address, date, begin, departure, leave_dep, accepted, plusone, usergroup, clothing, fixed)
 
         reload()
     }
@@ -278,6 +278,10 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
             <FormBox>
                 <label htmlFor="plusone">mit Begleitung:</label>
                 <input type="checkbox" name="plusone" id="plusone" defaultChecked={event?.PlusOne}/>
+            </FormBox>
+            <FormBox>
+                <label htmlFor="fixed">Fixiert:</label>
+                <input type="checkbox" name="fixed" id="fixed" defaultChecked={event?.Fixed}/>
             </FormBox>
             <FormBox>
                 <label htmlFor="usergroup">Sichtbarkeit:</label>
