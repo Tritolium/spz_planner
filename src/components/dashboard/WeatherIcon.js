@@ -1,4 +1,4 @@
-import { WiCloudDown, WiCloudUp, WiCloudy, WiDayFog, WiDayHaze, WiDayLightning, WiDaySunny, WiDirectionDown, WiDirectionRight, WiDirectionUp, WiDust, WiFog, WiHail, WiRain, WiRaindrops, WiRainMix, WiSandstorm, WiShowers, WiSleet, WiSmoke, WiSnow, WiSprinkle, WiStormWarning, WiStrongWind, WiThunderstorm, WiTime1, WiTornado } from 'react-icons/wi'
+import { WiCloudy, WiDayCloudy, WiDayFog, WiDayHaze, WiDayLightning, WiDaySunny, WiDaySunnyOvercast, WiDirectionDown, WiDirectionRight, WiDirectionUp, WiDust, WiFog, WiHail, WiRain, WiRaindrops, WiRainMix, WiSandstorm, WiShowers, WiSleet, WiSmoke, WiSnow, WiSprinkle, WiStormWarning, WiStrongWind, WiThunderstorm, WiTime1, WiTornado } from 'react-icons/wi'
 import { TbSnowflake } from 'react-icons/tb'
 import { IoWarning } from 'react-icons/io5'
 import { StyledTooltip, StyledWeatherIcon } from './WeatherIcon.styled'
@@ -8,9 +8,9 @@ const WeatherIcon = ({ code }) => {
 
     const icons = {
         0: <WiDaySunny />,
-        1: <WiCloudDown />,
-        2: <WiCloudy />,
-        3: <WiCloudUp />,
+        1: <WiDaySunnyOvercast />,
+        2: <WiDayCloudy />,
+        3: <WiCloudy />,
         4: <WiSmoke />,
         5: <WiDayHaze />,
         6: <WiDust />,
@@ -111,9 +111,9 @@ const WeatherIcon = ({ code }) => {
 
     const text = {
         0: "Klar",
-        1: "Abnehmende Bewölkung",
+        1: "Heiter",
         2: "Bewölkt",
-        3: "Zunehmende Bewölkung",
+        3: "Bedeckt",
         4: "Sicht durch Rauch reduziert",
         5: "Dunst",
         6: "Schwebender Staub, windstill",
