@@ -4,7 +4,7 @@ import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from './global';
 import { themes } from './theme';
 // import preval from 'preval.macro'
-import { TbBell, TbBellOff } from 'react-icons/tb';
+import { TbBellFilled, TbBellOff } from 'react-icons/tb';
 import Settings from './components/settings/Settings';
 import { notificationHelper } from './modules/helper/NotificationHelper';
 
@@ -156,7 +156,7 @@ const App = () => {
                 <Burger open={open} setOpen={setOpen}/>
                 <Menu open={open} setOpen={setOpen} navigate={navigate} auth_level={auth_level} secure={secure.current}/>
                 {fullname !== "" ? <div id='Namefield'>
-                    {notify ? <TbBell onClick={ringBell}/> : <TbBellOff onClick={ringBell} />}
+                    {notify ? <TbBellFilled onClick={ringBell}/> : <TbBellOff onClick={ringBell} />}
                     <div id='Name'>{fullname}</div>
                     <Button onClick={logout}>Logout</Button>
                 </div> : <></>}
