@@ -24,6 +24,12 @@
                             "Termine können jetzt auf der Startseite fixiert werden. Dadurch werden schneller Rückmeldungen für beispielsweise Anfragen ermöglicht.",
                             "Die Wetteranzeige wurde überarbeitet und ist jetzt leichter verständlich."
                         ]
+                    },
+                    {
+                        "page": "Termine",
+                        "changes": [
+                            "Für jeden Termin kann jetzt angegeben werden, ob eine Push-Benachrichtigung gesendet werden soll."
+                        ]
                     }
                 ]
             }
