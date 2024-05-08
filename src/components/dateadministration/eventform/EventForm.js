@@ -199,11 +199,12 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
         let plusone     = document.getElementById('plusone').checked
         let usergroup   = document.getElementById('usergroup').options[document.getElementById('usergroup').selectedIndex].value
         let fixed       = document.getElementById('fixed').checked
+        let push        = document.getElementById('push').checked
 
         if(event && event.Event_ID !== -1)
-            await updateEvent(event.Event_ID, category, type, location, address, date, begin, departure, leave_dep, accepted, plusone, usergroup, clothing, fixed)
+            await updateEvent(event.Event_ID, category, type, location, address, date, begin, departure, leave_dep, accepted, plusone, usergroup, clothing, fixed, push)
         else
-            await newEvent(category, type, location, address, date, begin, departure, leave_dep, accepted, plusone, usergroup, clothing, fixed)
+            await newEvent(category, type, location, address, date, begin, departure, leave_dep, accepted, plusone, usergroup, clothing, fixed, push)
 
         reload()
     }
@@ -222,6 +223,7 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
             document.getElementById('leave_dep').value  = template.Leave_dep
             document.getElementById('accepted').checked = true
             document.getElementById('usergroup').selectedIndex = usergroups?.findIndex(usergroup => usergroup?.Usergroup_ID === template?.Usergroup_ID)
+            document.getElementById('push').checked     = true
         }
     }
 
@@ -282,6 +284,10 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
             <FormBox>
                 <label htmlFor="fixed">Fixiert:</label>
                 <input type="checkbox" name="fixed" id="fixed" defaultChecked={event?.Fixed}/>
+            </FormBox>
+            <FormBox>
+                <label htmlFor="push">Push versenden:</label>
+                <input type="checkbox" name="push" id="push" defaultChecked={event?.Push}/>
             </FormBox>
             <FormBox>
                 <label htmlFor="usergroup">Sichtbarkeit:</label>
