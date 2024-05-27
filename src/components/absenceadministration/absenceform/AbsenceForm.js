@@ -67,10 +67,12 @@ const Absence = ({absence, onSelect}) => {
 
 const Form = ({selected, reload}) => {
 
+    const today = new Date().toISOString().split('T')[0]
+
     const [absence, setAbsence] = useState({
         Absence_ID: -1,
-        From: "",
-        Until: "",
+        From: today,
+        Until: today,
         Info: ""
     })
 
@@ -93,8 +95,8 @@ const Form = ({selected, reload}) => {
 
         setAbsence({
             Absence_ID: -1,
-            From: "",
-            Until: "",
+            From: today,
+            Until: today,
             Info: ""
         })
     }
