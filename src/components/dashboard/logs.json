@@ -2,6 +2,17 @@
     "v0": {
         "13": [
             {
+                "patch": 4,
+                "entries":[
+                    {
+                        "page": "Urlaub",
+                        "changes": [
+                            "Fehler behoben, wodurch Abwesenheiten von 00.00.0000 eingegeben werden konnten"
+                        ]
+                    }
+                ]
+            },
+            {
                 "patch": 3,
                 "entries": [
                     {
