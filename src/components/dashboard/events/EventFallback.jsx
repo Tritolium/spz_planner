@@ -3,7 +3,6 @@ import { StyledEvent } from "./Event.styled"
 import pedro from "../../../modules/img/racoon.gif"
 
 export const EventFallback = ({ theme }) => {
-    console.log(theme)
     return (<StyledEvent>
         <span className="event_type fallback"></span>
         <span className="event_location fallback"></span>
