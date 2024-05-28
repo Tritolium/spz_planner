@@ -13,39 +13,28 @@ const Administration = () => {
 
     const [view, setView] = useState(0);
 
+    const labels = [
+        'Vereine',
+        'Vereinzuordnung',
+        'Benutzergruppen',
+        'Gruppenzuordnung',
+        'Terminvorlagen',
+        'Noten'
+    ]
+
     const navigate = (e) => {
-        switch(e.target.id) {
-        default:
-        case 'administration_button_0':
-            setView(0)
-            break
-        case 'administration_button_1':
-            setView(1)
-            break
-        case 'administration_button_2':
-            setView(2)
-            break
-        case 'administration_button_3':
-            setView(3)
-            break
-        case 'administration_button_4':
-            setView(4)
-            break
-        case 'administration_button_5':
-            setView(5)
-            break
+        const buttonNumber = parseInt(e.target.id.split('_')[2]);
+        if (!isNaN(buttonNumber)) {
+            setView(buttonNumber);
         }
     }
 
     return(
         <StyledAdministration>
             <HeaderMenu>
-                <Button id='administration_button_0' onClick={navigate}>Vereine</Button>
-                <Button id='administration_button_1' onClick={navigate}>Vereinzuordnung</Button>
-                <Button id='administration_button_2' onClick={navigate}>Benutzergruppen</Button>
-                <Button id='administration_button_3' onClick={navigate}>Gruppenzuordnung</Button>
-                <Button id="administration_button_4" onClick={navigate}>Terminvorlagen</Button>
-                <Button id="administration_button_5" onClick={navigate}>Noten</Button>
+                {labels.map((label, index) => (
+                    <Button key={index} id={`Button_Administration_${index}`} onClick={navigate}>{label}</Button>
+                ))}
             </HeaderMenu>
             <View view={view}/>
         </StyledAdministration>
@@ -53,21 +42,21 @@ const Administration = () => {
 }
 
 const View = ({ view }) => {
-    switch(view){
-    default:
-    case 0:
-        return(<StyledView><Associations /></StyledView>)
-    case 1:
-        return(<StyledView><AssociationAssignment /></StyledView>)
-    case 2:
-        return(<StyledView><Usergroups /></StyledView>)
-    case 3:
-        return(<StyledView><UsergroupAssignment /></StyledView>)
-    case 4:
-        return(<StyledView><DateTemplates /></StyledView>)
-    case 5:
-        return(<StyledView><Scores /></StyledView>)
-    }
+
+    const views = [
+        <Associations />,
+        <AssociationAssignment />,
+        <Usergroups />,
+        <UsergroupAssignment />,
+        <DateTemplates />,
+        <Scores />
+    ]
+
+    return(
+        <StyledView>
+            {views[view] || <Associations />}
+        </StyledView>
+    )
 }
 
 export default Administration
