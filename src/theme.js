@@ -113,4 +113,27 @@ export const theme4 = {
     pedro: false
 }
 
-export const themes = [theme0, theme1, theme2, theme3, theme4]
+export const theme5 = {
+    primaryDark: '#282c34',
+    primaryLight: '#e5e4e2',
+    primaryHover: '#78849c',
+    blue: '#748386',
+    blueRGB: 'rgb(116, 131, 134)',
+    red: '#ef3e36',
+    redRGB: 'rgb(239, 62, 54)',
+    lightred: '#f15d55',
+    lightredRGB: 'rgb(241, 93, 85)',
+    yellow: '#faa916',
+    yellowRGB: 'rgb(250, 169, 22)',
+    green: '#00bd00',
+    greenRGB: 'rgb(0, 189, 0)',
+    lightgreen: '#47ff47',
+    lightgreenRGB: 'rgb(71, 255, 71)',
+    darkred: '#7b2d26',
+    darkredRGB: 'rgb(123, 45, 38)',
+    mobile: '530px',
+    medium: '1007px',
+    pedro: true
+}
+
+export const themes = [theme0, theme1, theme2, theme3, theme4, theme5]
