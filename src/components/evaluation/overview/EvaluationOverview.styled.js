@@ -11,7 +11,7 @@ export const StyledEvaluationOverview = styled.div`
         border-right: 1px solid ${({theme}) => theme.primaryLight};
     }
 
-    td:nth-last-child(3), th:nth-last-child(3) {
+    td:nth-last-child(4), th:nth-last-child(4) {
         border-left: 1px solid ${({theme}) => theme.primaryLight};
     }
 
