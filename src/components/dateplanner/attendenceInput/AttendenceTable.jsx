@@ -11,6 +11,7 @@ import { updateAttendence } from '../../../modules/data/DBConnect'
 const AttendenceTable = ({ attendences, fullname, states, selectedDateFilter, selectedEventFilter, theme}) => {
 
     const [oneAssociation, setOneAssociation] = useState(true)
+    const [filteredAttendences, setFilteredAttendences] = useState(attendences)
 
     useEffect(() => {
         const firstAssociationId = attendences[0]?.Association_ID;
@@ -26,6 +27,48 @@ const AttendenceTable = ({ attendences, fullname, states, selectedDateFilter, se
         setOneAssociation(oneAssociation);
     }, [attendences])
 
+    useEffect(() => {
+        // filter attendences
+        let filtered = attendences
+        .filter(attendence => {
+            let attDate = new Date(attendence.Date)
+            attDate.setHours(23,59,59,999)
+            let today = new Date()
+            return today <= attDate
+        })
+        .filter(attendence => {
+            switch(selectedEventFilter){
+            default:
+            case 'all':
+                return true
+            case 'practice':
+                return attendence.Category === 'practice'
+            case 'event':
+                return attendence.Category === 'event'
+            case 'other':
+                return attendence.Category === 'other'
+            }
+        })
+        .filter(attendence => {
+            let attDate = new Date(attendence.Date)
+            let today = new Date()
+            switch(selectedDateFilter){
+            default:
+            case 'all':
+                return true
+            case 'one':
+                return (attDate.getTime() - today.getTime()) < 1*604800000
+            case 'two':
+                return (attDate.getTime() - today.getTime()) < 2*604800000
+            case 'four':
+                return (attDate.getTime() - today.getTime()) < 4*604800000
+            case 'eight':
+                return (attDate.getTime() - today.getTime()) < 8*604800000                            
+            }
+        })
+        setFilteredAttendences(filtered)
+    }, [attendences, selectedDateFilter, selectedEventFilter])
+
     return(
         <Table>
             <thead>
@@ -36,43 +79,7 @@ const AttendenceTable = ({ attendences, fullname, states, selectedDateFilter, se
                 </tr>
             </thead>
             <tbody>
-                {attendences
-                .filter(attendence => {
-                    let attDate = new Date(attendence.Date)
-                    attDate.setHours(23,59,59,999)
-                    let today = new Date()
-                    return today <= attDate
-                })
-                .filter(attendence => {
-                    switch(selectedEventFilter){
-                    default:
-                    case 'all':
-                        return true
-                    case 'practice':
-                        return attendence.Category === 'practice'
-                    case 'event':
-                        return attendence.Category === 'event'
-                    case 'other':
-                        return attendence.Category === 'other'
-                    }
-                })
-                .filter(attendence => {
-                    let attDate = new Date(attendence.Date)
-                    let today = new Date()
-                    switch(selectedDateFilter){
-                    default:
-                    case 'all':
-                        return true
-                    case 'one':
-                        return (attDate.getTime() - today.getTime()) < 1*604800000
-                    case 'two':
-                        return (attDate.getTime() - today.getTime()) < 2*604800000
-                    case 'four':
-                        return (attDate.getTime() - today.getTime()) < 4*604800000
-                    case 'eight':
-                        return (attDate.getTime() - today.getTime()) < 8*604800000                            
-                    }
-                })
+                {filteredAttendences
                 .map((att) => {
                     return(
                         <Event key={att.Location + att.Event_ID} att={att} states={states} oneAssociation={oneAssociation} theme={theme} />
