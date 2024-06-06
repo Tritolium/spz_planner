@@ -43,7 +43,7 @@ const Termineingabe = ({fullname, theme}) => {
 
     return(
         <Form className="DateInput">
-            <div>
+            <div className='EventFilter'>
                 <select name='eventSelect' id='eventSelect' title='event select' onChange={onEventFilterChange}>
                     <option value='all'>Alle</option>
                     <option value='practice'>Üben/Probe</option>
@@ -59,7 +59,7 @@ const Termineingabe = ({fullname, theme}) => {
                 </select>
             </div>
             <Suspense fallback={<div>Tabelle lädt.</div>}>
-                <AttendenceTable attendences={attendences} fullname={fullname} states={ATTENDENCE_STATES} selectedDateFilter={selectedDateFilter} selectedEventFilter={selectedEventFilter} theme={theme}/>
+                <AttendenceTable attendences={attendences} states={ATTENDENCE_STATES} selectedDateFilter={selectedDateFilter} selectedEventFilter={selectedEventFilter} theme={theme}/>
             </Suspense>
         </Form>
     )
@@ -81,7 +81,7 @@ const Form = styled.form`
         border-radius: 5px;
     }
 
-    > div {
+    .EventFilter {
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;

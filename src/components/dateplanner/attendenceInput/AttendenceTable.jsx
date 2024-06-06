@@ -4,11 +4,11 @@ import PlusOne from '../../../modules/components/icons/PlusOne'
 
 import four from '../4.png'
 import five from '../5.png'
-import styled from 'styled-components'
 import { useEffect, useState } from 'react'
 import { updateAttendence } from '../../../modules/data/DBConnect'
+import { StyledAttendenceTable, StyledEvent, StyledMultiEvent } from './AttendenceTable.styled'
 
-const AttendenceTable = ({ attendences, fullname, states, selectedDateFilter, selectedEventFilter, theme}) => {
+const AttendenceTable = ({ attendences, states, selectedDateFilter, selectedEventFilter, theme}) => {
 
     const [oneAssociation, setOneAssociation] = useState(true)
     const [filteredAttendences, setFilteredAttendences] = useState(attendences)
@@ -69,24 +69,15 @@ const AttendenceTable = ({ attendences, fullname, states, selectedDateFilter, se
         setFilteredAttendences(filtered)
     }, [attendences, selectedDateFilter, selectedEventFilter])
 
-    return(
-        <Table>
-            <thead>
-                <tr>
-                    <th>Termine: {oneAssociation ? associationLogo(attendences[0]?.Association_ID) : <></>}</th>
-                    <th>{fullname}</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {filteredAttendences
-                .map((att) => {
-                    return(
-                        <Event key={att.Location + att.Event_ID} att={att} states={states} oneAssociation={oneAssociation} theme={theme} />
-                    )
-                })}
-            </tbody>
-        </Table>
+    return(<>
+        <StyledAttendenceTable>
+            {filteredAttendences.map((att) => {
+                return(
+                    <Event key={att.Location + att.Event_ID} att={att} states={states} oneAssociation={oneAssociation} theme={theme} />
+                )})
+            }
+        </StyledAttendenceTable>
+        </>
     )
 }
 
@@ -108,13 +99,23 @@ const Event = ({ att, states, oneAssociation, theme }) => {
 
     }
 
+    if (oneAssociation) {
+        return(
+            <StyledEvent key={att.Location + att.Event_ID}>
+                <DateField dateprops={att} />
+                <Terminzusage event={att} states={states} attendence={attendence} onClick={onClick} event_id={att.Event_ID} cancelled={att.Type.includes('Abgesagt')} theme={theme}/>
+                {att.Ev_PlusOne ? <PlusOne active={attendence === 1} plusOne={plusone} onClick={togglePlusOne} theme={theme} className="PlusOne" /> : <></>}
+            </StyledEvent>
+        )
+    }
+
     return(
-        <tr key={att.Location + att.Event_ID}>
-            {!oneAssociation ? <TableData>{associationLogo(att.Association_ID)}</TableData> : <></>}
-            <TableData><DateField dateprops={att} /></TableData>
-            <TableData><Terminzusage event={att} states={states} attendence={attendence} onClick={onClick} event_id={att.Event_ID} cancelled={att.Type.includes('Abgesagt')} theme={theme}/></TableData>
-            {att.Ev_PlusOne ? <TableData><PlusOne active={attendence === 1} plusOne={plusone} onClick={togglePlusOne} theme={theme} /></TableData> : <TableData></TableData>}
-        </tr>
+        <StyledMultiEvent key={att.Location + att.Event_ID}>
+            {associationLogo(att.Association_ID)}
+            <DateField dateprops={att} />
+            <Terminzusage event={att} states={states} attendence={attendence} onClick={onClick} event_id={att.Event_ID} cancelled={att.Type.includes('Abgesagt')} theme={theme}/>
+            {att.Ev_PlusOne ? <PlusOne active={attendence === 1} plusOne={plusone} onClick={togglePlusOne} theme={theme} className="PlusOne" /> : <></>}
+        </StyledMultiEvent>
     )
 }
 
@@ -131,35 +132,5 @@ const associationLogo = (association_id) => {
         return <></>
     }
 }
-
-const Table = styled.table`
-    border-collapse: collapse;
-
-    img {
-        max-height: 64px;
-        max-width: 64px;
-    }
-
-    th {
-        img {
-            transform: translateY(20%);
-            max-height: 27px;
-            max-width: 128px;
-        }
-    }
-
-    tr {
-        td:nth-child(1) {
-            text-align: center;
-        }
-        :nth-child(2) {
-            text-align: center;
-        }
-    }
-`
-
-const TableData = styled.td`
-    border-top: 1px solid #ccc;
-`
 
 export default AttendenceTable

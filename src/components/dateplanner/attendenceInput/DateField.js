@@ -6,8 +6,11 @@ const DateField = ({dateprops}) => {
     const month = date.getMonth()
     const year = date.getFullYear()
 
-    return(
-        <div>{dateprops.Type} {dateprops.Location}<br />{day}. {getMonthString(month)} {year}<br />{dayOfWeek}</div>
+    return(<>
+        <div className="event_type">{dateprops.Type} {dateprops.Location}</div>
+        <div className="event_date">{day}. {getMonthString(month)} {year}</div>
+        <div className="event_day">{dayOfWeek}</div>
+    </>
     )
 }
 
