@@ -13,7 +13,17 @@ const AttendenceTable = ({ attendences, fullname, states, selectedDateFilter, se
     const [oneAssociation, setOneAssociation] = useState(true)
 
     useEffect(() => {
-        setOneAssociation(attendences.every(att => att.Association_ID === attendences[0].Association_ID))
+        const firstAssociationId = attendences[0]?.Association_ID;
+        let oneAssociation = true;
+
+        for (let i = 1; i < attendences.length; i++) {
+            if (attendences[i].Association_ID !== firstAssociationId) {
+                oneAssociation = false;
+                break;
+            }
+        }
+
+        setOneAssociation(oneAssociation);
     }, [attendences])
 
     return(
