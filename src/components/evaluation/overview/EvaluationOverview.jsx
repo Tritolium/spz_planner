@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { RiBarChartFill } from "react-icons/ri";
 import { Table } from "../../../modules/components/overview/Table";
 import { getOwnUsergroups, host } from "../../../modules/data/DBConnect";
 import { StyledEvaluationOverview } from "./EvaluationOverview.styled";
@@ -87,6 +88,7 @@ const OverviewTable = ({ evaluations, filterFrom, filterTo, category, theme }) =
                     <th><EvalButton attendence={2} callback={() => {}} theme={theme}/></th>
                     <th><EvalButton attendence={3} callback={() => {}} theme={theme}/></th>
                     <th><EvalButton attendence={4} callback={() => {}} theme={theme}/></th>
+                    <th><RiBarChartFill /></th>
                     <th><EvalButton attendence={3} callback={() => {}} theme={theme}/></th>
                     <th><EvalButton attendence={2} callback={() => {}} theme={theme}/></th>
                     <th>%</th>
@@ -127,6 +129,7 @@ const EvaluationRow = ({ evaluation }) => {
             <td>{evaluation.Evaluations.filter(evalu => {return evalu.Evaluation === 2}).length}</td>
             <td>{evaluation.Evaluations.filter(evalu => {return evalu.Evaluation === 3}).length}</td>
             <td>{evaluation.Evaluations.filter(evalu => {return evalu.Evaluation === 4}).length}</td>
+            <td>{evaluation.Prediction}</td>
             <td>{evaluation.Evaluations.filter(evalu => {return evalu.Evaluation === 3 || evalu.Evaluation === 4}).length}</td>
             <td>{evaluation.Evaluations.filter(evalu => {return !(evalu.Evaluation === 3 || evalu.Evaluation === 4 || evalu.Evaluation === -1)}).length}</td>
             <td>{att}/{all} ({Math.round(att/all*100)}%)</td>
