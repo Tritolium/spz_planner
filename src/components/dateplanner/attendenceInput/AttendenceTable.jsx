@@ -101,7 +101,7 @@ const Event = ({ att, states, oneAssociation, theme }) => {
 
     if (oneAssociation) {
         return(
-            <StyledEvent key={att.Location + att.Event_ID}>
+            <StyledEvent className='event' key={att.Location + att.Event_ID}>
                 <DateField dateprops={att} />
                 <Terminzusage event={att} states={states} attendence={attendence} onClick={onClick} event_id={att.Event_ID} cancelled={att.Type.includes('Abgesagt')} theme={theme}/>
                 {att.Ev_PlusOne ? <PlusOne active={attendence === 1} plusOne={plusone} onClick={togglePlusOne} theme={theme} className="PlusOne" /> : <></>}
@@ -110,7 +110,7 @@ const Event = ({ att, states, oneAssociation, theme }) => {
     }
 
     return(
-        <StyledMultiEvent key={att.Location + att.Event_ID}>
+        <StyledMultiEvent className='event' key={att.Location + att.Event_ID}>
             {associationLogo(att.Association_ID)}
             <DateField dateprops={att} />
             <Terminzusage event={att} states={states} attendence={attendence} onClick={onClick} event_id={att.Event_ID} cancelled={att.Type.includes('Abgesagt')} theme={theme}/>
