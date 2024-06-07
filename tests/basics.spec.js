@@ -18,7 +18,7 @@ test('do login', async ({ page }) => {
   // test the attendence page
   await expect(page.locator("#main_button_1")).toBeVisible()
   await page.locator("#main_button_1").click()
-  await expect(page.locator("tbody > tr").first()).toBeVisible()
+  await expect(page.locator(".event").first()).toBeVisible()
   // test the attendence overview page
   await page.locator("#date_button_1").click()
   await page.locator("#usergroup_select").selectOption("Rönkhausen")
