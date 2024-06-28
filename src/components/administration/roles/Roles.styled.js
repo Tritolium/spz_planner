@@ -7,7 +7,7 @@ export const StyledRole = styled.div`
 
 export const StyledRoleForm = styled.form`
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: auto auto;
 
     width: fit-content;
     margin: 5px;
