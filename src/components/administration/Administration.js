@@ -10,6 +10,7 @@ import UsergroupAssignment from "./usergroupassignment/UsergroupAssignment";
 import Usergroups from "./usergroups/Usergroups";
 import Roles from "./roles/Roles";
 import RoleAssignment from "./roleassignment/RoleAssignment";
+import { hasPermission } from "../../modules/helper/Permissions";
 
 const Administration = () => {
 
@@ -20,8 +21,8 @@ const Administration = () => {
         'Vereinzuordnung',
         'Benutzergruppen',
         'Gruppenzuordnung',
-        'Rollen',
-        'Rollenzuordnung',
+        ...hasPermission(4) ? ['Rollen'] : [],
+        ...hasPermission(5) ? ['Rollenzuordnung'] : [],
         'Terminvorlagen',
         'Noten'
     ]
@@ -52,8 +53,8 @@ const View = ({ view }) => {
         <AssociationAssignment />,
         <Usergroups />,
         <UsergroupAssignment />,
-        <Roles />,
-        <RoleAssignment />,
+        ...hasPermission(4) ? [<Roles />] : [],
+        ...hasPermission(5) ? [<RoleAssignment />] : [],
         <DateTemplates />,
         <Scores />
     ]

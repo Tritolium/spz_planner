@@ -5,6 +5,7 @@ import { StyledRoleAssignment, StyledRoleAssignmentForm } from "./RoleAssignment
 import { getAssociations, host } from "../../../modules/data/DBConnect";
 import Filter from "../../../modules/components/Filter";
 import Button from "../../../modules/components/button/Button";
+import { hasPermission } from "../../../modules/helper/Permissions";
 
 const RoleAssignment = () => {
 
@@ -54,7 +55,9 @@ const AssociationSelector = ({ associations, onSelect }) => {
     return (
         <Selector>
             {associations.map(association => {
-                return (<AssociationItem key={association.Title} association={association} onSelect={onSelect}/>)
+                if(hasPermission(5, association.Association_ID)) // only show associations where the user has the permission to assign roles
+                    return (<AssociationItem key={association.Title} association={association} onSelect={onSelect}/>)
+                return (<></>)
             })}
         </Selector>
     )
@@ -82,7 +85,7 @@ const RoleAssignEditor = ({ members, association }) => {
     const options = [
         {
             value: -1,
-            label: 'Mitglied auswählen'
+            label: association !== undefined ? 'Mitglied auswählen' : "erst Verein auswählen"
         },
         ...members.map(member => {
         return {
@@ -173,12 +176,3 @@ const RoleSelector = ({ roles, assignedRoles, onSelect }) => {
 }
 
 export default RoleAssignment;
-
-// const save = () => {
-//     const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked')
-//     const role_ids = Array.from(checkboxes).map(checkbox => parseInt(checkbox.value))
-//     fetch(`${host}/api/v0/roleassign/${selected}?api_token=${localStorage.getItem('api_token')}`, {
-//         method: 'PATCH',
-//         body: JSON.stringify(role_ids)
-//     })
-// }
