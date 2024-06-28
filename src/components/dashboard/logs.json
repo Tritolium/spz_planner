@@ -13,7 +13,9 @@
                     {
                         "page": "Allgemein",
                         "changes": [
-                            "Die App wurde für bessere Offline-Nutzbarkeit optimiert. Es wird weiterhin eine Internetverbindung benötigt, die Verwendung ist aber bei schlechter Verbindung robuster geworden."
+                            "Die App wurde für bessere Offline-Nutzbarkeit optimiert. Es wird weiterhin eine Internetverbindung benötigt, die Verwendung ist aber bei schlechter Verbindung robuster geworden.",
+                            "Neues Rechtesystem eingeführt. Über Rollen kann jetzt festgelegt werden, welche Berechtigungen ein Nutzer hat. Die Rollen können von Admins vergeben werden.",
+                            "Der Übergang vom alten zum neuen System ist fließend und wird nicht direkt sichtbar sein. Zuvor wurde ein Zugriffslevel pro Benutzer festgelegt, mit dem neuen System ist es möglich, einzelne Funktionen pro Verein freizugeben."
                         ]
                     },
                     {
