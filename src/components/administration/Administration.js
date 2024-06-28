@@ -8,6 +8,8 @@ import DateTemplates from "./datetemplates/DateTemplates";
 import Scores from "./scores/Scores"
 import UsergroupAssignment from "./usergroupassignment/UsergroupAssignment";
 import Usergroups from "./usergroups/Usergroups";
+import Roles from "./roles/Roles";
+import RoleAssignment from "./roleassignment/RoleAssignment";
 
 const Administration = () => {
 
@@ -18,6 +20,8 @@ const Administration = () => {
         'Vereinzuordnung',
         'Benutzergruppen',
         'Gruppenzuordnung',
+        'Rollen',
+        'Rollenzuordnung',
         'Terminvorlagen',
         'Noten'
     ]
@@ -48,6 +52,8 @@ const View = ({ view }) => {
         <AssociationAssignment />,
         <Usergroups />,
         <UsergroupAssignment />,
+        <Roles />,
+        <RoleAssignment />,
         <DateTemplates />,
         <Scores />
     ]
