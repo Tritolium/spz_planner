@@ -2,6 +2,17 @@
     "v0": {
         "14": [
             {
+                "patch": 1,
+                "entries":[
+                    {
+                        "page": "Verwaltung",
+                        "changes": [
+                            "Fehler behoben, wodurch die Verwaltung nicht mehr erreichbar war"
+                        ]
+                    }
+                ]                            
+            },
+            {
                 "patch": 0,
                 "entries":[
                     {
