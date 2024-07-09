@@ -3,11 +3,7 @@
 // 
 
 export const hasPermission = (permission, association_id = null) => {
-    const permissions = JSON.parse(localStorage.getItem('permissions'))
-
-    if (permissions === null) {
-        return false
-    }
+    const permissions = JSON.parse(localStorage.getItem('permissions') || '{}');
 
     if (association_id === null) {
         for (let assoc in permissions) {
