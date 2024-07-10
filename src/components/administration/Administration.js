@@ -21,8 +21,8 @@ const Administration = () => {
         'Vereinzuordnung',
         'Benutzergruppen',
         'Gruppenzuordnung',
-        ...hasPermission(4) ? ['Rollen'] : [],
-        ...hasPermission(5) ? ['Rollenzuordnung'] : [],
+        ...hasPermission(3) && hasPermission(4) ? ['Rollen'] : [],
+        ...hasPermission(3) && hasPermission(5) ? ['Rollenzuordnung'] : [],
         'Terminvorlagen',
         'Noten'
     ]
