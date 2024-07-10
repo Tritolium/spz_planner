@@ -947,6 +947,10 @@ export const getWeather = async (nextEvent) => {
         geo = await maptilerClient.geocoding.forward(nextEvent.Address)
     else
         geo = await maptilerClient.geocoding.forward(nextEvent.Location)
+
+    if (geo.features.length === 0)
+        return
+    
     let response = await fetch(`https://api.open-meteo.com/v1/dwd-icon?latitude=${geo.features[0].center[1]}&longitude=${geo.features[0].center[0]}&hourly=apparent_temperature,weathercode&start_date=${nextEvent.Date}&end_date=${nextEvent.Date}&timezone=CET`)
     let json = await response.json()
     return({
