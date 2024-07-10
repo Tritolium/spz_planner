@@ -78,7 +78,7 @@ const NextEvent = ({ nextEventID, auth_level, showEventInfo, practice=false, the
     return(<>
         {nextEvent !== undefined ? <StyledEvent>
             <Event event={nextEvent} evaluation={evaluation} auth_level={auth_level} onClick={onClick} showEventInfo={showEventInfo} theme={theme}/>
-            {!practice ? <Additional event={nextEvent} plusone={plusone} attendence={attendence} updatePlusOne={updatePlusOne} weather={weather} evaluation={evaluation} theme={theme}/> : <></>}
+            {!practice || nextEvent.Type.includes("Open Air") ? <Additional event={nextEvent} plusone={plusone} attendence={attendence} updatePlusOne={updatePlusOne} weather={weather} evaluation={evaluation} theme={theme}/> : <></>}
         </StyledEvent> : <EventFallback theme={theme}/>}
     </>)
 }
