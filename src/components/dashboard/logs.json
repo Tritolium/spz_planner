@@ -1,5 +1,18 @@
 {
     "v0": {
+        "15": [
+            {
+                "patch": 0,
+                "entries":[
+                    {
+                        "page": "Startseite",
+                        "changes": [
+                            "Für Open-Air-Proben wird jetzt auch das Wetter angezeigt."
+                        ]
+                    }
+                ]
+            }
+        ],
         "14": [
             {
                 "patch": 1,
