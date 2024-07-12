@@ -111,6 +111,12 @@ const Form = ({selected, reload}) => {
 
         _until === '' ? until = from : until = _until
 
+        // prevent that the beginning date is after the end date
+        if(from > until){
+            alert("Das Startdatum darf nicht nach dem Enddatum liegen.")
+            return
+        }
+
         await newAbsence(from, until, info)
 
         reload()
@@ -131,6 +137,12 @@ const Form = ({selected, reload}) => {
         let info = document.getElementById("info").value
 
         _until === '' ? until = from : until = _until
+
+        // prevent that the beginning date is after the end date
+        if(from > until){
+            alert("Das Startdatum darf nicht nach dem Enddatum liegen.")
+            return
+        }
 
         await updateAbsence(absence.Absence_ID, absence.Member_ID, from, until, info)
 
