@@ -28,6 +28,12 @@
                         "changes": [
                             "Fehler behoben, wodurch die Wetteranzeige nicht mehr korrekt funktionierte, wenn kein Ort hinterlegt war"
                         ]
+                    },
+                    {
+                        "page": "Urlaub",
+                        "changes": [
+                            "Fehler behoben, wodurch der Beginn eines Urlaubs hinter dem Ende liegen konnte"
+                        ]
                     }
                 ]                            
             },
