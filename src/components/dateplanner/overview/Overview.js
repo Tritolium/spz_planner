@@ -67,10 +67,6 @@ const Overview = ({ theme }) => {
                 </div>
                 <OverviewTable attendences={attendences} theme={theme}/>
                 <EvalTable evaluation={evaluation} theme={theme}/>
-            {/*Fehlende Rückmeldungen:*/}
-            {/*missingFeedback.map(missing => {
-                return(<div>{missing.Forename} {missing.Surname}</div>)
-            })*/}
             </StyledOverview>
         )
     }
