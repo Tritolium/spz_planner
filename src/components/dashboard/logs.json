@@ -9,6 +9,12 @@
                         "changes": [
                             "Für Open-Air-Proben wird jetzt auch das Wetter angezeigt."
                         ]
+                    },
+                    {
+                        "page": "Anwesenheiten",
+                        "changes": [
+                            "Unter der Übersichtstabelle werden jetzt auch die vermuteten Teilnehmer angezeigt, analog zur Startseite."
+                        ]
                     }
                 ]
             }
