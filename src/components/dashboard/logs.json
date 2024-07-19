@@ -40,12 +40,6 @@
                         "changes": [
                             "Fehler behoben, wodurch der Beginn eines Urlaubs hinter dem Ende liegen konnte"
                         ]
-                    },
-                    {
-                        "page": "Termine",
-                        "changes": [
-                            "Fehler behoben, wodurch keine Abfahrtszeiten mehr angegeben werden konnten"
-                        ]
                     }
                 ]                            
             },
