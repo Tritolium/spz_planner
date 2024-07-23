@@ -97,7 +97,7 @@
     "crypto": false
   },
   "devDependencies": {
-    "@playwright/test": "^1.45.1",
+    "@playwright/test": "^1.45.3",
     "@types/node": "^20.14.11"
   },
   "jest": {
