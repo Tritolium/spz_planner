@@ -98,7 +98,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.45.3",
-    "@types/node": "^22.0.0"
+    "@types/node": "^22.0.2"
   },
   "jest": {
     "roots": [
