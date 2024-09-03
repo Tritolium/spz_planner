@@ -40,6 +40,12 @@
                         "changes": [
                             "Fehler behoben, wodurch der Beginn eines Urlaubs hinter dem Ende liegen konnte"
                         ]
+                    },
+                    {
+                        "page": "Login",
+                        "changes": [
+                            "Anzeigefehler unter Mozilla Firefox behoben"
+                        ]
                     }
                 ]                            
             },

@@ -8,12 +8,12 @@ const StyledLogin = styled.form`
     max-width: 6cm;
     max-height: 4cm;
     width: 90vw;
-    height: 25vw;
 
     input {
         margin: 1px;
         width: 100%;
         height: 33%;
+        min-height: 0.5cm;
     }
 
     button {
