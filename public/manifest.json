@@ -2,7 +2,7 @@
   "short_name": "Planer",
   "name": "SPZ/TCD Planer",
   "id": "/",
-  "version": "v0.14.0",
+  "version": "v0.14.1",
   "icons": [
     {
       "src": "favicon.ico",
