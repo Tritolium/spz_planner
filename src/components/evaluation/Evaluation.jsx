@@ -9,23 +9,22 @@ const Evaluation = ({ theme }) => {
 
     const [view, setView] = useState(0)
 
+    const labels = [
+        'Auswertung',
+        'Übersicht'
+    ]
+
     const navigate = (e) => {
-        switch (e.target.id) {
-        default:
-        case 'eval_button_0':
-            setView(0)
-            break
-        case 'eval_button_1':
-            setView(1)
-            break
-        }
+        let button_id = e.target.id.split('_')[2]
+        setView(parseInt(button_id))
     }
 
     return (
         <StyledEvaluation>
             <HeaderMenu>
-                <Button id='eval_button_0' onClick={navigate} theme={theme}>Auswertung</Button>
-                <Button id='eval_button_1' onClick={navigate} theme={theme}>Übersicht</Button>
+                {labels.map((label, index) => {
+                    return <Button key={index} id={`evaluation_button_${index}`} onClick={navigate} theme={theme}>{label}</Button>
+                })}
             </HeaderMenu>
             <View view={view} theme={theme} />
         </StyledEvaluation>
@@ -33,13 +32,13 @@ const Evaluation = ({ theme }) => {
 }
 
 const View = ({ view, theme }) => {
-    switch (view) {
-    default:
-    case 0:
-        return <EvaluationInput theme={theme} />
-    case 1:
-        return <EvaluationOverview theme={theme} />
+
+    const components = {
+        0: <EvaluationInput theme={theme} />,
+        1: <EvaluationOverview theme={theme} />
     }
+
+    return components[view] || <EvaluationInput theme={theme} />
 }
 
 export default Evaluation
