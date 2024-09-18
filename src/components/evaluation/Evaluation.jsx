@@ -10,8 +10,8 @@ const Evaluation = ({ theme }) => {
     const [view, setView] = useState(0)
 
     const labels = [
-        'Auswertung',
-        'Übersicht'
+        "Übersicht",
+        "Auswertung"
     ]
 
     const navigate = (e) => {
@@ -34,8 +34,8 @@ const Evaluation = ({ theme }) => {
 const View = ({ view, theme }) => {
 
     const components = {
-        0: <EvaluationInput theme={theme} />,
-        1: <EvaluationOverview theme={theme} />
+        0: <EvaluationOverview theme={theme} />,
+        1: <EvaluationInput theme={theme} />
     }
 
     return components[view] || <EvaluationInput theme={theme} />
