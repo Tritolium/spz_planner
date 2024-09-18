@@ -19,4 +19,14 @@ export const StyledEventForm = styled.div`
     @media (max-width: ${({theme}) => theme.mobile}) {
         flex-direction: column;
     }
+
+    .accepted {
+        color: ${({theme}) => theme.primaryLight};
+        font-style: normal;
+    }
+
+    .declined {
+        color: ${({theme}) => theme.lightred};
+        font-style: italic;
+    }
 `
