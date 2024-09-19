@@ -146,7 +146,7 @@ const EventItem = ({ event, onSelect }) => {
     }, [onSelect, event.Event_ID])
 
     return (
-        <SelectorItem onClick={onClick}>
+        <SelectorItem className={event.Accepted ? "accepted" : "declined"}onClick={onClick}>
             {event.Type} {event.Location}
         </SelectorItem>
     )

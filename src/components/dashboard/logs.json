@@ -15,6 +15,12 @@
                         "changes": [
                             "Unter der Übersichtstabelle werden jetzt auch die vermuteten Teilnehmer angezeigt, analog zur Startseite."
                         ]
+                    },
+                    {
+                        "page": "Termine",
+                        "changes": [
+                            "Termine, die nicht angenommen wurden, werden jetzt in der Detailansicht rot markiert."
+                        ]
                     }
                 ]
             }
