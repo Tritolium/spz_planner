@@ -21,6 +21,12 @@
                         "changes": [
                             "Termine, die nicht angenommen wurden, werden jetzt in der Detailansicht rot markiert."
                         ]
+                    },
+                    {
+                        "page": "Auswertung",
+                        "changes": [
+                            "Unter dem Reiter \"Auswertung\" wird eine persönliche Auswertung angezeigt. Die Bewertungsmethode ist noch nicht final, grundsätzlich wird Anwesenheit positiv bewertet, unentschuldigtes Fehlen negativ."
+                        ]
                     }
                 ]
             }
