@@ -4,12 +4,14 @@ import HeaderMenu from "../../modules/components/headermenu/HeaderMenu"
 import Button from "../../modules/components/button/Button"
 import EvaluationOverview from "./overview/EvaluationOverview"
 import { StyledEvaluation } from "./Evaluation.styled"
+import EvaluationPersonal from "./personal/EvaluationPersonal"
 
 const Evaluation = ({ theme }) => {
 
     const [view, setView] = useState(0)
 
     const labels = [
+        "Meine Übersicht",
         "Übersicht",
         "Auswertung"
     ]
@@ -34,8 +36,9 @@ const Evaluation = ({ theme }) => {
 const View = ({ view, theme }) => {
 
     const components = {
-        0: <EvaluationOverview theme={theme} />,
-        1: <EvaluationInput theme={theme} />
+        0: <EvaluationPersonal theme={theme} />,
+        1: <EvaluationOverview theme={theme} />,
+        2: <EvaluationInput theme={theme} />
     }
 
     return components[view] || <EvaluationInput theme={theme} />
