@@ -10,7 +10,7 @@ import UsergroupAssignment from "./usergroupassignment/UsergroupAssignment";
 import Usergroups from "./usergroups/Usergroups";
 import Roles from "./roles/Roles";
 import RoleAssignment from "./roleassignment/RoleAssignment";
-import { hasPermission } from "../../modules/helper/Permissions";
+import { hasAnyPermission, hasPermission } from "../../modules/helper/Permissions";
 
 const Administration = () => {
 
@@ -21,8 +21,8 @@ const Administration = () => {
         'Vereinzuordnung',
         'Benutzergruppen',
         'Gruppenzuordnung',
-        ...hasPermission(3) && hasPermission(4) ? ['Rollen'] : [],
-        ...hasPermission(3) && hasPermission(5) ? ['Rollenzuordnung'] : [],
+        ...hasAnyPermission([3, 4]) ? ['Rollen'] : [],
+        ...hasAnyPermission([3, 5]) ? ['Rollenzuordnung'] : [],
         'Terminvorlagen',
         'Noten'
     ]
