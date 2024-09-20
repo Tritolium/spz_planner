@@ -29,7 +29,7 @@ const EvaluationPersonal = ({ theme }) => {
                 <option value="2025">2025</option>
             </select>
             {Object.keys(evaluation).map((key) => {
-                return (<UsergroupEval usergroup={key} evaluation={evaluation[key]}/>)
+                return (<UsergroupEval key={key} usergroup={key} evaluation={evaluation[key]}/>)
             })}
         </div>
     )
