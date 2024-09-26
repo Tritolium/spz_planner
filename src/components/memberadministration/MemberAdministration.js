@@ -3,6 +3,7 @@ import Button from '../../modules/components/button/Button'
 import MemberForm from './memberform/MemberForm'
 import HeaderMenu from "../../modules/components/headermenu/HeaderMenu"
 import { host } from '../../modules/data/DBConnect'
+import { hasPermission } from '../../modules/helper/Permissions'
 
 const Overview =lazy(() => import('./overview/Overview'))
 
@@ -28,22 +29,27 @@ const Memberadministration = (props) => {
     }, [fetchMembers])
 
     const navigate = (e) => {
-        switch(e.target.id){
-        default:
-        case 'member_button_0':
-            setView(0)
-            break
-        case 'member_button_1':
-            setView(1)
-            break
-        }
+        let button_id = e.target.id.split('_')[2]
+        setView(parseInt(button_id))
     }
+
+    const buttons = [
+        { id: 'member_button_0', label: 'Übersicht', permitted: hasPermission(1), onClick: navigate },
+        { id: 'member_button_1', label: 'Stammdaten', permitted: hasPermission(2), onClick: navigate }
+    ]
 
     return (
         <>
             <HeaderMenu>
-                <Button id="member_button_0" type='button' onClick={navigate}>Übersicht</Button>
-                {props.auth_level > 2 ? <Button id='member_button_1' type='button' onClick={navigate}>Stammdaten</Button> : <></>}
+                {buttons.map(({ id, label, permitted, onClick }) => {
+                    return (
+                        permitted && (
+                            <Button key={id} type='button' id={id} onClick={onClick}>
+                                {label}
+                            </Button>
+                        )
+                    )
+                })}
             </HeaderMenu>
             <View view={view} members={members} reload={reload}/>
         </>
@@ -51,15 +57,22 @@ const Memberadministration = (props) => {
 }
 
 const View = ({ view, members, reload}) => {
-    switch(view){
-    default:
-    case 0:
-        return(<Suspense fallback={<div>Übersicht lädt</div>}>
-            <Overview members={members}/>
-        </Suspense>)
-    case 1:
-        return(<MemberForm members={members} reload={reload}/>)
+
+    const components = {
+        '0': <Overview members={members}/>,
+        '1': <MemberForm members={members} reload={reload}/>
     }
+
+    const fallbacks = {
+        '0': <div>Übersicht lädt</div>,
+        '1': <div>Stammdaten laden</div>
+    }
+
+    return (
+        <Suspense fallback={fallbacks[view]}>
+            {components[view]}
+        </Suspense>
+    )
 }
 
 export default Memberadministration
