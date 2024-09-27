@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from "react"
 import SubmitButton from "../../../modules/components/SubmitButton"
-import { getEvents, getMembers, setAttendence as setSingleAttendence } from "../../../modules/data/DBConnect"
+import { getEvents, getMembers, getOwnUsergroups, setAttendence as setSingleAttendence } from "../../../modules/data/DBConnect"
 import Terminzusage from "../attendenceInput/Terminzusage"
 import { StyledAbsenceInput } from "./AbsenceInput.styled"
 import PlusOne from "../../../modules/components/icons/PlusOne"
+import { hasPermission } from "../../../modules/helper/Permissions"
 
 const AbsenceInput = ({ theme }) => {
 
@@ -24,10 +25,19 @@ const AbsenceInput = ({ theme }) => {
         const fetchMembers = async () => {
             let _members = await getMembers()
             setMembers(_members)
-            setUsergroups(_members[0].Usergroups)
+        }
+
+        const fetchUsergroups = async () => {
+            let _usergroups = await getOwnUsergroups()
+            _usergroups = _usergroups.filter(usergroup => {
+                return hasPermission(6, usergroup.Association_ID)
+            })
+            setUsergroups(_usergroups)
+            setSelectedUsergroupFilter(_usergroups[0].Usergroup_ID)
         }
         fetchEvents()
         fetchMembers()
+        fetchUsergroups()
     }, [])
 
     const onClick = useCallback((_eventId, att) => {
@@ -38,11 +48,7 @@ const AbsenceInput = ({ theme }) => {
         setPlusone(!plusone)
     }
     const onUsergroupFilterChange = useCallback(e => {
-        if (e.target.value === 'all')
-            setSelectedUsergroupFilter(-1)
-        else
-            setSelectedUsergroupFilter(parseInt(e.target.value))
-
+        setSelectedUsergroupFilter(parseInt(e.target.value))
     }, [setSelectedUsergroupFilter])
 
     const submit = () => {
@@ -56,7 +62,6 @@ const AbsenceInput = ({ theme }) => {
     return(
         <StyledAbsenceInput>
             <select id="usergroup_select" onChange={onUsergroupFilterChange}>
-                <option key={"usergroup_all"} value="all">Alle</option>
                 {usergroups.map(usergroup => {
                     return(<option key={`usergroup_${usergroup.Usergroup_ID}`} value={usergroup.Usergroup_ID}>{usergroup.Title}</option>)
                 })}

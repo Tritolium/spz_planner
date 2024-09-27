@@ -4,6 +4,7 @@ import './Dateplanner.css'
 import Button from '../../modules/components/button/Button'
 import HeaderMenu from '../../modules/components/headermenu/HeaderMenu'
 import AbsenceInput from './absenceInput/AbsenceInput'
+import { hasPermission } from '../../modules/helper/Permissions'
 
 const AttendenceInput = lazy(() => import('./attendenceInput/Termineingabe'))
 const Overview = lazy(() => import('./overview/Overview'))
@@ -19,8 +20,8 @@ const Dateplanner = (props) => {
 
     const buttons = [
         { id: 'date_button_0', label: "Eingabe", permitted: true },
-        { id: 'date_button_1', label: "Übersicht", permitted: props.auth_level > 1},
-        { id: 'date_button_2', label: "manuelle Eingabe", permitted: props.auth_level > 2 }
+        { id: 'date_button_1', label: "Übersicht", permitted: hasPermission(7)},
+        { id: 'date_button_2', label: "manuelle Eingabe", permitted: hasPermission(6) }
     ]
 
     return (

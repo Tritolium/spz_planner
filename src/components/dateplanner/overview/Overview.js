@@ -8,6 +8,7 @@ import EvalDiagram from "./EvalDiagram"
 import { Alert, Blank, Check, Deny, PlusOne } from "../attendenceInput/Terminzusage"
 import { IoReload } from "react-icons/io5"
 import { OverviewTable } from "./OverviewTable"
+import { hasPermission } from "../../../modules/helper/Permissions"
 
 const Overview = ({ theme }) => {
 
@@ -19,6 +20,7 @@ const Overview = ({ theme }) => {
 
     const fetchUsergroups = async () => {
         let _usergroups = await getOwnUsergroups()
+        _usergroups = _usergroups.filter(usergroup => hasPermission(7, usergroup.Association_ID))
         setUsergroups(_usergroups)
     }
 
