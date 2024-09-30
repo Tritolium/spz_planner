@@ -4,6 +4,7 @@ import { Table } from "../../../modules/components/overview/Table";
 import { getOwnUsergroups, host } from "../../../modules/data/DBConnect";
 import { StyledEvaluationOverview } from "./EvaluationOverview.styled";
 import { EvalButton } from "../evaluationinput/EvaluationInput";
+import { hasPermission } from "../../../modules/helper/Permissions";
 
 const EvaluationOverview = ({ theme }) => {
 
@@ -18,6 +19,7 @@ const EvaluationOverview = ({ theme }) => {
     const fetchUsergroups = useCallback(async () => {
         let _usergroups = await getOwnUsergroups()
         if(_usergroups !== undefined) {
+            _usergroups = _usergroups.filter(usergroup => hasPermission(8, usergroup.Association_ID))
             setUsergroups(_usergroups)
         } else
             setUsergroups(new Array(0))
@@ -57,10 +59,21 @@ const EvaluationOverview = ({ theme }) => {
         reload()
     }, [fetchUsergroups, reload])
 
+    useEffect(() => {
+        // set filterFrom to today - 1 year, if it is after 23.11.2023
+        let today = new Date()
+        let limit = new Date('2023-11-23') // evaluation only available from this date on
+        let lastYear = new Date(today.getFullYear()-1, today.getMonth(), today.getDate())
+        if (lastYear > limit) {
+            setFilterFrom(lastYear.toISOString().split('T')[0])
+        }
+    }, [filterFrom])
+
     return (
         <StyledEvaluationOverview>
             <div>
                 <select name="usergroup" id="usergroup" onChange={onUsergroupChange}>
+                    <option value={-1}>Gruppe auswählen</option>
                     {usergroups.map((usergroup) => <option key={usergroup.Usergroup_ID} value={usergroup.Usergroup_ID}>{usergroup.Title}</option>)}
                 </select>
                 <select name="type" id="type" onChange={onCategoryChange}>
@@ -69,7 +82,7 @@ const EvaluationOverview = ({ theme }) => {
                     <option value="event">Auftritt</option>
                     <option value="other">sonstige Termine</option>
                 </select>
-                <input type="date" defaultValue={'2023-11-23'} onChange={(e) => {setFilterFrom(e.target.value)}}/>
+                <input type="date" defaultValue={filterFrom} onChange={(e) => {setFilterFrom(e.target.value)}}/>
                 <input type="date" defaultValue={filterTo} onChange={(e) => {setFilterTo(e.target.value)}}/>
             </div>
             <OverviewTable evaluations={evaluations} filterFrom={filterFrom} filterTo={filterTo} category={selectedCategory} theme={theme}/>
