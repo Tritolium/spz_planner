@@ -5,7 +5,7 @@ import { Zusage } from "./Overview"
 
 export const OverviewTable = ({attendences, theme}) => {
     return(<StyledOverviewTable>
-            <span className="Date">Termin:</span>
+            <span className="Date Header">Termin:</span>
             {attendences[0].Attendences.map((att) => {
                 return(<NameTag key={att.Fullname} Fullname={att.Fullname}/>)
             })}
@@ -31,6 +31,6 @@ const NameTag = ({ Fullname }) => {
     }
 
     return(
-        <span className={showTooltip ? "NameTagActive" : "NameTag"} onClick={toggleTooltip}>{showTooltip ? Fullname : initials}</span>
+        <span className={showTooltip ? "NameTagActive Header" : "NameTag Header"} onClick={toggleTooltip}>{showTooltip ? Fullname : initials}</span>
     )
 }

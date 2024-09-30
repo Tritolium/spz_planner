@@ -13,7 +13,8 @@
                     {
                         "page": "Anwesenheiten",
                         "changes": [
-                            "Unter der Übersichtstabelle werden jetzt auch die vermuteten Teilnehmer angezeigt, analog zur Startseite."
+                            "Unter der Übersichtstabelle werden jetzt auch die vermuteten Teilnehmer angezeigt, analog zur Startseite.",
+                            "Die erste Zeile in der Übersichtstabelle ist jetzt fixiert, damit die Namen bzw. Kürzel immer sichtbar sind."
                         ]
                     },
                     {

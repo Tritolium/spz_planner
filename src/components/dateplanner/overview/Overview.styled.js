@@ -15,9 +15,18 @@ export const StyledOverview = styled.div`
 export const StyledOverviewTable = styled.div`
     display: grid;
     border-bottom: 1px solid ${({ theme }) => theme.primaryLight};
+    overflox: auto;
+
+    .Header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: ${({ theme }) => theme.primaryDark};
+    }
 
     .Date {
         grid-row: 1;
+        grid-column: 1;
     }
 
     .NameTag {
@@ -25,6 +34,7 @@ export const StyledOverviewTable = styled.div`
         font-weight: bold;
         padding: 2px;
         cursor: pointer;
+        border: 1px solid ${({ theme }) => theme.primaryLight};
     }
 
     .NameTagActive {
@@ -40,9 +50,15 @@ export const StyledOverviewTable = styled.div`
     }
 
     .DateTag {
+        grid-column: 1;
         text-align: center;
         border-left: 1px solid ${({ theme }) => theme.primaryLight};
         border-top: 1px solid ${({ theme }) => theme.primaryLight};
+        border-right: 1px solid ${({ theme }) => theme.primaryLight};
+        position: sticky;
+        left: 0;
+        z-index: 5;
+        background-color: ${({ theme }) => theme.primaryDark};
     }
 
     .AttendenceTag {
