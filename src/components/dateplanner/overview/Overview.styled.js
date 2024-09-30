@@ -20,7 +20,7 @@ export const StyledOverviewTable = styled.div`
     .Header {
         position: sticky;
         top: 0;
-        z-index: 10;
+        z-index: 8;
         background-color: ${({ theme }) => theme.primaryDark};
     }
 
