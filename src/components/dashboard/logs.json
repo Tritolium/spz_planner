@@ -28,6 +28,12 @@
                         "changes": [
                             "Unter dem Reiter \"Auswertung\" wird eine persönliche Auswertung angezeigt. Die Bewertungsmethode ist noch nicht final, grundsätzlich wird Anwesenheit positiv bewertet, unentschuldigtes Fehlen negativ."
                         ]
+                    },
+                    {
+                        "page": "Allgemein",
+                        "changes": [
+                            "Rechtesystem umgesetzt bei Anwesenheiten, Auswertung, Mitglieder und Rollenverwaltung"
+                        ]
                     }
                 ]
             }
