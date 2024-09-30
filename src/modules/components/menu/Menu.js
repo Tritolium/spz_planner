@@ -24,7 +24,7 @@ const Menu = ({ open, navigate, auth_level, setOpen, secure }) => {
         { id: 'main_button_0', label: 'Startseite', minAuth: 1, permitted: undefined, onClick: nav },
         { id: 'main_button_1', label: 'Anwesenheiten', minAuth: 1, permitted: undefined, onClick: nav },
         { id: 'main_button_2', label: 'Urlaub', minAuth: 1, permitted: undefined, onClick: nav },
-        { id: 'main_button_3', label: 'Auswertung', minAuth: 3, permitted: undefined, onClick: nav },
+        { id: 'main_button_3', label: 'Auswertung', minAuth: 3, permitted: true, onClick: nav },
         { id: 'main_button_4', label: 'Mitglieder', minAuth: 1, permitted: hasAnyPermission([1, 2]), onClick: nav },
         { id: 'main_button_5', label: 'Termine', minAuth: 1, permitted: undefined, onClick: nav },
         { id: 'main_button_6', label: 'Noten', minAuth: 1, permitted: undefined, onClick: secure ? nav : insecure },

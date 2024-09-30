@@ -5,15 +5,16 @@ import Button from "../../modules/components/button/Button"
 import EvaluationOverview from "./overview/EvaluationOverview"
 import { StyledEvaluation } from "./Evaluation.styled"
 import EvaluationPersonal from "./personal/EvaluationPersonal"
+import { hasPermission } from "../../modules/helper/Permissions"
 
 const Evaluation = ({ theme }) => {
 
     const [view, setView] = useState(0)
 
-    const labels = [
-        "Meine Übersicht",
-        "Übersicht",
-        "Auswertung"
+    const buttons = [
+        { id: 'evaluation_button_0', label: "Meine Übersicht", permitted: true },
+        { id: 'evaluation_button_1', label: "Übersicht", permitted: hasPermission(8) },
+        { id: 'evaluation_button_2', label: "Auswertung", permitted: hasPermission(9) }
     ]
 
     const navigate = (e) => {
@@ -24,8 +25,9 @@ const Evaluation = ({ theme }) => {
     return (
         <StyledEvaluation>
             <HeaderMenu>
-                {labels.map((label, index) => {
-                    return <Button key={index} id={`evaluation_button_${index}`} onClick={navigate} theme={theme}>{label}</Button>
+                {buttons.map(({ id, label, permitted }) => {
+                    return permitted &&
+                        <Button key={id} id={id} onClick={navigate} theme={theme}>{label}</Button>
                 })}
             </HeaderMenu>
             <View view={view} theme={theme} />
