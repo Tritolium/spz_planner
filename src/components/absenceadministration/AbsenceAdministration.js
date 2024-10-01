@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { Suspense, useState } from 'react'
 import Button from '../../modules/components/button/Button'
 import Overview from './overview/Overview';
 import { StyledAbsenceAdministration, StyledView } from './AbsenceAdministration.styled'
@@ -12,30 +12,29 @@ const AbsenceAdministration = ({ auth_level }) => {
     const [view, setView] = useState(0);
 
     const navigate = (e) => {
-        switch(e.target.id){
-        default:
-        case 'absence_button_0':
-            setView(0)
-            break
-        case 'absence_button_1':
-            setView(1)
-            break
-        case 'absence_button_2':
-            setView(2)
-            break
-        case 'absence_button_3':
-            setView(3)
-            break
-        }
+        let button_id = e.target.id.split('_')[2]
+        setView(parseInt(button_id))
     }
+
+    const buttons = [
+        { id: 'absence_button_0', label: "Übersicht", permitted: true },
+        { id: 'absence_button_1', label: "Eingabe", permitted: true },
+        { id: 'absence_button_2', label: "Gesamtübersicht", permitted: auth_level > 2 },
+        { id: 'absence_button_3', label: "manuelle Eingabe", permitted: auth_level > 2 }
+    ]
 
     return(
         <StyledAbsenceAdministration>
             <HeaderMenu>
-                <Button id="absence_button_0" onClick={navigate}>Übersicht</Button>
-                <Button id="absence_button_1" onClick={navigate}>Eingabe</Button>
-                {auth_level > 2 ? <Button id="absence_button_2" onClick={navigate}>Gesamtübersicht</Button> : <></>}
-                {auth_level > 2 ? <Button id='absence_button_3' onClick={navigate}>manuelle Eingabe</Button> : <></>}
+                {buttons.map(({ id, label, permitted }) => {
+                    return (
+                        permitted && (
+                            <Button key={id} type='button' id={id} onClick={navigate}>
+                                {label}
+                            </Button>
+                        )
+                    )
+                })}
             </HeaderMenu>
             <View view={view}/>
         </StyledAbsenceAdministration>
@@ -44,17 +43,20 @@ const AbsenceAdministration = ({ auth_level }) => {
 
 const View = ({ view }) => {
 
-    switch(view){
-    default:
-    case 0:
-        return(<StyledView><Overview /></StyledView>)
-    case 1:
-        return(<StyledView><AbsenceForm /></StyledView>)
-    case 2:
-        return(<StyledView><CompleteOverview /></StyledView>)
-    case 3:
-        return(<StyledView><ManuelAbsenceInput /></StyledView>)
+    const components = {
+        '0': <Overview />,
+        '1': <AbsenceForm />,
+        '2': <CompleteOverview />,
+        '3': <ManuelAbsenceInput />
     }
+
+    return (
+        <Suspense fallback={<div>Lädt...</div>}>
+            <StyledView>
+                {components[view]}
+            </StyledView>
+        </Suspense>
+    )
 }
 
 export default AbsenceAdministration
