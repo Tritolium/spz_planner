@@ -1,7 +1,8 @@
 import { Bar } from "react-chartjs-2"
 import { Chart as ChartJS, BarElement, CategoryScale, Legend, LinearScale, Title, Tooltip } from "chart.js"
+import { hasPermission } from "../../../modules/helper/Permissions"
 
-const DashboardDiagram = ({ event, auth_level, theme }) => {
+const DashboardDiagram = ({ event, theme, association_id }) => {
 
     ChartJS.register(
         CategoryScale,
@@ -25,7 +26,7 @@ const DashboardDiagram = ({ event, auth_level, theme }) => {
                 display: false
             },
             tooltip: {
-                enabled: auth_level > 1
+                enabled: hasPermission(7, association_id),
             }
         },
         scales: {

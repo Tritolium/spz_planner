@@ -1,6 +1,6 @@
 import { useCallback } from "react"
 import { useEffect, useState } from "react"
-import { getEvents, getUsergroups, host } from "../../../modules/data/DBConnect"
+import { getEvents, getOwnUsergroups, host } from "../../../modules/data/DBConnect"
 import Selector from "../../../modules/components/form/Selector"
 import Filter from "../../../modules/components/Filter"
 import SelectorItem from "../../../modules/components/form/SelectorItem"
@@ -10,6 +10,7 @@ import { Table } from "../../../modules/components/overview/Table"
 import { Zusage } from "../../dateplanner/overview/Overview"
 import { StyledEvaluationInput } from "./EvaluationInput.styled"
 import { Check, DeniedCheck, Deny, Noshow, Unregistered } from "../../dateplanner/attendenceInput/Terminzusage"
+import { hasPermission } from "../../../modules/helper/Permissions"
 
 const EvaluationInput = ({ theme }) => {
     const [events, setEvents] = useState(new Array(0))
@@ -26,10 +27,11 @@ const EvaluationInput = ({ theme }) => {
     }, [])
 
     const fetchUsergroups = useCallback(async () => {
-        let _usergroups = await getUsergroups()
-        if(_usergroups !== undefined)
+        let _usergroups = await getOwnUsergroups()
+        if(_usergroups !== undefined) {
+            _usergroups = _usergroups.filter(usergroup => hasPermission(9, usergroup.Association_ID))
             setUsergroups(_usergroups)
-        else
+        } else
             setUsergroups(new Array(0))
     }, [])
 
@@ -77,7 +79,7 @@ const EventSelector = ({ events, onSelect, usergroups }) => {
             </div>
             {events
             .filter(event => {
-				return event.Accepted && !event.Type.includes("Abgesagt") && !event.Evaluated
+				return event.Accepted && !event.Type.includes("Abgesagt") && !event.Evaluated && hasPermission(9, event.Association_ID)
             })
 			.filter(event => {
 				let now = new Date()

@@ -96,7 +96,12 @@ const RoleAssignEditor = ({ members, association }) => {
 
     const fetchRoles = useCallback(() => {
         fetch(`${host}/api/v0/roles?api_token=${localStorage.getItem('api_token')}`)
-            .then(response => response.json())
+            .then(response => {
+                if(response.ok)
+                    return response.json()
+                else
+                    return []
+            })
             .then(data => {
                 setRoles(data)
             })

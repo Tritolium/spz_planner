@@ -19,3 +19,23 @@ export const hasPermission = (permission, association_id = null) => {
 
     return false
 }
+
+export const hasAnyPermission = (permissions, association_id = null) => {
+    for (let permission of permissions) {
+        if (hasPermission(permission, association_id)) {
+            return true
+        }
+    }
+
+    return false
+}
+
+export const hasAllPermissions = (permissions, association_id = null) => {
+    for (let permission of permissions) {
+        if (!hasPermission(permission, association_id)) {
+            return false
+        }
+    }
+
+    return true
+}
