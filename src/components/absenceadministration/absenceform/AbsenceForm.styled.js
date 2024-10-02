@@ -5,6 +5,31 @@ export const StyledAbsenceForm = styled.div`
     flex-direction: row;
     position: relative;
     width: 100%;
+
+    .weekselect {
+
+        max-width: 25%;
+
+        display: grid;
+        grid-template-columns: repeat(7, auto);
+
+        justify-items: center;
+
+        label {
+            grid-row: 1;
+            min-width: 25px;
+            text-align: center;
+        }
+
+        input {
+            grid-row: 2;
+            margin: 0 auto;
+        }
+    }
+
+    @media (max-width: ${({ theme }) => theme.mobile}) {
+        flex-direction: column;
+    }
 `
 
 export const StyledForm = styled.form`
