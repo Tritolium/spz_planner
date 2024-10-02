@@ -40,6 +40,12 @@
                         "changes": [
                             "Abmeldungen können für einzelne Wochentage sowie z.B. nur in geraden/ungeraden Wochen vorgenommen werden. Praktisch für beispielsweise Wechselschicht oder Gardetraining, ohne sich gleichzeitig von den Auftritten abzumelden."
                         ]
+                    },
+                    {
+                        "page": "Hilfe/Datenschutz",
+                        "changes": [
+                            "Zusätzlich zur Hilfe wird angegeben, welche Daten gespeichert werden und wie sie genutzt werden."
+                        ]
                     }
                 ]
             }
