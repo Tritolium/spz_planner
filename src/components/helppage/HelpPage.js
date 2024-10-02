@@ -1,4 +1,5 @@
 import { StyledHelpPage } from "./HelpPage.styled"
+import { hasAnyPermission, hasPermission } from '../../modules/helper/Permissions'
 
 import check from '../../modules/img/check.png'
 import deny from '../../modules/img/delete-button.png'
@@ -17,11 +18,11 @@ const HelpPage = ({ auth_level }) => {
                     Wird <img src={blank} alt="Ohne Rückmeldung"/> angezeigt, ist noch keine Rückmeldung erfolgt.
                     Nach Änderungen wird das Ergebnis über den Button gespeichert.
                 </p>
-                {auth_level > 1 ? <>
+                {hasPermission(7) ? <>
                     <h2>Übersicht</h2>
                     <p>Hier können die Rückmeldungen eingesehen werden, geordnet nach Benutzergruppen.</p>
                 </> : <></>}
-                {auth_level > 2 ? <>
+                {hasPermission(6) ? <>
                     <h2>manuelle Eingabe</h2>
                     <p>Unter diesem Punkt können für einzelne Termine einzelne Personen an- oder abgemeldet werden.</p>
                 </> : <></>}
@@ -33,12 +34,13 @@ const HelpPage = ({ auth_level }) => {
     const Absence = () => {
         return (
             <div>
-                <h1>Urlaub</h1>
+                <h1>Urlaub/Abmeldung</h1>
                 <p>Eingetragene Abwesenheiten sorgen dafür, dass neue Termine in diesem Zeitraum automatisch als Abwesend eingetragen werden. Auch bei bestehenden Terminen wird die Person auf Abwesend gesetzt.</p>
                 <h2>Übersicht</h2>
                 <p>Hier werden die eingetragenen persönlichen Abwesenheiten angezeigt. Abgelaufene Zeiten tauchen nicht mehr auf.</p>
                 <h2>Eingabe</h2>
                 <p>In dieser Ansicht können Abwesenheiten eingetragen werden. Einfach die Felder füllen und speichern. Der Eintrag wird dann auf der linken Seite angezeigt und kann auch hier wieder bearbeitet werden.</p>
+                <p>Über die Wochentage kann ausgewählt werden, an welchen Tagen diese Abwesenheit gelten soll, gleiches gilt für die Auswahl von geraden und ungeraden Wochen.</p>
                 {auth_level > 2 ? <>
                     <h2>Gesamtübersicht</h2>
                     <p>Hier werden alle Anwesenheiten angezeigt.</p>
@@ -52,7 +54,10 @@ const HelpPage = ({ auth_level }) => {
             <div>
                 <h1>Mitglieder</h1>
                 <h2>Übersicht</h2>
-                <h2>Stammdaten</h2>
+                <p>Simple Übersicht aller Nutzer mit Name und Geburtsdatum</p>
+                {hasPermission(2) && <><h2>Stammdaten</h2>
+                    <p>Hier können die Stammdaten der Nutzer angepasst werden</p></>
+                }
             </div>
         )
     }
@@ -65,6 +70,7 @@ const HelpPage = ({ auth_level }) => {
                 <p>Hier werden alle Termine angezeigt, inklusive der Zeiten für Abfahrt, Rückfahrt und Beginn</p>
                 {auth_level > 2 ? <>
                     <h2>Details</h2>
+                    <p>Unter Details können die Termine bearbeitet werden, Datum, Uhrzeit, Bekleidung, sowie ob Partner mit angegeben werden können.</p>
                 </> : <></>}
             </div>
         )
@@ -84,10 +90,9 @@ const HelpPage = ({ auth_level }) => {
             <div>
                 <h1>Geplante Funktionen:</h1>
                 <ul>
-                    <li>Zuweisung mehrerer Gruppen zu einem Termin, um doppelte Termine zu vermeiden.</li>
-                    <li>Verwaltung von Bestellungen</li>
-                    <li>Marschübersicht</li>
+                    <li>verbesserte Marschübersicht</li>
                     <li>Terminprotokoll zum Nachvollziehen sowie für die Chronik</li>
+                    <li>Aufstellung fürs Marschieren</li>
                 </ul>
                 
             </div>
@@ -96,12 +101,12 @@ const HelpPage = ({ auth_level }) => {
 
     return (
         <StyledHelpPage>
-            {auth_level > 0 ? <Attendence /> : <></>}
-            {auth_level > 0 ? <Absence /> : <></>}
-            {auth_level > 1 ? <Memberadministration /> : <></>}
+            <Attendence />
+            <Absence />
+            {hasAnyPermission([1, 2]) && <Memberadministration />}
             {auth_level > 0 ? <Dateadministration /> : <></>}
             {auth_level > 2 ? <Administration /> : <></>}
-            {auth_level > 0 ? <Upcoming /> : <></>}
+            <Upcoming />
         </StyledHelpPage>
     )
 }
