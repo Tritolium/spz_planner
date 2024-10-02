@@ -34,6 +34,12 @@
                         "changes": [
                             "Rechtesystem umgesetzt bei Anwesenheiten, Auswertung, Mitglieder und Rollenverwaltung"
                         ]
+                    },
+                    {
+                        "page": "Urlaub/Abmeldung",
+                        "changes": [
+                            "Abmeldungen können für einzelne Wochentage sowie z.B. nur in geraden/ungeraden Wochen vorgenommen werden. Praktisch für beispielsweise Wechselschicht oder Gardetraining, ohne sich gleichzeitig von den Auftritten abzumelden."
+                        ]
                     }
                 ]
             }
