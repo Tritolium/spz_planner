@@ -529,7 +529,6 @@ export const newAbsence = async (from, until, info) => {
     })
     switch(response.status){
     case 201:
-        alert('Abwesenheit eingetragen')
         break
     default:
         alert('ein Fehler ist aufgetreten')
