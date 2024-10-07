@@ -7,9 +7,35 @@ import blank from '../../modules/img/blank.png'
 
 const HelpPage = ({ auth_level }) => {
 
+    const Privacypolicy = () => {
+        return (
+            <article>
+                <h1>Datenschutz</h1>
+                <p>Die Anwendung speichert hauptsächlich Daten, die für den Betrieb notwendig sind. Dazu gehören:</p>
+                <ul>
+                    <li>Vor- und Nachname</li>
+                    <li>Geburtsdatum</li>
+                    <li>eingetragene sowie tatsächliche Anwesenheit bei Terminen</li>
+                    <li>eingetragene Abwesenheiten</li>
+                    <li>eingetragene Bestellungen</li>
+                </ul>
+                <p>Zusätzlich werden folgende Daten erhoben:</p>
+                <ul>
+                    <li>Loginzeiten</li>
+                    <li>Anzeige (Browser/installiert)</li>
+                    <li>Auflösung</li>
+                    <li>UserAgent</li>
+                    <li>Verwendung der Module abseits der Startseite (Anwesenheiten/Urlaub/....), siehe Menü</li>
+                </ul>
+                <p>Diese zusätzlichen Daten dienen ausschließlich dazu, die Benutzbarkeit der App zu verbessern und um eventuelle Fehler nachzuvollziehen.</p>
+                <p>Die Daten werden nicht an Dritte weitergegeben und nur für den Betrieb der Anwendung verwendet. Die Daten werden auf einem Server in Deutschland gespeichert und sind nur für den Administrator einsehbar.</p>
+            </article>
+        )
+    }
+
     const Attendence = () => {
         return (
-            <div>
+            <article>
                 <h1>Anwesenheiten</h1>
                 <h2>Eingabe</h2>
                 <p>
@@ -27,13 +53,13 @@ const HelpPage = ({ auth_level }) => {
                     <p>Unter diesem Punkt können für einzelne Termine einzelne Personen an- oder abgemeldet werden.</p>
                 </> : <></>}
                 
-            </div>
+            </article>
         )
     }
 
     const Absence = () => {
         return (
-            <div>
+            <article>
                 <h1>Urlaub/Abmeldung</h1>
                 <p>Eingetragene Abwesenheiten sorgen dafür, dass neue Termine in diesem Zeitraum automatisch als Abwesend eingetragen werden. Auch bei bestehenden Terminen wird die Person auf Abwesend gesetzt.</p>
                 <h2>Übersicht</h2>
@@ -45,26 +71,26 @@ const HelpPage = ({ auth_level }) => {
                     <h2>Gesamtübersicht</h2>
                     <p>Hier werden alle Anwesenheiten angezeigt.</p>
                 </> : <></>}
-            </div>
+            </article>
         )
     }
 
     const Memberadministration = () => {
         return (
-            <div>
+            <article>
                 <h1>Mitglieder</h1>
                 <h2>Übersicht</h2>
                 <p>Simple Übersicht aller Nutzer mit Name und Geburtsdatum</p>
                 {hasPermission(2) && <><h2>Stammdaten</h2>
                     <p>Hier können die Stammdaten der Nutzer angepasst werden</p></>
                 }
-            </div>
+            </article>
         )
     }
 
     const Dateadministration = () => {
         return (
-            <div>
+            <article>
                 <h1>Termine</h1>
                 <h2>Übersicht</h2>
                 <p>Hier werden alle Termine angezeigt, inklusive der Zeiten für Abfahrt, Rückfahrt und Beginn</p>
@@ -72,22 +98,22 @@ const HelpPage = ({ auth_level }) => {
                     <h2>Details</h2>
                     <p>Unter Details können die Termine bearbeitet werden, Datum, Uhrzeit, Bekleidung, sowie ob Partner mit angegeben werden können.</p>
                 </> : <></>}
-            </div>
+            </article>
         )
     }
 
     const Administration = () => {
         return (
-            <div>
+            <article>
                 <h1>Verwaltung</h1>
                 <h2>Benutzergruppen</h2>
-            </div>
+            </article>
         )
     }
 
     const Upcoming = () => {
         return (
-            <div>
+            <article>
                 <h1>Geplante Funktionen:</h1>
                 <ul>
                     <li>verbesserte Marschübersicht</li>
@@ -95,12 +121,13 @@ const HelpPage = ({ auth_level }) => {
                     <li>Aufstellung fürs Marschieren</li>
                 </ul>
                 
-            </div>
+            </article>
         )
     }
 
     return (
         <StyledHelpPage>
+            <Privacypolicy />
             <Attendence />
             <Absence />
             {hasAnyPermission([1, 2]) && <Memberadministration />}

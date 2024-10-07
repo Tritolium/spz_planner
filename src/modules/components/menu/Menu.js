@@ -31,7 +31,7 @@ const Menu = ({ open, navigate, auth_level, setOpen, secure }) => {
         { id: 'main_button_7', label: 'Bestellungen', minAuth: 1, permitted: undefined, onClick: nav },
         { id: 'main_button_8', label: 'Verwaltung', minAuth: 3, permitted: undefined, onClick: nav },
         { id: 'main_button_9', label: 'Einstellungen', minAuth: 1, permitted: undefined, onClick: nav },
-        { id: 'main_button_10', label: 'Hilfe', minAuth: 1, permitted: undefined, onClick: nav },
+        { id: 'main_button_10', label: 'Hilfe/Datenschutz', minAuth: 1, permitted: undefined, onClick: nav },
     ]
 
     // TODO: remove minAuth when all permissions are set
