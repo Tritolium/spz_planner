@@ -35,7 +35,8 @@
                         "page": "Allgemein",
                         "changes": [
                             "Rechtesystem umgesetzt bei Anwesenheiten, Auswertung, Mitglieder und Rollenverwaltung",
-                            "Wenn der Nutzer kein Passwort gesetzt hat, wird er sofort zu den Einstellungen weitergeleitet"
+                            "Wenn der Nutzer kein Passwort gesetzt hat, wird er sofort zu den Einstellungen weitergeleitet",
+                            "Auf dem Server wird eine eindeutige ID für das Gerät gespeichert, um auf Dauer mehrfache Anmeldungen zu verhindern."
                         ]
                     },
                     {

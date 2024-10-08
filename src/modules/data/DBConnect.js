@@ -1,5 +1,6 @@
 import * as maptilerClient from '@maptiler/client'
 import { version } from '../../App'
+import { getItem, setItem } from '../helper/IndexedDB'
 
 maptilerClient.config.apiKey = process.env.REACT_APP_MAPTILER_API_KEY
 
@@ -14,6 +15,18 @@ export const getDisplayMode = () => {
     }
 
     return displayMode
+}
+
+export const getDeviceID = async () => {
+    return getItem('device_id')
+        .then(data => {
+            if(data === undefined){
+                let device_id = crypto.randomUUID()
+                setItem('device_id', device_id)
+                return device_id
+            }
+            return data
+        })
 }
 
 export const sendError = async (error_msg) => {
@@ -36,6 +49,8 @@ const login = async (name, pwhash, version) => {
     let _secure = true
 
     let displayMode = getDisplayMode()
+    let device_id = await getDeviceID()
+    console.log("login", device_id)
 
     let response = await fetch(`${host}/api/login.php?mode=login`, {
         method: "POST",
@@ -46,7 +61,8 @@ const login = async (name, pwhash, version) => {
             DisplayMode: displayMode,
             Engine: navigator.userAgent.match(/([A-Z][a-z]*)+\/\d+[.\d+]*/g).toString(),
             Device: navigator.userAgent.match(/(\([^(]+(\n[^(]+)*\))/g)[0],
-            Dimension: `${window.innerWidth}x${window.innerHeight}`
+            Dimension: `${window.innerWidth}x${window.innerHeight}`,
+            DeviceUUID: device_id
         })
     })
     switch(response.status) {
@@ -102,12 +118,9 @@ const update_login = async (version) => {
     let _forename, _surname, _auth_level, _theme, error, permissions
     let _secure = true
 
-    let displayMode = 'browser tab'
-    if(window.matchMedia('(display-mode: standalone)').matches) {
-        displayMode = 'standalone'
-    } else if (window.matchMedia('(display-mode: fullscreen)').matches) {
-        displayMode = 'fullscreen'
-    }
+    let displayMode = getDisplayMode()
+    let device_id = await getDeviceID()
+    console.log("update_login", device_id)
     
     let token = localStorage.getItem('api_token')
     if(!Object.is(token, null)){
@@ -117,7 +130,8 @@ const update_login = async (version) => {
             DisplayMode: displayMode,
             Engine: navigator.userAgent.match(/([A-Z][a-z]*)+\/\d+[.\d+]*/g).toString(),
             Device: navigator.userAgent.match(/(\([^(]+(\n[^(]+)*\))/g)[0],
-            Dimension: `${window.innerWidth}x${window.innerHeight}`
+            Dimension: `${window.innerWidth}x${window.innerHeight}`,
+            DeviceUUID: device_id
         })
         let response = await fetch(`${host}/api/login.php?mode=update&body=` + body)
         switch(response.status) {
