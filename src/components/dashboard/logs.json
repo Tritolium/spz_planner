@@ -32,7 +32,8 @@
                     {
                         "page": "Allgemein",
                         "changes": [
-                            "Rechtesystem umgesetzt bei Anwesenheiten, Auswertung, Mitglieder und Rollenverwaltung"
+                            "Rechtesystem umgesetzt bei Anwesenheiten, Auswertung, Mitglieder und Rollenverwaltung",
+                            "Wenn der Nutzer kein Passwort gesetzt hat, wird er sofort zu den Einstellungen weitergeleitet"
                         ]
                     },
                     {

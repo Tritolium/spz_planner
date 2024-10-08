@@ -68,3 +68,16 @@ export const groupConsecutiveDates = (dates) => {
 
     return result;
 }
+
+export const sqlToString = (sqlDate) => {
+
+    if (sqlDate === null || sqlDate === undefined || sqlDate === "")
+        return "---"
+
+    let date = new Date(sqlDate)
+    let day = date.getDate()
+    let month = date.getMonth() + 1
+    let year = date.getFullYear()
+
+    return `${day < 10 ? '0' : ''}${day}.${month < 10 ? '0' : ''}${month}.${year}`
+}

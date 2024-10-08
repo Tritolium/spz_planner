@@ -55,7 +55,7 @@ const App = () => {
                     if(_theme !== undefined){
                         setTheme(themes[_theme] || themes[1])
                     }
-                    setView(0)
+                    _secure ? setView(0) : setView(9)
                     secure.current = _secure
                     if(window.Notification?.permission === 'granted'){
                         notificationHelper.createNotificationSubscription('BD0AbKmeW7bACNzC9m0XSUddJNx--VoOvU2X0qBF8dODOBhHvFPjrKJEBcL7Yk07l8VpePC1HBT7h2FRK3bS5uA')
@@ -90,7 +90,7 @@ const App = () => {
                 if(_theme !== undefined){
                     setTheme(themes[_theme] || themes[1])
                 }
-                setView(0)
+                _secure ? setView(0) : setView(9)
                 secure.current = _secure
                 if(window.Notification?.permission === 'granted'){
                     notificationHelper.createNotificationSubscription('BD0AbKmeW7bACNzC9m0XSUddJNx--VoOvU2X0qBF8dODOBhHvFPjrKJEBcL7Yk07l8VpePC1HBT7h2FRK3bS5uA')
@@ -161,7 +161,7 @@ const App = () => {
                     <Button onClick={logout}>Logout</Button>
                 </div> : <></>}
                 <Suspense fallback={<div>Lädt...</div>}>
-                    <View view={view} sendLogin={sendLogin} fullname={fullname} auth_level={auth_level} theme={theme}/>
+                    <View view={view} sendLogin={sendLogin} fullname={fullname} auth_level={auth_level} theme={theme} secure={secure.current}/>
                 </Suspense>
                 <div id="version-tag">{version}</div>
             </StyledApp>
@@ -187,7 +187,7 @@ const View = (props) => {
         '6': <Scoreboard />,
         '7': <OrderAdministration />,
         '8': <Administration auth_level={props.auth_level}/>,
-        '9': <Settings />,
+        '9': <Settings secure={props.secure}/>,
         '10': <HelpPage auth_level={props.auth_level}/>
     };
     
