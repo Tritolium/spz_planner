@@ -3,6 +3,7 @@ import { StyledSettings } from "./Settings.styled"
 import Button from "../../modules/components/button/Button"
 import { sha256 } from "js-sha256"
 import { host } from "../../modules/data/DBConnect"
+import { sqlToString } from "../../modules/helper/DateFormat"
 
 const Settings = () => {
 
@@ -118,7 +119,7 @@ const Settings = () => {
                 </tr>
                 <tr>
                     <td>Geburtstag: </td>
-                    <td>{userdata?.Birthdate}</td>
+                    <td>{sqlToString(userdata?.Birthdate)}</td>
                 </tr>
                 <tr>
                     <td><label htmlFor="old_passwd">Altes Passwort: </label></td>
