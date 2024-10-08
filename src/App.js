@@ -7,6 +7,7 @@ import { themes } from './theme';
 import { TbBellFilled, TbBellOff } from 'react-icons/tb';
 import Settings from './components/settings/Settings';
 import { notificationHelper } from './modules/helper/NotificationHelper';
+import { buttonPressed } from './modules/helper/Analytics';
 
 import('./App.css')
 
@@ -120,6 +121,7 @@ const App = () => {
     const navigate = async (e) => {
         let button_id = e.target.id.split('_')[2]
         setView(parseInt(button_id))
+        buttonPressed(e.target.id)
     }
 
     const ringBell = () => {
