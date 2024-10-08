@@ -4,8 +4,9 @@ import Button from "../../modules/components/button/Button"
 import { sha256 } from "js-sha256"
 import { host } from "../../modules/data/DBConnect"
 import { sqlToString } from "../../modules/helper/DateFormat"
+import { GoArrowUpLeft } from "react-icons/go"
 
-const Settings = () => {
+const Settings = ({ secure }) => {
 
     const [userdata, setUserdata] = useState()
     const [notifyPermisssion, setNotifyPermission] = useState()
@@ -103,7 +104,9 @@ const Settings = () => {
             document.getElementById('practice').setAttribute('disabled', true)
             document.getElementById('other').setAttribute('disabled', true)
         }
-    }, [notifyPermisssion])
+        if(!secure)
+            document.getElementById('old_passwd').setAttribute('disabled', true)
+    }, [notifyPermisssion, secure])
 
     useEffect(() => {
         fetchUserdata()
@@ -111,6 +114,7 @@ const Settings = () => {
     }, [fetchUserdata, fetchNotifyPermission])
 
     return(<StyledSettings>
+        {!secure && <div id="secureNotifier"><GoArrowUpLeft />Zurück zur Startseite</div>}
         <table>
             <tbody>
                 <tr>

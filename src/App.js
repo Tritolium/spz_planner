@@ -161,7 +161,7 @@ const App = () => {
                     <Button onClick={logout}>Logout</Button>
                 </div> : <></>}
                 <Suspense fallback={<div>Lädt...</div>}>
-                    <View view={view} sendLogin={sendLogin} fullname={fullname} auth_level={auth_level} theme={theme}/>
+                    <View view={view} sendLogin={sendLogin} fullname={fullname} auth_level={auth_level} theme={theme} secure={secure.current}/>
                 </Suspense>
                 <div id="version-tag">{version}</div>
             </StyledApp>
@@ -187,7 +187,7 @@ const View = (props) => {
         '6': <Scoreboard />,
         '7': <OrderAdministration />,
         '8': <Administration auth_level={props.auth_level}/>,
-        '9': <Settings />,
+        '9': <Settings secure={props.secure}/>,
         '10': <HelpPage auth_level={props.auth_level}/>
     };
     
