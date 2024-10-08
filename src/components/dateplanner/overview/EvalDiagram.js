@@ -68,6 +68,10 @@ const EvalDiagram = ({ event, theme }) => {
             {
                 data: [event.Refusal],
                 backgroundColor: theme.redRGB
+            },
+            {
+                data: [event.ProbSignout],
+                backgroundColor: theme.darkredRGB
             }
         ],
     }
