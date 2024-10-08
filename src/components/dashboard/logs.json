@@ -7,14 +7,16 @@
                     {
                         "page": "Startseite",
                         "changes": [
-                            "Für Open-Air-Proben wird jetzt auch das Wetter angezeigt."
+                            "Für Open-Air-Proben wird jetzt auch das Wetter angezeigt.",
+                            "Die Vorraussage für die Anzahl der Teilnehmer wurde verbessert."
                         ]
                     },
                     {
                         "page": "Anwesenheiten",
                         "changes": [
                             "Unter der Übersichtstabelle werden jetzt auch die vermuteten Teilnehmer angezeigt, analog zur Startseite.",
-                            "Die erste Zeile in der Übersichtstabelle ist jetzt fixiert, damit die Namen bzw. Kürzel immer sichtbar sind."
+                            "Die erste Zeile in der Übersichtstabelle ist jetzt fixiert, damit die Namen bzw. Kürzel immer sichtbar sind.",
+                            "Die Vorraussage für die Anzahl der Teilnehmer wurde verbessert."
                         ]
                     },
                     {
