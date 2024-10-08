@@ -67,7 +67,7 @@ const DashboardDiagram = ({ event, theme, association_id }) => {
                 backgroundColor: theme.redRGB
             },
             {
-                data: [event.ProbSignout],
+                data: [event?.ProbSignout],
                 backgroundColor: theme.darkredRGB
             }
         ]
