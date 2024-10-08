@@ -21,4 +21,8 @@ export const StyledRoleForm = styled.form`
         color: ${({ theme }) => theme.primaryDark};
         background-color: ${({ theme }) => theme.primaryLight};
     }
+
+    input, checkbox {
+        max-height: 16px;
+    }
 `
