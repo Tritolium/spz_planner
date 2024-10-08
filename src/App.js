@@ -55,7 +55,7 @@ const App = () => {
                     if(_theme !== undefined){
                         setTheme(themes[_theme] || themes[1])
                     }
-                    setView(0)
+                    _secure ? setView(0) : setView(9)
                     secure.current = _secure
                     if(window.Notification?.permission === 'granted'){
                         notificationHelper.createNotificationSubscription('BD0AbKmeW7bACNzC9m0XSUddJNx--VoOvU2X0qBF8dODOBhHvFPjrKJEBcL7Yk07l8VpePC1HBT7h2FRK3bS5uA')
@@ -90,7 +90,7 @@ const App = () => {
                 if(_theme !== undefined){
                     setTheme(themes[_theme] || themes[1])
                 }
-                setView(0)
+                _secure ? setView(0) : setView(9)
                 secure.current = _secure
                 if(window.Notification?.permission === 'granted'){
                     notificationHelper.createNotificationSubscription('BD0AbKmeW7bACNzC9m0XSUddJNx--VoOvU2X0qBF8dODOBhHvFPjrKJEBcL7Yk07l8VpePC1HBT7h2FRK3bS5uA')
