@@ -65,6 +65,10 @@ const DashboardDiagram = ({ event, theme, association_id }) => {
             {
                 data: [event?.Refusal],
                 backgroundColor: theme.redRGB
+            },
+            {
+                data: [event.ProbSignout],
+                backgroundColor: theme.darkredRGB
             }
         ]
     }
