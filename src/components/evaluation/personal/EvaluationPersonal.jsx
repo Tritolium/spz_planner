@@ -187,9 +187,9 @@ const UsergroupEval = ({ usergroup, evaluation }) => {
     return (
         <div>
             <h1>{usergroup}</h1>
-            {eventValues.attendence > 0 && <p id={`event_rating_${usergroup}`.toLocaleLowerCase()}>Auftritte Teilname: {eventValues.percentage}%, Unentschuldigt: {eventValues.wout_percentage}% Vergleich: {eventValues.comparrison}%, gesamt: {eventValues.rating}%</p>}
-            {practiceValues.attendence > 0 && <p id={`practice_rating_${usergroup}`.toLocaleLowerCase()}>Proben Teilname: {practiceValues.percentage}%, Unentschuldigt: {practiceValues.wout_percentage}% Vergleich: {practiceValues.comparrison}%, gesamt: {practiceValues.rating}%</p>}
-            {otherValues.attendence > 0 && <p id={`other_rating_${usergroup}`.toLocaleLowerCase()}>Sonstige Teilname: {otherValues.percentage}%, Unentschuldigt: {otherValues.wout_percentage}% Vergleich: {otherValues.comparrison}%, gesamt: {otherValues.rating}%</p>}
+            {eventValues.attendence > 0 && <p id={`event_rating_${usergroup}`.toLocaleLowerCase()}>Auftritte Teilnahme: {eventValues.percentage}%, Unentschuldigt: {eventValues.wout_percentage}% Vergleich: {eventValues.comparrison}%, gesamt: {eventValues.rating}%</p>}
+            {practiceValues.attendence > 0 && <p id={`practice_rating_${usergroup}`.toLocaleLowerCase()}>Proben Teilnahme: {practiceValues.percentage}%, Unentschuldigt: {practiceValues.wout_percentage}% Vergleich: {practiceValues.comparrison}%, gesamt: {practiceValues.rating}%</p>}
+            {otherValues.attendence > 0 && <p id={`other_rating_${usergroup}`.toLocaleLowerCase()}>Sonstige Teilnahme: {otherValues.percentage}%, Unentschuldigt: {otherValues.wout_percentage}% Vergleich: {otherValues.comparrison}%, gesamt: {otherValues.rating}%</p>}
             <p id={`ugroup_rating_${usergroup}`.toLocaleLowerCase()}>Gesamtbewertung: {ugroupRating}%</p>
         </div>
     )
