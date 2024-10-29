@@ -2,7 +2,7 @@ import { Bar } from "react-chartjs-2"
 import { Chart as ChartJS, BarElement, CategoryScale, Legend, LinearScale, Title, Tooltip } from "chart.js"
 import { hasPermission } from "../../../modules/helper/Permissions"
 
-const DashboardDiagram = ({ event, theme, association_id }) => {
+const DashboardDiagram = ({ event, theme, association_id, practice }) => {
 
     ChartJS.register(
         CategoryScale,
@@ -12,6 +12,25 @@ const DashboardDiagram = ({ event, theme, association_id }) => {
         Tooltip,
         Legend
     )
+
+    const verticalLinePlugin = {
+        id: 'horizontalLine',
+        afterDraw: chart => {
+            const xValue = chart.scales['x']
+            const limit = 12
+            const lineX = xValue.getPixelForValue(limit)
+
+            const ctx = chart.ctx
+            ctx.save()
+            ctx.strokeStyle = theme.greenRGB
+            ctx.lineWidth = 2
+            ctx.beginPath()
+            ctx.moveTo(lineX, chart.chartArea.top + 4)
+            ctx.lineTo(lineX, chart.chartArea.bottom - 4)
+            ctx.stroke()
+            ctx.restore()
+        }
+    }
 
     const options = {
         animation: {
@@ -73,7 +92,7 @@ const DashboardDiagram = ({ event, theme, association_id }) => {
         ]
     }
 
-    return(<Bar height={"30px"} options={options} data={data}/>)
+    return(<Bar height={"30px"} options={options} data={data} plugins={[practice && verticalLinePlugin]}/>)
 }
 
 export default DashboardDiagram
