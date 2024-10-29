@@ -9,6 +9,12 @@
                         "changes": [
                             "In der Anwesenheitsübersicht wird die Prognose pro Person angezeigt, um auch die Stimmen besser einschätzen zu können"
                         ]
+                    },
+                    {
+                        "page": "Startseite",
+                        "changes": [
+                            "Für Proben wird eine Linie bei 13 Personen gezogen, um auf einen Blick zu sehen, ob die Probe stattfinden kann."
+                        ]
                     }
                 ]
             }
