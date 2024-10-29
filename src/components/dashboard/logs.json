@@ -1,5 +1,18 @@
 {
     "v0": {
+        "16": [
+            {
+                "patch": 0,
+                "entries":[
+                    {
+                        "page": "Anwesenheiten",
+                        "changes": [
+                            "In der Anwesenheitsübersicht wird die Prognose pro Person angezeigt, um auch die Stimmen besser einschätzen zu können"
+                        ]
+                    }
+                ]
+            }
+        ],
         "15": [
             {
                 "patch": 1,
