@@ -14,7 +14,7 @@ export const OverviewTable = ({attendences, theme}) => {
                     <span key={event.Event_ID} className="DateTag"><DateField dateprops={event}/></span>
                     {event.Attendences.map((attendence, index) => {
                         const className = index === event.Attendences.length - 1 ? "AttendenceTag Last" : "AttendenceTag"
-                        return(<span key={attendence.Fullname + event.Event_ID} className={className}><Zusage attendence={attendence.Attendence} plusone={attendence.PlusOne} theme={theme}/></span>)
+                        return(<span key={attendence.Fullname + event.Event_ID} className={className}><Zusage attendence={attendence.Attendence} plusone={attendence.PlusOne} prediction={attendence.Prediction} theme={theme}/></span>)
                     })}
                 </Fragment>)
             })}

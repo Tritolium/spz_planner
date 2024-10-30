@@ -74,14 +74,13 @@ const Overview = ({ theme }) => {
     }
 }
 
-export const Zusage = ({attendence, plusone, theme}) => {
+export const Zusage = ({attendence, plusone, theme, prediction}) => {
     if(attendence === 1 && plusone === 1)
         return(<PlusOne theme={theme} className="PlusOneIcon"/>)
-
     switch(attendence){
     default:
     case -1:
-        return(<Blank theme={theme}/>)
+        return(<Blank theme={theme} overlay={prediction}/>)
     case 0:
         return(<Deny theme={theme}/>)
     case 1:

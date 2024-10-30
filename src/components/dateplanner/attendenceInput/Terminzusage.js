@@ -58,12 +58,13 @@ const Button = (props) => {
     }
 }
 
-export const Blank = ({ callback, size, theme }) => {
+export const Blank = ({ callback, size, theme, overlay }) => {
     //#24b9d0
+    let fill = [theme.green, theme.red, theme.darkred]
     return(
         <IconContext.Provider value={{color: theme.blue, className: "IconWrapper"}}>
             <IoIosAlert size="100%" onClick={callback}/>
-            <Circle callback={callback} />
+            <Circle callback={callback} fill={fill[overlay]} />
         </IconContext.Provider>
     )
 }
