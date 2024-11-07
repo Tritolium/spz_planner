@@ -76,7 +76,7 @@ const NextEvent = ({ nextEventID, auth_level, showEventInfo, practice=false, the
       }, [updateEventEval, updateWeather]);
 
     return(<>
-        {nextEvent !== undefined ? <StyledEvent>
+        {nextEvent !== undefined ? <StyledEvent className={`${nextEvent.Type.includes('Abgesagt') ? 'CanceledEvent': ''}`}>
             <Event event={nextEvent} evaluation={evaluation} auth_level={auth_level} onClick={onClick} showEventInfo={showEventInfo} theme={theme} practice={practice}/>
             {!practice || nextEvent.Type.includes("Open Air") ? <Additional event={nextEvent} plusone={plusone} attendence={attendence} updatePlusOne={updatePlusOne} weather={weather} evaluation={evaluation} theme={theme}/> : <></>}
         </StyledEvent> : <EventFallback theme={theme}/>}
