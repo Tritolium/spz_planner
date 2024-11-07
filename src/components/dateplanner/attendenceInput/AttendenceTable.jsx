@@ -66,6 +66,9 @@ const AttendenceTable = ({ attendences, states, selectedDateFilter, selectedEven
                 return (attDate.getTime() - today.getTime()) < 8*604800000                            
             }
         })
+        .filter(attendence => {
+            return !attendence.Type.includes('Abgesagt')
+        })
         setFilteredAttendences(filtered)
     }, [attendences, selectedDateFilter, selectedEventFilter])
 
