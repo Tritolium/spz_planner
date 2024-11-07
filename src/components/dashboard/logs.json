@@ -13,7 +13,8 @@
                     {
                         "page": "Startseite",
                         "changes": [
-                            "Für Proben wird eine Linie bei 13 Personen gezogen, um auf einen Blick zu sehen, ob die Probe stattfinden kann."
+                            "Für Proben wird eine Linie bei 13 Personen gezogen, um auf einen Blick zu sehen, ob die Probe stattfinden kann.",
+                            "Die Eingabe der Anwesenheit wurde angepasst, um die Bedienung zu erleichtern."
                         ]
                     }
                 ]
