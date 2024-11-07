@@ -24,7 +24,7 @@ export const StyledEvent = styled.div`
         padding: 5px;
     }
 
-    .Terminzusage {
+    .AttendenceInput {
         grid-column-start: 3;
         grid-row-start: 2;
         grid-row-end: 5;
