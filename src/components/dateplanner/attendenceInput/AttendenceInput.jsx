@@ -15,7 +15,7 @@ export const AttendenceInput = ({ event, attendence, onClick, theme }) => {
 
     const canceled = event?.Type.includes('Abgesagt')
 
-    const blocked = () => {
+    const blocked = useCallback(() => {
         let now = new Date()
 
         if (event?.Date === null)
@@ -40,7 +40,7 @@ export const AttendenceInput = ({ event, attendence, onClick, theme }) => {
         }
 
         return false
-    }
+    }, [event])
 
     const updateAttendence = useCallback(async (new_att) => {
 
