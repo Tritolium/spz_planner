@@ -15,7 +15,6 @@ export const StyledAttendenceInput = styled.div`
     }
 
     .active_yes {
-        translate: ${({active}) => active ? '0' : '0'};
         opacity: ${({active}) => active ? '1' : '0'};
     }
 
