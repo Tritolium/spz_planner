@@ -18,6 +18,18 @@
                             "Die Eingabe der Anwesenheit wurde angepasst, um die Bedienung zu erleichtern.",
                             "Abgesagte Termine werden auf der Startseite rot markiert."
                         ]
+                    },
+                    {
+                        "page": "Einstellungen",
+                        "changes": [
+                            "Infotext hinzugefügt, um zu erklären, warum ein Passwort notwendig ist und nicht direkt die Startseite angezeigt wird."
+                        ]
+                    },
+                    {
+                        "page": "Login",
+                        "changes": [
+                            "Die Anzeige, dass kein Passwort gesetzt ist, wurde entfernt, da direkt zu den Einstellungen weitergeleitet wird."
+                        ]
                     }
                 ]
             }
