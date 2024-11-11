@@ -52,6 +52,11 @@ export const StyledDashboard = styled.div`
     th {
         padding-top: 2.5vh;
     }
+
+    .CanceledEvent {
+        font-style: italic;
+        color: ${({theme}) => theme.lightred};
+    }
 `
 
 export const StyledInfoText = styled.p`

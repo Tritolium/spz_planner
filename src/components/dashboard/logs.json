@@ -7,14 +7,16 @@
                     {
                         "page": "Anwesenheiten",
                         "changes": [
-                            "In der Anwesenheitsübersicht wird die Prognose pro Person angezeigt, um auch die Stimmen besser einschätzen zu können"
+                            "In der Anwesenheitsübersicht wird die Prognose pro Person angezeigt, um auch die Stimmen besser einschätzen zu können",
+                            "Bei der Eingabe der Anwesenheit werden abgesagte Termine nicht mehr angezeigt"
                         ]
                     },
                     {
                         "page": "Startseite",
                         "changes": [
                             "Für Proben wird eine Linie bei 13 Personen gezogen, um auf einen Blick zu sehen, ob die Probe stattfinden kann.",
-                            "Die Eingabe der Anwesenheit wurde angepasst, um die Bedienung zu erleichtern."
+                            "Die Eingabe der Anwesenheit wurde angepasst, um die Bedienung zu erleichtern.",
+                            "Abgesagte Termine werden auf der Startseite rot markiert."
                         ]
                     }
                 ]
