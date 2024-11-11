@@ -58,54 +58,64 @@ const Button = (props) => {
     }
 }
 
-export const Blank = ({ callback, size, theme, overlay }) => {
+export const Blank = ({ callback, size, theme, overlay, className }) => {
     //#24b9d0
     let fill = [theme.green, theme.red, theme.darkred]
     return(
-        <IconContext.Provider value={{color: theme.blue, className: "IconWrapper"}}>
-            <IoIosAlert size="100%" onClick={callback}/>
-            <Circle callback={callback} fill={fill[overlay]} />
-        </IconContext.Provider>
+        <div className={`ButtonWrapper ${className}`}>
+            <IconContext.Provider value={{color: theme.blue, className: "IconWrapper Attendence_none"}}>
+                <IoIosAlert size="100%" onClick={callback}/>
+                <Circle callback={callback} fill={fill[overlay]} />
+            </IconContext.Provider>
+        </div>
     )
 }
 
-export const Check = ({ callback, theme }) => {
+export const Check = ({ callback, theme, className }) => {
     //#00bd00
     return(
-        <IconContext.Provider value={{color: theme.green, className: "IconWrapper"}}>
-            <IoCheckmarkCircle size="100%" onClick={callback}/>
-            <Circle callback={callback} />
-        </IconContext.Provider>
+        <div className={`ButtonWrapper ${className}`}>
+            <IconContext.Provider value={{color: theme.green, className: "IconWrapper "}}>
+                <IoCheckmarkCircle size="100%" onClick={callback}/>
+                <Circle callback={callback} />
+            </IconContext.Provider>
+        </div>
     )
 }
 
-export const Deny = ({ callback, theme }) => {
+export const Deny = ({ callback, theme, className }) => {
     //#fe423e
     return(
-        <IconContext.Provider value={{color: theme.red, className: "IconWrapper"}}>
-            <IoIosCloseCircle size="100%" onClick={callback}/>
-            <Circle callback={callback} />
-        </IconContext.Provider>
+        <div className={`ButtonWrapper ${className}`}>
+            <IconContext.Provider value={{color: theme.red, className: "IconWrapper"}}>
+                <IoIosCloseCircle size="100%" onClick={callback}/>
+                <Circle callback={callback} />
+            </IconContext.Provider>
+        </div>
     )
 }
 
-export const Alert = ({ callback, theme }) => {
+export const Alert = ({ callback, theme, className }) => {
     //#ffa11c
     return(
-        <IconContext.Provider value={{color: theme.yellow, className: "IconWrapper"}}>
-            <IoIosAlert size="100%" onClick={callback}/>
-            <Circle callback={callback} />
-        </IconContext.Provider>
+        <div className={`ButtonWrapper ${className}`}>
+            <IconContext.Provider value={{color: theme.yellow, className: "IconWrapper"}}>
+                <IoIosAlert size="100%" onClick={callback}/>
+                <Circle callback={callback} />
+            </IconContext.Provider>
+        </div>
     )
 }
 
 export const Unregistered = ({ callback }) => {
     //#904c77
     return(
-        <IconContext.Provider value={{color: "#904c77", className: "IconWrapper"}}>
-            <IoIosRemoveCircle size="100%" onClick={callback}/>
-            <Circle callback={callback} />
-        </IconContext.Provider>
+        <div className="ButtonWrapper">
+            <IconContext.Provider value={{color: "#904c77", className: "IconWrapper"}}>
+                <IoIosRemoveCircle size="100%" onClick={callback}/>
+                <Circle callback={callback} />
+            </IconContext.Provider>
+        </div>
     )
 }
 

@@ -1,4 +1,4 @@
-import Terminzusage from "../../dateplanner/attendenceInput/Terminzusage"
+import { AttendenceInput } from "../../dateplanner/attendenceInput/AttendenceInput"
 import DashboardDiagram from "./DashboardDiagram"
 
 const Event = ({ event, evaluation, auth_level, onClick, showEventInfo, practice, theme }) => {
@@ -12,7 +12,7 @@ const Event = ({ event, evaluation, auth_level, onClick, showEventInfo, practice
     return(<>
         <div className="event_type" onClick={clickEvent}>{event?.Type}</div>
         <div className="event_location" onClick={clickEvent}>{event?.Location}</div>
-        <Terminzusage className="event_attendence" event={event} event_id={event?.Event_ID} states={3} attendence={attendence} onClick={onClick} cancelled={event?.Type.includes('Abgesagt')} theme={theme}/>
+        <AttendenceInput event={event} attendence={attendence} onClick={onClick} theme={theme}/>
         <div className="event_date" onClick={clickEvent}>{eventDate.getDate()}.{eventDate.getMonth() + 1}.{eventDate.getFullYear()}</div>
         <div className="event_begin" onClick={clickEvent}>{event?.Begin !== "12:34:56" && event?.Begin !== null ? `${event?.Begin.slice(0, 5)} Uhr` : "-"}</div>
         {auth_level > 0 ? <div className="event_diagram"><DashboardDiagram className={"event_diagram"} event={evaluation} association_id={event.Association_ID} auth_level={auth_level} practice={practice} theme={theme}/></div> : <></>}
