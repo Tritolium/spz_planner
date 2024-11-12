@@ -82,10 +82,13 @@
   },
   "browserslist": {
     "production": [
-      ">0.2%",
+      ">0.5% in DE",
+      "last 2 Chrome versions",
+      "last 2 Firefox versions",
+      "last 2 Safari versions",
+      "last 2 Edge versions",
       "not dead",
-      "not op_mini all",
-      "chrome >= 93"
+      "not op_mini all"
     ],
     "development": [
       "last 1 chrome version",
