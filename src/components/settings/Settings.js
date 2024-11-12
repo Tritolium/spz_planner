@@ -115,6 +115,18 @@ const Settings = ({ secure }) => {
 
     return(<StyledSettings>
         {!secure && <div id="secureNotifier"><GoArrowUpLeft />Zurück zur Startseite</div>}
+        {!secure && <>
+            <h3>Warum bin ich auf dieser Seite gelandet?</h3>
+            <p>
+                Einige Nutzer haben versucht, sich mit fremden Namen einzuloggen. Um unberechtigte Zugriffe auf persönliche Daten zu verhindern, ist nun ein Passwort erforderlich.
+            </p>
+            <p>
+                Wenn du bereits ein Passwort festgelegt hast, wirst du nach dem Anmelden wieder auf die Startseite weitergeleitet.
+            </p>
+            <p>
+                In Zukunft könnte es auch möglich sein, dass ein zufälliges Passwort vergeben wird, falls du keines selbst festgelegt hast.
+            </p>
+        </>}
         <table>
             <tbody>
                 <tr>

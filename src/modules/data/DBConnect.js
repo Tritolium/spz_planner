@@ -76,10 +76,9 @@ const login = async (name, pwhash, version) => {
                 _theme = json.Theme
                 error = json.Err
                 permissions = json.Permissions
-                if(error === 4){
-                    alert("Kein Passwort gesetzt. Bitte Passwort setzen unter \"Einstellungen\".")
+                if(error === 4)
                     _secure = false
-                }
+
                 localStorage.setItem('api_token', json.API_token)
                 localStorage.setItem('auth_level', _auth_level)
                 localStorage.setItem('permissions', JSON.stringify(permissions))
@@ -113,7 +112,7 @@ const login = async (name, pwhash, version) => {
 
     return { _forename, _surname, _api_token, _auth_level, _theme, _secure }
 }
-// TODO: alert to set password
+
 const update_login = async (version) => {
     let _forename, _surname, _auth_level, _theme, error, permissions
     let _secure = true
