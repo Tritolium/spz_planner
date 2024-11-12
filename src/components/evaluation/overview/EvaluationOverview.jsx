@@ -5,6 +5,7 @@ import { getOwnUsergroups, host } from "../../../modules/data/DBConnect";
 import { StyledEvaluationOverview } from "./EvaluationOverview.styled";
 import { EvalButton } from "../evaluationinput/EvaluationInput";
 import { hasPermission } from "../../../modules/helper/Permissions";
+import { EVENT_STATE } from "../../dateadministration/eventform/EventForm";
 
 const EvaluationOverview = ({ theme }) => {
 
@@ -117,8 +118,8 @@ const OverviewTable = ({ evaluations, filterFrom, filterTo, category, theme }) =
                         return date >= from && date <= to
                     }
                     return true
-                })
-                .filter((evaluation) => evaluation.Type.includes("Abgesagt") === false)
+                }) // TODO: remove check for 'Abgesagt' on 01.01.2025
+                .filter((evaluation) => evaluation.Type.includes("Abgesagt") === false && evaluation.State !== EVENT_STATE.CANCELED)
                 .filter((evaluation) => evaluation.Category === category || category === "all")
                 .map((evaluation) => {
                     return <EvaluationRow key={`evaluation_${evaluation.Type}_${evaluation.Date}`} evaluation={evaluation}/>

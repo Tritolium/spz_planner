@@ -7,8 +7,11 @@ import { Clothing } from "../../../modules/components/icons/Clothing"
 import PlusOne from "../../../modules/components/icons/PlusOne"
 import Event from "./Event"
 import { EventFallback } from "./EventFallback"
+import { EVENT_STATE } from "../../dateadministration/eventform/EventForm"
 
 const NextEvent = ({ nextEventID, auth_level, showEventInfo, practice=false, theme }) => {
+
+    let className = ""
 
     const [nextEvent, setNextEvent] = useState()
     const [weather, setWeather] = useState()
@@ -75,8 +78,13 @@ const NextEvent = ({ nextEventID, auth_level, showEventInfo, practice=false, the
         return () => clearInterval(interval);
       }, [updateEventEval, updateWeather]);
 
+    // TODO: remove check for 'Abgesagt' on 01.01.2025
+    if (nextEvent?.Type.includes('Abgesagt') || nextEvent?.State === EVENT_STATE.CANCELED) {
+        className = "CanceledEvent"
+    }
+
     return(<>
-        {nextEvent !== undefined ? <StyledEvent className={`${nextEvent.Type.includes('Abgesagt') ? 'CanceledEvent': ''}`}>
+        {nextEvent !== undefined ? <StyledEvent className={className}>
             <Event event={nextEvent} evaluation={evaluation} auth_level={auth_level} onClick={onClick} showEventInfo={showEventInfo} theme={theme} practice={practice}/>
             {!practice || nextEvent.Type.includes("Open Air") ? <Additional event={nextEvent} plusone={plusone} attendence={attendence} updatePlusOne={updatePlusOne} weather={weather} evaluation={evaluation} theme={theme}/> : <></>}
         </StyledEvent> : <EventFallback theme={theme}/>}

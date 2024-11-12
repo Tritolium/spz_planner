@@ -7,6 +7,7 @@ import five from '../5.png'
 import { useEffect, useState } from 'react'
 import { updateAttendence } from '../../../modules/data/DBConnect'
 import { StyledAttendenceTable, StyledEvent, StyledMultiEvent } from './AttendenceTable.styled'
+import { EVENT_STATE } from '../../dateadministration/eventform/EventForm'
 
 const AttendenceTable = ({ attendences, states, selectedDateFilter, selectedEventFilter, theme}) => {
 
@@ -67,7 +68,8 @@ const AttendenceTable = ({ attendences, states, selectedDateFilter, selectedEven
             }
         })
         .filter(attendence => {
-            return !attendence.Type.includes('Abgesagt')
+            // TODO: remove check for 'Abgesagt' on 01.01.2025
+            return !attendence.Type.includes('Abgesagt') && attendence.State !== EVENT_STATE.CANCELED
         })
         setFilteredAttendences(filtered)
     }, [attendences, selectedDateFilter, selectedEventFilter])
@@ -85,6 +87,10 @@ const AttendenceTable = ({ attendences, states, selectedDateFilter, selectedEven
 }
 
 const Event = ({ att, states, oneAssociation, theme }) => {
+
+    // TODO: remove check for 'Abgesagt' on 01.01.2025
+    let canceled = att.Type.includes('Abgesagt') || att.State === EVENT_STATE.CANCELED
+
     const [plusone, setPlusone] = useState(att.PlusOne)
     const [attendence, setAttendence] = useState(att.Attendence)
 
@@ -106,7 +112,7 @@ const Event = ({ att, states, oneAssociation, theme }) => {
         return(
             <StyledEvent className='event' key={att.Location + att.Event_ID}>
                 <DateField dateprops={att} />
-                <Terminzusage event={att} states={states} attendence={attendence} onClick={onClick} event_id={att.Event_ID} cancelled={att.Type.includes('Abgesagt')} theme={theme}/>
+                <Terminzusage event={att} states={states} attendence={attendence} onClick={onClick} event_id={att.Event_ID} cancelled={canceled} theme={theme}/>
                 {att.Ev_PlusOne ? <PlusOne active={attendence === 1} plusOne={plusone} onClick={togglePlusOne} theme={theme} className="PlusOne" /> : <></>}
             </StyledEvent>
         )
@@ -116,7 +122,7 @@ const Event = ({ att, states, oneAssociation, theme }) => {
         <StyledMultiEvent className='event' key={att.Location + att.Event_ID}>
             {associationLogo(att.Association_ID)}
             <DateField dateprops={att} />
-            <Terminzusage event={att} states={states} attendence={attendence} onClick={onClick} event_id={att.Event_ID} cancelled={att.Type.includes('Abgesagt')} theme={theme}/>
+            <Terminzusage event={att} states={states} attendence={attendence} onClick={onClick} event_id={att.Event_ID} cancelled={canceled} theme={theme}/>
             {att.Ev_PlusOne ? <PlusOne active={attendence === 1} plusOne={plusone} onClick={togglePlusOne} theme={theme} className="PlusOne" /> : <></>}
         </StyledMultiEvent>
     )
