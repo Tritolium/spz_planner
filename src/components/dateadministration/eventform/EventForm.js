@@ -149,12 +149,30 @@ const EventSelector = ({ events, onSelect, date_options, usergroups, onFilterCha
 
 const EventItem = ({ event, onSelect }) => {
 
+    let className = "pending"
+
     const onClick = useCallback(() => {
         onSelect(event.Event_ID)
     }, [onSelect, event.Event_ID])
 
+    switch(event.State){
+    default:
+    case EVENT_STATE.PENDING:
+        className = "pending"
+        break
+    case EVENT_STATE.CONFIRMED:
+        className = "confirmed"
+        break
+    case EVENT_STATE.DECLINED:
+        className = "declined"
+        break
+    case EVENT_STATE.CANCELED:
+        className = "canceled"
+        break
+    }
+
     return (
-        <SelectorItem className={event.Accepted ? "accepted" : "declined"}onClick={onClick}>
+        <SelectorItem className={className} onClick={onClick}>
             {event.Type} {event.Location}
         </SelectorItem>
     )
