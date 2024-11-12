@@ -10,6 +10,11 @@ import { getDateTemplates, getEvent, getEvents, getUsergroups, newEvent, updateE
 import { StyledEventForm } from "./EventForm.styled"
 import { ClothingInput, clothingStyles } from "../../../modules/components/icons/Clothing"
 
+const STATE_PENDING = 0
+const STATE_CONFIRMED = 1
+const STATE_DECLINED = 2
+const STATE_CANCELED = 3
+
 const EventForm = () => {
 
     const date_options = [
@@ -163,7 +168,8 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
         for(let i = 0; i < category_select.options.length; i++){
             if(category_select.options[i].value === event?.Category)
                 category_select.selectedIndex = i
-        }        
+        }
+        document.getElementById('state').value = event?.State ?? STATE_PENDING
         document.getElementById('usergroup').selectedIndex = usergroups?.findIndex(usergroup => parseInt(usergroup?.Usergroup_ID) === parseInt(event?.Usergroup_ID))
         setClothing(event !== undefined ? event.Clothing : 0)
     }, [event, usergroups])
@@ -188,6 +194,7 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
         e.preventDefault()
 
         let category    = document.getElementById('category').options[document.getElementById('category').selectedIndex].value
+        let state       = document.getElementById('state').value
         let type        = document.getElementById('type').value
         let location    = document.getElementById('location').value
         let address     = document.getElementById('address').value
@@ -202,9 +209,9 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
         let push        = document.getElementById('push').checked
 
         if(event && event.Event_ID !== -1)
-            await updateEvent(event.Event_ID, category, type, location, address, date, begin, departure, leave_dep, accepted, plusone, usergroup, clothing, fixed, push)
+            await updateEvent(event.Event_ID, category, state, type, location, address, date, begin, departure, leave_dep, accepted, plusone, usergroup, clothing, fixed, push)
         else
-            await newEvent(category, type, location, address, date, begin, departure, leave_dep, accepted, plusone, usergroup, clothing, fixed, push)
+            await newEvent(category, state, type, location, address, date, begin, departure, leave_dep, accepted, plusone, usergroup, clothing, fixed, push)
 
         reload()
     }
@@ -224,6 +231,9 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
             document.getElementById('accepted').checked = true
             document.getElementById('usergroup').selectedIndex = usergroups?.findIndex(usergroup => usergroup?.Usergroup_ID === template?.Usergroup_ID)
             document.getElementById('push').checked     = true
+            
+            if(template.Category === 'practice')
+                document.getElementById('state').value = STATE_CONFIRMED
         }
     }
 
@@ -239,6 +249,15 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
                     <option value="event">Auftritt</option>
                     <option value="practice">Üben/Probe</option>
                     <option value="other">Sonstiges</option>
+                </select>
+            </FormBox>
+            <FormBox>
+                <label htmlFor="type">Status</label>
+                <select name="state" id="state" defaultValue={STATE_PENDING}>
+                    <option value={STATE_PENDING}>Anfrage</option>
+                    <option value={STATE_CONFIRMED}>Angenommen</option>
+                    <option value={STATE_DECLINED}>Abgelehnt</option>
+                    <option value={STATE_CANCELED}>Abgesagt</option>
                 </select>
             </FormBox>
             <FormBox>

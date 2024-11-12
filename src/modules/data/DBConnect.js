@@ -224,7 +224,7 @@ const getEvents = async (filter) => {
     })
 }
 
-const updateEvent = async(event_id, category, type, location, address, date, begin, departure, leave_dep, accepted, plusone, usergroup, clothing, fixed, push) => {
+const updateEvent = async(event_id, category, state, type, location, address, date, begin, departure, leave_dep, accepted, plusone, usergroup, clothing, fixed, push) => {
     let token = localStorage.getItem('api_token')
     let response = await fetch(`${host}/api/v0/events/${event_id}?api_token=${token}`, {
         method: "PUT",
@@ -232,6 +232,7 @@ const updateEvent = async(event_id, category, type, location, address, date, beg
         body: JSON.stringify({
             Event_ID: event_id,
             Category: category,
+            State: state,
             Type: type,
             Location: location,
             Address: address,
@@ -257,7 +258,7 @@ const updateEvent = async(event_id, category, type, location, address, date, beg
     }
 }
 
-const newEvent = async (category, type, location, address, date, begin, departure, leave_dep, accepted, plusone, usergroup, clothing, fixed, push) => {
+const newEvent = async (category, state, type, location, address, date, begin, departure, leave_dep, accepted, plusone, usergroup, clothing, fixed, push) => {
     
     let token = localStorage.getItem('api_token')
     
@@ -265,6 +266,7 @@ const newEvent = async (category, type, location, address, date, begin, departur
         method: "POST",
         body: JSON.stringify({
             Category: category,
+            State: state,
             Type: type,
             Location: location,
             Address: address,
