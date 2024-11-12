@@ -10,10 +10,13 @@ import { getDateTemplates, getEvent, getEvents, getUsergroups, newEvent, updateE
 import { StyledEventForm } from "./EventForm.styled"
 import { ClothingInput, clothingStyles } from "../../../modules/components/icons/Clothing"
 
-const STATE_PENDING = 0
-const STATE_CONFIRMED = 1
-const STATE_DECLINED = 2
-const STATE_CANCELED = 3
+export const EVENT_STATE = {
+    PENDING: 0,
+    CONFIRMED: 1,
+    DECLINED: 2,
+    CANCELED: 3
+}
+
 
 const EventForm = () => {
 
@@ -169,7 +172,7 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
             if(category_select.options[i].value === event?.Category)
                 category_select.selectedIndex = i
         }
-        document.getElementById('state').value = event?.State ?? STATE_PENDING
+        document.getElementById('state').value = event?.State ?? EVENT_STATE.PENDING
         document.getElementById('usergroup').selectedIndex = usergroups?.findIndex(usergroup => parseInt(usergroup?.Usergroup_ID) === parseInt(event?.Usergroup_ID))
         setClothing(event !== undefined ? event.Clothing : 0)
     }, [event, usergroups])
@@ -233,7 +236,7 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
             document.getElementById('push').checked     = true
             
             if(template.Category === 'practice')
-                document.getElementById('state').value = STATE_CONFIRMED
+                document.getElementById('state').value = EVENT_STATE.CONFIRMED
         }
     }
 
@@ -253,11 +256,11 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
             </FormBox>
             <FormBox>
                 <label htmlFor="type">Status</label>
-                <select name="state" id="state" defaultValue={STATE_PENDING}>
-                    <option value={STATE_PENDING}>Anfrage</option>
-                    <option value={STATE_CONFIRMED}>Angenommen</option>
-                    <option value={STATE_DECLINED}>Abgelehnt</option>
-                    <option value={STATE_CANCELED}>Abgesagt</option>
+                <select name="state" id="state" defaultValue={EVENT_STATE.PENDING}>
+                    <option value={EVENT_STATE.PENDING}>Anfrage</option>
+                    <option value={EVENT_STATE.CONFIRMED}>Angenommen</option>
+                    <option value={EVENT_STATE.DECLINED}>Abgelehnt</option>
+                    <option value={EVENT_STATE.CANCELED}>Abgesagt</option>
                 </select>
             </FormBox>
             <FormBox>
