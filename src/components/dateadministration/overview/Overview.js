@@ -84,7 +84,7 @@ const EventList = ({ events, eventfilter }) => {
                         }
                 })
                 .filter(event => {
-                    return event.State === EVENT_STATE.ACCEPTED || event.State === EVENT_STATE.PENDING
+                    return event.State === EVENT_STATE.CONFIRMED || event.State === EVENT_STATE.PENDING
                 })
                 .map(event => {
                     return(<Event key={`event_${event.Event_ID}`} event={event} />)
