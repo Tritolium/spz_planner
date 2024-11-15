@@ -1034,13 +1034,6 @@ export const updateAssociationAssignments = async (changedAssignments) => {
     }
 }
 
-export const getBirthdates = async () => {
-    let token = localStorage.getItem('api_token')
-    let response = await fetch(`${host}/api/member.php?api_token=${token}&birthdate`)
-    let json = await response.json()
-    return json
-}
-
 export const sendPushSubscription = async (subscription, allowed) => {
     let token = localStorage.getItem('api_token')
     let permissions
