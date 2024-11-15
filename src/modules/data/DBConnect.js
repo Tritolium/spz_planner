@@ -288,38 +288,6 @@ const newEvent = async (category, type, location, address, date, begin, departur
     }
 }
 
-const getMembers = async () => {
-    let members = new Array(0)
-
-    let token = localStorage.getItem('api_token')
-
-    let lastmodified = JSON.parse(localStorage.getItem('members'))?.lastmodified
-    let response = await fetch(`${host}/api/member.php?api_token=${token}`, {
-        method: 'GET',
-        headers: lastmodified ? {
-            'If-Modified-Since': lastmodified
-        } : {}
-    })
-
-    switch (response.status) {
-        case 200:
-            members = await response.json()
-            let store = {
-                lastmodified: response.headers.get('DB-Last-Modified'),
-                data: members
-            }
-            localStorage.setItem('members', JSON.stringify(store))
-            break
-        case 304:
-            members = JSON.parse(localStorage.getItem('members'))?.data
-            break
-        default:
-            break
-    }
-
-    return members
-}
-
 const updateMember = async(member_id, forename, surname, auth_level, nicknames, instrument, birthdate, changes) => {
     
     let token = localStorage.getItem('api_token')
@@ -1095,4 +1063,4 @@ export const sendPushSubscription = async (subscription, allowed) => {
     return permissions
 }
 
-export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMembers, updateMember, setAttendence, getAttendences, getEvalByUsergroup }
+export { login, update_login, getEvent, getEvents, updateEvent, newEvent, updateMember, setAttendence, getAttendences, getEvalByUsergroup }
