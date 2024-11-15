@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react"
 import SubmitButton from "../../../modules/components/SubmitButton"
-import { getEvents, getMembers, getOwnUsergroups, setAttendence as setSingleAttendence } from "../../../modules/data/DBConnect"
+import { getEvents, getOwnUsergroups, host, setAttendence as setSingleAttendence } from "../../../modules/data/DBConnect"
 import Terminzusage from "../attendenceInput/Terminzusage"
 import { StyledAbsenceInput } from "./AbsenceInput.styled"
 import PlusOne from "../../../modules/components/icons/PlusOne"
@@ -23,8 +23,13 @@ const AbsenceInput = ({ theme }) => {
             setEvents(_events)
         }
         const fetchMembers = async () => {
-            let _members = await getMembers()
-            setMembers(_members)
+            fetch(`${host}/api/v0/member?api_token=${localStorage.getItem('api_token')}`)
+            .then(response => response.json())
+            .then(data => {
+                setMembers(data)
+            }, () => {
+                setMembers(new Array(0))
+            })
         }
 
         const fetchUsergroups = async () => {
@@ -77,14 +82,13 @@ const AbsenceInput = ({ theme }) => {
             </select>
             <select id="member_select">
                 {members.filter(member => {
+                    console.log("member", member)
                     if (selectedUsergroupFilter === -1)
                         return true
-                    for(let usergroup of member.Usergroups){
-                        if (parseInt(usergroup.Usergroup_ID) === selectedUsergroupFilter){
-                            return usergroup.Assigned
-                        }
+                    for(let usergroup_id of member.Usergroups){
+                        if(parseInt(usergroup_id) === selectedUsergroupFilter)
+                            return true
                     }
-
                     return false
                 }).map(member => {
                     return(<option key={`member_${member.Member_ID}`} value={member.Member_ID}>{member.Forename} {member.Surname}</option>)
