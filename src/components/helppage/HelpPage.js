@@ -26,6 +26,7 @@ const HelpPage = ({ auth_level }) => {
                     <li>Auflösung</li>
                     <li>UserAgent</li>
                     <li>eindeutige Geräte-ID (bleibt auch nach installieren der App gleich)</li>
+                    <li>Verwendung von Farbmodi (Dark/Light/forced)</li>
                     <li>Verwendung der Module abseits der Startseite (Anwesenheiten/Urlaub/....), siehe Menü</li>
                 </ul>
                 <p>Diese zusätzlichen Daten dienen ausschließlich dazu, die Benutzbarkeit der App zu verbessern und um eventuelle Fehler nachzuvollziehen.</p>
