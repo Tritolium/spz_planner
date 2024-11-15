@@ -288,32 +288,6 @@ const newEvent = async (category, type, location, address, date, begin, departur
     }
 }
 
-const getMember = async (member_id) => {
-    let member
-    let token = localStorage.getItem('api_token')
-
-    if(member_id < 0){
-        return {
-            Member_ID: -1,
-            Forename: "",
-            Surname: "",
-            Auth_level: 0
-        }
-    }
-
-    let response = await fetch(`${host}/api/member.php?api_token=${token}&id=${member_id}`, {method: "GET"})
-
-    switch (response.status) {
-    case 200:
-        member = await response.json()
-        break
-    default:
-        break
-    }
-    
-    return member
-}
-
 const getMembers = async () => {
     let members = new Array(0)
 
@@ -1121,4 +1095,4 @@ export const sendPushSubscription = async (subscription, allowed) => {
     return permissions
 }
 
-export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, setAttendence, getAttendences, getEvalByUsergroup }
+export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMembers, updateMember, setAttendence, getAttendences, getEvalByUsergroup }
