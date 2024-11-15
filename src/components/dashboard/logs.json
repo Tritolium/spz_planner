@@ -8,6 +8,7 @@
                         "page": "Anwesenheiten",
                         "changes": [
                             "In der Anwesenheitsübersicht wird die Prognose pro Person angezeigt, um auch die Stimmen besser einschätzen zu können",
+                            "Die erste Nutzergruppe in der Übersicht wird automatisch ausgewählt",
                             "Bei der Eingabe der Anwesenheit werden abgesagte Termine nicht mehr angezeigt"
                         ]
                     },
