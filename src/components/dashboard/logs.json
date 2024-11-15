@@ -30,6 +30,12 @@
                         "changes": [
                             "Die Anzeige, dass kein Passwort gesetzt ist, wurde entfernt, da direkt zu den Einstellungen weitergeleitet wird."
                         ]
+                    },
+                    {
+                        "page": "Allgemein",
+                        "changes": [
+                            "API Endpunkte vereinheitlicht. Ermöglicht eine bessere Wartung sowie verbesserte Offline-Fähigkeit."
+                        ]
                     }
                 ]
             }

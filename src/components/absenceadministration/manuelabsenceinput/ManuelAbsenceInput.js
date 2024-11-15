@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react"
 import Button from "../../../modules/components/button/Button"
 import Form from "../../../modules/components/form/Form"
 import FormBox from "../../../modules/components/form/FormBox"
-import { getMembers, newManualAbsence } from "../../../modules/data/DBConnect"
+import { host, newManualAbsence } from "../../../modules/data/DBConnect"
 import { StyledManuelAbsenceInput } from "./ManuelAbsenceInput.styled"
 
 const ManuelAbsenceInput = () => {
@@ -10,8 +10,13 @@ const ManuelAbsenceInput = () => {
     const [members, setMembers] = useState(new Array(0))
 
     const fetchMembers = useCallback(async () => {
-        let _members = await getMembers()
-        setMembers(_members)
+        fetch(`${host}/api/v0/member?api_token=${localStorage.getItem('api_token')}`)
+            .then(response => response.json())
+            .then(data => {
+                setMembers(data)
+            }, () => {
+                setMembers(new Array(0))
+            })
     }, [])
 
     const clear = (e) => {

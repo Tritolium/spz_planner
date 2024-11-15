@@ -3,7 +3,7 @@ import Button from "../../../modules/components/button/Button"
 import Form from "../../../modules/components/form/Form"
 import FormBox from "../../../modules/components/form/FormBox"
 import Selector from "../../../modules/components/form/Selector"
-import { host, updateAssociationAssignments, updateMember } from "../../../modules/data/DBConnect"
+import { host, updateAssociationAssignments } from "../../../modules/data/DBConnect"
 import { StyledMember, StyledMemberForm } from "./MemberForm.styled"
 
 const MemberForm = ({ members, reload }) => {
@@ -54,14 +54,11 @@ const Member = ({member, onSelect}) => {
 }
 
 const DetailForm = ({member, reload}) => {
-
-    const [changedUsergroups, setChangedUsergroups] = useState({})
     const [associations, setAssociations] = useState([])
 
     useEffect(() => {
         document.getElementById('memberform_form').reset()
         document.getElementById('auth_level').selectedIndex = member?.Auth_level
-        setChangedUsergroups({})
         fetch(`${host}/api/v0/association?api_token=${localStorage.getItem('api_token')}`)
             .then(response => response.json())
             .then(data => {
@@ -88,7 +85,18 @@ const DetailForm = ({member, reload}) => {
         let birthdate = document.getElementById('birthdate').value
 
         if(member !== undefined)
-            await updateMember(member.Member_ID, forename, surname, auth_level, nicknames, instrument, birthdate, changedUsergroups)
+            fetch(`${host}/api/v0/member/${member.Member_ID}?api_token=${localStorage.getItem('api_token')}`,
+                {
+                    method: 'PUT',
+                    body: JSON.stringify({
+                        Forename: forename,
+                        Surname: surname,
+                        Auth_level: auth_level,
+                        Nicknames: nicknames,
+                        Birthdate: birthdate,
+                        Instrument: instrument
+                    })
+                })                  
         else {
             fetch(`${host}/api/v0/member?api_token=${localStorage.getItem('api_token')}`,
                 {

@@ -288,92 +288,6 @@ const newEvent = async (category, type, location, address, date, begin, departur
     }
 }
 
-const getMember = async (member_id) => {
-    let member
-    let token = localStorage.getItem('api_token')
-
-    if(member_id < 0){
-        return {
-            Member_ID: -1,
-            Forename: "",
-            Surname: "",
-            Auth_level: 0
-        }
-    }
-
-    let response = await fetch(`${host}/api/member.php?api_token=${token}&id=${member_id}`, {method: "GET"})
-
-    switch (response.status) {
-    case 200:
-        member = await response.json()
-        break
-    default:
-        break
-    }
-    
-    return member
-}
-
-const getMembers = async () => {
-    let members = new Array(0)
-
-    let token = localStorage.getItem('api_token')
-
-    let lastmodified = JSON.parse(localStorage.getItem('members'))?.lastmodified
-    let response = await fetch(`${host}/api/member.php?api_token=${token}`, {
-        method: 'GET',
-        headers: lastmodified ? {
-            'If-Modified-Since': lastmodified
-        } : {}
-    })
-
-    switch (response.status) {
-        case 200:
-            members = await response.json()
-            let store = {
-                lastmodified: response.headers.get('DB-Last-Modified'),
-                data: members
-            }
-            localStorage.setItem('members', JSON.stringify(store))
-            break
-        case 304:
-            members = JSON.parse(localStorage.getItem('members'))?.data
-            break
-        default:
-            break
-    }
-
-    return members
-}
-
-const updateMember = async(member_id, forename, surname, auth_level, nicknames, instrument, birthdate, changes) => {
-    
-    let token = localStorage.getItem('api_token')
-
-    let response = await fetch(`${host}/api/member.php?api_token=${token}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            Member_ID: member_id,
-            Forename: forename,
-            Surname: surname,
-            Auth_level: auth_level,
-            Nicknames: nicknames,
-            Instrument: instrument,
-            Birthdate: birthdate,
-            UsergroupChanges: changes
-        })
-    })
-    switch(response.status){
-    case 200:
-        return true
-    default:
-        return false
-    }
-}
-
 const setAttendence = async (event_id, member_id, attendence, plusone) => {
 
     let token = localStorage.getItem('api_token')
@@ -1092,13 +1006,6 @@ export const updateAssociationAssignments = async (changedAssignments) => {
     }
 }
 
-export const getBirthdates = async () => {
-    let token = localStorage.getItem('api_token')
-    let response = await fetch(`${host}/api/member.php?api_token=${token}&birthdate`)
-    let json = await response.json()
-    return json
-}
-
 export const sendPushSubscription = async (subscription, allowed) => {
     let token = localStorage.getItem('api_token')
     let permissions
@@ -1121,4 +1028,4 @@ export const sendPushSubscription = async (subscription, allowed) => {
     return permissions
 }
 
-export { login, update_login, getEvent, getEvents, updateEvent, newEvent, getMember, getMembers, updateMember, setAttendence, getAttendences, getEvalByUsergroup }
+export { login, update_login, getEvent, getEvents, updateEvent, newEvent, setAttendence, getAttendences, getEvalByUsergroup }
