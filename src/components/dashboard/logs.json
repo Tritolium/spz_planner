@@ -37,6 +37,12 @@
                         "changes": [
                             "API Endpunkte vereinheitlicht. Ermöglicht eine bessere Wartung sowie verbesserte Offline-Fähigkeit."
                         ]
+                    },
+                    {
+                        "page": "Termine",
+                        "changes": [
+                            "Status hinzugefügt, um anzuzeigen, ob ein Termin eine Anfrage ist, angenommen, abgelehnt oder abgesagt wurde."
+                        ]
                     }
                 ]
             }
