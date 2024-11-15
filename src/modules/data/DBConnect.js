@@ -224,7 +224,7 @@ const getEvents = async (filter) => {
     })
 }
 
-const updateEvent = async(event_id, category, state, type, location, address, date, begin, departure, leave_dep, accepted, plusone, usergroup, clothing, fixed, push) => {
+const updateEvent = async(event_id, category, state, type, location, address, date, begin, departure, leave_dep, plusone, usergroup, clothing, fixed, push) => {
     let token = localStorage.getItem('api_token')
     let response = await fetch(`${host}/api/v0/events/${event_id}?api_token=${token}`, {
         method: "PUT",
@@ -240,7 +240,7 @@ const updateEvent = async(event_id, category, state, type, location, address, da
             Begin: begin === '' ? null : begin,
             Departure: departure === '' ? null : departure,
             Leave_dep: leave_dep === '' ? null : leave_dep,
-            Accepted: accepted,
+            Accepted: true,
             PlusOne: plusone,
             Usergroup_ID: usergroup,
             Clothing: clothing,
@@ -258,7 +258,7 @@ const updateEvent = async(event_id, category, state, type, location, address, da
     }
 }
 
-const newEvent = async (category, state, type, location, address, date, begin, departure, leave_dep, accepted, plusone, usergroup, clothing, fixed, push) => {
+const newEvent = async (category, state, type, location, address, date, begin, departure, leave_dep, plusone, usergroup, clothing, fixed, push) => {
     
     let token = localStorage.getItem('api_token')
     
@@ -274,7 +274,7 @@ const newEvent = async (category, state, type, location, address, date, begin, d
             Begin: begin === '' ? null : begin,
             Departure: departure === '' ? null : departure,
             Leave_dep: leave_dep === '' ? null : leave_dep,
-            Accepted: accepted,
+            Accepted: true, // dummy, kept for compatibility
             PlusOne: plusone,
             Usergroup_ID: usergroup,
             Clothing: clothing,

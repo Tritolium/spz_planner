@@ -223,16 +223,15 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
         let begin       = document.getElementById('begin').value
         let departure   = document.getElementById('departure').value
         let leave_dep   = document.getElementById('leave_dep').value
-        let accepted    = document.getElementById('accepted').checked
         let plusone     = document.getElementById('plusone').checked
         let usergroup   = document.getElementById('usergroup').options[document.getElementById('usergroup').selectedIndex].value
         let fixed       = document.getElementById('fixed').checked
         let push        = document.getElementById('push').checked
 
         if(event && event.Event_ID !== -1)
-            await updateEvent(event.Event_ID, category, state, type, location, address, date, begin, departure, leave_dep, accepted, plusone, usergroup, clothing, fixed, push)
+            await updateEvent(event.Event_ID, category, state, type, location, address, date, begin, departure, leave_dep, plusone, usergroup, clothing, fixed, push)
         else
-            await newEvent(category, state, type, location, address, date, begin, departure, leave_dep, accepted, plusone, usergroup, clothing, fixed, push)
+            await newEvent(category, state, type, location, address, date, begin, departure, leave_dep, plusone, usergroup, clothing, fixed, push)
 
         reload()
     }
@@ -249,7 +248,6 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
             document.getElementById('begin').value      = template.Begin
             document.getElementById('departure').value  = template.Departure
             document.getElementById('leave_dep').value  = template.Leave_dep
-            document.getElementById('accepted').checked = true
             document.getElementById('usergroup').selectedIndex = usergroups?.findIndex(usergroup => usergroup?.Usergroup_ID === template?.Usergroup_ID)
             document.getElementById('push').checked     = true
             
@@ -312,10 +310,6 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
             <FormBox>
                 <label htmlFor="clothing">Uniform:</label>
                 <ClothingInput id="clothing" clothing={clothing} onClick={clothingCallback}/>
-            </FormBox>
-            <FormBox>
-                <label htmlFor="accepted">Angenommen:</label>
-                <input type="checkbox" name="accepted" id="accepted" defaultChecked={event?.Accepted}/>
             </FormBox>
             <FormBox>
                 <label htmlFor="plusone">mit Begleitung:</label>

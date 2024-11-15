@@ -3,6 +3,7 @@ import { Clothing } from "../../../modules/components/icons/Clothing"
 import Filter from "../../../modules/components/Filter"
 import { getEvents } from "../../../modules/data/DBConnect"
 import { StyledEventTable, StyledEventTableMobile, StyledOverview } from "./Overview.styled"
+import { EVENT_STATE } from "../eventform/EventForm"
 
 
 const Overview = () => {
@@ -83,7 +84,7 @@ const EventList = ({ events, eventfilter }) => {
                         }
                 })
                 .filter(event => {
-                    return event.Accepted
+                    return event.State === EVENT_STATE.ACCEPTED || event.State === EVENT_STATE.PENDING
                 })
                 .map(event => {
                     return(<Event key={`event_${event.Event_ID}`} event={event} />)

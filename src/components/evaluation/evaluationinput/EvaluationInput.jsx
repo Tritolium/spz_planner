@@ -81,7 +81,7 @@ const EventSelector = ({ events, onSelect, usergroups }) => {
             {events
             .filter(event => {
                 // TODO: remove check for 'Abgesagt' on 01.01.2025
-				return event.Accepted && !(event.Type.includes("Abgesagt") || event.State === EVENT_STATE.CANCELED) && !event.Evaluated && hasPermission(9, event.Association_ID)
+				return event.State === EVENT_STATE.CONFIRMED && !event.Type.includes("Abgesagt")&& !event.Evaluated && hasPermission(9, event.Association_ID)
             })
 			.filter(event => {
 				let now = new Date()
