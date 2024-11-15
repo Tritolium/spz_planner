@@ -31,7 +31,8 @@
                     {
                         "page": "Login",
                         "changes": [
-                            "Die Anzeige, dass kein Passwort gesetzt ist, wurde entfernt, da direkt zu den Einstellungen weitergeleitet wird."
+                            "Die Anzeige, dass kein Passwort gesetzt ist, wurde entfernt, da direkt zu den Einstellungen weitergeleitet wird.",
+                            "Der Anzeigemodus (Dark/Light/forced) für das Gerät wird gespeichert, um die Anzeige zu optimieren."
                         ]
                     },
                     {
