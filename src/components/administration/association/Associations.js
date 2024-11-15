@@ -5,7 +5,7 @@ import Form from "../../../modules/components/form/Form"
 import FormBox from "../../../modules/components/form/FormBox"
 import Selector from "../../../modules/components/form/Selector"
 import SelectorItem from "../../../modules/components/form/SelectorItem"
-import { getAssociations, getMembers, newAssociation, updateAssociation } from "../../../modules/data/DBConnect"
+import { getAssociations, host, newAssociation, updateAssociation } from "../../../modules/data/DBConnect"
 import { StyledAssociations } from "./Associations.styled"
 
 const Associations = () => {
@@ -23,11 +23,13 @@ const Associations = () => {
     }, [])
 
     const fetchMembers = useCallback(async () => {
-        let _members = await getMembers()
-        if(_members !== undefined)
-            setMembers(_members)
-        else
-            setMembers(new Array(0))
+        fetch(`${host}/api/v0/member?api_token=${localStorage.getItem('api_token')}`)
+            .then(response => response.json())
+            .then(data => {
+                setMembers(data)
+            }, () => {
+                setMembers(new Array(0))
+            })
     }, [])
 
     const reload = useCallback(() => {
