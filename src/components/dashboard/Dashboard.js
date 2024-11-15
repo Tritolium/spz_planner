@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useRef } from 'react'
 import { useState } from 'react'
-import { getBirthdates, getDisplayMode, host, newFeedback } from '../../modules/data/DBConnect'
+import { getDisplayMode, host, newFeedback } from '../../modules/data/DBConnect'
 import { StyledDashboard, StyledFeedbackArea, StyledInfoText } from './Dashboard.styled'
 import { TbAlertTriangle } from 'react-icons/tb'
 import { IoShareOutline } from 'react-icons/io5'
@@ -168,19 +168,21 @@ const DashboardAttendence = ({ fullname, nextPracticeIDs, nextEventIDs, nextOthe
 }
 
 const BirthdayBlog = ({ fullname }) => {
-    const [birthdates, setBirthdates] = useState(new Array(0))
+    const [members, setMembers] = useState(new Array(0))
 
     const getBDates = async () => {
-        getBirthdates().then(bdays => {
-            let dates = bdays.filter(bday => {
-                let date = new Date(bday.Birthday)
+        fetch(`${host}/api/v0/member?api_token=${localStorage.getItem('api_token')}`)
+        .then(response => response.json())
+        .then(members => {
+            let dates = members.filter(member => {
+                let date = new Date(member.Birthdate)
                 let now = new Date()
                 date.setFullYear(now.getFullYear())
                 let diff = date.getTime() - now.getTime()
                 return (-604800000 < diff && diff < 604800000)
             }).sort((bday_a, bday_b) => {
-                let date_a = new Date(bday_a.Birthday)
-                let date_b = new Date(bday_b.Birthday)
+                let date_a = new Date(bday_a.Birthdate)
+                let date_b = new Date(bday_b.Birthdate)
 
                 if(date_a.getMonth() < date_b.getMonth()){
                     return -1
@@ -196,24 +198,25 @@ const BirthdayBlog = ({ fullname }) => {
                     }
                 }
             })
-            setBirthdates(dates)
+            setMembers(dates)
     })
     }
 
     useEffect(() => {
         getBDates()
     }, [])
-    if(birthdates?.length > 0){
+    if(members?.length > 0){
         return(<div>
             <h3>Geburtstage:</h3>
-            {birthdates?.map(bday => {
-                let birthday = new Date(bday.Birthday)
+            {members?.map(member => {
+                let birthday = new Date(member.Birthdate)
                 let today = new Date()
                 let same = today.getDate() === birthday.getDate()
-                if(fullname === bday.Fullname && same)
-                    return(<div key={bday.Fullname}>Herzlichen Glückwunsch, {fullname.split(" ")[0]}!</div>)
+                let member_fullname = member.Forename + " " + member.Surname
+                if(fullname === member_fullname && same)
+                    return(<div key={member_fullname}>Herzlichen Glückwunsch, {fullname.split(" ")[0]}!</div>)
                 else
-                    return(<div key={bday.Fullname}>{bday.Fullname}: {birthday.getDate()}.{birthday.getMonth() + 1}, {today.getFullYear() - birthday.getFullYear()} Jahre</div>)
+                    return(<div key={member_fullname}>{member_fullname}: {birthday.getDate()}.{birthday.getMonth() + 1}, {today.getFullYear() - birthday.getFullYear()} Jahre</div>)
             })}
         </div>)
     }
