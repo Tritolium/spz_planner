@@ -22,7 +22,6 @@ const Overview = ({ theme }) => {
         let _usergroups = await getOwnUsergroups()
         _usergroups = _usergroups.filter(usergroup => hasPermission(7, usergroup.Association_ID))
         setUsergroups(_usergroups)
-        setSelectedUsergroup_ID(_usergroups[0].Usergroup_ID)
     }
 
     const fetchAttendences = useCallback(async () => {
