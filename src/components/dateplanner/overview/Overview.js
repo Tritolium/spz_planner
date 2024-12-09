@@ -44,9 +44,16 @@ const Overview = ({ theme }) => {
     }, [fetchAttendences, fetchEval])
 
     useEffect(() => {
-        fetchUsergroups()
         reload()
     }, [reload])
+
+    useEffect(() => {
+        fetchUsergroups()
+    }, [])
+
+    useEffect(() => {
+        setSelectedUsergroup_ID(usergroups[0]?.Usergroup_ID)
+    }, [usergroups])
 
     if(attendences.length === 0){
         return(
