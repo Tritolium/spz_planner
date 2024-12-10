@@ -29,6 +29,24 @@ export const getDeviceID = async () => {
         })
 }
 
+export const getDevicePreferences = async () => {
+    let preferences = [
+        { query: '(prefers-color-scheme: dark)', name: 'darkmode' },
+        { query: '(prefers-color-scheme: light)', name: 'lightmode' },
+        { query: '(forced-colors: active)', name: 'forcedcolors' }
+    ]
+
+    let results = await Promise.all(preferences.map(preference => {
+        return window.matchMedia(preference.query).matches
+    }))
+    let preferencesObject = {}
+    preferences.forEach((preference, index) => {
+        preferencesObject[preference.name] = results[index]
+    })
+
+    return preferencesObject
+}
+
 export const sendError = async (error_msg) => {
     fetch(`${host}/api/v0/error`, {
         method: 'POST',
@@ -119,7 +137,7 @@ const update_login = async (version) => {
 
     let displayMode = getDisplayMode()
     let device_id = await getDeviceID()
-    console.log("update_login", device_id)
+    let preferences = await getDevicePreferences()
     
     let token = localStorage.getItem('api_token')
     if(!Object.is(token, null)){
@@ -130,7 +148,8 @@ const update_login = async (version) => {
             Engine: navigator.userAgent.match(/([A-Z][a-z]*)+\/\d+[.\d+]*/g).toString(),
             Device: navigator.userAgent.match(/(\([^(]+(\n[^(]+)*\))/g)[0],
             Dimension: `${window.innerWidth}x${window.innerHeight}`,
-            DeviceUUID: device_id
+            DeviceUUID: device_id,
+            Preferences: preferences
         })
         let response = await fetch(`${host}/api/login.php?mode=update&body=` + body)
         switch(response.status) {
