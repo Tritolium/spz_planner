@@ -9,7 +9,9 @@
                         "changes": [
                             "In der Anwesenheitsübersicht wird die Prognose pro Person angezeigt, um auch die Stimmen besser einschätzen zu können",
                             "Die erste Nutzergruppe in der Übersicht wird automatisch ausgewählt",
-                            "Bei der Eingabe der Anwesenheit werden abgesagte Termine nicht mehr angezeigt"
+                            "Bei der Eingabe der Anwesenheit werden abgesagte Termine nicht mehr angezeigt",
+                            "Anfragen werden gelb angezeigt, um sie besser von angenommenen Terminen unterscheiden zu können",
+                            "Striche zwischen den Terminen zeigen an, ob die Termine am selben Tag oder in der selben Woche stattfinden"
                         ]
                     },
                     {
