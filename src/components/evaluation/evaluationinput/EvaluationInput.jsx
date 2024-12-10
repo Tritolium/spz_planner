@@ -11,6 +11,7 @@ import { Zusage } from "../../dateplanner/overview/Overview"
 import { StyledEvaluationInput } from "./EvaluationInput.styled"
 import { Check, DeniedCheck, Deny, Noshow, Unregistered } from "../../dateplanner/attendenceInput/Terminzusage"
 import { hasPermission } from "../../../modules/helper/Permissions"
+import { EVENT_STATE } from "../../dateadministration/eventform/EventForm"
 
 const EvaluationInput = ({ theme }) => {
     const [events, setEvents] = useState(new Array(0))
@@ -79,7 +80,8 @@ const EventSelector = ({ events, onSelect, usergroups }) => {
             </div>
             {events
             .filter(event => {
-				return event.Accepted && !event.Type.includes("Abgesagt") && !event.Evaluated && hasPermission(9, event.Association_ID)
+                // TODO: remove check for 'Abgesagt' on 01.01.2025
+				return event.State === EVENT_STATE.CONFIRMED && !event.Type.includes("Abgesagt")&& !event.Evaluated && hasPermission(9, event.Association_ID)
             })
 			.filter(event => {
 				let now = new Date()

@@ -2,6 +2,18 @@ import styled from "styled-components";
 
 export const StyledAttendenceTable = styled.div`
     display: grid;
+
+    .pending {
+        font-style: italic;
+        color: ${({theme}) => theme.yellow};
+    }
+
+    .sameDay {
+        border-top: 1px dashed ${({theme}) => theme.primaryHover};
+    }
+
+    .diffWeek {
+        border-top: 3px solid ${({theme}) => theme.primaryLight};
 `
 
 export const StyledEvent = styled.div`

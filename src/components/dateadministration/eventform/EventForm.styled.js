@@ -20,13 +20,23 @@ export const StyledEventForm = styled.div`
         flex-direction: column;
     }
 
-    .accepted {
+    .confirmed {
         color: ${({theme}) => theme.primaryLight};
         font-style: normal;
     }
 
+    .pending {
+        color: ${({theme}) => theme.primaryLight};
+        font-style: italic;
+    }
+
     .declined {
         color: ${({theme}) => theme.lightred};
+        font-style: italic;
+    }
+
+    .canceled {
+        color: ${({theme}) => theme.red};
         font-style: italic;
     }
 `

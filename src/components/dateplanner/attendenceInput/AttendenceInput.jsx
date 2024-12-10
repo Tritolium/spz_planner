@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { Alert, Blank, Check, Deny, Unregistered } from "./Terminzusage";
 import { StyledAttendenceInput } from "./AttendenceInput.styled";
 import { ImSpinner10 } from "react-icons/im";
+import { EVENT_STATE } from "../../dateadministration/eventform/EventForm";
 
 const ATTENDENCE_NONE = -1
 const ATTENDENCE_NO = 0
@@ -13,7 +14,8 @@ export const AttendenceInput = ({ event, attendence, onClick, theme }) => {
     const [att, setAtt] = useState(attendence)
     const [active, setActive] = useState(false)
 
-    const canceled = event?.Type.includes('Abgesagt')
+    // TODO: remove check for 'Abgesagt' on 01.01.2025
+    const canceled = event?.Type.includes('Abgesagt') || event?.State === EVENT_STATE.CANCELED
 
     const blocked = useCallback(() => {
         let now = new Date()

@@ -10,6 +10,14 @@ import { getDateTemplates, getEvent, getEvents, getUsergroups, newEvent, updateE
 import { StyledEventForm } from "./EventForm.styled"
 import { ClothingInput, clothingStyles } from "../../../modules/components/icons/Clothing"
 
+export const EVENT_STATE = {
+    PENDING: 0,
+    CONFIRMED: 1,
+    DECLINED: 2,
+    CANCELED: 3
+}
+
+
 const EventForm = () => {
 
     const date_options = [
@@ -141,12 +149,30 @@ const EventSelector = ({ events, onSelect, date_options, usergroups, onFilterCha
 
 const EventItem = ({ event, onSelect }) => {
 
+    let className
+
     const onClick = useCallback(() => {
         onSelect(event.Event_ID)
     }, [onSelect, event.Event_ID])
 
+    switch(event.State){
+    default:
+    case EVENT_STATE.PENDING:
+        className = "pending"
+        break
+    case EVENT_STATE.CONFIRMED:
+        className = "confirmed"
+        break
+    case EVENT_STATE.DECLINED:
+        className = "declined"
+        break
+    case EVENT_STATE.CANCELED:
+        className = "canceled"
+        break
+    }
+
     return (
-        <SelectorItem className={event.Accepted ? "accepted" : "declined"}onClick={onClick}>
+        <SelectorItem className={className} onClick={onClick}>
             {event.Type} {event.Location}
         </SelectorItem>
     )
@@ -163,7 +189,8 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
         for(let i = 0; i < category_select.options.length; i++){
             if(category_select.options[i].value === event?.Category)
                 category_select.selectedIndex = i
-        }        
+        }
+        document.getElementById('state').value = event?.State ?? EVENT_STATE.PENDING
         document.getElementById('usergroup').selectedIndex = usergroups?.findIndex(usergroup => parseInt(usergroup?.Usergroup_ID) === parseInt(event?.Usergroup_ID))
         setClothing(event !== undefined ? event.Clothing : 0)
     }, [event, usergroups])
@@ -188,6 +215,7 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
         e.preventDefault()
 
         let category    = document.getElementById('category').options[document.getElementById('category').selectedIndex].value
+        let state       = document.getElementById('state').value
         let type        = document.getElementById('type').value
         let location    = document.getElementById('location').value
         let address     = document.getElementById('address').value
@@ -195,16 +223,15 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
         let begin       = document.getElementById('begin').value
         let departure   = document.getElementById('departure').value
         let leave_dep   = document.getElementById('leave_dep').value
-        let accepted    = document.getElementById('accepted').checked
         let plusone     = document.getElementById('plusone').checked
         let usergroup   = document.getElementById('usergroup').options[document.getElementById('usergroup').selectedIndex].value
         let fixed       = document.getElementById('fixed').checked
         let push        = document.getElementById('push').checked
 
         if(event && event.Event_ID !== -1)
-            await updateEvent(event.Event_ID, category, type, location, address, date, begin, departure, leave_dep, accepted, plusone, usergroup, clothing, fixed, push)
+            await updateEvent(event.Event_ID, category, state, type, location, address, date, begin, departure, leave_dep, plusone, usergroup, clothing, fixed, push)
         else
-            await newEvent(category, type, location, address, date, begin, departure, leave_dep, accepted, plusone, usergroup, clothing, fixed, push)
+            await newEvent(category, state, type, location, address, date, begin, departure, leave_dep, plusone, usergroup, clothing, fixed, push)
 
         reload()
     }
@@ -221,9 +248,11 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
             document.getElementById('begin').value      = template.Begin
             document.getElementById('departure').value  = template.Departure
             document.getElementById('leave_dep').value  = template.Leave_dep
-            document.getElementById('accepted').checked = true
             document.getElementById('usergroup').selectedIndex = usergroups?.findIndex(usergroup => usergroup?.Usergroup_ID === template?.Usergroup_ID)
             document.getElementById('push').checked     = true
+            
+            if(template.Category === 'practice')
+                document.getElementById('state').value = EVENT_STATE.CONFIRMED
         }
     }
 
@@ -239,6 +268,15 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
                     <option value="event">Auftritt</option>
                     <option value="practice">Üben/Probe</option>
                     <option value="other">Sonstiges</option>
+                </select>
+            </FormBox>
+            <FormBox>
+                <label htmlFor="type">Status</label>
+                <select name="state" id="state" defaultValue={EVENT_STATE.PENDING}>
+                    <option value={EVENT_STATE.PENDING}>Anfrage</option>
+                    <option value={EVENT_STATE.CONFIRMED}>Angenommen</option>
+                    <option value={EVENT_STATE.DECLINED}>Abgelehnt</option>
+                    <option value={EVENT_STATE.CANCELED}>Abgesagt</option>
                 </select>
             </FormBox>
             <FormBox>
@@ -272,10 +310,6 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
             <FormBox>
                 <label htmlFor="clothing">Uniform:</label>
                 <ClothingInput id="clothing" clothing={clothing} onClick={clothingCallback}/>
-            </FormBox>
-            <FormBox>
-                <label htmlFor="accepted">Angenommen:</label>
-                <input type="checkbox" name="accepted" id="accepted" defaultChecked={event?.Accepted}/>
             </FormBox>
             <FormBox>
                 <label htmlFor="plusone">mit Begleitung:</label>
