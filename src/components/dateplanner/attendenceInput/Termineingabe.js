@@ -20,12 +20,18 @@ const Termineingabe = ({fullname, theme}) => {
      * local states
      */
     const [selectedDateFilter, setSelectedDateFilter] = useState('all')
-    const [selectedEventFilter, setSelectedEventFilter] = useState('all')
+    const [selectedEventFilter, setSelectedEventFilter] = useState('pending')
 
     const fetchEvents = async () => {
         let _attendences = await getAttendences()
         if(_attendences !== undefined){
             setAttendences(_attendences)
+        }
+
+        // if there are no attendences with attendence -1, use different event filter
+        if(_attendences.filter(attendence => attendence.Attendence === -1).length === 0){
+            setSelectedEventFilter('all')
+            document.getElementById('eventSelect').value = 'all'
         }
     }
 
@@ -35,6 +41,7 @@ const Termineingabe = ({fullname, theme}) => {
 
     const onEventFilterChange = useCallback(e => {
         setSelectedEventFilter(e.target.value)
+        console.log(e.target.value)
     }, [setSelectedEventFilter])
 
     useEffect(() => {
@@ -45,6 +52,7 @@ const Termineingabe = ({fullname, theme}) => {
         <Form className="DateInput">
             <div className='EventFilter'>
                 <select name='eventSelect' id='eventSelect' title='event select' onChange={onEventFilterChange}>
+                    <option value='pending'>Ausstehend</option>
                     <option value='all'>Alle</option>
                     <option value='practice'>Üben/Probe</option>
                     <option value='event'>Auftritt</option>

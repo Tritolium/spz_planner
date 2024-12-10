@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import { updateAttendence } from '../../../modules/data/DBConnect'
 import { StyledAttendenceTable, StyledEvent, StyledMultiEvent } from './AttendenceTable.styled'
 import { EVENT_STATE } from '../../dateadministration/eventform/EventForm'
+import { getWeeknumber } from '../../../modules/helper/DateFormat'
 
 const AttendenceTable = ({ attendences, states, selectedDateFilter, selectedEventFilter, theme}) => {
 
@@ -40,6 +41,8 @@ const AttendenceTable = ({ attendences, states, selectedDateFilter, selectedEven
         .filter(attendence => {
             switch(selectedEventFilter){
             default:
+            case 'pending':
+                return attendence.Attendence === -1
             case 'all':
                 return true
             case 'practice':
@@ -76,9 +79,17 @@ const AttendenceTable = ({ attendences, states, selectedDateFilter, selectedEven
 
     return(<>
         <StyledAttendenceTable>
-            {filteredAttendences.map((att) => {
+            {filteredAttendences.map((att, i) => {
+                let flags = {sameDay: false, diffWeek: false}
+                if(i > 0){
+                    let prevDate = new Date(filteredAttendences[i-1].Date)
+                    let curDate = new Date(att.Date)
+                    flags.sameDay = prevDate.getDate() === curDate.getDate() && prevDate.getMonth() === curDate.getMonth() && prevDate.getFullYear() === curDate.getFullYear()
+                    flags.diffWeek = getWeeknumber(prevDate) !== getWeeknumber(curDate)
+                }
+
                 return(
-                    <Event key={att.Location + att.Event_ID} att={att} states={states} oneAssociation={oneAssociation} theme={theme} />
+                    <Event key={att.Location + att.Event_ID} att={att} states={states} oneAssociation={oneAssociation} flags={flags} theme={theme} />
                 )})
             }
         </StyledAttendenceTable>
@@ -86,7 +97,7 @@ const AttendenceTable = ({ attendences, states, selectedDateFilter, selectedEven
     )
 }
 
-const Event = ({ att, states, oneAssociation, theme }) => {
+const Event = ({ att, states, oneAssociation, flags, theme }) => {
 
     // TODO: remove check for 'Abgesagt' on 01.01.2025
     let canceled = att.Type.includes('Abgesagt') || att.State === EVENT_STATE.CANCELED
@@ -105,12 +116,18 @@ const Event = ({ att, states, oneAssociation, theme }) => {
             await updateAttendence(att.Event_ID, attendence, !plusone)
             setPlusone(!plusone)
         }
-
     }
+
+    let classname = att.State === 0 ? 'event pending' : 'event'
+
+    if (flags.sameDay) 
+        classname += ' sameDay'
+    else if (flags.diffWeek)
+        classname += ' diffWeek'
 
     if (oneAssociation) {
         return(
-            <StyledEvent className='event' key={att.Location + att.Event_ID}>
+            <StyledEvent className={classname} key={att.Location + att.Event_ID}>
                 <DateField dateprops={att} />
                 <Terminzusage event={att} states={states} attendence={attendence} onClick={onClick} event_id={att.Event_ID} cancelled={canceled} theme={theme}/>
                 {att.Ev_PlusOne ? <PlusOne active={attendence === 1} plusOne={plusone} onClick={togglePlusOne} theme={theme} className="PlusOne" /> : <></>}
@@ -119,7 +136,7 @@ const Event = ({ att, states, oneAssociation, theme }) => {
     }
 
     return(
-        <StyledMultiEvent className='event' key={att.Location + att.Event_ID}>
+        <StyledMultiEvent className={classname} key={att.Location + att.Event_ID}>
             {associationLogo(att.Association_ID)}
             <DateField dateprops={att} />
             <Terminzusage event={att} states={states} attendence={attendence} onClick={onClick} event_id={att.Event_ID} cancelled={canceled} theme={theme}/>
