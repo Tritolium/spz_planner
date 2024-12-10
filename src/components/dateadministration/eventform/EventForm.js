@@ -149,7 +149,7 @@ const EventSelector = ({ events, onSelect, date_options, usergroups, onFilterCha
 
 const EventItem = ({ event, onSelect }) => {
 
-    let className = "pending"
+    let className
 
     const onClick = useCallback(() => {
         onSelect(event.Event_ID)
