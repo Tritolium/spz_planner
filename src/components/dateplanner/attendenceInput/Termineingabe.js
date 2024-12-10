@@ -29,7 +29,7 @@ const Termineingabe = ({fullname, theme}) => {
         }
 
         // if there are no attendences with attendence -1, use different event filter
-        if(_attendences.filter(attendence => attendence.Attendence === -1).length === 0){
+        if(_attendences?.filter(attendence => attendence.Attendence === -1).length === 0){
             setSelectedEventFilter('all')
             document.getElementById('eventSelect').value = 'all'
         }
