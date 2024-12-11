@@ -57,6 +57,9 @@ export const StyledAttendenceInput = styled.div`
     .LoadingSpinner {
         animation: spin 1s linear infinite;
 
+        height: 64px;
+        width: 64px;
+
         @keyframes spin {
             0% {transform: rotate(0deg);}
             100% {transform: rotate(360deg);}
