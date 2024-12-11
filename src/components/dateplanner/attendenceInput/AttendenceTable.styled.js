@@ -18,7 +18,7 @@ export const StyledAttendenceTable = styled.div`
 
 export const StyledEvent = styled.div`
     display: grid;
-    grid-template-columns: auto 64px 64px;
+    grid-template-columns: auto 64px min-content;
     align-items: center;
 
     border-top: 1px solid ${({theme}) => theme.primaryLight};
@@ -44,7 +44,7 @@ export const StyledEvent = styled.div`
         text-align: center;
     }
 
-    .Terminzusage {
+    .AttendenceInput {
         grid-column-start: 2;
         grid-row-start: 1;
         grid-row-end: 4;
@@ -61,7 +61,7 @@ export const StyledEvent = styled.div`
 
 export const StyledMultiEvent = styled.div`
     display: grid;
-    grid-template-columns: auto auto [icon1 icon1];
+    grid-template-columns: min-content auto 64px min-content;
     align-items: center;
 
     border-top: 1px solid ${({theme}) => theme.primaryLight};
@@ -95,7 +95,7 @@ export const StyledMultiEvent = styled.div`
         text-align: center;
     }
 
-    .Terminzusage {
+    .AttendenceInput {
         grid-column-start: 3;
         grid-row-start: 1;
         grid-row-end: 4;

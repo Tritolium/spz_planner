@@ -4,12 +4,7 @@ import { getAttendences } from '../../../modules/data/DBConnect'
 
 const AttendenceTable = lazy(() => import('./AttendenceTable'))
 
-const Termineingabe = ({fullname, theme}) => {
-
-    /**
-     * constant, maybe switch to fetch from server
-     */
-    const ATTENDENCE_STATES = 3
+const Termineingabe = ({theme}) => {
 
     /**
      * fetched from server
@@ -67,7 +62,7 @@ const Termineingabe = ({fullname, theme}) => {
                 </select>
             </div>
             <Suspense fallback={<div>Tabelle lädt.</div>}>
-                <AttendenceTable attendences={attendences} states={ATTENDENCE_STATES} selectedDateFilter={selectedDateFilter} selectedEventFilter={selectedEventFilter} theme={theme}/>
+                <AttendenceTable attendences={attendences} selectedDateFilter={selectedDateFilter} selectedEventFilter={selectedEventFilter} theme={theme}/>
             </Suspense>
         </Form>
     )
