@@ -15,6 +15,12 @@
                         "changes": [
                             "Button hinzugefügt, mit dem ein neues Passwort angefordert werden kann"
                         ]
+                    },
+                    {
+                        "page": "Startseite",
+                        "changes": [
+                            "Das Wetter wird für Termine in den nächsten 48 Stunden auf 15 Minuten genau angezeigt"
+                        ]
                     }
                 ]
             }
