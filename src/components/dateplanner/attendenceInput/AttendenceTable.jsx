@@ -1,5 +1,4 @@
 import DateField from './DateField'
-import Terminzusage from './Terminzusage'
 import PlusOne from '../../../modules/components/icons/PlusOne'
 
 import four from '../4.png'
@@ -9,6 +8,7 @@ import { updateAttendence } from '../../../modules/data/DBConnect'
 import { StyledAttendenceTable, StyledEvent, StyledMultiEvent } from './AttendenceTable.styled'
 import { EVENT_STATE } from '../../dateadministration/eventform/EventForm'
 import { getWeeknumber } from '../../../modules/helper/DateFormat'
+import { AttendenceInput } from './AttendenceInput'
 
 const AttendenceTable = ({ attendences, states, selectedDateFilter, selectedEventFilter, theme}) => {
 
@@ -97,18 +97,14 @@ const AttendenceTable = ({ attendences, states, selectedDateFilter, selectedEven
     )
 }
 
-const Event = ({ att, states, oneAssociation, flags, theme }) => {
-
-    // TODO: remove check for 'Abgesagt' on 01.01.2025
-    let canceled = att.Type.includes('Abgesagt') || att.State === EVENT_STATE.CANCELED
+const Event = ({ att, oneAssociation, flags, theme }) => {
 
     const [plusone, setPlusone] = useState(att.PlusOne)
     const [attendence, setAttendence] = useState(att.Attendence)
 
-    const onClick = async () => {
-        let newAttendence = (attendence + 1) % states
-        await updateAttendence(att.Event_ID, newAttendence, plusone)
-        setAttendence(newAttendence)
+    const onClick = async (event_id, new_att) => {
+        await updateAttendence(event_id, new_att, plusone)
+        setAttendence(new_att)
     }
 
     const togglePlusOne = async () => {
@@ -129,7 +125,7 @@ const Event = ({ att, states, oneAssociation, flags, theme }) => {
         return(
             <StyledEvent className={classname} key={att.Location + att.Event_ID}>
                 <DateField dateprops={att} />
-                <Terminzusage event={att} states={states} attendence={attendence} onClick={onClick} event_id={att.Event_ID} cancelled={canceled} theme={theme}/>
+                <AttendenceInput event={att} attendence={attendence} onClick={onClick} theme={theme}/>
                 {att.Ev_PlusOne ? <PlusOne active={attendence === 1} plusOne={plusone} onClick={togglePlusOne} theme={theme} className="PlusOne" /> : <></>}
             </StyledEvent>
         )
@@ -139,7 +135,7 @@ const Event = ({ att, states, oneAssociation, flags, theme }) => {
         <StyledMultiEvent className={classname} key={att.Location + att.Event_ID}>
             {associationLogo(att.Association_ID)}
             <DateField dateprops={att} />
-            <Terminzusage event={att} states={states} attendence={attendence} onClick={onClick} event_id={att.Event_ID} cancelled={canceled} theme={theme}/>
+            <AttendenceInput event={att} attendence={attendence} onClick={onClick} theme={theme}/>
             {att.Ev_PlusOne ? <PlusOne active={attendence === 1} plusOne={plusone} onClick={togglePlusOne} theme={theme} className="PlusOne" /> : <></>}
         </StyledMultiEvent>
     )

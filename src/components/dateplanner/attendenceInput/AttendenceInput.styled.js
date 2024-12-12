@@ -46,10 +46,19 @@ export const StyledAttendenceInput = styled.div`
         :nth-child(1) {
             z-index: 3;
         }
+
+        .IconWrapper {
+            position: absolute;
+            height: 64px;
+            width: 64px;
+        }
     }
 
     .LoadingSpinner {
         animation: spin 1s linear infinite;
+
+        height: 64px;
+        width: 64px;
 
         @keyframes spin {
             0% {transform: rotate(0deg);}
