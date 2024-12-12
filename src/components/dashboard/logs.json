@@ -2,6 +2,17 @@
     "v0": {
         "16": [
             {
+                "patch": 1,
+                "entries":[
+                    {
+                        "page": "Startseite, Anwesenheiten",
+                        "changes": [
+                            "Abmeldungen sind nur bis zu einer bestimmten Zeit vor jedem Termin möglich. Anmeldungen sind bis zum Beginn des Termins möglich."
+                        ]
+                    }
+                ]
+            },
+            {
                 "patch": 0,
                 "entries":[
                     {
