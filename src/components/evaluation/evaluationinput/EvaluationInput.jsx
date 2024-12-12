@@ -7,7 +7,6 @@ import SelectorItem from "../../../modules/components/form/SelectorItem"
 import Button from "../../../modules/components/button/Button"
 import Form from "../../../modules/components/form/Form"
 import { Table } from "../../../modules/components/overview/Table"
-import { Zusage } from "../../dateplanner/overview/Overview"
 import { StyledEvaluationInput } from "./EvaluationInput.styled"
 import { Check, DeniedCheck, Deny, Noshow, Unregistered } from "../../dateplanner/attendenceInput/Terminzusage"
 import { hasPermission } from "../../../modules/helper/Permissions"
@@ -119,58 +118,88 @@ const EventItem = ({ event, onSelect }) => {
 }
 
 const DetailForm = ({ event, reload, theme }) => {
-	const [attendence, setAttendence] = useState(new Array(0))
-	const [evaluated, setEvaluated] = useState({})
+    const [userResponse, setUserResponse] = useState(new Array(0))
+    const [predicted, setPredicted] = useState(new Array(0))
 
-	const getAttendenceByEvent = useCallback(async () => {
+    const fetchUserResponse = useCallback(async () => {
         if(event === undefined)
             return
-		fetch(`${host}/api/v0/attendenceeval/${event?.Event_ID}?api_token=${localStorage.getItem('api_token')}`)
-		.then(res => res.json())
-		.then(data => {
-			setAttendence(data)
-			let evaluation = {}
-			for(let member of data){
-				switch(member.Attendence){
-				default:
-				case -1:	//no response
-					evaluation[member.Member_ID] = 0	//unregistered
-					break
-				case 0:		//denied
-					evaluation[member.Member_ID] = 2	//not present
-					break
-				case 1:		//accepted
-					evaluation[member.Member_ID] = 3	//present
-					break
-				case 2:		//maybe
-					evaluation[member.Member_ID] = 2	//not present
-					break
-				}
-			}
-			setEvaluated(evaluation)
-		})
-	}, [event])
+        fetch(`${host}/api/v0/attendenceeval/${event?.Event_ID}?api_token=${localStorage.getItem('api_token')}`)
+        .then(res => res.json())
+        .then(data => {
+            setUserResponse(data)
 
-	const onClick = useCallback((member_id, attendence) => {
-		let evaluation = {...evaluated}
-		evaluation[member_id] = attendence
-		setEvaluated(evaluation)
-	}, [evaluated])
+            let prediction = {}
 
-    useEffect(() => {
-        getAttendenceByEvent()
-    }, [getAttendenceByEvent])
+            for(let member of data){
+                if (member.Attendence === -1) {
+                    switch(member.Prediction){
+                    default:
+                    case 0: // prob attending
+                        prediction[member.Member_ID] = 1
+                        break
+                    case 1: // prob not attending
+                    case 2: // prob declined
+                        prediction[member.Member_ID] = 0
+                        break
+                    }
+                } else {
+                    prediction[member.Member_ID] = member.Attendence % 2
+                }
+            }
+            
+            setPredicted(prediction)
+        })
+    }, [event])
 
-    const cancel = async (e) => {
-        e.preventDefault()
-        reload()
-    }
+    const onClick = useCallback((member_id, attendence) => {
+        let prediction = {...predicted}
+
+        prediction[member_id] = attendence
+        setPredicted(prediction)
+    }, [predicted])
 
     const update = async (e) => {
         e.preventDefault()
+
+        let evaluation = {}
+        let member_id, prediction
+
+        for(let member of userResponse){
+            member_id = member.Member_ID
+            prediction = predicted[member_id]
+            switch(member.Attendence){
+            default:
+            case -1:                            //no response
+                if(prediction === 0)            //absent
+                    evaluation[member_id] = 0   //absent without notice
+                else
+                    evaluation[member_id] = 3   //attending
+                break
+            case 0:                             //declined
+                if(prediction === 0)            //absent
+                    evaluation[member_id] = 2   //absent with notice
+                else
+                    evaluation[member_id] = 4   //attending despite notice
+                break
+            case 1:                             //accepted
+                if(prediction === 0)            //absent
+                    evaluation[member_id] = 1   //absent despite acceptance
+                else
+                    evaluation[member_id] = 3   //attending
+                break
+            case 2:                             //maybe
+                if(prediction === 0)            //absent
+                    evaluation[member_id] = 2   //absent with notice
+                else
+                    evaluation[member_id] = 3   //attending
+                break
+            }
+        }
+
         fetch(`${host}/api/eval.php?event_id=${event?.Event_ID}&api_token=${localStorage.getItem('api_token')}`, {
             method: 'POST',
-            body: JSON.stringify(evaluated)
+            body: JSON.stringify(evaluation)
         })
         .then(response => {
             if(response.status === 200)
@@ -178,20 +207,29 @@ const DetailForm = ({ event, reload, theme }) => {
         })
     }
 
+    const cancel = async (e) => {
+        e.preventDefault()
+        reload()
+    }
+
+
+    useEffect(() => {
+        fetchUserResponse()
+    }, [fetchUserResponse])
+
     return (
         <Form id="evaluation_form">
-			{event?.Type} {event?.Location} {event?.Date}
-			<Table>
-				<thead>
-					<tr>
-						<th>Name</th>
-						<th>Angabe</th>
-						<th>Tatsächlich</th>
-					</tr>
-				</thead>
-				<tbody>
-					{
-						attendence
+            {event?.Type} {event?.Location} {event?.Date}
+            <Table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Anwesenheit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        userResponse
                         .sort((a, b) => {
                             if(a.Fullname.split(" ")[1] < b.Fullname.split(" ")[1])
                                 return -1
@@ -200,37 +238,14 @@ const DetailForm = ({ event, reload, theme }) => {
                             return 0
                         })
                         .map((attendence) => {
-							return(<tr key={`attendence_${attendence.Member_ID}`}>
-								<td>{attendence.Fullname}</td>
-								<td><Zusage attendence={attendence.Attendence} theme={theme}/></td>
-								<td><EvalButton member_id={attendence.Member_ID} attendence={evaluated[attendence.Member_ID]} callback={onClick} theme={theme}/></td>
-							</tr>)
-						})
-					}
-				</tbody>
-			</Table>
-            <Table>
-                <tbody>
-                    <tr>
-                        <td>Unabgemeldet gefehlt</td>
-                        <td><EvalButton attendence={0} callback={() => {}} theme={theme}/></td>
-                    </tr>
-                    <tr>
-                        <td>Angemeldet gefehlt</td>
-                        <td><EvalButton attendence={1} callback={() => {}} theme={theme}/></td>
-                    </tr>
-                    <tr>
-                        <td>Abgemeldet</td>
-                        <td><EvalButton attendence={2} callback={() => {}} theme={theme}/></td>
-                    </tr>
-                    <tr>
-                        <td>Anwesend</td>
-                        <td><EvalButton attendence={3} callback={() => {}} theme={theme}/></td>
-                    </tr>
-                    <tr>
-                        <td>Anwesend trotz Abmeldung</td>
-                        <td><EvalButton attendence={4} callback={() => {}} theme={theme}/></td>
-                    </tr>
+                            return(
+                                <tr key={`attendence_${attendence.Member_ID}`}>
+                                    <td>{attendence.Fullname}</td>
+                                    <td><EvalButtonNew member_id={attendence.Member_ID} attendence={predicted[attendence.Member_ID]} callback={onClick} theme={theme}/></td>
+                                </tr>
+                            )
+                        })
+                    }
                 </tbody>
             </Table>
             <div>
@@ -259,6 +274,21 @@ export const EvalButton = ({ member_id, attendence, callback, theme }) => {
         return(<Check callback={onClick} theme={theme}/>)
     case 4:
         return(<DeniedCheck callback={onClick}/>)
+    }
+}
+
+const EvalButtonNew = ({ member_id, attendence, callback, theme }) => {
+
+    const onClick = useCallback(() => {
+        callback(member_id, (attendence + 1) % 2)
+    }, [callback, member_id, attendence])
+
+    switch(attendence){
+    default:
+    case 0:
+        return(<Deny callback={onClick} theme={theme}/>)
+    case 1:
+        return(<Check callback={onClick} theme={theme}/>)
     }
 }
 
