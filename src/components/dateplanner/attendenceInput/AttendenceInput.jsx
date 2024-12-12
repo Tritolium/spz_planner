@@ -9,6 +9,12 @@ const ATTENDENCE_NO = 0
 const ATTENDENCE_YES = 1
 const ATTENDENCE_MAYBE = 2
 
+const aboutToStart = {
+    "event": 90,
+    "practice": 30,
+    "other": 60
+}
+
 export const AttendenceInput = ({ event, attendence, onClick, theme }) => {
     const [loading, setLoading] = useState(false)
     const [att, setAtt] = useState(attendence)
@@ -17,32 +23,32 @@ export const AttendenceInput = ({ event, attendence, onClick, theme }) => {
     // TODO: remove check for 'Abgesagt' on 01.01.2025
     const canceled = event?.Type.includes('Abgesagt') || event?.State === EVENT_STATE.CANCELED
 
-    const blocked = useCallback(() => {
-        let now = new Date()
+    const blocked = useCallback((new_att) => {
 
         if (event?.Date === null)
             return false
 
-        let eventDate = new Date(event?.Date)
-
         if(event?.Begin === null)
             return false
 
-        eventDate.setHours(event?.Begin.split(':')[0])
-        eventDate.setMinutes(event?.Begin.split(':')[1])
-
-        if(now.getTime() > eventDate.getTime()){
+        if(eventStarted(event)){
             alert("Du kannst deine Zusage nicht mehr ändern, da der Termin bereits begonnen hat. Solltest du vergessen haben abzusagen, schick bitte eine WhatsApp.")
             return true
         }
 
-        if (event?.Category === "event" && now.getTime() > eventDate.getTime() - 5400000){
-            alert("Du kannst deine Zusage nicht mehr ändern, da der Termin in weniger als 1,5 Stunden beginnt. Schick bitte eine WhatsApp zum An- oder Abmelden.")
-            return true
+        if (eventAboutToStart(event)) {
+            const alertMessage = "Du kannst deine Zusage nicht mehr ändern, da der Termin in Kürze beginnt. Schick bitte eine WhatsApp zum Abmelden.";
+            
+            if (att === ATTENDENCE_YES || 
+                (active && att === ATTENDENCE_NONE && new_att === ATTENDENCE_NO) || 
+                (active && att === ATTENDENCE_MAYBE && new_att === ATTENDENCE_NO)) {
+                alert(alertMessage);
+                return true;
+            }
         }
 
         return false
-    }, [event])
+    }, [event, att, active])
 
     const updateAttendence = useCallback(async (new_att) => {
 
@@ -51,7 +57,7 @@ export const AttendenceInput = ({ event, attendence, onClick, theme }) => {
             return
 
         // if the event has already started or is about to start, the attendence can't be changed
-        if(blocked())
+        if(blocked(new_att))
             return
 
         // toggle the active state
@@ -114,4 +120,20 @@ const Button = ({ attendence, callback, className, theme }) => {
     case ATTENDENCE_MAYBE:
         return(<Alert className={className} callback={callback} theme={theme}/>)
     }
+}
+
+const eventStarted = (event) => {
+    let now = new Date()
+    let eventDate = new Date(event?.Date)
+    eventDate.setHours(event?.Begin.split(':')[0])
+    eventDate.setMinutes(event?.Begin.split(':')[1])
+    return now.getTime() > eventDate.getTime()
+}
+
+const eventAboutToStart = (event) => {
+    let now = new Date()
+    let eventDate = new Date(event?.Date)
+    eventDate.setHours(event?.Begin.split(':')[0])
+    eventDate.setMinutes(event?.Begin.split(':')[1])
+    return now.getTime() > eventDate.getTime() - (aboutToStart[event?.Category] * 60000)
 }
