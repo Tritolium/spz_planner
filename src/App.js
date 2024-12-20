@@ -8,6 +8,7 @@ import { TbBellFilled, TbBellOff } from 'react-icons/tb';
 import Settings from './components/settings/Settings';
 import { notificationHelper } from './modules/helper/NotificationHelper';
 import { buttonPressed } from './modules/helper/Analytics';
+import { Weather } from './modules/components/weather/Weather';
 
 import('./App.css')
 
@@ -155,6 +156,7 @@ const App = () => {
         <ThemeProvider theme={theme}>
             <GlobalStyles />
             <StyledApp className="App">
+                {theme.weather ? <Weather /> : <></>}
                 <Burger open={open} setOpen={setOpen}/>
                 <Menu open={open} setOpen={setOpen} navigate={navigate} auth_level={auth_level} secure={secure.current}/>
                 {fullname !== "" ? <div id='Namefield'>
