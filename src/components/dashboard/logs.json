@@ -9,6 +9,12 @@
                         "changes": [
                             "Abmeldungen sind nur bis zu einer bestimmten Zeit vor jedem Termin möglich. Anmeldungen sind bis zum Beginn des Termins möglich."
                         ]
+                    },
+                    {
+                        "page": "Allgemein",
+                        "changes": [
+                            "Animation für aktuelles Wetter sowie Konfetti in der Karnevalssession hinzugefügt"
+                        ]
                     }
                 ]
             },
