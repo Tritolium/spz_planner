@@ -18,7 +18,8 @@ export const theme0 = {
     darkredRGB: 'rgb(123, 45, 38)',
     mobile: '530px',
     medium: '1007px',
-    pedro: false
+    pedro: false,
+    weather: false
 }
 
 export const theme1 = {
@@ -41,7 +42,8 @@ export const theme1 = {
     darkredRGB: 'rgb(123, 45, 38)',
     mobile: '530px',
     medium: '1007px',
-    pedro: false
+    pedro: false,
+    weather: false
 }
 
 export const theme2 = {
@@ -64,7 +66,8 @@ export const theme2 = {
     darkredRGB: 'rgb(113, 41, 30)',
     mobile: '530px',
     medium: '1007px',
-    pedro: false
+    pedro: false,
+    weather: false
 }
 
 export const theme3 = {
@@ -87,7 +90,8 @@ export const theme3 = {
     darkredRGB: 'rgb(88, 12, 31)',
     mobile: '530px',
     medium: '1007px',
-    pedro: false
+    pedro: false,
+    weather: false
 }
 
 export const theme4 = {
@@ -110,12 +114,14 @@ export const theme4 = {
     darkredRGB: 'rgb(123, 45, 38)',
     mobile: '530px',
     medium: '1007px',
-    pedro: false
+    pedro: false,
+    weather: false
 }
 
 export const theme5 = {
     ...theme1,
-    pedro: true
+    pedro: true,
+    weather: true
 }
 
 export const themes = [theme0, theme1, theme2, theme3, theme4, theme5]
