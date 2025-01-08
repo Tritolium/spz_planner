@@ -9,6 +9,12 @@
                         "changes": [
                             "Eingabe der Anwesenheit an die Startseite angepasst, um die Bedienung zu erleichtern"
                         ]
+                    },
+                    {
+                        "page": "Login",
+                        "changes": [
+                            "Button hinzugefügt, mit dem ein neues Passwort angefordert werden kann"
+                        ]
                     }
                 ]
             }
