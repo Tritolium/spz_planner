@@ -71,8 +71,7 @@ const AttendenceTable = ({ attendences, states, selectedDateFilter, selectedEven
             }
         })
         .filter(attendence => {
-            // TODO: remove check for 'Abgesagt' on 01.01.2025
-            return !attendence.Type.includes('Abgesagt') && attendence.State !== EVENT_STATE.CANCELED
+            return attendence.State !== EVENT_STATE.CANCELED
         })
         setFilteredAttendences(filtered)
     }, [attendences, selectedDateFilter, selectedEventFilter])
