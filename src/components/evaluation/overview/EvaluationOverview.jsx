@@ -118,8 +118,8 @@ const OverviewTable = ({ evaluations, filterFrom, filterTo, category, theme }) =
                         return date >= from && date <= to
                     }
                     return true
-                }) // TODO: remove check for 'Abgesagt' on 01.01.2025
-                .filter((evaluation) => evaluation.Type.includes("Abgesagt") === false && evaluation.State !== EVENT_STATE.CANCELED)
+                })
+                .filter((evaluation) => evaluation.State !== EVENT_STATE.CANCELED)
                 .filter((evaluation) => evaluation.Category === category || category === "all")
                 .map((evaluation) => {
                     return <EvaluationRow key={`evaluation_${evaluation.Type}_${evaluation.Date}`} evaluation={evaluation}/>

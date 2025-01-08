@@ -20,8 +20,7 @@ export const AttendenceInput = ({ event, attendence, onClick, theme }) => {
     const [att, setAtt] = useState(attendence)
     const [active, setActive] = useState(false)
 
-    // TODO: remove check for 'Abgesagt' on 01.01.2025
-    const canceled = event?.Type.includes('Abgesagt') || event?.State === EVENT_STATE.CANCELED
+    const canceled = event?.State === EVENT_STATE.CANCELED
 
     const blocked = useCallback((new_att) => {
 

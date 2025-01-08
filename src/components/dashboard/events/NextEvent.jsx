@@ -78,8 +78,7 @@ const NextEvent = ({ nextEventID, auth_level, showEventInfo, practice=false, the
         return () => clearInterval(interval);
       }, [updateEventEval, updateWeather]);
 
-    // TODO: remove check for 'Abgesagt' on 01.01.2025
-    if (nextEvent?.Type.includes('Abgesagt') || nextEvent?.State === EVENT_STATE.CANCELED) {
+    if (nextEvent?.State === EVENT_STATE.CANCELED) {
         className = "CanceledEvent"
     }
 
