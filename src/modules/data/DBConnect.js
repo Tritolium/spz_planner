@@ -68,7 +68,7 @@ const login = async (name, pwhash, version) => {
 
     let displayMode = getDisplayMode()
     let device_id = await getDeviceID()
-    console.log("login", device_id)
+    let preferences = await getDevicePreferences()
 
     let response = await fetch(`${host}/api/login.php?mode=login`, {
         method: "POST",
@@ -80,7 +80,8 @@ const login = async (name, pwhash, version) => {
             Engine: navigator.userAgent.match(/([A-Z][a-z]*)+\/\d+[.\d+]*/g).toString(),
             Device: navigator.userAgent.match(/(\([^(]+(\n[^(]+)*\))/g)[0],
             Dimension: `${window.innerWidth}x${window.innerHeight}`,
-            DeviceUUID: device_id
+            DeviceUUID: device_id,
+            Preferences: preferences
         })
     })
     switch(response.status) {
