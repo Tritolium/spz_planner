@@ -20,6 +20,12 @@ const StyledLogin = styled.form`
         width: max-content;
         margin: 1px;
     }
+
+    #pwreq {
+        background-color: ${props => props.theme.primaryDark};
+        color: ${props => props.theme.primaryHover};
+        border: none;
+    }
 `
 
 export default StyledLogin
