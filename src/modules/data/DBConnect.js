@@ -892,7 +892,7 @@ export const getWeather = async (nextEvent) => {
     let temperature, weathercode
     let interval = "hourly"
     let hour = nextEvent.Begin === null ? 12 : parseInt(nextEvent.Begin.slice(0,2))
-    let quarter = Math.round(parseInt(nextEvent.Begin.slice(3,5)) / 15)
+    let quarter = nextEvent.Begin === null ? 0 : Math.round(parseInt(nextEvent.Begin.slice(3,5)) / 15)
 
     // check if the event is in the next 48 hours
     let now = new Date()
