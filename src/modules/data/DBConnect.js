@@ -889,7 +889,24 @@ export const getAssociations = async () => {
 }
 
 export const getWeather = async (nextEvent) => {
+    let temperature, weathercode
+    let interval = "hourly"
     let hour = nextEvent.Begin === null ? 12 : parseInt(nextEvent.Begin.slice(0,2))
+    let quarter = nextEvent.Begin === null ? 0 : Math.round(parseInt(nextEvent.Begin.slice(3,5)) / 15)
+
+    // check if the event is in the next 48 hours
+    let now = new Date()
+    let eventDate = new Date(nextEvent.Date)
+    eventDate.setHours(hour)
+    eventDate.setMinutes(quarter * 15)
+
+    // check if the event is in the past, allow for 15 minutes of delay
+    if(eventDate.getTime() - now.getTime() < -900000)
+        return
+
+    if(eventDate.getTime() - now.getTime() < 172800000) // event is less than 48 hours in the future
+        interval = "minutely_15" // get weather with higher resolution
+
     let geo
     if(nextEvent.Address !== "")
         geo = await maptilerClient.geocoding.forward(nextEvent.Address)
@@ -899,11 +916,20 @@ export const getWeather = async (nextEvent) => {
     if (geo.features.length === 0)
         return
     
-    let response = await fetch(`https://api.open-meteo.com/v1/dwd-icon?latitude=${geo.features[0].center[1]}&longitude=${geo.features[0].center[0]}&hourly=apparent_temperature,weathercode&start_date=${nextEvent.Date}&end_date=${nextEvent.Date}&timezone=CET`)
+    let response = await fetch(`https://api.open-meteo.com/v1/dwd-icon?latitude=${geo.features[0].center[1]}&longitude=${geo.features[0].center[0]}&${interval}=apparent_temperature,weathercode&start_date=${nextEvent.Date}&end_date=${nextEvent.Date}&timezone=CET`)
     let json = await response.json()
+
+    if(interval === "minutely_15"){
+        temperature = json.minutely_15.apparent_temperature[hour * 4 + quarter]
+        weathercode = json.minutely_15.weathercode[hour * 4 + quarter]
+    } else {
+        temperature = json.hourly.apparent_temperature[hour]
+        weathercode = json.hourly.weathercode[hour]
+    }
+
     return({
-        "Temperature": json.hourly.apparent_temperature[hour],
-        "Weathercode": json.hourly.weathercode[hour]
+        "Temperature": temperature,
+        "Weathercode": weathercode
     })
 }
 

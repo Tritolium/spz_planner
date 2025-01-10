@@ -18,12 +18,13 @@ export const Weather = () => {
                 0: "clear",
                 36: "snow", 37: "snow", 38: "snow", 39: "snow",
                 70: "snow", 71: "snow", 72: "snow", 73: "snow", 74: "snow", 75: "snow",
-                85: "snow", 86: "snow",
+                76: "snow", 77: "snow", 78: "snow", 79: "snow", 85: "snow", 86: "snow",
                 50: "rain", 51: "rain", 52: "rain", 53: "rain", 54: "rain", 55: "rain",
                 56: "rain", 57: "rain", 58: "rain", 59: "rain", 60: "rain", 61: "rain",
                 62: "rain", 63: "rain", 64: "rain", 65: "rain", 66: "rain", 67: "rain",
                 68: "rain", 69: "rain", 80: "rain", 81: "rain", 82: "rain", 83: "rain", 84: "rain"
             };
+            console.log(data)
             setWeather(weatherMap[data.Weathercode] || "clear");
         })
     })
