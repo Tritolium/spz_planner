@@ -15,7 +15,7 @@ const Termineingabe = ({theme}) => {
      * local states
      */
     const [selectedDateFilter, setSelectedDateFilter] = useState('all')
-    const [selectedEventFilter, setSelectedEventFilter] = useState('pending')
+    const [selectedEventFilter, setSelectedEventFilter] = useState('all')
 
     const fetchEvents = async () => {
         let _attendences = await getAttendences()
@@ -47,8 +47,8 @@ const Termineingabe = ({theme}) => {
         <Form className="DateInput">
             <div className='EventFilter'>
                 <select name='eventSelect' id='eventSelect' title='event select' onChange={onEventFilterChange}>
-                    <option value='pending'>Ausstehend</option>
                     <option value='all'>Alle</option>
+                    <option value='pending'>Ausstehend</option>
                     <option value='practice'>Üben/Probe</option>
                     <option value='event'>Auftritt</option>
                     <option value='other'>Sonstige Termine</option>
