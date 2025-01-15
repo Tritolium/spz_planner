@@ -2,6 +2,17 @@
     "v0": {
         "16": [
             {
+                "patch": 2,
+                "entries":[
+                    {
+                        "page": "Anwesenheiten",
+                        "changes": [
+                            "Die Liste zeigt wieder standartmäßig alle Termine an. Die Auswahl für ausstehende Rückmeldungen ist weiterhin auswählbar."
+                        ]
+                    }
+                ]
+            },
+            {
                 "patch": 1,
                 "entries":[
                     {
