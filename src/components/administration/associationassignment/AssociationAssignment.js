@@ -84,6 +84,9 @@ const AssociationAssignEditor = ({ associations, member }) => {
     const save = useCallback((e) => {
         e.preventDefault()
 
+        if (member === undefined)
+            return
+
         let assignments = {}
 
         for (let i = 0; i < associations.length; i++) {
@@ -101,8 +104,9 @@ const AssociationAssignEditor = ({ associations, member }) => {
     useEffect(() => {
         for (let i = 0; i < associations.length; i++) {
             document.getElementById(`assign_${associations[i].Association_ID}`).checked = member?.Associations.find(assoc => assoc.Association_ID === associations[i].Association_ID).Assigned
-            document.getElementById(`instrument_${associations[i].Association_ID}`).value = member?.Associations.find(assoc => assoc.Association_ID === associations[i].Association_ID).Instrument
+            document.getElementById(`instrument_${associations[i].Association_ID}`).value = member?.Associations.find(assoc => assoc.Association_ID === associations[i].Association_ID).Instrument || ""
         }
+        document.getElementById('assignment_save').disabled = member === undefined
     }, [associations, member])
             
 
@@ -115,7 +119,7 @@ const AssociationAssignEditor = ({ associations, member }) => {
                     <input id={`instrument_${association.Association_ID}`} type="text" defaultValue={member?.Associations.find(assoc => assoc.Association_ID === association.Association_ID).Instrument}/>
                 </Fragment>)
             })}
-            <Button onClick={save}>Speichern</Button>
+            <Button id="assignment_save" onClick={save}>Speichern</Button>
         </Form>
     </>)
 }
