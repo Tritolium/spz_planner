@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react"
+import { Fragment, useCallback, useEffect } from "react"
 import { useState } from "react"
 import Button from "../../../modules/components/button/Button"
 import { getAssociationAssignments, getAssociations, host } from "../../../modules/data/DBConnect"
@@ -109,11 +109,11 @@ const AssociationAssignEditor = ({ associations, member }) => {
     return (<>
         <Form onSubmit={() => {}}>
             {associations.map(association => {
-                return (<>
+                return (<Fragment key={association.Association_ID}>
                     <label>{association.Title}</label>
                     <input id={`assign_${association.Association_ID}`} type="checkbox" defaultChecked={member?.Associations.find(assoc => assoc.Association_ID === association.Association_ID).Assigned}/>
                     <input id={`instrument_${association.Association_ID}`} type="text" defaultValue={member?.Associations.find(assoc => assoc.Association_ID === association.Association_ID).Instrument}/>
-                </>)
+                </Fragment>)
             })}
             <Button onClick={save}>Speichern</Button>
         </Form>
