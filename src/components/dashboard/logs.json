@@ -27,6 +27,12 @@
                         "changes": [
                             "Eingabe der tatsächlichen Anwesenheit vereinfacht"
                         ]
+                    },
+                    {
+                        "page": "Verwaltung",
+                        "changes": [
+                            "Zuordnung zu Vereinen überarbeitet. Zuordnung von Instrumenten ist jetzt pro Verein möglich, nicht mehr global."
+                        ]
                     }
                 ]
             }

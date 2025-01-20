@@ -81,7 +81,6 @@ const DetailForm = ({member, reload}) => {
         let surname = document.getElementById('surname').value
         let auth_level = document.getElementById('auth_level').options[document.getElementById('auth_level').selectedIndex].value
         let nicknames = document.getElementById('nicknames').value
-        let instrument = document.getElementById('instrument').value
         let birthdate = document.getElementById('birthdate').value
 
         if(member !== undefined)
@@ -93,8 +92,7 @@ const DetailForm = ({member, reload}) => {
                         Surname: surname,
                         Auth_level: auth_level,
                         Nicknames: nicknames,
-                        Birthdate: birthdate,
-                        Instrument: instrument
+                        Birthdate: birthdate
                     })
                 })                  
         else {
@@ -144,10 +142,6 @@ const DetailForm = ({member, reload}) => {
             <FormBox>
                 <label htmlFor="nicknames">Kurz:</label>
                 <input type="text" name="nicknames" id="nicknames" defaultValue={member?.Nicknames}/>
-            </FormBox>
-            <FormBox>
-                <label htmlFor="instrument">Instrument:</label>
-                <input type="text" name="instrument" id="instrument" defaultValue={member?.Instrument}/>
             </FormBox>
             <FormBox>
                 <label htmlFor="birthdate">Geburtstag:</label>
