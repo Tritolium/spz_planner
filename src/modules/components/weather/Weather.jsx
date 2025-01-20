@@ -24,7 +24,6 @@ export const Weather = () => {
                 62: "rain", 63: "rain", 64: "rain", 65: "rain", 66: "rain", 67: "rain",
                 68: "rain", 69: "rain", 80: "rain", 81: "rain", 82: "rain", 83: "rain", 84: "rain"
             };
-            console.log(data)
             setWeather(weatherMap[data.Weathercode] || "clear");
         })
     })
