@@ -67,9 +67,9 @@
     "workbox-webpack-plugin": "^7.3.0"
   },
   "scripts": {
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
-    "test": "node scripts/test.js",
+    "start": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
     "deploy": "node scripts/build.js && sudo cp -r ./build/* /var/www/html/",
     "remote-deploy": "node scripts/build.js && scp -r ./build/* pi@buzzer.dns.army:/home/pi/build/ && ssh pi@buzzer.dns.army 'sudo cp -r -u /home/pi/build/* /var/www/html/'",
     "publish": "node scripts/publish.js"
@@ -101,7 +101,9 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.49.1",
-    "@types/node": "^22.10.6"
+    "@types/node": "^22.10.6",
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^6.0.11"
   },
   "jest": {
     "roots": [
