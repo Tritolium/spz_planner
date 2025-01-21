@@ -26,6 +26,7 @@ jobs:
         env:
           REACT_APP_MAPTILER_API_KEY: ${{ secrets.MAPTILER_API_KEY }}
           REACT_APP_SERVICE_CELL: ${{ secrets.SERVICE_CELL }}
+          NODE_ENV: production
         
       - name: Upload Website files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5

@@ -19,8 +19,8 @@
     "use-state-with-callback": "^3.0.2"
   },
   "scripts": {
-    "start": "webpack-dev-server ./src",
-    "build": "webpack ./src",
+    "start": "NODE_ENV=development webpack-dev-server ./src",
+    "build": "NODE_ENV=production webpack ./src",
     "test": "echo \"Error: no test specified\" && exit 1",
     "publish": "node scripts/publish.js"
   },
