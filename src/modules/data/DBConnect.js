@@ -2,7 +2,7 @@ import * as maptilerClient from '@maptiler/client'
 import { version } from '../../App'
 import { getItem, setItem } from '../helper/IndexedDB'
 
-maptilerClient.config.apiKey = process.env.REACT_APP_MAPTILER_API_KEY
+maptilerClient.config.apiKey = process.env.MAPTILER_API_KEY
 
 export const host = (process.env.NODE_ENV !== 'production') ? 'http://localhost' : ''
 
