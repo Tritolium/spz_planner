@@ -2,7 +2,7 @@ import { useCallback } from "react"
 import StyledLogin from "./Login.styled"
 import { sha256 } from "js-sha256"
 
-const serviceCell = process.env.REACT_APP_SERVICE_CELL
+const serviceCell = process.env.VITE_SERVICE_CELL
 const text = "Hallo, ich habe mein Passwort vergessen. Kannst du es mir bitte zurücksetzen?"
 
 const Login = (props) => {

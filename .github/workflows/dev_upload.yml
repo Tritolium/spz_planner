@@ -65,8 +65,8 @@ jobs:
         run: npm ci
       - run: npm run build --if-present
         env:
-          REACT_APP_MAPTILER_API_KEY: ${{ secrets.MAPTILER_API_KEY }}
-          REACT_APP_SERVICE_CELL: ${{ secrets.SERVICE_CELL }}
+          VITE_MAPTILER_API_KEY: ${{ secrets.MAPTILER_API_KEY }}
+          VITE_SERVICE_CELL: ${{ secrets.SERVICE_CELL }}
       - name: Deploy to RPI
         uses: appleboy/scp-action@v0.1.7
         with:
