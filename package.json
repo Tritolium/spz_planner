@@ -29,12 +29,6 @@
     "remote-deploy": "node scripts/build.js && scp -r ./build/* pi@buzzer.dns.army:/home/pi/build/ && ssh pi@buzzer.dns.army 'sudo cp -r -u /home/pi/build/* /var/www/html/'",
     "publish": "node scripts/publish.js"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.5% in DE",
@@ -61,7 +55,7 @@
     "@types/node": "^22.10.6",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^8.57.1",
-    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-react": "^7.37.4",
     "jest": "^29.7.0",
     "jest-watch-typeahead": "^2.2.2",
     "vite": "^6.0.11"
