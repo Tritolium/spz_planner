@@ -9,7 +9,7 @@
 
 import { clientsClaim } from 'workbox-core';
 import { ExpirationPlugin } from 'workbox-expiration';
-import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
+import { precacheAndRoute, cleanupOutdatedCaches } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { StaleWhileRevalidate, NetworkFirst, CacheFirst, Strategy } from 'workbox-strategies';
 
@@ -32,6 +32,8 @@ class CacheNetworkRace extends Strategy {
       })
   }
 }
+
+cleanupOutdatedCaches();
 
 clientsClaim();
 
