@@ -2,9 +2,9 @@ import * as maptilerClient from '@maptiler/client'
 import { version } from '../../App'
 import { getItem, setItem } from '../helper/IndexedDB'
 
-maptilerClient.config.apiKey = process.env.REACT_APP_MAPTILER_API_KEY
+maptilerClient.config.apiKey = import.meta.env.VITE_MAPTILER_API_KEY
 
-export const host = (process.env.NODE_ENV !== 'production') ? 'http://localhost' : ''
+export const host = (import.meta.env.MODE !== 'production') ? 'http://localhost' : ''
 
 export const getDisplayMode = () => {
     let displayMode = 'browser tab'

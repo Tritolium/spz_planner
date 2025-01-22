@@ -5,7 +5,7 @@ import { IconContext } from "react-icons"
 import { useCallback, useEffect } from "react"
 import { useStateWithCallbackLazy } from 'use-state-with-callback'
 
-export const host = (process.env.NODE_ENV !== 'production') ? 'http://localhost' : ''
+export const host = (import.meta.env.MODE !== 'production') ? 'http://localhost' : ''
 
 const EventInfo = ({ hideEventInfo, eventInfoData, fullname }) => {
 
