@@ -17,7 +17,6 @@
     "web-vitals": "^4.2.4",
     "workbox-core": "^7.0.0",
     "workbox-expiration": "^7.0.0",
-    "workbox-precaching": "^7.0.0",
     "workbox-routing": "^7.0.0",
     "workbox-strategies": "^7.0.0"
   },
@@ -58,7 +57,10 @@
     "eslint-plugin-react": "^7.37.4",
     "jest": "^29.7.0",
     "jest-watch-typeahead": "^2.2.2",
-    "vite": "^6.0.11"
+    "vite": "^6.0.11",
+    "vite-plugin-pwa": "^0.21.1",
+    "workbox-precaching": "^7.3.0",
+    "workbox-window": "^7.3.0"
   },
   "jest": {
     "roots": [

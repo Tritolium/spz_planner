@@ -27,3 +27,5 @@ yarn-error.log*
 /playwright/.cache/
 
 .env.development.local
+
+/dev-dist/
