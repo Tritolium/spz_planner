@@ -38,6 +38,10 @@ const AssociationAssignment = () => {
             })
     }, [])
 
+    const onAssigned = useCallback(() => {
+        fetchAssociationassignment()
+    }, [])
+
     const onSelect = useCallback((id) => {
         setSelected(id)
     }, [])
@@ -50,7 +54,7 @@ const AssociationAssignment = () => {
 
     return(<StyledAssociationAssignment>
         <MemberSelector members={members} onSelect={onSelect} selected={selected} />
-        <AssociationAssignEditor associations={associations} member={associationassignment.find(member => member.Member_ID === selected)}/>
+        <AssociationAssignEditor associations={associations} member={associationassignment.find(member => member.Member_ID === selected)} callback={onAssigned}/>
     </StyledAssociationAssignment>)
 }
 
@@ -79,7 +83,7 @@ const MemberItem = ({ member, onSelect, selected }) => {
     )
 }
 
-const AssociationAssignEditor = ({ associations, member }) => {
+const AssociationAssignEditor = ({ associations, member, callback }) => {
 
     const save = useCallback((e) => {
         e.preventDefault()
@@ -98,6 +102,9 @@ const AssociationAssignEditor = ({ associations, member }) => {
         fetch(`${host}/api/v0/member/${member.Member_ID}/associationassignment?api_token=${localStorage.getItem('api_token')}`, {
             method: 'PUT',
             body: JSON.stringify(assignments)
+        }).then(response => {
+            if(response.ok)
+                callback()
         })
     }, [associations, member])
 
