@@ -194,7 +194,7 @@ const EvalRow = ({ event, attendences, instruments, theme }) => {
             <td>{event.Missing}</td>
             <td>{event.Maybe}</td>
             {instruments.map(instrument => {
-                let attending, prob, maybe, refused
+                let attending, prob, maybe
                 attending = attendingInstruments[instrument] ? attendingInstruments[instrument] : 0
                 prob = probAttendingInstruments[instrument] ? probAttendingInstruments[instrument] : 0
                 return(<td key={instrument}>{attending} ({prob}) {maybe}</td>)
