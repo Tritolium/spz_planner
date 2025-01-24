@@ -155,6 +155,9 @@ const EvalRow = ({ event, attendences, instruments, theme }) => {
             _attendences = attendences?.filter(att => att.Attendence === attendence && att.Prediction === 0)
         else
             _attendences = attendences?.filter(att => att.Attendence === attendence)
+        
+        if (_attendences === undefined)
+            return {}
 
         for(let attendee of _attendences){
             if(attendee.Instrument === ""){
