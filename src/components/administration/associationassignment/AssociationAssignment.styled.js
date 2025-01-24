@@ -5,6 +5,7 @@ export const StyledAssociationAssignment = styled.div`
     grid-template-columns: auto auto;
     align-items: start;
     position: relative;
+    justify-content: start;
 
     button {
         width: fit-content;
