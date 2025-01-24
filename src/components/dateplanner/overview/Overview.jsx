@@ -147,6 +147,7 @@ const EvalTable = ({evaluation, attendences, theme}) => {
 const EvalRow = ({ event, attendences, instruments, theme }) => {
     const [attendingInstruments, setAttendingInstruments] = useState({})
     const [probAttendingInstruments, setProbAttendingInstruments] = useState({})
+    const [maybeAttendingInstruments, setMaybeAttendingInstruments] = useState({})
 
     const getInstruments = (attendences, attendence) => {
         let _instruments = {}
@@ -183,6 +184,7 @@ const EvalRow = ({ event, attendences, instruments, theme }) => {
             return
         setProbAttendingInstruments(getInstruments(attendences, -1))
         setAttendingInstruments(getInstruments(attendences, 1))
+        setMaybeAttendingInstruments(getInstruments(attendences, 2))
     }, [attendences])
 
     return(
@@ -197,11 +199,25 @@ const EvalRow = ({ event, attendences, instruments, theme }) => {
                 let attending, prob, maybe
                 attending = attendingInstruments[instrument] ? attendingInstruments[instrument] : 0
                 prob = probAttendingInstruments[instrument] ? probAttendingInstruments[instrument] : 0
-                return(<td key={instrument}>{attending} ({prob}) {maybe}</td>)
+                maybe = maybeAttendingInstruments[instrument] ? maybeAttendingInstruments[instrument] : 0
+                return(<InstrumentEvalTD key={instrument} attending={attending} prob={prob} maybe={maybe}/>)
             })}
             <EvalDiagram event={event} theme={theme}/>
         </tr>
     )
+}
+
+const InstrumentEvalTD = ({ attending, prob, maybe}) => {
+    let inner = ""
+
+    if(attending > 0)
+        inner += attending
+    if(prob > 0)
+        inner += ` (${prob})`
+    if(maybe > 0)
+        inner += ` [${maybe}]`
+
+    return(<td>{inner}</td>)
 }
 
 export default Overview
