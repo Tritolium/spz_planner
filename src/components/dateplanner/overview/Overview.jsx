@@ -9,6 +9,8 @@ import { Alert, Blank, Check, Deny, PlusOne } from "../attendenceInput/Terminzus
 import { IoReload } from "react-icons/io5"
 import { OverviewTable } from "./OverviewTable"
 import { hasPermission } from "../../../modules/helper/Permissions"
+import { ImSpinner10 } from "react-icons/im"
+import pedro from "../../../modules/img/racoon.gif"
 
 const Overview = ({ theme }) => {
 
@@ -18,6 +20,8 @@ const Overview = ({ theme }) => {
     const [attendences, setAttendences] = useState(new Array(0))
     const [evaluation, setEvaluation] = useState(new Array(0))
 
+    const [loading, setLoading] = useState(false)
+
     const fetchUsergroups = async () => {
         let _usergroups = await getOwnUsergroups()
         _usergroups = _usergroups.filter(usergroup => hasPermission(7, usergroup.Association_ID))
@@ -25,8 +29,10 @@ const Overview = ({ theme }) => {
     }
 
     const fetchAttendences = useCallback(async () => {
+        setLoading(true)
         let _attendences = await getAllAttendences(selectedUsergroup_ID)
         setAttendences(_attendences)
+        setLoading(false)
     }, [selectedUsergroup_ID])
 
     const fetchEval = useCallback(async () => {
@@ -55,14 +61,15 @@ const Overview = ({ theme }) => {
         setSelectedUsergroup_ID(usergroups[0]?.Usergroup_ID)
     }, [usergroups])
 
-    if(attendences.length === 0){
-        return(
+    if(attendences.length === 0 || loading){
+        return(<StyledOverview>
             <select name="usergroup" id="usergroup_select" onChange={onUsergroupChange}>
                 {usergroups.map((usergroup, index) => {
                     return(<option key={index} value={usergroup.Usergroup_ID}>{usergroup.Title}</option>)
                 })}
             </select>
-        )
+            {loading ? theme.pedro ? <img src={pedro} className="pedro" alt="Loading" /> : <ImSpinner10 className="spinner"/> : <></>}
+        </StyledOverview>)
     } else {
         return(
             <StyledOverview>
@@ -75,7 +82,7 @@ const Overview = ({ theme }) => {
                     <IoReload onClick={reload}/>
                 </div>
                 <OverviewTable attendences={attendences} theme={theme}/>
-                <EvalTable evaluation={evaluation} theme={theme}/>
+                <EvalTable evaluation={evaluation} attendences={attendences} theme={theme}/>
             </StyledOverview>
         )
     }
@@ -99,7 +106,21 @@ export const Zusage = ({attendence, plusone, theme, prediction}) => {
 
 
 
-const EvalTable = ({evaluation, theme}) => {
+const EvalTable = ({evaluation, attendences, theme}) => {
+
+    const [instruments, setInstruments] = useState(new Array(0))
+
+    useEffect(() => {
+        let _instruments = new Set()
+        attendences[0].Attendences.forEach(attendence => {
+            if(attendence.Instrument === "")
+                _instruments.add("Unbekannt")
+            else
+                _instruments.add(attendence.Instrument)
+        })
+        setInstruments(Array.from(_instruments).sort())
+    }, [attendences])
+
     return(
         <StyledEvalTable>
             <thead>
@@ -109,27 +130,61 @@ const EvalTable = ({evaluation, theme}) => {
                     <th>Ab.</th>
                     <th>Aus.</th>
                     <th>Vllt.</th>
-                    <th>M</th>
-                    <th>S</th>
-                    <th>A</th>
-                    <th>D</th>
-                    <th>T</th>
-                    <th>L</th>
-                    <th>Tr</th>
-                    <th>B</th>
-                    <th>P</th>
+                    {instruments.map(instrument => {
+                        return(<th key={instrument}>{instrument}</th>)
+                    })}
                 </tr>
             </thead>
             <tbody>
                 {evaluation.map(event => {
-                    return(<EvalRow event={event} key={`eval_${event.Event_ID}`} theme={theme}/>)
+                    return(<EvalRow event={event} attendences={attendences.find(att => att.Event_ID === event.Event_ID)?.Attendences} instruments={instruments} key={`eval_${event.Event_ID}`} theme={theme}/>)
                 })}
             </tbody>
         </StyledEvalTable>
     )
 }
 
-const EvalRow = ({ event, theme }) => {
+const EvalRow = ({ event, attendences, instruments, theme }) => {
+    const [attendingInstruments, setAttendingInstruments] = useState({})
+    const [probAttendingInstruments, setProbAttendingInstruments] = useState({})
+
+    const getInstruments = (attendences, attendence) => {
+        let _instruments = {}
+        let _attendences = []
+        if (attendence === -1)
+            _attendences = attendences?.filter(att => att.Attendence === attendence && att.Prediction === 0)
+        else
+            _attendences = attendences?.filter(att => att.Attendence === attendence)
+        
+        if (_attendences === undefined)
+            return {}
+
+        for(let attendee of _attendences){
+            if(attendee.Instrument === ""){
+                if (_instruments["Unbekannt"] === undefined){                        
+                    _instruments["Unbekannt"] = 1
+                } else {
+                    _instruments["Unbekannt"]++
+                }
+                continue
+            }
+
+            if (_instruments[attendee.Instrument] === undefined){
+                _instruments[attendee.Instrument] = 1
+            } else {
+                _instruments[attendee.Instrument]++
+            }
+        }
+        return _instruments
+    }
+
+    useEffect(() => {
+        if (attendences === undefined)
+            return
+        setProbAttendingInstruments(getInstruments(attendences, -1))
+        setAttendingInstruments(getInstruments(attendences, 1))
+    }, [attendences])
+
     return(
         <tr>
             <td><DateField dateprops={event} /></td>
@@ -138,15 +193,12 @@ const EvalRow = ({ event, theme }) => {
             <td>{event.Refusal}</td>
             <td>{event.Missing}</td>
             <td>{event.Maybe}</td>
-            <td>{event.Instruments.Major}</td>
-            <td>{event.Instruments.Sopran}</td>
-            <td>{event.Instruments.Diskant}</td>
-            <td>{event.Instruments.Alt}</td>
-            <td>{event.Instruments.Tenor}</td>
-            <td>{event.Instruments.Lyra}</td>
-            <td>{event.Instruments.Trommel}</td>
-            <td>{event.Instruments.Becken}</td>
-            <td>{event.Instruments.Pauke}</td>
+            {instruments.map(instrument => {
+                let attending, prob, maybe
+                attending = attendingInstruments[instrument] ? attendingInstruments[instrument] : 0
+                prob = probAttendingInstruments[instrument] ? probAttendingInstruments[instrument] : 0
+                return(<td key={instrument}>{attending} ({prob}) {maybe}</td>)
+            })}
             <EvalDiagram event={event} theme={theme}/>
         </tr>
     )

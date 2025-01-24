@@ -7,7 +7,8 @@
                     {
                         "page": "Anwesenheiten",
                         "changes": [
-                            "Eingabe der Anwesenheit an die Startseite angepasst, um die Bedienung zu erleichtern"
+                            "Eingabe der Anwesenheit an die Startseite angepasst, um die Bedienung zu erleichtern",
+                            "Die Übersicht der Instrumente ist jetzt variabel und lässt mehr Bezeichnungen zu. Auch die vermutete Anwesenheit wird jetzt angezeigt."
                         ]
                     },
                     {

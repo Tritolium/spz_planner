@@ -10,6 +10,30 @@ export const StyledOverview = styled.div`
     select {
         width: fit-content;
     }
+
+    .pedro {
+        width: 64px;
+        height: 64px;
+    }
+
+    .spinner {
+        animation: blink_icon 1s linear infinite;
+
+        height: 64px;
+        width: 64px;
+        padding: 1px;
+
+        @keyframes blink_icon {
+            0% {fill: white; transform: rotate(0deg);}
+            50% {fill: grey;}
+            100% {fill: white; transform: rotate(360deg);}
+        }
+
+        @keyframes rotate_icon {
+            0% {transform: rotate(0deg);}
+            100% {transform: rotate(360deg);}
+        }
+    }
 `
 
 export const StyledOverviewTable = styled.div`
