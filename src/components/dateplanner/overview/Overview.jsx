@@ -125,13 +125,13 @@ const EvalTable = ({evaluation, attendences, theme}) => {
         <StyledEvalTable>
             <thead>
                 <tr>
-                    <th>Termin</th>
-                    <th colSpan={2}>Zu.</th>
-                    <th>Ab.</th>
-                    <th>Aus.</th>
-                    <th>Vllt.</th>
+                    <th className="Header">Termin</th>
+                    <th className="Header" colSpan={2}>Zu.</th>
+                    <th className="Header">Ab.</th>
+                    <th className="Header">Aus.</th>
+                    <th className="Header">Vllt.</th>
                     {instruments.map(instrument => {
-                        return(<th key={instrument}>{instrument}</th>)
+                        return(<th className="Header" key={instrument}>{instrument}</th>)
                     })}
                 </tr>
             </thead>

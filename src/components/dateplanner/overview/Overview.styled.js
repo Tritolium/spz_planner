@@ -143,6 +143,13 @@ export const StyledEvalTable = styled.table`
         }
     }
 
+    .Header {
+        position: sticky;
+        top: 0;
+        z-index: 8;
+        background-color: ${({ theme }) => theme.primaryDark};
+    }
+
     @media (max-width: ${({ theme }) => theme.mobile}) {
         thead, td {
             display: none;
