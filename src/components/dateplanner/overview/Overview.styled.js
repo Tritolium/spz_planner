@@ -150,6 +150,22 @@ export const StyledEvalTable = styled.table`
         background-color: ${({ theme }) => theme.primaryDark};
     }
 
+    .okay {
+        color: ${({ theme }) => theme.green};
+    }
+
+    .prob {
+        color: ${({ theme }) => theme.lightgreen};
+    }
+
+    .warning {
+        color: ${({ theme }) => theme.yellow};
+    }
+
+    .critical {
+        color: ${({ theme }) => theme.red};
+    }
+
     @media (max-width: ${({ theme }) => theme.mobile}) {
         thead, td {
             display: none;
