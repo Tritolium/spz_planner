@@ -29,10 +29,8 @@ const Overview = ({ theme }) => {
     }
 
     const fetchAttendences = useCallback(async () => {
-        setLoading(true)
         let _attendences = await getAllAttendences(selectedUsergroup_ID)
         setAttendences(_attendences)
-        setLoading(false)
     }, [selectedUsergroup_ID])
 
     const fetchEval = useCallback(async () => {
@@ -44,9 +42,13 @@ const Overview = ({ theme }) => {
         setSelectedUsergroup_ID(e.target.value)
     }, [setSelectedUsergroup_ID])
 
-    const reload = useCallback(() => {
-        fetchAttendences()
-        fetchEval()
+    const reload = useCallback(async (background = false) => {
+        if(!background)
+            setLoading(true)
+        await fetchAttendences()
+        await fetchEval()
+        if(!background)
+            setLoading(false)
     }, [fetchAttendences, fetchEval])
 
     useEffect(() => {
@@ -56,6 +58,13 @@ const Overview = ({ theme }) => {
     useEffect(() => {
         fetchUsergroups()
     }, [])
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            reload(true)
+        }, 10000)
+        return () => clearInterval(interval)
+    }, [reload])
 
     useEffect(() => {
         setSelectedUsergroup_ID(usergroups[0]?.Usergroup_ID)

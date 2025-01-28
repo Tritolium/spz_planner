@@ -62,7 +62,7 @@ registerRoute(
   ({ url }) => url.pathname.startsWith('/api/v0/attendence'),
   new NetworkFirst({
     cacheName: 'attendence',
-    networkTimeoutSeconds: 3,
+    networkTimeoutSeconds: 0.2,
     plugins: [
       new ExpirationPlugin({ maxAgeSeconds: 600 }),
     ],
@@ -124,7 +124,7 @@ registerRoute(
   ({ url }) => url.pathname.startsWith('/api/eval.php'),
   new NetworkFirst({
     cacheName: 'evaluation',
-    networkTimeoutSeconds: 3
+    networkTimeoutSeconds: 0.2
   })
 )
 
