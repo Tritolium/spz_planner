@@ -42,6 +42,9 @@ const EvalDiagram = ({ event, theme }) => {
             stacked: true,
           },
         },
+        animation: {
+            duration: 0
+        }
       };
 
     const labels = ['']
