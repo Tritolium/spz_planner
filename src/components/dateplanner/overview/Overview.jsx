@@ -11,6 +11,7 @@ import { OverviewTable } from "./OverviewTable"
 import { hasPermission } from "../../../modules/helper/Permissions"
 import { ImSpinner10 } from "react-icons/im"
 import pedro from "../../../modules/img/racoon.gif"
+import { rateEvent } from "../../../modules/helper/Interpreter"
 
 const Overview = ({ theme }) => {
 
@@ -136,17 +137,17 @@ const EvalTable = ({evaluation, attendences, theme}) => {
                 <tr>
                     <th className="Header">Termin</th>
                     <th className="Header" colSpan={2}>Zu.</th>
-                    <th className="Header">Ab.</th>
-                    <th className="Header">Aus.</th>
-                    <th className="Header">Vllt.</th>
                     {instruments.map(instrument => {
-                        return(<th className="Header" key={instrument}>{instrument}</th>)
+                        return(<th className="Header" key={instrument}>{abbreviate(instrument)}</th>)
                     })}
                 </tr>
             </thead>
             <tbody>
                 {evaluation.map(event => {
-                    return(<EvalRow event={event} attendences={attendences.find(att => att.Event_ID === event.Event_ID)?.Attendences} instruments={instruments} key={`eval_${event.Event_ID}`} theme={theme}/>)
+                    let _event = attendences.find(att => att.Event_ID === event.Event_ID)
+                    let _attendences = _event?.Attendences
+                    event.Category = _event?.Category
+                    return(<EvalRow event={event} attendences={_attendences} instruments={instruments} key={`eval_${event.Event_ID}`} theme={theme}/>)
                 })}
             </tbody>
         </StyledEvalTable>
@@ -157,6 +158,12 @@ const EvalRow = ({ event, attendences, instruments, theme }) => {
     const [attendingInstruments, setAttendingInstruments] = useState({})
     const [probAttendingInstruments, setProbAttendingInstruments] = useState({})
     const [maybeAttendingInstruments, setMaybeAttendingInstruments] = useState({})
+    
+    const [rating, setRating] = useState("")
+
+    // TODO: get ratingTerm from DB
+    const ratingTerm = "(Becken > 0 && Pauke > 0 || Becken > 0 && Schlagwerk > 0 || Pauke > 0 && Schlagwerk > 0 || Schlagwerk >= 2)" +
+        " && Sopran >=4 && Trommel >= 2 && Major >= 1"
 
     const getInstruments = (attendences, attendence) => {
         let _instruments = {}
@@ -189,34 +196,56 @@ const EvalRow = ({ event, attendences, instruments, theme }) => {
     }
 
     useEffect(() => {
-        if (attendences === undefined)
+        let attending, prob, maybe
+        let rating
+
+        if (attendences === undefined || event?.Category === "other")
             return
-        setProbAttendingInstruments(getInstruments(attendences, -1))
-        setAttendingInstruments(getInstruments(attendences, 1))
-        setMaybeAttendingInstruments(getInstruments(attendences, 2))
-    }, [attendences])
+
+        console.log(event.Category)
+
+        attending = getInstruments(attendences, 1)
+        prob = getInstruments(attendences, -1)
+        maybe = getInstruments(attendences, 2)
+
+        setAttendingInstruments(attending)
+        setProbAttendingInstruments(prob)
+        setMaybeAttendingInstruments(maybe)
+        rating = rateEvent(attending, prob, maybe, ratingTerm)
+        switch (rating) {
+        case 3:
+            setRating("okay")
+            break
+        case 2:
+            setRating("prob")
+            break
+        case 1:
+            setRating("warning")
+            break
+        default:
+            setRating("critical")
+            break
+        }
+    }, [attendences, event])
 
     return(
         <tr>
             <td><DateField dateprops={event} /></td>
             <td colSpan={event.PlusOne ? 1 : 2}>{event.Consent}</td>
             {event.PlusOne ? <td>+{event.PlusOne}</td> : <></>}
-            <td>{event.Refusal}</td>
-            <td>{event.Missing}</td>
-            <td>{event.Maybe}</td>
             {instruments.map(instrument => {
                 let attending, prob, maybe
                 attending = attendingInstruments[instrument] ? attendingInstruments[instrument] : 0
                 prob = probAttendingInstruments[instrument] ? probAttendingInstruments[instrument] : 0
                 maybe = maybeAttendingInstruments[instrument] ? maybeAttendingInstruments[instrument] : 0
-                return(<InstrumentEvalTD key={instrument} attending={attending} prob={prob} maybe={maybe}/>)
+                return(<InstrumentEvalTD className={rating} key={instrument} attending={attending} prob={prob} maybe={maybe}/>)
             })}
             <EvalDiagram event={event} theme={theme}/>
         </tr>
     )
 }
 
-const InstrumentEvalTD = ({ attending, prob, maybe}) => {
+const InstrumentEvalTD = ({ className, attending, prob, maybe}) => {
     let inner = ""
 
     if(attending > 0)
@@ -226,7 +255,24 @@ const InstrumentEvalTD = ({ attending, prob, maybe}) => {
     if(maybe > 0)
         inner += ` [${maybe}]`
 
-    return(<td>{inner}</td>)
+    return(<td className={className}>{inner}</td>)
+}
+
+const abbreviate = (string) => {
+    const abbreviations = {
+        "Alt": "A",
+        "Ausbildung": "Ausb",
+        "Becken": "B",
+        "Lyra": "L",
+        "Major": "M",
+        "Pauke": "P",
+        "Schlagwerk": "SW",
+        "Sopran": "S",
+        "Tenor": "T",
+        "Trommel": "Tr"
+    }
+
+    return abbreviations[string] ? abbreviations[string] : string
 }
 
 export default Overview
