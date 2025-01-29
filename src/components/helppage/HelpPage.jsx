@@ -26,6 +26,7 @@ const HelpPage = ({ auth_level }) => {
                     <li>Auflösung</li>
                     <li>UserAgent</li>
                     <li>eindeutige Geräte-ID (bleibt auch nach installieren der App gleich)</li>
+                    <li>Berechtigung von Benachrichtigungen</li>
                     <li>Verwendung von Farbmodi (Dark/Light/forced)</li>
                     <li>Verwendung der Module abseits der Startseite (Anwesenheiten/Urlaub/....), siehe Menü</li>
                 </ul>
