@@ -75,7 +75,6 @@ function parse(tokens) {
 }
 
 function evaluate(node, context) {
-    // Kontext ist ein Objekt, z. B. { Schlagwerk: 3, Takt: 4 }
     switch (node.type) {
         case 'Literal':
             return node.value;
@@ -117,21 +116,6 @@ function evaluate(node, context) {
             throw new Error(`Unknown operator: ${node.operator}`);
     }
 }
-
-// Beispiel:
-const input = "Schlagwerk >= 2 && Takt == 4";
-const tokens = tokenize(input);
-const ast = parse(tokens);
-
-// Beispiel-Kontext mit Variablen
-const inst_array = {
-    Schlagwerk: 3,
-    Takt: 4,
-    Stimmen: 2
-};
-
-// console.log("AST:", JSON.stringify(ast, null, 2));
-// console.log("Result:", evaluate(ast, inst_array));
 
 export const rateEvent = (attending, prob, maybe, rating) => {
     let result = 0
