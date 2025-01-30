@@ -29,6 +29,19 @@ export const getDeviceID = async () => {
         })
 }
 
+const getDeviceNotificationPermission = () => {
+    if (!("Notification" in window)) 
+        return -2
+    switch(window.Notification?.permission){
+    case 'granted':
+        return 1
+    case 'denied':
+        return 0
+    default:
+        return -1
+    }
+}
+
 export const getDevicePreferences = async () => {
     let preferences = [
         { query: '(prefers-color-scheme: dark)', name: 'darkmode' },
@@ -81,6 +94,7 @@ const login = async (name, pwhash, version) => {
             Device: navigator.userAgent.match(/(\([^(]+(\n[^(]+)*\))/g)[0],
             Dimension: `${window.innerWidth}x${window.innerHeight}`,
             DeviceUUID: device_id,
+            Notification: getDeviceNotificationPermission(),
             Preferences: preferences
         })
     })
@@ -150,6 +164,7 @@ const update_login = async (version) => {
             Device: navigator.userAgent.match(/(\([^(]+(\n[^(]+)*\))/g)[0],
             Dimension: `${window.innerWidth}x${window.innerHeight}`,
             DeviceUUID: device_id,
+            Notification: getDeviceNotificationPermission(),
             Preferences: preferences
         })
         let response = await fetch(`${host}/api/login.php?mode=update&body=` + body)

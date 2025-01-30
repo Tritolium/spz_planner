@@ -35,6 +35,12 @@
                         "changes": [
                             "Zuordnung zu Vereinen überarbeitet. Zuordnung von Instrumenten ist jetzt pro Verein möglich, nicht mehr global."
                         ]
+                    },
+                    {
+                        "page": "Hilfe/Datenschutz",
+                        "changes": [
+                            "Datenschutzhinweis aktualisiert"
+                        ]
                     }
                 ]
             }
