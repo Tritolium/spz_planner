@@ -12,7 +12,7 @@
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.3.1",
     "react-icons": "^5.4.0",
-    "styled-components": "^6.1.13",
+    "styled-components": "^6.1.15",
     "use-state-with-callback": "^3.0.2",
     "web-vitals": "^4.2.4",
     "workbox-core": "^7.0.0",
