@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react"
 import { Clothing } from "../../../modules/components/icons/Clothing"
 import Filter from "../../../modules/components/Filter"
-import { getEvents } from "../../../modules/data/DBConnect"
+import { getEvents, host } from "../../../modules/data/DBConnect"
 import { StyledEventTable, StyledEventTableMobile, StyledOverview } from "./Overview.styled"
 import { EVENT_STATE } from "../eventform/EventForm"
 
@@ -45,6 +45,7 @@ const Overview = () => {
 
     return(
         <StyledOverview>
+            <a href={`webcal://spzroenkhausen.bplaced.net/api/v0/calendar?api_token=${localStorage.getItem('api_token')}`} target="_blank">&rarr;Termine mit Kalender synchronisieren&larr;</a>
             <div>
                 <Filter options={options} onChange={onFilterChange}/>
                 <Filter options={event_options} onChange={onEventFilterChange}/>
