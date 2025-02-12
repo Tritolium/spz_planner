@@ -755,9 +755,9 @@ export const newDateTemplate = async (title, description, category, type, locati
             Category        : category,
             Type            : type,
             Location        : location,
-            Begin           : begin,
-            Departure       : departure,
-            Leave_dep       : leave_dep,
+            Begin           : begin === '' ? null : begin,
+            Departure       : departure === '' ? null : departure,
+            Leave_dep       : leave_dep === '' ? null : leave_dep,
             Usergroup_ID    : usergroup_id
         })
     })
@@ -796,9 +796,9 @@ export const updateDateTemplate = async (template_id, title, description, catego
             Category        : category,
             Type            : type,
             Location        : location,
-            Begin           : begin,
-            Departure       : departure,
-            Leave_dep       : leave_dep,
+            Begin           : begin === '' ? null : begin,
+            Departure       : departure === '' ? null : departure,
+            Leave_dep       : leave_dep === '' ? null : leave_dep,
             Usergroup_ID    : usergroup_id
         })
     })
