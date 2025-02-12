@@ -27,7 +27,8 @@
                     {
                         "page": "Auswertung",
                         "changes": [
-                            "Eingabe der tatsächlichen Anwesenheit vereinfacht"
+                            "Eingabe der tatsächlichen Anwesenheit vereinfacht",
+                            "Standartmäßig wird die Wertung des aktuellen Jahres angezeigt"
                         ]
                     },
                     {
