@@ -4,7 +4,7 @@ import { host } from "../../../modules/data/DBConnect"
 const EvaluationPersonal = ({ theme }) => {
 
     const [evaluation, setEvaluation] = useState(new Array(0))
-    const [year, setYear] = useState(2024)
+    const [year, setYear] = useState(new Date().getFullYear())
 
     const changeYear = (e) => {
         setYear(e.target.value)
@@ -21,6 +21,10 @@ const EvaluationPersonal = ({ theme }) => {
     useEffect(() => {
         fetchPersonalEvaluation()
     }, [year, fetchPersonalEvaluation])
+
+    useEffect(() => {
+        document.querySelector('select').value = new Date().getFullYear()
+    }, [])
 
     return (
         <div>
