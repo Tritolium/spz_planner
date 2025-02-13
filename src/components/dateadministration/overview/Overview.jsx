@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react"
 import { Clothing } from "../../../modules/components/icons/Clothing"
 import Filter from "../../../modules/components/Filter"
-import { getEvents, host } from "../../../modules/data/DBConnect"
+import { getEvents } from "../../../modules/data/DBConnect"
 import { StyledEventTable, StyledEventTableMobile, StyledOverview } from "./Overview.styled"
 import { EVENT_STATE } from "../eventform/EventForm"
 
