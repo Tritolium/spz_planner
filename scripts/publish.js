@@ -10,7 +10,7 @@ execSync("git fetch")
 if(version.split(".")[2] === "0"){
     execSync(`git switch master`)
     execSync("git pull")
-    exec(`sed -i 's/const version = .*/const version = "${strippedVersion}"/' src/App.js`)
+    exec(`sed -i 's/const version = .*/const version = "${strippedVersion}"/' src/App.jsx`)
     exec(`sed -i 's/branch: .*/branch: ${strippedVersion}/' .github/workflows/test_stable.yml`)
 }else{
     // version is a patch, so there already is a branch for it. Switch to it, if it exists locally
