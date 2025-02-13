@@ -45,6 +45,7 @@ const Overview = () => {
 
     return(
         <StyledOverview>
+            <a href={`webcal://spzroenkhausen.bplaced.net/api/v0/calendar?api_token=${localStorage.getItem('api_token')}`} target="_blank">&rarr;Termine mit Kalender synchronisieren&larr;</a>
             <div>
                 <Filter options={options} onChange={onFilterChange}/>
                 <Filter options={event_options} onChange={onEventFilterChange}/>

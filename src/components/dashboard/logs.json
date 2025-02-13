@@ -41,6 +41,12 @@
                         "changes": [
                             "Datenschutzhinweis aktualisiert"
                         ]
+                    },
+                    {
+                        "page": "Termine",
+                        "changes": [
+                            "Die persönlichen Termine können jetzt auch als Kalender abonniert werden. Abgesagte Termine werden nicht angezeigt."
+                        ]
                     }
                 ]
             }

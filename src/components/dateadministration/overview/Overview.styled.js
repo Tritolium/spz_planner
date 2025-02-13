@@ -8,6 +8,14 @@ export const StyledOverview = styled.div`
         margin: 10px;
         border-radius: 5px;
     }
+
+    a {
+        padding: 5px;
+        border-radius: 5px;
+        background: ${({ theme }) => theme.primaryLight};
+        color: ${({ theme }) => theme.primaryDark};
+        text-decoration: none;
+    }
 `
 
 export const StyledTable = styled.table`
