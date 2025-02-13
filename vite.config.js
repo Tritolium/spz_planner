@@ -12,6 +12,7 @@ export default defineConfig(() => {
       VitePWA({
         registerType: 'autoUpdate',
         strategies: 'injectManifest',
+        filename: 'service-worker.js',
         devOptions: {
           enabled: true,
         },
