@@ -119,6 +119,11 @@ function evaluate(node, context) {
 
 export const rateEvent = (attending, prob, maybe, rating) => {
     let result = 0
+
+    if (rating === undefined || rating === "") {
+        return result
+    }
+
     const tokens = tokenize(rating);
     const ast = parse(tokens);
 
