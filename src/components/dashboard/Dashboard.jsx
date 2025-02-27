@@ -133,7 +133,7 @@ const Dashboard = ({ fullname, auth_level, theme }) => {
         {mobileBrowser ? <StyledInfoText>
             <TbAlertTriangle onClick={showInstall}/>
         </StyledInfoText> : <></>}
-        {mobileBrowser ? <StyledInfoText>Diese App kann auch installiert werden, einfach auf das Icon klicken!</StyledInfoText> : <></>}
+        {mobileBrowser ? <StyledInfoText>Um alle Funktionen nutzen zu können muss die App installiert werden, einfach auf das Icon klicken!</StyledInfoText> : <></>}
         {showiosInstruction ? <StyledInfoText className='iosInstruction'>Erst <IoShareOutline />, dann <BsPlusSquare /></StyledInfoText> : <></>}
         {eventInfo ? <EventInfo hideEventInfo={hideEventInfo} eventInfoData={eventInfoData} fullname={fullname}/> : <DashboardAttendence fullname={fullname} nextPracticeIDs={nextPracticeIDs} nextEventIDs={nextEventIDs} nextOtherIDs={nextOtherIDs} fixedEventIDs={fixedEventIDs} showEventInfo={showEventInfo} auth_level={auth_level} theme={theme}/>}
         <Statistics theme={theme} auth_level={auth_level} />
