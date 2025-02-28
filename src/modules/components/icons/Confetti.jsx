@@ -54,7 +54,7 @@ export const Confetti = () => {
 }
 
 const StyledConfetti = styled.div`
-    font-family: "Bravura", "Musical Symbols", sans-serif;
+    font-family: "Noto Music", sans-serif;
 
     .confetti, .confetti .inner {
         animation-iteration-count: infinite;
