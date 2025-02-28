@@ -45,7 +45,7 @@ export const Confetti = () => {
             <div className="confettis" aria-hidden="true">
                 {Array.from({ length: confettiCount }).map((_, index) => (
                     <div className="confetti" key={index}>
-                        <div className="inner">&#x1d160;</div>
+                        <div className="inner">&#x1d11e;</div>
                     </div>
                 ))}
             </div>
