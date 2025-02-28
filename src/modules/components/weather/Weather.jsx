@@ -74,5 +74,8 @@ const isCarnivalTime = (date = new Date()) => {
     const veilchendienstag = new Date(easter);
     veilchendienstag.setDate(easter.getDate() - 47);
 
-    return date >= altweiber && date <= veilchendienstag;
+    const elfter = new Date(year, 10, 11, 11, 11, 11)
+    const zwoelfter = new Date(year, 10, 12)
+
+    return (date >= altweiber && date <= veilchendienstag) || (date >= elfter && date <= zwoelfter)
 }
