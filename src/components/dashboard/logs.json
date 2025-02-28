@@ -2,6 +2,17 @@
     "v0": {
         "17": [
             {
+                "patch": 1,
+                "entries": [
+                    {
+                        "page": "Allgemein",
+                        "changes": [
+                            "Anzeige für Konfetti repariert"
+                        ]
+                    }
+                ]
+            },
+            {
                 "patch": 0,
                 "entries": [
                     {
