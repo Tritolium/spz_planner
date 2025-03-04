@@ -51,7 +51,7 @@
     "@playwright/test": "^1.50.1",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
-    "@types/node": "^22.13.8",
+    "@types/node": "^22.13.9",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.21.0",
     "eslint-plugin-react": "^7.37.4",
