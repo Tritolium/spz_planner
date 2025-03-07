@@ -1,6 +1,6 @@
 {
   "name": "spz_planner",
-  "version": "0.17.1",
+  "version": "0.17.2",
   "private": true,
   "dependencies": {
     "@maptiler/client": "^2.2.0",
