@@ -57,6 +57,11 @@ export const StyledDashboard = styled.div`
         font-style: italic;
         color: ${({theme}) => theme.lightred};
     }
+
+    .PendingEvent {
+        font-style: italic;
+        color: ${({theme}) => theme.yellow};
+    }
 `
 
 export const StyledInfoText = styled.p`
