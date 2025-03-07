@@ -9,6 +9,12 @@
                         "changes": [
                             "Anzeige für Konfetti repariert"
                         ]
+                    },
+                    {
+                        "page": "Startseite",
+                        "changes": [
+                            "Anfragen werden auf der Startseite als solche markiert"
+                        ]
                     }
                 ]
             },
