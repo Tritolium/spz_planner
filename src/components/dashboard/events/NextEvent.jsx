@@ -78,8 +78,16 @@ const NextEvent = ({ nextEventID, auth_level, showEventInfo, practice=false, the
         return () => clearInterval(interval);
       }, [updateEventEval, updateWeather]);
 
-    if (nextEvent?.State === EVENT_STATE.CANCELED) {
-        className = "CanceledEvent"
+    switch(nextEvent?.State){
+        case EVENT_STATE.CANCELED:
+            className = "CanceledEvent"
+            break
+        case EVENT_STATE.PENDING:
+            className = "PendingEvent"
+            break
+        default:
+            className = ""
+            break
     }
 
     return(<>
