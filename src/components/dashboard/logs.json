@@ -2,18 +2,23 @@
     "v0": {
         "17": [
             {
+                "patch": 2,
+                "entries": [
+                    {
+                        "page": "Startseite",
+                        "changes": [
+                            "Anfragen werden auf der Startseite als solche markiert"
+                        ]
+                    }
+                ]
+            },
+            {
                 "patch": 1,
                 "entries": [
                     {
                         "page": "Allgemein",
                         "changes": [
                             "Anzeige für Konfetti repariert"
-                        ]
-                    },
-                    {
-                        "page": "Startseite",
-                        "changes": [
-                            "Anfragen werden auf der Startseite als solche markiert"
                         ]
                     }
                 ]
