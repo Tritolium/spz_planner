@@ -1,3 +1,4 @@
+import { EVENT_STATE } from "../../dateadministration/eventform/EventForm"
 import { AttendenceInput } from "../../dateplanner/attendenceInput/AttendenceInput"
 import DashboardDiagram from "./DashboardDiagram"
 
@@ -10,7 +11,7 @@ const Event = ({ event, evaluation, auth_level, onClick, showEventInfo, practice
     }
 
     return(<>
-        <div className="event_type" onClick={clickEvent}>{event?.Type}</div>
+        <div className="event_type" onClick={clickEvent}>{event?.State === EVENT_STATE.PENDING ? "Anfrage: ": ""}{event?.Type}</div>
         <div className="event_location" onClick={clickEvent}>{event?.Location}</div>
         <AttendenceInput event={event} attendence={attendence} onClick={onClick} theme={theme}/>
         <div className="event_date" onClick={clickEvent}>{eventDate.getDate()}.{eventDate.getMonth() + 1}.{eventDate.getFullYear()}</div>
