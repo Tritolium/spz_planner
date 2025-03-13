@@ -74,6 +74,7 @@ jobs:
           username: ${{ secrets.SCP_USER }}
           password: ${{ secrets.SCP_PASSWORD }}
           port: ${{ secrets.SCP_PORT }}
+          protocol: tcp4
           source: "./build/"
           target: "/home/pog/deploy/"
           rm: true
