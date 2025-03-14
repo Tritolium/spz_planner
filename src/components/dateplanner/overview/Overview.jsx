@@ -162,8 +162,11 @@ const EvalRow = ({ event, attendences, instruments, theme }) => {
     const [rating, setRating] = useState("")
 
     // TODO: get ratingTerm from DB
-    const ratingTerm = "(Becken > 0 && Pauke > 0 || Becken > 0 && Schlagwerk > 0 || Pauke > 0 && Schlagwerk > 0 || Schlagwerk >= 2)" +
+    const ratingTermEvent = "(Becken > 0 && Pauke > 0 || Becken > 0 && Schlagwerk > 0 || Pauke > 0 && Schlagwerk > 0 || Schlagwerk >= 2)" +
         " && Sopran >=4 && Trommel >= 2 && Major >= 1"
+    
+    const ratingTermPractice = "(Becken > 0 && Pauke > 0 || Becken > 0 && Schlagwerk > 0 || Pauke > 0 && Schlagwerk > 0 || Schlagwerk >= 1)" +
+        " && Sopran >=2 && Trommel >= 1 && Major >= 1"
 
     const getInstruments = (attendences, attendence) => {
         let _instruments = {}
@@ -196,11 +199,22 @@ const EvalRow = ({ event, attendences, instruments, theme }) => {
     }
 
     useEffect(() => {
-        let attending, prob, maybe
-        let rating
+        let attending, prob, maybe, rating
+        let ratingTerm = ""
 
         if (attendences === undefined || event?.Category === "other")
             return
+
+        switch (event.Category) {
+        case "event":
+            ratingTerm = ratingTermEvent
+            break
+        case "practice":
+            ratingTerm = ratingTermPractice
+            break
+        default:
+            break
+        }
 
         console.log(event.Category)
 

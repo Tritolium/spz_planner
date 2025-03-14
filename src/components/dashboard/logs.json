@@ -1,5 +1,18 @@
 {
     "v0": {
+        "18": [
+            {
+                "patch": 0,
+                "entries": [
+                    {
+                        "page": "Anwesenheiten",
+                        "changes":[
+                            "Einschätzung für Termine ist verschieden für Auftritte und Übungsstunden"
+                        ]
+                    }
+                ]
+            }
+        ],
         "17": [
             {
                 "patch": 2,
