@@ -71,8 +71,8 @@ export const StyledInfoText = styled.p`
     padding: 15px;
 
     svg {
-        height: 5em;
-        width: 5em;
+        height: 15em;
+        width: 15em;
         stroke: red;
         animation: blink 1s linear infinite;
     }
