@@ -32,6 +32,11 @@ export const StyledBurger = styled.button`
         rotate: ${props => props.open ? '-45deg' : '0'};
     }
 
+    @media (max-width: ${({ theme }) => theme.mobile}) {
+        top: 1rem;
+        left: 1rem
+    }
+
     div {
         width: 2rem;
         height: 0.25rem;
