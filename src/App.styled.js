@@ -9,22 +9,10 @@ const StyledApp = styled.div`
     box-sizing: border-box;
     width: 100%;
 
-    // @media (max-width: ${({theme}) => theme.mobile}) {
-    //     padding-top: calc(10% + 2rem);
-    // }
-
-    #Namefield {
-        font-size: 1.5rem;
-        position: absolute;
-        top: 0.5rem;
-        right: 2rem;
-        z-index: 2;
-        @media (max-width: ${({theme}) => theme.mobile}) {
-            display: flex;
-            div {
-                display: none;
-            }
-        }
+    @media (max-width: ${({theme}) => theme.mobile}) {
+        padding-top: max(env(safe-area-inset-top), 2rem);
+        max-height: calc(100vh - 6rem);
+        overflow-y: scroll;
     }
 `
 
