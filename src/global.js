@@ -8,6 +8,22 @@ export const GlobalStyles = createGlobalStyle`
     *, *::after, *::before {
         box-sizing: border-box;
     }
+
+    header {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        position: relative;
+        font-size: 1.5rem;
+        padding: 0.5rem 2rem;
+        height: 3rem;
+        @media (max-width: ${({theme}) => theme.mobile}) {
+            div {
+                display: none;
+            }
+        }
+    }
+
     body {
         align-items: center;
         background: ${({theme}) => theme.primaryDark};

@@ -156,21 +156,21 @@ const App = () => {
     return (
         <ThemeProvider theme={theme}>
             <GlobalStyles />
+            {fullname !== "" ? <header id='Namefield'>
+                {notify ? <TbBellFilled onClick={ringBell}/> : <TbBellOff onClick={ringBell} />}
+                <div id='Name'>{fullname}</div>
+                <Button onClick={logout}>Logout</Button>
+            </header> : <></>}
             <StyledApp className="App">
                 {theme.weather ? <Weather /> : <></>}
-                <Burger open={open} setOpen={setOpen}/>
+                {fullname !== "" ? <Burger open={open} setOpen={setOpen}/> : <></>}
                 <Menu open={open} setOpen={setOpen} navigate={navigate} auth_level={auth_level} secure={secure.current}/>
-                {fullname !== "" ? <div id='Namefield'>
-                    {notify ? <TbBellFilled onClick={ringBell}/> : <TbBellOff onClick={ringBell} />}
-                    <div id='Name'>{fullname}</div>
-                    <Button onClick={logout}>Logout</Button>
-                </div> : <></>}
                 <Suspense fallback={<div>Lädt...</div>}>
                     <View view={view} sendLogin={sendLogin} fullname={fullname} auth_level={auth_level} theme={theme} secure={secure.current}/>
                 </Suspense>
                 <div id="version-tag">{version}</div>
             </StyledApp>
-            <BottomMenu view={view} navigate={navigate}/>
+            {fullname !== "" ? <BottomMenu view={view} navigate={navigate}/> : <></>}
         </ThemeProvider>
     );
 }
