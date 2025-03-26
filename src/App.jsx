@@ -9,6 +9,7 @@ import Settings from './components/settings/Settings';
 import { notificationHelper } from './modules/helper/NotificationHelper';
 import { buttonPressed } from './modules/helper/Analytics';
 import { Weather } from './modules/components/weather/Weather';
+import { BottomMenu } from './modules/components/menu/BottomMenu';
 
 import('./App.css')
 
@@ -169,6 +170,7 @@ const App = () => {
                 </Suspense>
                 <div id="version-tag">{version}</div>
             </StyledApp>
+            <BottomMenu view={view} navigate={navigate}/>
         </ThemeProvider>
     );
 }

@@ -9,9 +9,10 @@ const StyledApp = styled.div`
     box-sizing: border-box;
     width: 100%;
 
-    // @media (max-width: ${({theme}) => theme.mobile}) {
-    //     padding-top: calc(10% + 2rem);
-    // }
+    @media (max-width: ${({theme}) => theme.mobile}) {
+        max-height: calc(100vh - 3rem);
+        overflow-y: scroll;
+    }
 
     #Namefield {
         font-size: 1.5rem;
