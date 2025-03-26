@@ -214,6 +214,8 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
     const update = async (e) => {
         e.preventDefault()
 
+        let end = null
+
         let category    = document.getElementById('category').options[document.getElementById('category').selectedIndex].value
         let state       = document.getElementById('state').value
         let type        = document.getElementById('type').value
@@ -221,6 +223,8 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
         let address     = document.getElementById('address').value
         let date        = document.getElementById('date').value
         let begin       = document.getElementById('begin').value
+        let end_date    = document.getElementById('end_date').value
+        let end_time    = document.getElementById('end_time').value
         let departure   = document.getElementById('departure').value
         let leave_dep   = document.getElementById('leave_dep').value
         let plusone     = document.getElementById('plusone').checked
@@ -228,10 +232,13 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
         let fixed       = document.getElementById('fixed').checked
         let push        = document.getElementById('push').checked
 
+        if(end_date !== "" && end_time !== "")
+            end = `${end_date} ${end_time}`
+
         if(event && event.Event_ID !== -1)
-            await updateEvent(event.Event_ID, category, state, type, location, address, date, begin, departure, leave_dep, plusone, usergroup, clothing, fixed, push)
+            await updateEvent(event.Event_ID, category, state, type, location, address, date, begin, end, departure, leave_dep, plusone, usergroup, clothing, fixed, push)
         else
-            await newEvent(category, state, type, location, address, date, begin, departure, leave_dep, plusone, usergroup, clothing, fixed, push)
+            await newEvent(category, state, type, location, address, date, begin, end, departure, leave_dep, plusone, usergroup, clothing, fixed, push)
 
         reload()
     }
@@ -298,6 +305,11 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
             <FormBox>
                 <label htmlFor="begin">Startzeit:</label>
                 <input type="time" name="begin" id="begin" step="1" defaultValue={event?.Begin}/>
+            </FormBox>
+            <FormBox>
+                <label htmlFor="end">Ende:</label>
+                <input type="date" name="end" id="end_date" defaultValue={event?.End ? event.End.split(" ")[0] : null}/>
+                <input type="time" name="end" id="end_time" defaultValue={event?.End ? event.End.split(" ")[1] : null}/>
             </FormBox>
             <FormBox>
                 <label htmlFor="departure">Abfahrt:</label>
