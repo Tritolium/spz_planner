@@ -16,6 +16,12 @@
                             "Menü im unteren Bereich hinzugefügt, um schneller zwischen den Seiten zu wechseln",
                             "Kleinere Designanpassungen"
                         ]
+                    },
+                    {
+                        "page": "Termine",
+                        "changes":[
+                            "Termine können jetzt auch ein Enddatum haben"
+                        ]
                     }
                 ]
             }
