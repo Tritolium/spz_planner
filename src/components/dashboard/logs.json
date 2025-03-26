@@ -9,6 +9,13 @@
                         "changes":[
                             "Einschätzung für Termine ist verschieden für Auftritte und Übungsstunden"
                         ]
+                    },
+                    {
+                        "page": "Allgemein",
+                        "changes":[
+                            "Menü im unteren Bereich hinzugefügt, um schneller zwischen den Seiten zu wechseln",
+                            "Kleinere Designanpassungen"
+                        ]
                     }
                 ]
             }
