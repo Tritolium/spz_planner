@@ -1,4 +1,4 @@
-const { execSync, exec } = require("child_process")
+import { execSync, exec } from "child_process"
 
 const version = process.argv[2]
 const strippedVersion = version.split(".")[0] + "." + version.split(".")[1]
