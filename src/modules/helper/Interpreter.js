@@ -1,172 +1,172 @@
 const tokenize = input => input.match(/\d+|true|false|==|!=|<=|>=|<|>|\|\||&&|!|\(|\)|[a-zA-Z_]\w*/g)
 
 function parse(tokens) {
-    let position = 0
+	let position = 0
 
-    const parseExpression = () => {
-        let left = parseLogical()
+	const parseExpression = () => {
+		let left = parseLogical()
 
-        while (tokens[position] === '||') {
-            const operator = tokens[position++]
-            const right = parseLogical()
-            left = { type: 'LogicalExpression', operator, left, right }
-        }
+		while (tokens[position] === "||") {
+			const operator = tokens[position++]
+			const right = parseLogical()
+			left = { type: "LogicalExpression", operator, left, right }
+		}
 
-        return left
-    }
+		return left
+	}
 
-    const parseLogical = () => {
-        let left = parseComparison()
+	const parseLogical = () => {
+		let left = parseComparison()
 
-        while (tokens[position] === '&&') {
-            const operator = tokens[position++]
-            const right = parseComparison()
-            left = { type: 'LogicalExpression', operator, left, right }
-        }
+		while (tokens[position] === "&&") {
+			const operator = tokens[position++]
+			const right = parseComparison()
+			left = { type: "LogicalExpression", operator, left, right }
+		}
 
-        return left
-    }
+		return left
+	}
 
-    function parseComparison() {
-        let left = parsePrimary();
+	function parseComparison() {
+		let left = parsePrimary()
 
-        while (['==', '!=', '<', '>', '<=', '>='].includes(tokens[position])) {
-            const operator = tokens[position++];
-            const right = parsePrimary();
-            left = { type: 'ComparisonExpression', operator, left, right };
-        }
+		while (["==", "!=", "<", ">", "<=", ">="].includes(tokens[position])) {
+			const operator = tokens[position++]
+			const right = parsePrimary()
+			left = { type: "ComparisonExpression", operator, left, right }
+		}
 
-        return left;
-    }
+		return left
+	}
 
-    function parsePrimary() {
-        const token = tokens[position++];
+	function parsePrimary() {
+		const token = tokens[position++]
 
-        if (/\d+/.test(token)) {
-            return { type: 'Literal', value: Number(token) };
-        }
+		if (/\d+/.test(token)) {
+			return { type: "Literal", value: Number(token) }
+		}
 
-        if (token === 'true' || token === 'false') {
-            return { type: 'Literal', value: token === 'true' };
-        }
+		if (token === "true" || token === "false") {
+			return { type: "Literal", value: token === "true" }
+		}
 
-        if (/^[a-zA-Z_]\w*$/.test(token)) {
-            // Variablenname erkannt
-            return { type: 'Variable', name: token };
-        }
+		if (/^[a-zA-Z_]\w*$/.test(token)) {
+			// Variablenname erkannt
+			return { type: "Variable", name: token }
+		}
 
-        if (token === '(') {
-            const expression = parseExpression();
-            if (tokens[position++] !== ')') {
-                throw new Error('Expected closing parenthesis');
-            }
-            return expression;
-        }
+		if (token === "(") {
+			const expression = parseExpression()
+			if (tokens[position++] !== ")") {
+				throw new Error("Expected closing parenthesis")
+			}
+			return expression
+		}
 
-        if (token === '!') {
-            const right = parsePrimary();
-            return { type: 'UnaryExpression', operator: '!', right };
-        }
+		if (token === "!") {
+			const right = parsePrimary()
+			return { type: "UnaryExpression", operator: "!", right }
+		}
 
-        throw new Error(`Unexpected token: ${token}`);
-    }
+		throw new Error(`Unexpected token: ${token}`)
+	}
 
-    return parseExpression();
+	return parseExpression()
 }
 
 function evaluate(node, context) {
-    switch (node.type) {
-        case 'Literal':
-            return node.value;
+	switch (node.type) {
+	case "Literal":
+		return node.value
 
-        case 'Variable':
-            if (node.name in context) {
-                return context[node.name];
-            } else {
-                return 0
-            }
+	case "Variable":
+		if (node.name in context) {
+			return context[node.name]
+		} else {
+			return 0
+		}
 
-        case 'UnaryExpression':
-            if (node.operator === '!') {
-                return !evaluate(node.right, context);
-            }
-            throw new Error(`Unknown operator: ${node.operator}`);
+	case "UnaryExpression":
+		if (node.operator === "!") {
+			return !evaluate(node.right, context)
+		}
+		throw new Error(`Unknown operator: ${node.operator}`)
 
-        case 'ComparisonExpression':
-            const left = evaluate(node.left, context);
-            const right = evaluate(node.right, context);
-            switch (node.operator) {
-                case '==': return left === right;
-                case '!=': return left !== right;
-                case '<': return left < right;
-                case '>': return left > right;
-                case '<=': return left <= right;
-                case '>=': return left >= right;
-            }
-            throw new Error(`Unknown operator: ${node.operator}`);
+	case "ComparisonExpression":
+		const left = evaluate(node.left, context)
+		const right = evaluate(node.right, context)
+		switch (node.operator) {
+		case "==": return left === right
+		case "!=": return left !== right
+		case "<": return left < right
+		case ">": return left > right
+		case "<=": return left <= right
+		case ">=": return left >= right
+		}
+		throw new Error(`Unknown operator: ${node.operator}`)
 
-        case 'LogicalExpression':
-            const leftVal = evaluate(node.left, context);
-            if (node.operator === '||') {
-                return leftVal || evaluate(node.right, context);
-            }
-            if (node.operator === '&&') {
-                return leftVal && evaluate(node.right, context);
-            }
-            throw new Error(`Unknown operator: ${node.operator}`);
-    }
+	case "LogicalExpression":
+		const leftVal = evaluate(node.left, context)
+		if (node.operator === "||") {
+			return leftVal || evaluate(node.right, context)
+		}
+		if (node.operator === "&&") {
+			return leftVal && evaluate(node.right, context)
+		}
+		throw new Error(`Unknown operator: ${node.operator}`)
+	}
 }
 
 export const rateEvent = (attending, prob, maybe, rating) => {
-    let result = 0
+	let result = 0
 
-    if (rating === undefined || rating === "") {
-        return result
-    }
+	if (rating === undefined || rating === "") {
+		return result
+	}
 
-    const tokens = tokenize(rating);
-    const ast = parse(tokens);
+	const tokens = tokenize(rating)
+	const ast = parse(tokens)
 
-    let prediction = {}
-    let prediction_maybe = {}
+	let prediction = {}
+	let prediction_maybe = {}
 
-    // combine attending and prob in prediction
-    for (let key in attending) {
-        if (prob[key] !== undefined) {
-            prediction[key] = attending[key] + prob[key]
-        } else {
-            prediction[key] = attending[key]
-        }
-    }
+	// combine attending and prob in prediction
+	for (let key in attending) {
+		if (prob[key] !== undefined) {
+			prediction[key] = attending[key] + prob[key]
+		} else {
+			prediction[key] = attending[key]
+		}
+	}
 
-    for (let key in prob) {
-        if (attending[key] === undefined) {
-            prediction[key] = prob[key]
-        }
-    }
+	for (let key in prob) {
+		if (attending[key] === undefined) {
+			prediction[key] = prob[key]
+		}
+	}
 
-    // combine prediction and maybe in prediction_maybe
-    for (let key in prediction) {
-        if (maybe[key] !== undefined) {
-            prediction_maybe[key] = prediction[key] + maybe[key]
-        } else {
-            prediction_maybe[key] = prediction[key]
-        }
-    }
+	// combine prediction and maybe in prediction_maybe
+	for (let key in prediction) {
+		if (maybe[key] !== undefined) {
+			prediction_maybe[key] = prediction[key] + maybe[key]
+		} else {
+			prediction_maybe[key] = prediction[key]
+		}
+	}
 
-    for (let key in maybe) {
-        if (prediction[key] === undefined) {
-            prediction_maybe[key] = maybe[key]
-        }
-    }
+	for (let key in maybe) {
+		if (prediction[key] === undefined) {
+			prediction_maybe[key] = maybe[key]
+		}
+	}
 
-    if (evaluate(ast, attending)) {
-        result = 3
-    } else if (evaluate(ast, prediction)) {
-        result = 2
-    } else if (evaluate(ast, prediction_maybe)) {
-        result = 1
-    }
+	if (evaluate(ast, attending)) {
+		result = 3
+	} else if (evaluate(ast, prediction)) {
+		result = 2
+	} else if (evaluate(ast, prediction_maybe)) {
+		result = 1
+	}
 
-    return result
+	return result
 }

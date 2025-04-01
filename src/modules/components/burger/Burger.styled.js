@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const StyledBurger = styled.button`
     position: absolute;
@@ -20,16 +20,16 @@ export const StyledBurger = styled.button`
     }
 
     :nth-child(1) {
-        rotate: ${props => props.open ? '45deg' : '0'};
+        rotate: ${props => props.open ? "45deg" : "0"};
     }
 
     :nth-child(2) {
-        opacity: ${({open}) => open ? '0' : '1'};
-        translate: ${({open}) => open ? '25px' : '0'};
+        opacity: ${({open}) => open ? "0" : "1"};
+        translate: ${({open}) => open ? "25px" : "0"};
     }
 
     :nth-child(3) {
-        rotate: ${props => props.open ? '-45deg' : '0'};
+        rotate: ${props => props.open ? "-45deg" : "0"};
     }
 
     @media (max-width: ${({ theme }) => theme.mobile}) {

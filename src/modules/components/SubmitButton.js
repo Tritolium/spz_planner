@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 const SubmitButton = styled.div`
     border-radius: 5px;

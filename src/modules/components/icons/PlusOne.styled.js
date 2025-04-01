@@ -1,8 +1,8 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const StyledPlusOne = styled.div.attrs(props => ({
-    className: props.className,
-    }))`
+	className: props.className,
+}))`
     position: relative;
     height: 64px;
     width: 64px;

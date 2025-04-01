@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const StyledDashboard = styled.div`
 
@@ -109,9 +109,9 @@ export const StyledFeedbackArea = styled.textarea`
     transition-duration: 0.75s;
     transition-timing-function: ease;
     
-    transform: ${({ open }) => open ? 'translateX(0)' : 'translateX(-100%)'};
-    opacity: ${({ open }) => open ? '1' : '0'};
-    max-height: ${({ open }) => open ? '160px' : '0'};
+    transform: ${({ open }) => open ? "translateX(0)" : "translateX(-100%)"};
+    opacity: ${({ open }) => open ? "1" : "0"};
+    max-height: ${({ open }) => open ? "160px" : "0"};
 
 `
 
