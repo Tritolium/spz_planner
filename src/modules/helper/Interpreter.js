@@ -92,7 +92,7 @@ function evaluate(node, context) {
 		}
 		throw new Error(`Unknown operator: ${node.operator}`)
 
-	case "ComparisonExpression":
+	case "ComparisonExpression": {
 		const left = evaluate(node.left, context)
 		const right = evaluate(node.right, context)
 		switch (node.operator) {
@@ -104,8 +104,8 @@ function evaluate(node, context) {
 		case ">=": return left >= right
 		}
 		throw new Error(`Unknown operator: ${node.operator}`)
-
-	case "LogicalExpression":
+	}
+	case "LogicalExpression": {
 		const leftVal = evaluate(node.left, context)
 		if (node.operator === "||") {
 			return leftVal || evaluate(node.right, context)
@@ -114,6 +114,7 @@ function evaluate(node, context) {
 			return leftVal && evaluate(node.right, context)
 		}
 		throw new Error(`Unknown operator: ${node.operator}`)
+	}
 	}
 }
 

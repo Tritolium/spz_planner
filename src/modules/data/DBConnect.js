@@ -130,7 +130,7 @@ const login = async (name, pwhash, version) => {
 		alert("Dein Name scheint nicht, oder mehrfach vergeben zu sein, bitte genauer angeben. Sollte das Problem weiterhin bestehen, bitte melden.")
 		break
 	default:
-	case 500:
+	case 500: {
 		// possible issue due to an update, try to renew SW to load update
 		const registration = await navigator.serviceWorker?.getRegistration()
 		if(registration?.waiting){
@@ -138,6 +138,7 @@ const login = async (name, pwhash, version) => {
 			window.location.reload()
 		}
 		break
+	}
 	case 503:
 		alert("Server nicht erreichbar. Bitte versuche es später erneut.")
 		break
@@ -197,11 +198,12 @@ const update_login = async (version) => {
 		case 404:
 			break
 		default:
-		case 500:
+		case 500: {
 			// possible issue due to an update, try to renew SW to load update
 			const registration = await navigator.serviceWorker?.getRegistration()
 			registration?.waiting?.postMessage("SKIP_WAITING")
 			break
+		}
 		case 503:
 			alert("Server nicht erreichbar. Bitte versuche es später erneut.")
 			break
@@ -411,8 +413,7 @@ const getEvalByUsergroup = async (usergroup_id) => {
 	})
 	switch(response.status){
 	case 200:
-		let json = await response.json()
-		return json
+		return await response.json()
 	default:
 		return
 	}    
@@ -434,8 +435,7 @@ export const getAbsence = async (absence_id) => {
 	})
 	switch(response.status){
 	case 200:
-		let json = await response.json()
-		return json
+		return await response.json()
 	default:
 		return
 	}
@@ -450,8 +450,7 @@ export const getAbsences = async (filter) => {
 	})
 	switch(response.status){
 	case 200:
-		let json = await response.json()
-		return json
+		return await response.json()
 	default:
 		return
 	}
@@ -643,8 +642,7 @@ export const getUsergroup = async (usergroup_id) => {
 
 	switch(response.status){
 	case 200:
-		let json = await response.json()
-		return json
+		return await response.json()
 	default:
 		break
 	}
@@ -660,8 +658,7 @@ export const getUsergroups = async () => {
 
 	switch(response.status){
 	case 200:
-		let json = await response.json()
-		return json
+		return await response.json()
 	default:
 		break
 	}
@@ -681,7 +678,7 @@ export const getOwnUsergroups = async () => {
 
 	let json
 	switch(response.status){
-	case 200:
+	case 200: {
 		json = await response.json()
 		let store = {
 			lastmodified: response.headers.get("DB-Last-Modified"),
@@ -689,6 +686,7 @@ export const getOwnUsergroups = async () => {
 		}
 		localStorage.setItem("own_usergroups", JSON.stringify(store))
 		break
+	}
 	case 304:
 		json = JSON.parse(localStorage.getItem("own_usergroups"))?.data
 		break
@@ -708,8 +706,7 @@ export const getUsergroupAssignments = async() => {
 
 	switch(response.status){
 	case 200:
-		let json = await response.json()
-		return json
+		return await response.json()
 	default:
 		break
 	}
@@ -825,8 +822,7 @@ export const getDateTemplates = async () => {
 
 	switch(response.status){
 	case 200:
-		let json = await response.json()
-		return json
+		return await response.json()
 	default:
 		break
 	}
@@ -960,8 +956,7 @@ export const getScores = async () => {
 
 	switch(response.status){
 	case 200:
-		let json = await response.json()
-		return(json)
+		return await response.json()
 	case 204:
 		return(new Array(0))
 	default:
