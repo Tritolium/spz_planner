@@ -56,4 +56,10 @@ export default defineConfig([{
 		"playwright-report/**",
 		"playwright.config.js",
 	],
+}, {
+	settings: {
+		react: {
+			version: "detect",
+		},
+	},
 }])
