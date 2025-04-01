@@ -24,6 +24,7 @@ export default defineConfig([{
 	languageOptions: {
 		globals: {
 			...globals.browser,
+			...globals.node,
 		},
 
 		ecmaVersion: "latest",
@@ -53,5 +54,6 @@ export default defineConfig([{
 		"build/**",
 		"dev-dist/**",
 		"playwright-report/**",
+		"playwright.config.js",
 	],
 }])
