@@ -47,4 +47,11 @@ export default defineConfig([{
 		ecmaVersion: 5,
 		sourceType: "commonjs",
 	},
+}, {
+	ignores: [
+		"node_modules/**",
+		"build/**",
+		"dev-dist/**",
+		"playwright-report/**",
+	],
 }])
