@@ -6,7 +6,6 @@
     "@maptiler/client": "^2.2.0",
     "chart.js": "^4.4.8",
     "js-sha256": "^0.11.0",
-    "prop-types": "^15.8.1",
     "react": "^19.1.0",
     "react-app-polyfill": "^3.0.0",
     "react-chartjs-2": "^5.2.0",
