@@ -1,5 +1,4 @@
 import React from 'react'
-import { bool } from 'prop-types'
 import { StyledMenu } from './Menu.styled'
 import { useCallback } from 'react'
 import Button from '../button/Button'
@@ -58,10 +57,6 @@ const Menu = ({ open, navigate, auth_level, setOpen, secure }) => {
             })}
         </StyledMenu>
     )
-}
-
-Menu.propTypes = {
-    open: bool.isRequired,
 }
 
 export default Menu
