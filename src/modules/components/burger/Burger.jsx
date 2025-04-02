@@ -1,5 +1,4 @@
 import React from 'react'
-import { bool, func } from 'prop-types'
 import { StyledBurger } from "./Burger.styled"
 import { notificationHelper } from '../../helper/NotificationHelper'
 import { sendPushSubscription } from '../../data/DBConnect'
@@ -26,11 +25,6 @@ const Burger = ({open, setOpen}) => {
             <div />
         </StyledBurger>
     )
-}
-
-Burger.propTypes = {
-    open: bool.isRequired,
-    setOpen: func.isRequired
 }
 
 export default Burger
