@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const StyledRoleAssignment = styled.div`
     display: flex;

@@ -3,39 +3,39 @@
 // 
 
 export const hasPermission = (permission, association_id = null) => {
-    const permissions = JSON.parse(localStorage.getItem('permissions') || '{}');
+	const permissions = JSON.parse(localStorage.getItem("permissions") || "{}")
 
-    if (association_id === null) {
-        for (let assoc in permissions) {
-            if (permissions[assoc].includes(permission)) {
-                return true
-            }
-        }
-    } else {
-        if (permissions[association_id]?.includes(permission)) {
-            return true
-        }
-    }
+	if (association_id === null) {
+		for (let assoc in permissions) {
+			if (permissions[assoc].includes(permission)) {
+				return true
+			}
+		}
+	} else {
+		if (permissions[association_id]?.includes(permission)) {
+			return true
+		}
+	}
 
-    return false
+	return false
 }
 
 export const hasAnyPermission = (permissions, association_id = null) => {
-    for (let permission of permissions) {
-        if (hasPermission(permission, association_id)) {
-            return true
-        }
-    }
+	for (let permission of permissions) {
+		if (hasPermission(permission, association_id)) {
+			return true
+		}
+	}
 
-    return false
+	return false
 }
 
 export const hasAllPermissions = (permissions, association_id = null) => {
-    for (let permission of permissions) {
-        if (!hasPermission(permission, association_id)) {
-            return false
-        }
-    }
+	for (let permission of permissions) {
+		if (!hasPermission(permission, association_id)) {
+			return false
+		}
+	}
 
-    return true
+	return true
 }

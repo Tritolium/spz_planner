@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const StyledScores = styled.div`
     padding-left: env(safe-area-inset-left);

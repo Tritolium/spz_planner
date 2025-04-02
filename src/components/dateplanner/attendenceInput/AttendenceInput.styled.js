@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const StyledAttendenceInput = styled.div`
     position: relative;
@@ -10,17 +10,17 @@ export const StyledAttendenceInput = styled.div`
     }
 
     .active_no {
-        translate: ${({active}) => active ? '-128px' : '0'};
-        opacity: ${({active}) => active ? '1' : '0'};
+        translate: ${({active}) => active ? "-128px" : "0"};
+        opacity: ${({active}) => active ? "1" : "0"};
     }
 
     .active_yes {
-        opacity: ${({active}) => active ? '1' : '0'};
+        opacity: ${({active}) => active ? "1" : "0"};
     }
 
     .active_maybe {
-        translate: ${({active}) => active ? '-64px' : '0'};
-        opacity: ${({active}) => active ? '1' : '0'};
+        translate: ${({active}) => active ? "-64px" : "0"};
+        opacity: ${({active}) => active ? "1" : "0"};
     }
 
     .active_none {

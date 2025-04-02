@@ -1,33 +1,33 @@
 const urlBase64ToUint8Array = (base64String) => {
-    const padding = '='.repeat((4 - base64String.length % 4) % 4);
-    const base64 = (base64String + padding)
-        .replace(/-/g, '+')
-        .replace(/_/g, '/');
+	const padding = "=".repeat((4 - base64String.length % 4) % 4)
+	const base64 = (base64String + padding)
+		.replace(/-/g, "+")
+		.replace(/_/g, "/")
 
-    const rawData = window.atob(base64);
-    const outputArray = new Uint8Array(rawData.length);
+	const rawData = window.atob(base64)
+	const outputArray = new Uint8Array(rawData.length)
 
-    for (let i = 0; i < rawData.length; ++i) {
-        outputArray[i] = rawData.charCodeAt(i);
-    }
-    return outputArray;
+	for (let i = 0; i < rawData.length; ++i) {
+		outputArray[i] = rawData.charCodeAt(i)
+	}
+	return outputArray
 }
 
 export const notificationHelper = {
 	isSupported() {
 		if (!window.Notification) {
-			return false;
+			return false
 		}
 	    
-		if (!('serviceWorker' in navigator)) {
-			return false;
+		if (!("serviceWorker" in navigator)) {
+			return false
 		}
 
-		if (!('PushManager' in window)) {
-			return false;
+		if (!("PushManager" in window)) {
+			return false
 		}		
 
-		return true;
+		return true
 	},
 
 	
@@ -40,15 +40,15 @@ export const notificationHelper = {
 					applicationServerKey: urlBase64ToUint8Array(pushServerPublicKey)
 				})
 				.then(function(pushSubscription) {
-					var subJSObject = JSON.parse(JSON.stringify(pushSubscription));
+					var subJSObject = JSON.parse(JSON.stringify(pushSubscription))
 					var subscription = {
-						'endpoint': subJSObject.endpoint,
-						'authToken': subJSObject.keys.auth,
-						'publicKey': subJSObject.keys.p256dh
+						"endpoint": subJSObject.endpoint,
+						"authToken": subJSObject.keys.auth,
+						"publicKey": subJSObject.keys.p256dh
 					}
 
-					return subscription;
-				});
-		});
+					return subscription
+				})
+		})
 	}
 }
