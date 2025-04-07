@@ -28,6 +28,17 @@
         ],
         "17": [
             {
+                "patch": 3,
+                "entries":[
+                    {
+                        "page": "Termine",
+                        "changes":[
+                            "Fehler behoben, wodurch abgelehnte Termine weiterhin angezeigt wurden, da veraltete Daten aus dem Cache geladen wurden"                            
+                        ]
+                    }
+                ]
+            },
+            {
                 "patch": 2,
                 "entries": [
                     {
