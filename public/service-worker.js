@@ -77,11 +77,13 @@ registerRoute(
 )
 
 registerRoute(
-  ({ url }) => url.pathname.startsWith('/api/v0/events'),
-  new NetworkFirst({
-    cacheName: 'events',
-    networkTimeoutSeconds: 3
-  })
+	({ url }) => url.pathname.startsWith("/api/v0/events"),
+	new StaleWhileRevalidate({
+		cacheName: "events",
+		plugins: [
+			new ExpirationPlugin({ maxAgeSeconds: 3600 }),
+		],
+	})
 )
 
 registerRoute(
