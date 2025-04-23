@@ -2,7 +2,7 @@ import { createGlobalStyle } from "styled-components"
 
 export const GlobalStyles = createGlobalStyle`
     html, body {
-        margin: 0;
+        margin: env(safe-area-inset-top), env(safe-area-inset-right), env(safe-area-inset-bottom), env(safe-area-inset-left);
         padding: 0;
     }
     *, *::after, *::before {
@@ -30,7 +30,7 @@ export const GlobalStyles = createGlobalStyle`
         color: ${({theme}) => theme.primaryLight};
         display: block;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-        height: 100vh;
+        // height: 100vh;
         justify-content: flex-start;
         text-rendering: optimizeLegibility;
         forced-color-adjust: none;
