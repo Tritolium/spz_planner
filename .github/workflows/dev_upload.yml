@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: node:22
-      options: --dns 8.8.8.8
+      options: --dns 8.8.8.8 --network host
     strategy:
       matrix:
         node-version: [20.x]
