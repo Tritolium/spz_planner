@@ -12,7 +12,7 @@ export const StyledBottomMenu = styled.footer`
 
     @media (max-width: ${({theme}) => theme.mobile}) {
         display: flex;
-        padding-bottom: env(safe-area-inset-bottom);
+        margin-bottom: env(safe-area-inset-bottom);
     }
 `
 
