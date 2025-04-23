@@ -12,7 +12,6 @@ export const StyledBottomMenu = styled.footer`
 
     @media (max-width: ${({theme}) => theme.mobile}) {
         display: flex;
-        margin-bottom: env(safe-area-inset-bottom);
     }
 `
 
