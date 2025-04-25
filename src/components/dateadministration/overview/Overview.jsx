@@ -40,7 +40,13 @@ const Overview = () => {
     }, [setEventfilter])
 
     useEffect(() => {
+        const interval = setInterval(() => {
+            fetchEvents()
+        }, 5000)
         fetchEvents()
+        return () => {
+            clearInterval(interval)
+        }
     }, [fetchEvents])
 
     return(
