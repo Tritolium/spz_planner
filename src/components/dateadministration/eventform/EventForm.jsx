@@ -71,9 +71,15 @@ const EventForm = () => {
     }, [])
 
     useEffect(() => {
+        const interval = setInterval(() => {
+            fetchEvents()
+        }, 5000)
         fetchEvents()
         fetchUsergroups()
         fetchDatetemplates()
+        return () => {
+            clearInterval(interval)
+        }
     }, [fetchEvents, fetchUsergroups, fetchDatetemplates])
 
     return (
