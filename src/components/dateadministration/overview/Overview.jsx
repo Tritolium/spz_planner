@@ -27,6 +27,22 @@ const Overview = () => {
 
     const fetchEvents = useCallback(async () => {
         let _events = await getEvents(filter)
+        _events = _events.filter(event => {
+            switch(eventfilter) {
+                default:
+                case 'all':
+                    return true
+                case 'practice':
+                    return event.Category === 'practice'
+                case 'event':
+                    return event.Category === 'event'
+                case 'other':
+                    return event.Category === 'other'
+            }
+        })
+        _events = _events.filter(event => {
+            return event.State === EVENT_STATE.CONFIRMED || event.State === EVENT_STATE.PENDING
+        })
         if(_events !== undefined)
             setEvents(_events)
     }, [filter])
@@ -76,24 +92,7 @@ const EventList = ({ events, eventfilter }) => {
                 </tr>
             </thead>
             <tbody>
-                {events
-                .filter(event => {
-                    switch(eventfilter) {
-                        default:
-                        case 'all':
-                            return true
-                        case 'practice':
-                            return event.Category === 'practice'
-                        case 'event':
-                            return event.Category === 'event'
-                        case 'other':
-                            return event.Category === 'other'
-                        }
-                })
-                .filter(event => {
-                    return event.State === EVENT_STATE.CONFIRMED || event.State === EVENT_STATE.PENDING
-                })
-                .map(event => {
+                {events.map(event => {
                     return(<Event key={`event_${event.Event_ID}`} event={event} />)
                 })}
             </tbody>
@@ -113,21 +112,7 @@ const EventListMobile = ({ events, eventfilter }) => {
                 </tr>
             </thead>
             <tbody>
-                {events
-                .filter(event => {
-                    switch(eventfilter) {
-                        default:
-                        case 'all':
-                            return true
-                        case 'practice':
-                            return event.Category === 'practice'
-                        case 'event':
-                            return event.Category === 'event'
-                        case 'other':
-                            return event.Category === 'other'
-                        }
-                })
-                .map(event => {
+                {events.map(event => {
                     return(<EventMobile key={`m_event_${event.Event_ID}`} event={event} />)
                 })}
             </tbody>
