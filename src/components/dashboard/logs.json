@@ -33,7 +33,7 @@
                     {
                         "page": "Termine",
                         "changes":[
-                            "Fehler erneut behoben, wodurch abgelehnte Termine weiterhin angezeigt wurden, da veraltete Daten aus dem Cache geladen wurden"
+                            "Fehler erneut behoben, wodurch abgelehnte Termine weiterhin angezeigt wurden. Termine wurden in der mobile Ansicht nicht korrekt angezeigt."
                         ]
                     }
                 ]
