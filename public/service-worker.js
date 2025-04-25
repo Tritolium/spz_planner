@@ -78,10 +78,11 @@ registerRoute(
 
 registerRoute(
 	({ url }) => url.pathname.startsWith("/api/v0/events"),
-	new StaleWhileRevalidate({
+	new NetworkFirst({ // prefer network, fallback to cache
 		cacheName: "events",
+    networkTimeoutSeconds: 0.5,
 		plugins: [
-			new ExpirationPlugin({ maxAgeSeconds: 3600 }),
+			new ExpirationPlugin({ maxAgeSeconds: 604800 }), // 7 days
 		],
 	})
 )
