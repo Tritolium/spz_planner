@@ -2,6 +2,17 @@
     "v0": {
         "17": [
             {
+                "patch": 4,
+                "entries":[
+                    {
+                        "page": "Termine",
+                        "changes":[
+                            "Fehler erneut behoben, wodurch abgelehnte Termine weiterhin angezeigt wurden, da veraltete Daten aus dem Cache geladen wurden"
+                        ]
+                    }
+                ]
+            },
+            {
                 "patch": 3,
                 "entries":[
                     {
