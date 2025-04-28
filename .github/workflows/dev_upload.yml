@@ -68,7 +68,7 @@ jobs:
           VITE_MAPTILER_API_KEY: ${{ secrets.MAPTILER_API_KEY }}
           VITE_SERVICE_CELL: ${{ secrets.SERVICE_CELL }}
       - name: Deploy to RPI
-        uses: appleboy/scp-action@v0.1.7
+        uses: appleboy/scp-action@v1.0.0
         with:
           host: ${{ secrets.SCP_HOST }}
           username: ${{ secrets.SCP_USER }}
