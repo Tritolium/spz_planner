@@ -5,7 +5,7 @@
   "dependencies": {
     "@maptiler/client": "^2.3.2",
     "chart.js": "^4.4.9",
-    "js-sha256": "^0.11.0",
+    "js-sha256": "^0.11.1",
     "react": "^19.1.0",
     "react-app-polyfill": "^3.0.0",
     "react-chartjs-2": "^5.2.0",
