@@ -276,6 +276,10 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
     return (
         <Form id="eventform_form">
             <FormBox>
+                <label htmlFor="event_id">ID:</label>
+                <input type="text" name="event_id" id="event_id" defaultValue={event?.Event_ID ?? -1} readOnly/>
+            </FormBox>
+            <FormBox>
                 <label htmlFor="category">Art:</label>
                 <select name="category" id="category">
                     <option value="event">Auftritt</option>
