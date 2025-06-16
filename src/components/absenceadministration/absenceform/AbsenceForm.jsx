@@ -194,14 +194,13 @@ const Form = ({selected, reload}) => {
     }
 
     const delAbsence = async (e) => {
-        
-        e.preventDefault()
-        
-        if(absence.Absence_ID > 0)
 
-            return true
+        e.preventDefault()
+
+        if(absence.Absence_ID > 0){
             await deleteAbsence(absence.Absence_ID)
-        
+        }
+
         reload()
         clear(e)
     }
