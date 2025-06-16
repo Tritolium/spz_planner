@@ -481,16 +481,16 @@ export const newAbsence = async (from, until, info) => {
 
 	let token = localStorage.getItem("api_token")
 
-	let response = await fetch(`${host}/api/absence.php?api_token=${token}`, {
-		method: "POST",
-		header: {
-			"content-type": "application/json"
-		},
-		body: JSON.stringify({
-			From: from,
-			Until: until,
-			Info: info
-		})
+       let response = await fetch(`${host}/api/absence.php?api_token=${token}`, {
+               method: "POST",
+               headers: {
+                       "content-type": "application/json"
+               },
+               body: JSON.stringify({
+                       From: from,
+                       Until: until,
+                       Info: info
+               })
 	})
 	switch(response.status){
 	case 201:
@@ -505,17 +505,17 @@ export const newManualAbsence = async (member_id, from, until, info) => {
     
 	let token = localStorage.getItem("api_token")
 
-	let response = await fetch(`${host}/api/absence.php?api_token=${token}`, {
-		method: "POST",
-		header: {
-			"content-type": "application/json"
-		},
-		body: JSON.stringify({
-			Member_ID:  member_id,
-			From:       from,
-			Until:      until,
-			Info:       info
-		})
+       let response = await fetch(`${host}/api/absence.php?api_token=${token}`, {
+               method: "POST",
+               headers: {
+                       "content-type": "application/json"
+               },
+               body: JSON.stringify({
+                       Member_ID:  member_id,
+                       From:       from,
+                       Until:      until,
+                       Info:       info
+               })
 	})
 
 	switch(response.status) {
