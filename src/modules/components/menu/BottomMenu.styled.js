@@ -5,7 +5,8 @@ export const StyledBottomMenu = styled.footer`
     bottom: 0;
     display: none;
     justify-content: space-around;
-    height: 3rem;
+    height: calc(3rem + env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom);
     width: 100%;
     background-color: ${({theme}) => theme.primaryDark};
     z-index: 8;
