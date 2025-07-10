@@ -57,7 +57,7 @@
     "eslint": "^9.30.1",
     "eslint-plugin-react": "^7.37.5",
     "globals": "^16.2.0",
-    "jest": "^30.0.2",
+    "jest": "^30.0.4",
     "vite": "^7.0.2",
     "vite-plugin-pwa": "^1.0.1",
     "workbox-precaching": "^7.3.0",
