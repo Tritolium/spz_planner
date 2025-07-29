@@ -103,12 +103,24 @@ const NextEvent = ({ nextEventID, auth_level, showEventInfo, practice=false, the
     return(<>
         {nextEvent !== undefined ? <StyledEvent className={className}>
             <Event event={nextEvent} evaluation={evaluation} auth_level={auth_level} onClick={onClick} showEventInfo={showEventInfo} theme={theme} practice={practice}/>
-            {!practice || nextEvent.Type.includes("Open Air") ? <Additional event={nextEvent} plusone={plusone} attendence={attendence} updatePlusOne={updatePlusOne} weather={weather} evaluation={evaluation} theme={theme}/> : <></>}
+            {!practice || nextEvent.Type.includes("Open Air") ? (
+                <Additional
+                    event={nextEvent}
+                    plusone={plusone}
+                    ownArrival={ownArrival}
+                    attendence={attendence}
+                    updatePlusOne={updatePlusOne}
+                    updateOwnArrival={updateOwnArrival}
+                    weather={weather}
+                    evaluation={evaluation}
+                    theme={theme}
+                />
+            ) : <></>}
         </StyledEvent> : <EventFallback theme={theme}/>}
     </>)
 }
 
-const Additional = ({ event, plusone, attendence, updatePlusOne, weather, evaluation, theme }) => {
+const Additional = ({ event, plusone, ownArrival, attendence, updatePlusOne, updateOwnArrival, weather, evaluation, theme }) => {
     return(<>
         <div className="departure">Abfahrt:</div>
         <div className="event_departure">{event?.Departure !== "12:34:56" && event?.Departure !== null ? `${event?.Departure.slice(0, 5)} Uhr` : "-"}</div>
