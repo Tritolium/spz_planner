@@ -1,5 +1,6 @@
 import DateField from './DateField'
 import PlusOne from '../../../modules/components/icons/PlusOne'
+import OwnArrival from '../../../modules/components/icons/OwnArrival'
 
 import four from '../4.png'
 import five from '../5.png'
@@ -99,17 +100,25 @@ const AttendenceTable = ({ attendences, states, selectedDateFilter, selectedEven
 const Event = ({ att, oneAssociation, flags, theme }) => {
 
     const [plusone, setPlusone] = useState(att.PlusOne)
+    const [ownArrival, setOwnArrival] = useState(att.OwnArrival)
     const [attendence, setAttendence] = useState(att.Attendence)
 
     const onClick = async (event_id, new_att) => {
-        await updateAttendence(event_id, new_att, plusone)
+        await updateAttendence(event_id, new_att, plusone, ownArrival)
         setAttendence(new_att)
     }
 
     const togglePlusOne = async () => {
         if(attendence === 1){
-            await updateAttendence(att.Event_ID, attendence, !plusone)
+            await updateAttendence(att.Event_ID, attendence, !plusone, ownArrival)
             setPlusone(!plusone)
+        }
+    }
+
+    const toggleOwnArrival = async () => {
+        if(attendence === 1){
+            await updateAttendence(att.Event_ID, attendence, plusone, !ownArrival)
+            setOwnArrival(!ownArrival)
         }
     }
 
@@ -126,6 +135,7 @@ const Event = ({ att, oneAssociation, flags, theme }) => {
                 <DateField dateprops={att} />
                 <AttendenceInput event={att} attendence={attendence} onClick={onClick} theme={theme}/>
                 {att.Ev_PlusOne ? <PlusOne active={attendence === 1} plusOne={plusone} onClick={togglePlusOne} theme={theme} className="PlusOne" /> : <></>}
+                <OwnArrival active={attendence === 1} ownArrival={ownArrival} onClick={toggleOwnArrival} theme={theme} className="OwnArrival" />
             </StyledEvent>
         )
     }
@@ -136,6 +146,7 @@ const Event = ({ att, oneAssociation, flags, theme }) => {
             <DateField dateprops={att} />
             <AttendenceInput event={att} attendence={attendence} onClick={onClick} theme={theme}/>
             {att.Ev_PlusOne ? <PlusOne active={attendence === 1} plusOne={plusone} onClick={togglePlusOne} theme={theme} className="PlusOne" /> : <></>}
+            <OwnArrival active={attendence === 1} ownArrival={ownArrival} onClick={toggleOwnArrival} theme={theme} className="OwnArrival" />
         </StyledMultiEvent>
     )
 }

@@ -329,17 +329,18 @@ const newEvent = async (category, state, type, location, address, date, begin, e
 	}
 }
 
-const setAttendence = async (event_id, member_id, attendence, plusone) => {
+const setAttendence = async (event_id, member_id, attendence, plusone, ownArrival = false) => {
 
 	let token = localStorage.getItem("api_token")
 
 	await fetch(`${host}/api/v0/attendence/${event_id}?api_token=${token}`, {
 		method: "PATCH",
-		body: JSON.stringify({
-			Member_ID: member_id,
-			Attendence: attendence,
-			PlusOne: plusone
-		})
+                body: JSON.stringify({
+                        Member_ID: member_id,
+                        Attendence: attendence,
+                        PlusOne: plusone,
+                        OwnArrival: ownArrival
+                })
 	}).then(response => {
 		switch(response.status){
 		case 200:
@@ -384,15 +385,16 @@ export const getAllAttendences = async (usergroup_id) => {
 	return attendences
 }
 
-export const updateAttendence = async (event_id, attendence, plusone) => {
+export const updateAttendence = async (event_id, attendence, plusone, ownArrival = false) => {
 	let token = localStorage.getItem("api_token")
 
 	await fetch(`${host}/api/v0/attendence/${event_id}?api_token=${token}`, {
 		method: "PATCH",
-		body: JSON.stringify({
-			Attendence: attendence,
-			PlusOne: plusone
-		})
+                body: JSON.stringify({
+                        Attendence: attendence,
+                        PlusOne: plusone,
+                        OwnArrival: ownArrival
+                })
 	}).then(response => {
 		switch(response.status){
 		case 200:
