@@ -98,7 +98,7 @@ const Overview = ({ theme }) => {
     }
 }
 
-export const Zusage = ({attendence, plusone, theme, prediction}) => {
+export const Zusage = ({attendence, plusone, theme, prediction, credible}) => {
     if(attendence === 1 && plusone === 1)
         return(<PlusOne theme={theme} className="PlusOneIcon"/>)
     switch(attendence){
@@ -108,7 +108,7 @@ export const Zusage = ({attendence, plusone, theme, prediction}) => {
     case 0:
         return(<Deny theme={theme}/>)
     case 1:
-        return(<Check theme={theme}/>)
+        return(<Check theme={theme} credible={credible}/>)
     case 2:
         return(<Alert theme={theme}/>)
     }
