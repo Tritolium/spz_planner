@@ -71,13 +71,15 @@ export const Blank = ({ callback, size, theme, overlay, className }) => {
     )
 }
 
-export const Check = ({ callback, theme, className }) => {
+export const Check = ({ callback, theme, className, credible = true }) => {
     //#00bd00
+    let fill = credible ? "white" : "#7d7abc"
+
     return(
         <div className={`ButtonWrapper ${className}`}>
             <IconContext.Provider value={{color: theme.green, className: "IconWrapper "}}>
                 <IoCheckmarkCircle size="100%" onClick={callback}/>
-                <Circle callback={callback} />
+                <Circle callback={callback} fill={fill} />
             </IconContext.Provider>
         </div>
     )

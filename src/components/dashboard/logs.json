@@ -7,7 +7,8 @@
                     {
                         "page": "Anwesenheiten",
                         "changes":[
-                            "Einschätzung für Termine ist verschieden für Auftritte und Übungsstunden"
+                            "Einschätzung für Termine ist verschieden für Auftritte und Übungsstunden",
+                            "Positive Rückmeldungen werden in der Übersicht mit einem Hinweis versehen, wenn der Nutzer trotz positiver Rückmeldung nicht anwesend war"
                         ]
                     },
                     {
