@@ -28,7 +28,7 @@ jobs:
           VITE_SERVICE_CELL: ${{ secrets.SERVICE_CELL }}
         
       - name: Upload Website files
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
           server: spzroenkhausen.bplaced.net
           username: spzroenkhausen_admin
