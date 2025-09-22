@@ -6,11 +6,6 @@
     height: calc(10px + 2vmin);
   }
 
-  .DateInput {
-    width: fit-content;
-    justify-content: center;
-  }
-  
   .Tz {
     text-align: center;
   }
