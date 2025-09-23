@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 const StyledApp = styled.div`
     display: flex;
@@ -9,11 +9,17 @@ const StyledApp = styled.div`
     box-sizing: border-box;
     width: 100%;
 
-    @media (max-width: ${({theme}) => theme.mobile}) {
+    #version-tag {
+        position: relative;
+        bottom: 0;
+        font-size: xx-small;
+    }
+
+    @media (max-width: ${({ theme }) => theme.mobile}) {
         padding-top: max(env(safe-area-inset-top), 2rem);
         max-height: calc(100vh - 6rem);
         overflow-y: scroll;
     }
-`
+`;
 
-export default StyledApp
+export default StyledApp;
