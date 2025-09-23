@@ -124,6 +124,39 @@ const App = () => {
         buttonPressed(e.target.id)
     }
 
+    const handleNotificationSubscription = useCallback(({ permissions, error } = {}) => {
+        if(error){
+            console.error(error)
+
+            if(error.message === 'Notification permission was not granted.'){
+                alert("Benachrichtigungen wurden nicht aktiviert. Bitte erlaube Benachrichtigungen im Browser.")
+                setNotify(false)
+                return
+            }
+
+            if(error.message === 'Notifications are not supported on this device.'){
+                alert("Benachrichtigungen werden von diesem Gerät nicht unterstützt.")
+                setNotify(false)
+                return
+            }
+
+            sendError(error.toString())
+            alert("Benachrichtigungen konnten nicht aktiviert werden. Bitte versuche es später erneut.")
+            setNotify(false)
+            return
+        }
+
+        if(permissions?.Allowed === 1){
+            setNotify(true)
+            return
+        }
+
+        if(permissions){
+            setNotify(false)
+            alert("Benachrichtigungen konnten nicht aktiviert werden. Bitte prüfe deine Berechtigungen.")
+        }
+    }, [setNotify])
+
     const ringBell = () => {
         window.Notification?.requestPermission().then(permission => {
             if(permission === 'granted'){
@@ -161,7 +194,7 @@ const App = () => {
             </header> : <></>}
             <StyledApp className="App">
                 {theme.weather ? <Weather /> : <></>}
-                {fullname !== "" ? <Burger open={open} setOpen={setOpen}/> : <></>}
+                {fullname !== "" ? <Burger open={open} setOpen={setOpen} onNotificationEnabled={handleNotificationSubscription}/> : <></>}
                 <Menu open={open} setOpen={setOpen} navigate={navigate} auth_level={auth_level} secure={secure.current}/>
                 <Suspense fallback={<div>Lädt...</div>}>
                     <View view={view} sendLogin={sendLogin} fullname={fullname} auth_level={auth_level} theme={theme} secure={secure.current}/>
