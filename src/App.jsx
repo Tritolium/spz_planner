@@ -11,8 +11,6 @@ import { buttonPressed } from './modules/helper/Analytics';
 import { Weather } from './modules/components/weather/Weather';
 import { BottomMenu } from './modules/components/menu/BottomMenu';
 
-import('./App.css')
-
 const AbsenceAdministration = lazy(() => import('./components/absenceadministration/AbsenceAdministration'))
 const Administration = lazy(() => import('./components/administration/Administration'))
 const Burger = lazy(() => import('./modules/components/burger/Burger'))
