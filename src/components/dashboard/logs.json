@@ -28,7 +28,8 @@
                     {
                         "page": "Benachrichtigungen",
                         "changes":[
-                            "Das Aktivieren der Push-Benachrichtigungen aktualisiert das Glocken-Symbol nun automatisch"
+                            "Das Aktivieren der Push-Benachrichtigungen aktualisiert das Glocken-Symbol nun automatisch",
+                            "Falls die Anmeldung für Push-Benachrichtigungen scheitert, wird ein entsprechender Hinweis angezeigt"
                         ]
                     }
                 ]
