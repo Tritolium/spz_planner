@@ -157,17 +157,39 @@ const App = () => {
         }
     }, [setNotify])
 
-    const ringBell = () => {
-        window.Notification?.requestPermission().then(permission => {
-            if(permission === 'granted'){
-                notificationHelper.createNotificationSubscription('BD0AbKmeW7bACNzC9m0XSUddJNx--VoOvU2X0qBF8dODOBhHvFPjrKJEBcL7Yk07l8VpePC1HBT7h2FRK3bS5uA')
-                .then(subscription => {
-                    sendPushSubscription(subscription, !notify)
-                })
-                setNotify(!notify)
+    const ringBell = useCallback(async () => {
+        if(!window.Notification){
+            alert("Benachrichtigungen werden von diesem Gerät nicht unterstützt.")
+            return
+        }
+
+        const previousNotifyState = notify
+
+        try {
+            const permission = await window.Notification.requestPermission()
+
+            if(permission !== 'granted'){
+                if(permission === 'denied'){
+                    alert("Benachrichtigungen wurden nicht aktiviert. Bitte erlaube Benachrichtigungen im Browser.")
+                }
+                return
             }
-        })
-    }
+
+            const subscription = await notificationHelper.createNotificationSubscription('BD0AbKmeW7bACNzC9m0XSUddJNx--VoOvU2X0qBF8dODOBhHvFPjrKJEBcL7Yk07l8VpePC1HBT7h2FRK3bS5uA')
+            const permissions = await sendPushSubscription(subscription, !notify)
+
+            if(!permissions){
+                throw new Error('Benachrichtigungseinstellungen konnten nicht aktualisiert werden.')
+            }
+
+            handleNotificationSubscription({ permissions })
+        } catch (error) {
+            console.error(error)
+            sendError(error?.toString?.() || String(error))
+            alert("Benachrichtigungen konnten nicht aktualisiert werden. Bitte versuche es später erneut.")
+            setNotify(previousNotifyState)
+        }
+    }, [notify, handleNotificationSubscription])
 
     const checkSW = async () => {
         if('serviceWorker' in navigator){
