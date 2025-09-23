@@ -1,25 +1,4 @@
-.Dateplanner-header {
-    display: flex;
+.DateInput {
+  width: fit-content;
+  justify-content: center;
 }
-  
-.Dateplanner-header img {
-    height: calc(10px + 2vmin);
-  }
-
-  .Tz {
-    text-align: center;
-  }
-  
-  .Abtr {
-    align-items: center;
-    text-align: center;
-  }
-  
-  .Abtr img {
-    height: calc(15px + 2vmin)
-  }
-
-  #date_name_label {
-    text-align: center;
-    vertical-align: bottom;
-  }
