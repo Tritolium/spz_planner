@@ -24,6 +24,12 @@
                             "Termine können jetzt auch ein Enddatum haben",
                             "Für Termine wird die Event_ID angezeigt"
                         ]
+                    },
+                    {
+                        "page": "Benachrichtigungen",
+                        "changes":[
+                            "Das Aktivieren der Push-Benachrichtigungen aktualisiert das Glocken-Symbol nun automatisch"
+                        ]
                     }
                 ]
             }

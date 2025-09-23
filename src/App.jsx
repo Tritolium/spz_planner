@@ -28,7 +28,7 @@ const Scoreboard = lazy(() => import('./components/scoreboard/Scoreboard'))
 const StyledApp = lazy(() => import('./App.styled'))
 
 // - ${preval`module.exports = new Date().toISOString()`}
-export const version = "v0.17"
+export const version = "v0.18.0"
 
 const App = () => {
 
@@ -124,11 +124,25 @@ const App = () => {
         buttonPressed(e.target.id)
     }
 
-    const handleNotificationSubscription = useCallback((permissions, error) => {
+    const handleNotificationSubscription = useCallback(({ permissions, error } = {}) => {
         if(error){
             console.error(error)
+
+            if(error.message === 'Notification permission was not granted.'){
+                alert("Benachrichtigungen wurden nicht aktiviert. Bitte erlaube Benachrichtigungen im Browser.")
+                setNotify(false)
+                return
+            }
+
+            if(error.message === 'Notifications are not supported on this device.'){
+                alert("Benachrichtigungen werden von diesem Gerät nicht unterstützt.")
+                setNotify(false)
+                return
+            }
+
             sendError(error.toString())
             alert("Benachrichtigungen konnten nicht aktiviert werden. Bitte versuche es später erneut.")
+            setNotify(false)
             return
         }
 
