@@ -44,7 +44,7 @@ const Termineingabe = ({theme}) => {
     }, [])
 
     return(
-        <Form className="DateInput">
+        <Form>
             <div className='EventFilter'>
                 <select name='eventSelect' id='eventSelect' title='event select' onChange={onEventFilterChange}>
                     <option value='all'>Alle</option>
@@ -69,8 +69,11 @@ const Termineingabe = ({theme}) => {
 }
 
 const Form = styled.form`
-
+    display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
 
     @media (max-width: ${({theme}) => theme.mobile}) {
         padding-bottom: 2rem;
