@@ -12,6 +12,7 @@ import EventInfo from './eventinfo/EventInfo'
 import Statistics from './statistics/Statistics'
 import NextEvent from './events/NextEvent'
 import { Changelog } from './Changelog'
+import { readStoredNotificationPermissions } from '../../modules/helper/NotificationPermissionsStorage'
 
 const Button = lazy(() => import('../../modules/components/button/Button'))
 
@@ -119,21 +120,17 @@ const Dashboard = ({ fullname, auth_level, theme }) => {
 
     useEffect(() => {
         const evaluateNotificationPermissions = () => {
-            try {
-                const storedPermissionsRaw = localStorage.getItem('permissions')
-                if(!storedPermissionsRaw){
-                    setNotificationsBlocked(false)
-                    return
-                }
-                const storedPermissions = JSON.parse(storedPermissionsRaw)
-                const permissionStatus = window.Notification?.permission
-                const browserBlocked = permissionStatus !== 'granted'
-                const storedBlocked = storedPermissions?.Notification === -1 || storedPermissions?.Notifications === -1
-                setNotificationsBlocked(Boolean(browserBlocked && storedBlocked))
-            } catch (error) {
-                console.error(error)
+            const storedPermissions = readStoredNotificationPermissions()
+            if(!storedPermissions){
                 setNotificationsBlocked(false)
+                return
             }
+
+            const permissionStatus = window.Notification?.permission
+            const browserBlocked = permissionStatus !== 'granted'
+            const storedBlocked = storedPermissions?.Notification === -1 || storedPermissions?.Notifications === -1
+
+            setNotificationsBlocked(Boolean(browserBlocked && storedBlocked))
         }
 
         evaluateNotificationPermissions()

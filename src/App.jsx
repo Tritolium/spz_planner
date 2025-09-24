@@ -7,6 +7,7 @@ import { themes } from './theme';
 import { TbBellFilled, TbBellOff } from 'react-icons/tb';
 import Settings from './components/settings/Settings';
 import { notificationHelper } from './modules/helper/NotificationHelper';
+import { persistNotificationPermissions } from './modules/helper/NotificationPermissionsStorage';
 import { buttonPressed } from './modules/helper/Analytics';
 import { Weather } from './modules/components/weather/Weather';
 import { BottomMenu } from './modules/components/menu/BottomMenu';
@@ -62,7 +63,8 @@ const App = () => {
                         notificationHelper.createNotificationSubscription('BD0AbKmeW7bACNzC9m0XSUddJNx--VoOvU2X0qBF8dODOBhHvFPjrKJEBcL7Yk07l8VpePC1HBT7h2FRK3bS5uA')
                         .then(subscription => {
                             sendPushSubscription(subscription).then(permissions => {
-                                setNotify(permissions.Allowed === 1)
+                                persistNotificationPermissions(permissions)
+                                setNotify(permissions?.Allowed === 1)
                             })
                         })
                     }
@@ -97,7 +99,8 @@ const App = () => {
                     notificationHelper.createNotificationSubscription('BD0AbKmeW7bACNzC9m0XSUddJNx--VoOvU2X0qBF8dODOBhHvFPjrKJEBcL7Yk07l8VpePC1HBT7h2FRK3bS5uA')
                     .then(subscription => {
                         sendPushSubscription(subscription).then(permissions => {
-                            setNotify(permissions.Allowed === 1)
+                            persistNotificationPermissions(permissions)
+                            setNotify(permissions?.Allowed === 1)
                         })
                     })
                 }
@@ -147,11 +150,7 @@ const App = () => {
         }
 
         if(permissions){
-            try {
-                localStorage.setItem('permissions', JSON.stringify(permissions))
-            } catch (storageError) {
-                console.error(storageError)
-            }
+            persistNotificationPermissions(permissions)
         }
 
         if(permissions?.Allowed === 1){
