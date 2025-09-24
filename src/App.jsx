@@ -146,6 +146,14 @@ const App = () => {
             return
         }
 
+        if(permissions){
+            try {
+                localStorage.setItem('permissions', JSON.stringify(permissions))
+            } catch (storageError) {
+                console.error(storageError)
+            }
+        }
+
         if(permissions?.Allowed === 1){
             setNotify(true)
             return

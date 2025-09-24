@@ -88,6 +88,29 @@ export const StyledInfoText = styled.p`
     }
 `
 
+export const StyledNotificationHint = styled.div`
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75em;
+    margin: 0 1em 1.5em;
+    padding: 0.75em 1em;
+    width: calc(100% - 2em);
+    max-width: 450px;
+    border-radius: 8px;
+    border-left: 4px solid ${({theme}) => theme.yellow};
+    background-color: rgba(0, 0, 0, 0.05);
+    color: ${({theme}) => theme.primaryDark};
+    font-size: 0.9em;
+    line-height: 1.4;
+
+    svg {
+        flex-shrink: 0;
+        width: 1.4em;
+        height: 1.4em;
+        color: ${({theme}) => theme.yellow};
+    }
+`
+
 export const StyledChangelog = styled.div`
     font-size: smaller;
     padding-inline-start: 1.5em;

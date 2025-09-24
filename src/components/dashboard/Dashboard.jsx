@@ -1,8 +1,8 @@
 import { lazy, Suspense, useCallback, useEffect, useRef } from 'react'
 import { useState } from 'react'
 import { getDisplayMode, host, newFeedback } from '../../modules/data/DBConnect'
-import { StyledDashboard, StyledFeedbackArea, StyledInfoText } from './Dashboard.styled'
-import { TbAlertTriangle } from 'react-icons/tb'
+import { StyledDashboard, StyledFeedbackArea, StyledInfoText, StyledNotificationHint } from './Dashboard.styled'
+import { TbAlertTriangle, TbBellOff } from 'react-icons/tb'
 import { IoShareOutline } from 'react-icons/io5'
 import { BsPlusSquare } from 'react-icons/bs'
 import { beforeInstallPrompt } from '../..'
@@ -25,6 +25,7 @@ const Dashboard = ({ fullname, auth_level, theme }) => {
     const [mobileBrowser, setMobileBrowser] = useState(false)
     const [eventInfo, setEventInfo] = useState(false)
     const [eventInfoData, setEventInfoData] = useState(undefined)
+    const [notificationsBlocked, setNotificationsBlocked] = useState(false)
 
     const fixedEventIDsRef = useRef()
 
@@ -117,6 +118,33 @@ const Dashboard = ({ fullname, auth_level, theme }) => {
     }, [theme.medium])
 
     useEffect(() => {
+        const evaluateNotificationPermissions = () => {
+            try {
+                const storedPermissionsRaw = localStorage.getItem('permissions')
+                if(!storedPermissionsRaw){
+                    setNotificationsBlocked(false)
+                    return
+                }
+                const storedPermissions = JSON.parse(storedPermissionsRaw)
+                const permissionStatus = window.Notification?.permission
+                const browserBlocked = permissionStatus !== 'granted'
+                const storedBlocked = storedPermissions?.Notification === -1 || storedPermissions?.Notifications === -1
+                setNotificationsBlocked(Boolean(browserBlocked && storedBlocked))
+            } catch (error) {
+                console.error(error)
+                setNotificationsBlocked(false)
+            }
+        }
+
+        evaluateNotificationPermissions()
+        window.addEventListener('focus', evaluateNotificationPermissions)
+
+        return () => {
+            window.removeEventListener('focus', evaluateNotificationPermissions)
+        }
+    }, [])
+
+    useEffect(() => {
         let _fixedEventIDs = fixedEventIDsRef.current?.filter(eventID => {
             if (nextPracticeIDs && nextPracticeIDs.includes(eventID))
                 return false
@@ -135,6 +163,10 @@ const Dashboard = ({ fullname, auth_level, theme }) => {
         </StyledInfoText> : <></>}
         {mobileBrowser ? <StyledInfoText>Um alle Funktionen nutzen zu können muss die App installiert werden, einfach auf das Icon klicken!</StyledInfoText> : <></>}
         {showiosInstruction ? <StyledInfoText className='iosInstruction'>Erst <IoShareOutline />, dann <BsPlusSquare /></StyledInfoText> : <></>}
+        {notificationsBlocked ? <StyledNotificationHint>
+            <TbBellOff />
+            <span>Hinweis: Dein Browser hat die Benachrichtigungen blockiert. Du kannst sie in den Browser-Einstellungen manuell wieder aktivieren.</span>
+        </StyledNotificationHint> : <></>}
         {eventInfo ? <EventInfo hideEventInfo={hideEventInfo} eventInfoData={eventInfoData} fullname={fullname}/> : <DashboardAttendence fullname={fullname} nextPracticeIDs={nextPracticeIDs} nextEventIDs={nextEventIDs} nextOtherIDs={nextOtherIDs} fixedEventIDs={fixedEventIDs} showEventInfo={showEventInfo} auth_level={auth_level} theme={theme}/>}
         <Statistics theme={theme} auth_level={auth_level} />
         <Feedback />
