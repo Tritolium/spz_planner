@@ -35,7 +35,7 @@ const DisplayDiagram = ({ displays, theme }) => {
         let datasets = [
             {
                 data: [none],
-                backgroundColor: theme.blueRGB,
+                backgroundColor: theme.greyRGB,
                 label: 'none',
             },
             {

@@ -62,7 +62,7 @@ const EvalDiagram = ({ event, theme }) => {
             },
             {
                 data: [event.Maybe],
-                backgroundColor: theme.yellowRGB
+                backgroundColor: theme.orangeRGB
             },
             {
                 data: [event.ProbMissing],

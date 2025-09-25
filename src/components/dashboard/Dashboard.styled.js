@@ -60,7 +60,7 @@ export const StyledDashboard = styled.div`
 
     .PendingEvent {
         font-style: italic;
-        color: ${({theme}) => theme.yellow};
+        color: ${({theme}) => theme.orange};
     }
 `
 

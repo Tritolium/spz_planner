@@ -159,7 +159,7 @@ export const StyledEvalTable = styled.table`
     }
 
     .warning {
-        color: ${({ theme }) => theme.yellow};
+        color: ${({ theme }) => theme.orange};
     }
 
     .critical {
