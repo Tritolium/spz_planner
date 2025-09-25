@@ -144,7 +144,17 @@ const DetailForm = ({ event, reload, theme }) => {
                         break
                     }
                 } else {
-                    prediction[member.Member_ID] = member.Attendence % 2
+                    switch(member.Attendence){
+                    default:
+                    case 0: // declined
+                    case 2: // maybe
+                        prediction[member.Member_ID] = 0
+                        break
+                    case 1: // accepted
+                    case 3: // delayed
+                        prediction[member.Member_ID] = 1
+                        break
+                    }
                 }
             }
             
@@ -191,6 +201,12 @@ const DetailForm = ({ event, reload, theme }) => {
             case 2:                             //maybe
                 if(prediction === 0)            //absent
                     evaluation[member_id] = 2   //absent with notice
+                else
+                    evaluation[member_id] = 3   //attending
+                break
+            case 3:                             //delayed
+                if(prediction === 0)            //absent
+                    evaluation[member_id] = 1   //absent despite acceptance
                 else
                     evaluation[member_id] = 3   //attending
                 break

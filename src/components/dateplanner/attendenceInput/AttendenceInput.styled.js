@@ -10,7 +10,7 @@ export const StyledAttendenceInput = styled.div`
     }
 
     .active_no {
-        translate: ${({active}) => active ? "-128px" : "0"};
+        translate: ${({active}) => active ? "-196px" : "0"};
         opacity: ${({active}) => active ? "1" : "0"};
     }
 
@@ -19,6 +19,11 @@ export const StyledAttendenceInput = styled.div`
     }
 
     .active_maybe {
+        translate: ${({active}) => active ? "-128px" : "0"};
+        opacity: ${({active}) => active ? "1" : "0"};
+    }
+
+    .active_delayed {
         translate: ${({active}) => active ? "-64px" : "0"};
         opacity: ${({active}) => active ? "1" : "0"};
     }

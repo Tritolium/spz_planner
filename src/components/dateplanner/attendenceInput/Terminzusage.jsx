@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { IoIosAlert, IoIosCloseCircle, IoIosRemoveCircle } from 'react-icons/io'
+import { IoIosAlert, IoIosClock, IoIosCloseCircle, IoIosRemoveCircle, IoIosTime } from 'react-icons/io'
 import { IoCheckmarkCircle } from 'react-icons/io5'
 import { StyledTerminzusage } from './Terminzusage.styled'
 import { IconContext } from 'react-icons'
@@ -63,7 +63,7 @@ export const Blank = ({ callback, size, theme, overlay, className }) => {
     let fill = [theme.green, theme.red, theme.darkred]
     return(
         <div className={`ButtonWrapper ${className}`}>
-            <IconContext.Provider value={{color: theme.blue, className: "IconWrapper Attendence_none"}}>
+            <IconContext.Provider value={{color: theme.grey, className: "IconWrapper Attendence_none"}}>
                 <IoIosAlert size="100%" onClick={callback}/>
                 <Circle callback={callback} fill={fill[overlay]} />
             </IconContext.Provider>
@@ -101,7 +101,7 @@ export const Alert = ({ callback, theme, className }) => {
     //#ffa11c
     return(
         <div className={`ButtonWrapper ${className}`}>
-            <IconContext.Provider value={{color: theme.yellow, className: "IconWrapper"}}>
+            <IconContext.Provider value={{color: theme.orange, className: "IconWrapper"}}>
                 <IoIosAlert size="100%" onClick={callback}/>
                 <Circle callback={callback} />
             </IconContext.Provider>
@@ -116,6 +116,17 @@ export const Unregistered = ({ callback }) => {
             <IconContext.Provider value={{color: "#904c77", className: "IconWrapper"}}>
                 <IoIosRemoveCircle size="100%" onClick={callback}/>
                 <Circle callback={callback} />
+            </IconContext.Provider>
+        </div>
+    )
+}
+
+export const Delayed = ({ callback, theme, className="" }) => {
+    return(
+        <div className={`ButtonWrapper ${className}`}>
+            <IconContext.Provider value={{color: theme.blue, className: "IconWrapper"}}>
+                <IoIosTime size="100%" onClick={callback}/>
+                <Circle callback={callback} fill={"white"} />
             </IconContext.Provider>
         </div>
     )

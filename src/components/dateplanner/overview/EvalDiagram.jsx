@@ -13,6 +13,8 @@ import { StyledEvalDiagram } from './Overview.styled';
 
 const EvalDiagram = ({ event, theme }) => {
 
+    console.log(event)
+
     ChartJS.register(
         CategoryScale,
         LinearScale,
@@ -59,6 +61,10 @@ const EvalDiagram = ({ event, theme }) => {
             {
                 data: [event.ProbAttending],
                 backgroundColor: theme.lightgreenRGB
+            },
+            {
+                data: [event.Delayed],
+                backgroundColor: theme.blueRGB
             },
             {
                 data: [event.Maybe],

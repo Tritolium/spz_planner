@@ -1,6 +1,7 @@
 import { Bar } from "react-chartjs-2"
 import { Chart as ChartJS, BarElement, CategoryScale, Legend, LinearScale, Title, Tooltip } from "chart.js"
 import { hasPermission } from "../../../modules/helper/Permissions"
+import { data } from "@maptiler/client"
 
 const DashboardDiagram = ({ event, theme, association_id, practice }) => {
 
@@ -72,6 +73,10 @@ const DashboardDiagram = ({ event, theme, association_id, practice }) => {
             {
                 data: [event?.ProbAttending],
                 backgroundColor: theme.lightgreenRGB
+            },
+            {
+                data: [event?.Delayed],
+                backgroundColor: theme.blueRGB
             },
             {
                 data: [event?.Maybe],

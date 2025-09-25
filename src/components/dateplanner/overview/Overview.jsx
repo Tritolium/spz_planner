@@ -5,7 +5,7 @@ import { getAllAttendences, getEvalByUsergroup, getOwnUsergroups } from '../../.
 import DateField from "../attendenceInput/DateField"
 import { StyledEvalTable, StyledOverview } from "./Overview.styled"
 import EvalDiagram from "./EvalDiagram"
-import { Alert, Blank, Check, Deny, PlusOne } from "../attendenceInput/Terminzusage"
+import { Alert, Blank, Check, Delayed, Deny, PlusOne } from "../attendenceInput/Terminzusage"
 import { IoReload } from "react-icons/io5"
 import { OverviewTable } from "./OverviewTable"
 import { hasPermission } from "../../../modules/helper/Permissions"
@@ -111,6 +111,8 @@ export const Zusage = ({attendence, plusone, theme, prediction, credible}) => {
         return(<Check theme={theme} credible={credible}/>)
     case 2:
         return(<Alert theme={theme}/>)
+    case 3:
+        return(<Delayed theme={theme}/>)
     }
 }
 
