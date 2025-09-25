@@ -17,5 +17,25 @@ export const StyledHelpPage = styled.div`
         img {
             height: 1rem;
         }
+
+        .ButtonWrapper {
+            display: inline-block;
+            height: 1.5rem;
+            width: 1.5rem;
+
+            position: relative;
+            top: 4px;
+
+            transition: translate 0.3s linear, opacity 0.5s linear;
+
+            :nth-child(1) {
+                z-index: 3;
+            }
+
+            .IconWrapper {
+                position: absolute;
+                height: 1.5rem;
+                width: 1.5rem;
+            }
     }
 `

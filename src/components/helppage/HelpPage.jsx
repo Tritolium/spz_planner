@@ -4,8 +4,9 @@ import { hasAnyPermission, hasPermission } from '../../modules/helper/Permission
 import check from '../../modules/img/check.png'
 import deny from '../../modules/img/delete-button.png'
 import blank from '../../modules/img/blank.png'
+import { Alert, Blank, Check, Delayed, Deny } from "../dateplanner/attendenceInput/Terminzusage"
 
-const HelpPage = ({ auth_level }) => {
+const HelpPage = ({ auth_level, theme }) => {
 
     const Privacypolicy = () => {
         return (
@@ -43,8 +44,10 @@ const HelpPage = ({ auth_level }) => {
                 <h2>Eingabe</h2>
                 <p>
                     In diesem Menü können die Abwesenheiten eingetragen werden, einzeln für jeden Termin.
-                    Per Klick auf das Symbol kann zwischen einer Zusage <img src={check} alt="Zusage"/> und Absage <img src={deny} alt="Absage"/> gewählt werden.
-                    Wird <img src={blank} alt="Ohne Rückmeldung"/> angezeigt, ist noch keine Rückmeldung erfolgt.
+                    Per Klick auf das Symbol kann zwischen einer <i>Zusage</i> <Check theme={theme}/> und <i>Absage</i> <Deny theme={theme}/> gewählt werden.
+                    Wenn noch nicht sicher ist, ob teilgenommen werden kann, geht das über ein <i>Vielleicht</i> <Alert theme={theme}/>.
+                    Auch eine <i>verspätete Teilnahme</i> <Delayed theme={theme}/> ist möglich.
+                    Wird <Blank theme={theme}/> angezeigt, ist noch keine Rückmeldung erfolgt.
                     Nach Änderungen wird das Ergebnis über den Button gespeichert.
                 </p>
                 {hasPermission(7) ? <>

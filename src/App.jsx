@@ -247,7 +247,7 @@ const View = (props) => {
         '7': <OrderAdministration />,
         '8': <Administration auth_level={props.auth_level}/>,
         '9': <Settings secure={props.secure}/>,
-        '10': <HelpPage auth_level={props.auth_level}/>
+        '10': <HelpPage auth_level={props.auth_level} theme={props.theme}/>
     };
     
     const fallbacks = {
