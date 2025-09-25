@@ -29,6 +29,7 @@ const HelpPage = ({ auth_level }) => {
                     <li>Berechtigung von Benachrichtigungen</li>
                     <li>Verwendung von Farbmodi (Dark/Light/forced)</li>
                     <li>Verwendung der Module abseits der Startseite (Anwesenheiten/Urlaub/....), siehe Menü</li>
+                    <li>Historie der Rückmeldungen</li>
                 </ul>
                 <p>Diese zusätzlichen Daten dienen ausschließlich dazu, die Benutzbarkeit der App zu verbessern und um eventuelle Fehler nachzuvollziehen.</p>
                 <p>Die Daten werden nicht an Dritte weitergegeben und nur für den Betrieb der Anwendung verwendet. Die Daten werden auf einem Server in Deutschland gespeichert und sind nur für den Administrator einsehbar.</p>
