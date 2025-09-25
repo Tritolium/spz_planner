@@ -216,7 +216,7 @@ const App = () => {
             </header> : <></>}
             <StyledApp className="App">
                 {theme.weather ? <Weather /> : <></>}
-                {fullname !== "" ? <Burger open={open} setOpen={setOpen} onNotificationEnabled={handleNotificationSubscription}/> : <></>}
+                {fullname !== "" ? <Burger open={open} setOpen={setOpen}/> : <></>}
                 <Menu open={open} setOpen={setOpen} navigate={navigate} auth_level={auth_level} secure={secure.current}/>
                 <Suspense fallback={<div>Lädt...</div>}>
                     <View view={view} sendLogin={sendLogin} fullname={fullname} auth_level={auth_level} theme={theme} secure={secure.current}/>

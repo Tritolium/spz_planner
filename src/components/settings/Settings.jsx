@@ -78,12 +78,44 @@ const Settings = ({ secure }) => {
         }
     }, [])
 
-    const savePermissions = useCallback(() => {
+    const ensureNotificationPermission = useCallback(async () => {
+        if(!window.Notification?.requestPermission){
+            alert("Benachrichtigungen werden von diesem Gerät nicht unterstützt.")
+            return false
+        }
+
+        if(window.Notification.permission === 'granted'){
+            return true
+        }
+
+        if(window.Notification.permission === 'denied'){
+            alert("Benachrichtigungen wurden nicht aktiviert. Bitte erlaube Benachrichtigungen im Browser.")
+            return false
+        }
+
+        const permission = await window.Notification.requestPermission()
+
+        if(permission !== 'granted'){
+            alert("Benachrichtigungen wurden nicht aktiviert. Bitte erlaube Benachrichtigungen im Browser.")
+            return false
+        }
+
+        return true
+    }, [])
+
+    const savePermissions = useCallback(async () => {
         let notifyPermissions = {
             Allowed:    document.getElementById('notification').checked ? 1 : 0,
             Event:      document.getElementById('event').checked ? 1 : 0,
             Practice:   document.getElementById('practice').checked ? 1 : 0,
             Other:      document.getElementById('other').checked ? 1 : 0
+        }
+
+        if(notifyPermissions.Allowed === 1){
+            const hasPermission = await ensureNotificationPermission()
+            if(!hasPermission){
+                return
+            }
         }
 
         fetch(`${host}/api/pushsubscription.php?api_token=${token}&endpoint=${endpoint}`, {
@@ -92,7 +124,7 @@ const Settings = ({ secure }) => {
         })
 
         console.log(notifyPermissions)
-    }, [endpoint, token])
+    }, [endpoint, token, ensureNotificationPermission])
 
     useEffect(() => {
         if(notifyPermisssion?.Allowed){
