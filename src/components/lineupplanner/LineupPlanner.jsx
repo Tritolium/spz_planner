@@ -64,6 +64,27 @@ const STATUS_LABELS = {
 
 const CONDUCTOR_SLOT_ID = 'slot-conductor'
 
+const STANDARD_TEMPLATE = [
+    [
+        [['trommel']],
+        [['lyra']],
+        [['sopran']],
+        [['tenor'], ['alt']]
+    ],
+    [
+        [['trommel']],
+        [['trommel']],
+        [['sopran']],
+        [['tenor'], ['alt']]
+    ],
+    [
+        [['trommel']],
+        [['trommel']],
+        [['sopran']],
+        [['tenor'], ['alt'], ['sopran']]
+    ]
+]
+
 const formatter = new Intl.DateTimeFormat('de-DE', {
     weekday: 'long',
     day: '2-digit',
@@ -362,6 +383,70 @@ const LineupPlanner = () => {
         }
     }, [])
 
+    const handleApplyStandardTemplate = useCallback(() => {
+        if (formationType !== '4' || columns !== 4) return
+
+        const slotMemberIds = slotIds.map(id => assignments[id]).filter(Boolean)
+        const available = sortMemberIds([...unassigned, ...slotMemberIds], membersById)
+        if (available.length === 0) return
+
+        const used = new Set()
+
+        const getRowPattern = (rowIndex) => {
+            if (STANDARD_TEMPLATE.length === 0) return []
+            return STANDARD_TEMPLATE[Math.min(rowIndex, STANDARD_TEMPLATE.length - 1)]
+        }
+
+        const findMatch = (priorityGroups) => {
+            for (const keywords of priorityGroups) {
+                for (const memberId of available) {
+                    if (used.has(memberId)) continue
+                    const instrument = (membersById[memberId]?.instrument ?? '').toLowerCase()
+                    if (!instrument) continue
+                    if (keywords.some(keyword => instrument.includes(keyword))) {
+                        used.add(memberId)
+                        return memberId
+                    }
+                }
+            }
+
+            for (const memberId of available) {
+                if (used.has(memberId)) continue
+                used.add(memberId)
+                return memberId
+            }
+            return null
+        }
+
+        const plannedAssignments = {}
+
+        slotIds.forEach((slotId, index) => {
+            const rowIndex = Math.floor(index / columns)
+            const columnIndex = index % columns
+            const pattern = getRowPattern(rowIndex)
+            const priorityGroups = pattern[columnIndex] ?? []
+            const memberId = findMatch(priorityGroups)
+            if (memberId) {
+                plannedAssignments[slotId] = memberId
+            }
+        })
+
+        const remaining = available.filter(memberId => !used.has(memberId))
+
+        setAssignments(prev => {
+            const next = {}
+            if (prev[CONDUCTOR_SLOT_ID]) {
+                next[CONDUCTOR_SLOT_ID] = prev[CONDUCTOR_SLOT_ID]
+            }
+            Object.entries(plannedAssignments).forEach(([slotId, memberId]) => {
+                next[slotId] = memberId
+            })
+            return next
+        })
+
+        setUnassigned(sortMemberIds(remaining, membersById))
+    }, [formationType, columns, slotIds, assignments, unassigned, membersById, sortMemberIds])
+
     const handleSlotDrop = useCallback((event, slotId) => {
         event.preventDefault()
         const payload = event.dataTransfer.getData('application/json') || event.dataTransfer.getData('text/plain')
@@ -533,6 +618,13 @@ const LineupPlanner = () => {
                         <SmallButton type='button' onClick={handleAddRow}>Reihe hinzufügen</SmallButton>
                         <SmallButton type='button' onClick={handleRemoveRow} disabled={rows <= 1}>Letzte Reihe entfernen</SmallButton>
                         <SmallButton type='button' onClick={handleClearLineup}>Aufstellung leeren</SmallButton>
+                        <SmallButton
+                            type='button'
+                            onClick={handleApplyStandardTemplate}
+                            disabled={formationType !== '4'}
+                        >
+                            Standardtemplate anwenden
+                        </SmallButton>
                     </FormationControls>
                     <HelperText>{columns} Plätze pro Reihe · {rows} Reihen + Reihe 0 (Dirigent:in)</HelperText>
                 </ControlGroup>
