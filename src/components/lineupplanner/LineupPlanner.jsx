@@ -6,6 +6,8 @@ import {
     ControlGroup,
     Controls,
     CustomColumnsInput,
+    ConductorRowGrid,
+    ConductorSlot,
     EmptyState,
     FormationControls,
     FormationOption,
@@ -51,11 +53,16 @@ const FORMATION_OPTIONS = [
     { label: 'Benutzerdefiniert', value: 'custom' }
 ]
 
+const STATUS_ORDER = ['confirmed', 'probable', 'maybe', 'probableAbsent']
+
 const STATUS_LABELS = {
     confirmed: 'Zusage',
     probable: 'Vermutete Zusage',
-    maybe: 'Vielleicht'
+    maybe: 'Vielleicht',
+    probableAbsent: 'Vermutlich abwesend'
 }
+
+const CONDUCTOR_SLOT_ID = 'slot-conductor'
 
 const formatter = new Intl.DateTimeFormat('de-DE', {
     weekday: 'long',
@@ -217,7 +224,7 @@ const LineupPlanner = () => {
     }, [selectedEvent, members, columns, membersById, sortMemberIds])
 
     useEffect(() => {
-        const validSlots = new Set(slotIds)
+        const validSlots = new Set([CONDUCTOR_SLOT_ID, ...slotIds])
         const removedMembers = []
         setAssignments(prev => {
             const updated = {}
@@ -238,37 +245,42 @@ const LineupPlanner = () => {
 
     useEffect(() => {
         const assignedCount = Object.values(assignments).filter(Boolean).length
-        const totalSlots = rows * columns
+        const totalSlots = rows * columns + 1
         if (assignedCount > totalSlots) {
             setRows(Math.ceil(assignedCount / columns))
         }
     }, [assignments, rows, columns])
 
     const poolMembers = useMemo(() => {
-        const grouped = {
-            confirmed: [],
-            probable: [],
-            maybe: []
-        }
+        const grouped = STATUS_ORDER.reduce((acc, status) => {
+            acc[status] = []
+            return acc
+        }, {})
         for (const memberId of unassigned) {
             const member = membersById[memberId]
             if (!member) continue
+            if (!grouped[member.status]) {
+                grouped[member.status] = []
+            }
             grouped[member.status].push(member)
         }
         return grouped
     }, [membersById, unassigned])
 
     const counts = useMemo(() => {
-        const result = {
-            confirmed: 0,
-            probable: 0,
-            maybe: 0
-        }
+        const result = STATUS_ORDER.reduce((acc, status) => {
+            acc[status] = 0
+            return acc
+        }, {})
         for (const member of members) {
+            if (result[member.status] === undefined) continue
             result[member.status] += 1
         }
         return result
     }, [members])
+
+    const conductorMemberId = assignments[CONDUCTOR_SLOT_ID]
+    const conductorMember = conductorMemberId ? membersById[conductorMemberId] : null
 
     const handleUsergroupChange = useCallback((event) => {
         setSelectedUsergroupId(parseInt(event.target.value, 10))
@@ -522,7 +534,7 @@ const LineupPlanner = () => {
                         <SmallButton type='button' onClick={handleRemoveRow} disabled={rows <= 1}>Letzte Reihe entfernen</SmallButton>
                         <SmallButton type='button' onClick={handleClearLineup}>Aufstellung leeren</SmallButton>
                     </FormationControls>
-                    <HelperText>{columns} Plätze pro Reihe · {rows} Reihen</HelperText>
+                    <HelperText>{columns} Plätze pro Reihe · {rows} Reihen + Reihe 0 (Dirigent:in)</HelperText>
                 </ControlGroup>
                 <Pool onDragOver={allowDrop} onDrop={handlePoolDrop}>
                     <PoolHeader>
@@ -530,27 +542,31 @@ const LineupPlanner = () => {
                         <span>{unassigned.length} von {members.length} Personen unplatziert</span>
                     </PoolHeader>
                     <PoolColumns>
-                        {Object.entries(poolMembers).map(([status, membersForStatus]) => (
-                            <PoolColumn key={status}>
-                                <PoolColumnTitle>{STATUS_LABELS[status]} ({counts[status]})</PoolColumnTitle>
-                                {membersForStatus.length === 0 ? (
+                        {STATUS_ORDER.map((status) => {
+                            const membersForStatus = poolMembers[status] ?? []
+                            const label = STATUS_LABELS[status] ?? status
+                            return (
+                                <PoolColumn key={status}>
+                                    <PoolColumnTitle>{label} ({counts[status] ?? 0})</PoolColumnTitle>
+                                    {membersForStatus.length === 0 ? (
                                     <PoolEmptyText>Keine Personen verfügbar</PoolEmptyText>
-                                ) : (
-                                    membersForStatus.map(member => (
-                                        <PersonCard
-                                            key={member.id}
-                                            $status={member.status}
-                                            draggable
-                                            onDragStart={(event) => handleDragStart(event, member.id, 'pool')}
-                                        >
-                                            <StatusTag $status={member.status}>{STATUS_LABELS[member.status]}</StatusTag>
-                                            <PersonName>{member.name}</PersonName>
-                                            <PersonMeta>{member.instrument || 'Instrument unbekannt'}</PersonMeta>
-                                        </PersonCard>
-                                    ))
-                                )}
-                            </PoolColumn>
-                        ))}
+                                    ) : (
+                                        membersForStatus.map(member => (
+                                            <PersonCard
+                                                key={member.id}
+                                                $status={member.status}
+                                                draggable
+                                                onDragStart={(event) => handleDragStart(event, member.id, 'pool')}
+                                            >
+                                                <StatusTag $status={member.status}>{STATUS_LABELS[member.status]}</StatusTag>
+                                                <PersonName>{member.name}</PersonName>
+                                                <PersonMeta>{member.instrument || 'Instrument unbekannt'}</PersonMeta>
+                                            </PersonCard>
+                                        ))
+                                    )}
+                                </PoolColumn>
+                            )
+                        })}
                     </PoolColumns>
                     <HelperText>Ziehe Personen auf die gewünschte Position oder zurück in diesen Bereich.</HelperText>
                 </Pool>
@@ -564,6 +580,33 @@ const LineupPlanner = () => {
                 </CanvasHeader>
                 {selectedEvent ? (
                     <LineupArea>
+                        <LineupRow>
+                            <RowLabel>Reihe 0</RowLabel>
+                            <ConductorRowGrid>
+                                <ConductorSlot
+                                    onDrop={(event) => handleSlotDrop(event, CONDUCTOR_SLOT_ID)}
+                                    onDragOver={allowDrop}
+                                    onDragEnter={(event) => handleSlotDragEnter(event, CONDUCTOR_SLOT_ID)}
+                                    onDragLeave={(event) => handleSlotDragLeave(event, CONDUCTOR_SLOT_ID)}
+                                    data-active={activeSlot === CONDUCTOR_SLOT_ID}
+                                    onDoubleClick={() => clearSlot(CONDUCTOR_SLOT_ID)}
+                                >
+                                    {conductorMember ? (
+                                        <PersonCard
+                                            $status={conductorMember.status}
+                                            draggable
+                                            onDragStart={(event) => handleSlotDragStart(event, conductorMember.id, CONDUCTOR_SLOT_ID)}
+                                        >
+                                            <StatusTag $status={conductorMember.status}>{STATUS_LABELS[conductorMember.status]}</StatusTag>
+                                            <PersonName>{conductorMember.name}</PersonName>
+                                            <PersonMeta>{conductorMember.instrument || 'Instrument unbekannt'}</PersonMeta>
+                                        </PersonCard>
+                                    ) : (
+                                        <Placeholder>Dirigent:in / Major</Placeholder>
+                                    )}
+                                </ConductorSlot>
+                            </ConductorRowGrid>
+                        </LineupRow>
                         {Array.from({ length: rows }, (_, rowIndex) => (
                             <LineupRow key={`row-${rowIndex}`}>
                                 <RowLabel>Reihe {rowIndex + 1}</RowLabel>
@@ -616,7 +659,10 @@ const LineupPlanner = () => {
 const resolveStatus = (attendence) => {
     if (attendence.Attendence === 1 || attendence.Attendence === 3) return 'confirmed'
     if (attendence.Attendence === 2) return 'maybe'
-    if (attendence.Attendence === -1 && attendence.Prediction === 0) return 'probable'
+    if (attendence.Attendence === -1) {
+        if (attendence.Prediction === 0) return 'probable'
+        if (attendence.Prediction === 1 || attendence.Prediction === 2) return 'probableAbsent'
+    }
     return null
 }
 

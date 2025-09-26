@@ -222,6 +222,11 @@ export const RowGrid = styled.div`
     }
 `
 
+export const ConductorRowGrid = styled.div`
+    display: flex;
+    justify-content: center;
+`
+
 export const Slot = styled.div`
     min-height: 4.25rem;
     border: 2px dashed ${({ theme }) => theme.grey};
@@ -237,6 +242,11 @@ export const Slot = styled.div`
         border-color: ${({ theme }) => theme.blue};
         background: rgba(109, 211, 206, 0.15);
     }
+`
+
+export const ConductorSlot = styled(Slot)`
+    flex: 0 1 170px;
+    width: 100%;
 `
 
 export const Placeholder = styled.span`
@@ -266,6 +276,8 @@ export const PersonCard = styled.div`
             return theme.green;
         case 'probable':
             return theme.blue;
+        case 'probableAbsent':
+            return theme.red;
         case 'maybe':
             return theme.orange;
         default:
@@ -300,6 +312,8 @@ export const StatusTag = styled.span`
             return `${'rgba(0, 189, 0, 0.2)'}`;
         case 'probable':
             return `${'rgba(109, 211, 206, 0.25)'}`;
+        case 'probableAbsent':
+            return `${'rgba(235, 87, 87, 0.25)'}`;
         case 'maybe':
             return `${'rgba(250, 169, 22, 0.25)'}`;
         default:
@@ -312,6 +326,8 @@ export const StatusTag = styled.span`
             return theme.green;
         case 'probable':
             return theme.blue;
+        case 'probableAbsent':
+            return theme.red;
         case 'maybe':
             return theme.orange;
         default:
