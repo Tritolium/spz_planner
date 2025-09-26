@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { IoIosAlert, IoIosClock, IoIosCloseCircle, IoIosRemoveCircle, IoIosTime } from 'react-icons/io'
+import { IoIosAlert, IoIosCloseCircle, IoIosRemoveCircle, IoIosTime } from 'react-icons/io'
 import { IoCheckmarkCircle } from 'react-icons/io5'
 import { StyledTerminzusage } from './Terminzusage.styled'
 import { IconContext } from 'react-icons'

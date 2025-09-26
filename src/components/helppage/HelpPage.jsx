@@ -1,9 +1,6 @@
 import { StyledHelpPage } from "./HelpPage.styled"
 import { hasAnyPermission, hasPermission } from '../../modules/helper/Permissions'
 
-import check from '../../modules/img/check.png'
-import deny from '../../modules/img/delete-button.png'
-import blank from '../../modules/img/blank.png'
 import { Alert, Blank, Check, Delayed, Deny } from "../dateplanner/attendenceInput/Terminzusage"
 
 const HelpPage = ({ auth_level, theme }) => {
