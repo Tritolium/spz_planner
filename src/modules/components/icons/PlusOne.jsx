@@ -15,7 +15,7 @@ const PlusOne = ({ active, plusOne, onClick, theme, className }) => {
 }
 
 const Circle = ({ callback, active, theme }) => {
-    return(<svg className='IconWrapper'><circle cx="50%" cy="50%" r="40.625%" fill={active ? theme.greenRGB : theme.blue} onClick={callback}/></svg>)
+    return(<svg className='IconWrapper'><circle cx="50%" cy="50%" r="40.625%" fill={active ? theme.greenRGB : theme.grey} onClick={callback}/></svg>)
 }
 
 export default PlusOne

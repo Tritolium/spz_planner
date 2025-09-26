@@ -5,7 +5,7 @@ export const StyledAttendenceTable = styled.div`
 
     .pending {
         font-style: italic;
-        color: ${({theme}) => theme.yellow};
+        color: ${({theme}) => theme.orange};
     }
 
     .sameDay {
