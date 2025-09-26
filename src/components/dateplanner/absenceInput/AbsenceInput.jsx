@@ -4,12 +4,14 @@ import { getEvents, getOwnUsergroups, host, setAttendence as setSingleAttendence
 import Terminzusage from "../attendenceInput/Terminzusage"
 import { StyledAbsenceInput } from "./AbsenceInput.styled"
 import PlusOne from "../../../modules/components/icons/PlusOne"
+import OwnArrival from "../../../modules/components/icons/OwnArrival"
 import { hasPermission } from "../../../modules/helper/Permissions"
 
 const AbsenceInput = ({ theme }) => {
 
     const [attendence, setAttendence] = useState(-1)
     const [plusone, setPlusone] = useState(false)
+    const [ownArrival, setOwnArrival] = useState(false)
 
     const [usergroups, setUsergroups] = useState(new Array(0))
     const [events, setEvents] = useState(new Array(0))
@@ -52,6 +54,9 @@ const AbsenceInput = ({ theme }) => {
     const togglePlusone = () => {
         setPlusone(!plusone)
     }
+    const toggleOwnArrival = () => {
+        setOwnArrival(!ownArrival)
+    }
     const onUsergroupFilterChange = useCallback(e => {
         setSelectedUsergroupFilter(parseInt(e.target.value))
     }, [setSelectedUsergroupFilter])
@@ -61,7 +66,7 @@ const AbsenceInput = ({ theme }) => {
         let memberS = document.getElementById("member_select")
         let event = eventS.options[eventS.selectedIndex].value
         let member = memberS.options[memberS.selectedIndex].value
-        setSingleAttendence(event, member, attendence, plusone)
+        setSingleAttendence(event, member, attendence, plusone, ownArrival)
     }
 
     return(
@@ -96,6 +101,7 @@ const AbsenceInput = ({ theme }) => {
             </select>
             <Terminzusage states={3} attendence={attendence} onClick={onClick} theme={theme}/>
             <PlusOne plusOne={plusone} onClick={togglePlusone} active={attendence === 1} theme={theme}/>
+            <OwnArrival ownArrival={ownArrival} onClick={toggleOwnArrival} active={attendence === 1} theme={theme}/>
             <SubmitButton type="submit" onClick={submit}>Abschicken</SubmitButton>
         </StyledAbsenceInput>
     )
