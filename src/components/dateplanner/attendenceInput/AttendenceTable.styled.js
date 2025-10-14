@@ -18,7 +18,7 @@ export const StyledAttendenceTable = styled.div`
 
 export const StyledEvent = styled.div`
     display: grid;
-    grid-template-columns: auto 64px min-content;
+    grid-template-columns: auto min-content 64px;
     align-items: center;
 
     border-top: 1px solid ${({theme}) => theme.primaryLight};
@@ -45,23 +45,31 @@ export const StyledEvent = styled.div`
     }
 
     .AttendenceInput {
-        grid-column-start: 2;
+        grid-column-start: 3;
         grid-row-start: 1;
         grid-row-end: 4;
         justify-self: end;
     }
 
     .PlusOne {
-        grid-column-start: 3;
+        grid-column-start: 2;
         grid-row-start: 1;
         grid-row-end: 4;
         justify-self: end;
+    }
+
+    &.no-plusone {
+        grid-template-columns: auto 64px;
+
+        .AttendenceInput {
+            grid-column-start: 2;
+        }
     }
 `
 
 export const StyledMultiEvent = styled.div`
     display: grid;
-    grid-template-columns: min-content auto 64px min-content;
+    grid-template-columns: min-content auto min-content 64px;
     align-items: center;
 
     border-top: 1px solid ${({theme}) => theme.primaryLight};
@@ -96,16 +104,24 @@ export const StyledMultiEvent = styled.div`
     }
 
     .AttendenceInput {
-        grid-column-start: 3;
+        grid-column-start: 4;
         grid-row-start: 1;
         grid-row-end: 4;
         justify-self: end;
     }
 
     .PlusOne {
-        grid-column-start: 4;
+        grid-column-start: 3;
         grid-row-start: 1;
         grid-row-end: 4;
         justify-self: end;
+    }
+
+    &.no-plusone {
+        grid-template-columns: min-content auto 64px;
+
+        .AttendenceInput {
+            grid-column-start: 3;
+        }
     }
 `

@@ -115,6 +115,10 @@ const Event = ({ att, oneAssociation, flags, theme }) => {
 
     let classname = att.State === 0 ? 'event pending' : 'event'
 
+    if (!att.Ev_PlusOne) {
+        classname += ' no-plusone'
+    }
+
     if (flags.sameDay) 
         classname += ' sameDay'
     else if (flags.diffWeek)
@@ -124,8 +128,8 @@ const Event = ({ att, oneAssociation, flags, theme }) => {
         return(
             <StyledEvent className={classname} key={att.Location + att.Event_ID}>
                 <DateField dateprops={att} />
+                {att.Ev_PlusOne ? <PlusOne active={attendence === 1} plusOne={plusone} onClick={togglePlusOne} theme={theme} className="PlusOne" /> : null}
                 <AttendenceInput event={att} attendence={attendence} onClick={onClick} theme={theme}/>
-                {att.Ev_PlusOne ? <PlusOne active={attendence === 1} plusOne={plusone} onClick={togglePlusOne} theme={theme} className="PlusOne" /> : <></>}
             </StyledEvent>
         )
     }
@@ -134,8 +138,8 @@ const Event = ({ att, oneAssociation, flags, theme }) => {
         <StyledMultiEvent className={classname} key={att.Location + att.Event_ID}>
             {associationLogo(att.Association_ID)}
             <DateField dateprops={att} />
+            {att.Ev_PlusOne ? <PlusOne active={attendence === 1} plusOne={plusone} onClick={togglePlusOne} theme={theme} className="PlusOne" /> : null}
             <AttendenceInput event={att} attendence={attendence} onClick={onClick} theme={theme}/>
-            {att.Ev_PlusOne ? <PlusOne active={attendence === 1} plusOne={plusone} onClick={togglePlusOne} theme={theme} className="PlusOne" /> : <></>}
         </StyledMultiEvent>
     )
 }
