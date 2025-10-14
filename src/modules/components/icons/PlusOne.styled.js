@@ -1,19 +1,12 @@
 import styled from "styled-components"
 
 export const StyledPlusOne = styled.div.attrs(props => ({
-	className: props.className,
+        className: props.className,
 }))`
     position: relative;
     height: 64px;
     width: 64px;
-
-    :nth-child(1) {
-        z-index: 3;
-    }
-
-    :nth-child(1) {
-        z-index: 2;
-    }
+    z-index: 1;
 
     .IconWrapper {
         position: absolute;

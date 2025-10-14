@@ -4,6 +4,7 @@ export const StyledAttendenceInput = styled.div`
     position: relative;
     height: 64px;
     width: 64px;
+    z-index: 2;
 
     .IconWrapper {
         position: absolute;
