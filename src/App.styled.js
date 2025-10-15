@@ -16,8 +16,8 @@ const StyledApp = styled.div`
     }
 
     @media (max-width: ${({ theme }) => theme.mobile}) {
-        padding-top: max(env(safe-area-inset-top), 2rem);
-        max-height: calc(100vh - 6rem);
+        padding: 0 max(env(safe-area-inset-right), 5px) 0 max(env(safe-area-inset-left), 5px);
+        max-height: calc(100vh - 6rem - env(safe-area-inset-bottom));
         overflow-y: scroll;
     }
 `;
