@@ -4,7 +4,7 @@ const StyledApp = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-height: 100vh;
+    max-height: 100dvh;
     padding: max(env(safe-area-inset-top), 6rem) max(env(safe-area-inset-right), 5px) max(env(safe-area-inset-bottom), 5px) max(env(safe-area-inset-left), 5px);
     box-sizing: border-box;
     width: 100%;
@@ -17,7 +17,7 @@ const StyledApp = styled.div`
 
     @media (max-width: ${({ theme }) => theme.mobile}) {
         padding: 0 max(env(safe-area-inset-right), 5px) 0 max(env(safe-area-inset-left), 5px);
-        max-height: calc(100vh - 6rem - env(safe-area-inset-bottom));
+        max-height: calc(100dvh - 6rem - env(safe-area-inset-bottom));
         overflow-y: scroll;
     }
 `;

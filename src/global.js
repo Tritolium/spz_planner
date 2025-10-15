@@ -30,7 +30,7 @@ export const GlobalStyles = createGlobalStyle`
         color: ${({theme}) => theme.primaryLight};
         display: block;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-        height: 100vh;
+        height: 100dvh;
         justify-content: flex-start;
         text-rendering: optimizeLegibility;
         forced-color-adjust: none;
