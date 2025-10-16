@@ -62,7 +62,7 @@ registerRoute(
 	({ url }) => url.pathname.startsWith("/api/v0/attendence"),
 	new NetworkFirst({
 		cacheName: "attendence",
-		networkTimeoutSeconds: 0.2,
+		networkTimeoutSeconds: 3,
 		plugins: [
 			new ExpirationPlugin({ maxAgeSeconds: 600 }),
 		],
@@ -80,7 +80,7 @@ registerRoute(
 	({ url }) => url.pathname.startsWith("/api/v0/events"),
 	new NetworkFirst({ // prefer network, fallback to cache
 		cacheName: "events",
-    networkTimeoutSeconds: 0.5,
+    networkTimeoutSeconds: 3,
 		plugins: [
 			new ExpirationPlugin({ maxAgeSeconds: 604800 }), // 7 days
 		],
@@ -127,7 +127,7 @@ registerRoute(
 	({ url }) => url.pathname.startsWith("/api/eval.php"),
 	new NetworkFirst({
 		cacheName: "evaluation",
-		networkTimeoutSeconds: 0.2
+		networkTimeoutSeconds: 3
 	})
 )
 
