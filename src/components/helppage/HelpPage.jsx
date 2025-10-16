@@ -5,139 +5,189 @@ import { Alert, Blank, Check, Delayed, Deny } from "../dateplanner/attendenceInp
 
 const HelpPage = ({ auth_level, theme }) => {
 
-    const Privacypolicy = () => {
-        return (
-            <article>
-                <h1>Datenschutz</h1>
-                <p>Die Anwendung speichert hauptsächlich Daten, die für den Betrieb notwendig sind. Dazu gehören:</p>
-                <ul>
-                    <li>Vor- und Nachname</li>
-                    <li>Geburtsdatum</li>
-                    <li>eingetragene sowie tatsächliche Anwesenheit bei Terminen</li>
-                    <li>eingetragene Abwesenheiten</li>
-                    <li>eingetragene Bestellungen</li>
-                </ul>
-                <p>Zusätzlich werden folgende Daten erhoben:</p>
-                <ul>
-                    <li>Loginzeiten</li>
-                    <li>Anzeige (Browser/installiert)</li>
-                    <li>Auflösung</li>
-                    <li>UserAgent</li>
-                    <li>eindeutige Geräte-ID (bleibt auch nach installieren der App gleich)</li>
-                    <li>Berechtigung von Benachrichtigungen</li>
-                    <li>Verwendung von Farbmodi (Dark/Light/forced)</li>
-                    <li>Verwendung der Module abseits der Startseite (Anwesenheiten/Urlaub/....), siehe Menü</li>
-                    <li>Historie der Rückmeldungen</li>
-                </ul>
-                <p>Diese zusätzlichen Daten dienen ausschließlich dazu, die Benutzbarkeit der App zu verbessern und um eventuelle Fehler nachzuvollziehen.</p>
-                <p>Die Daten werden nicht an Dritte weitergegeben und nur für den Betrieb der Anwendung verwendet. Die Daten werden auf einem Server in Deutschland gespeichert und sind nur für den Administrator einsehbar.</p>
-            </article>
-        )
-    }
+    const Section = ({ title, id, children }) => (
+        <article id={id}>
+            <h1>{title}</h1>
+            {children}
+        </article>
+    )
 
-    const Attendence = () => {
-        return (
-            <article>
-                <h1>Anwesenheiten</h1>
-                <h2>Eingabe</h2>
-                <p>
-                    In diesem Menü können die Abwesenheiten eingetragen werden, einzeln für jeden Termin.
-                    Per Klick auf das Symbol kann zwischen einer <i>Zusage</i> <Check theme={theme}/> und <i>Absage</i> <Deny theme={theme}/> gewählt werden.
-                    Wenn noch nicht sicher ist, ob teilgenommen werden kann, geht das über ein <i>Vielleicht</i> <Alert theme={theme}/>.
-                    Auch eine <i>verspätete Teilnahme</i> <Delayed theme={theme}/> ist möglich.
-                    Wird <Blank theme={theme}/> angezeigt, ist noch keine Rückmeldung erfolgt.
-                    Nach Änderungen wird das Ergebnis über den Button gespeichert.
-                </p>
-                {hasPermission(7) ? <>
-                    <h2>Übersicht</h2>
-                    <p>Hier können die Rückmeldungen eingesehen werden, geordnet nach Benutzergruppen.</p>
-                </> : <></>}
-                {hasPermission(6) ? <>
-                    <h2>manuelle Eingabe</h2>
-                    <p>Unter diesem Punkt können für einzelne Termine einzelne Personen an- oder abgemeldet werden.</p>
-                </> : <></>}
-                
-            </article>
-        )
-    }
+    const QuickStart = () => (
+        <Section title="Erste Schritte" id="quickstart">
+            <p>Das Dashboard fasst die nächsten Termine, Statistiken und Neuigkeiten zusammen. Tippe auf eine Karte, um Detailinformationen zu öffnen.</p>
+            <ul>
+                <li>Über das Menü oben links erreichst du sämtliche Module. Auf mobilen Geräten hilft zusätzlich die Leiste am unteren Bildschirmrand beim schnellen Wechsel.</li>
+                <li>Die Glocke rechts oben steuert Push-Benachrichtigungen – sie zeigt dir direkt an, ob Meldungen aktiv sind.</li>
+                <li>Das Versionslabel unten rechts verrät, welche App-Version installiert ist. Bei Problemen kannst du diese Angabe weitergeben.</li>
+            </ul>
+            <p>Auf der Startseite findest du außerdem das Feedback-Formular sowie das Änderungsprotokoll. So bleibst du über neue Funktionen informiert und kannst Anregungen loswerden.</p>
+        </Section>
+    )
 
-    const Absence = () => {
-        return (
-            <article>
-                <h1>Urlaub/Abmeldung</h1>
-                <p>Eingetragene Abwesenheiten sorgen dafür, dass neue Termine in diesem Zeitraum automatisch als Abwesend eingetragen werden. Auch bei bestehenden Terminen wird die Person auf Abwesend gesetzt.</p>
+    const Notifications = () => (
+        <Section title="Benachrichtigungen" id="notifications">
+            <p>Die App unterstützt Push-Benachrichtigungen für Auftritte, Proben und sonstige Termine.</p>
+            <ul>
+                <li>Aktiviere oder deaktiviere Benachrichtigungen über die Glocke auf der Startseite. Beim ersten Aktivieren fragt dein Browser nach der Berechtigung.</li>
+                <li>In den <b>Einstellungen</b> kannst du genau auswählen, für welche Kategorien du Nachrichten erhalten möchtest.</li>
+                <li>Sollte dein Gerät keine Benachrichtigungen unterstützen, informiert dich die App automatisch.</li>
+            </ul>
+        </Section>
+    )
+
+    const PrivacyPolicy = () => (
+        <Section title="Datenschutz" id="privacy">
+            <p>Für den Betrieb der Anwendung werden die folgenden Daten gespeichert:</p>
+            <ul>
+                <li>Vor- und Nachname sowie Geburtsdatum</li>
+                <li>An- und Abmeldungen zu Terminen sowie tatsächliche Teilnahmen</li>
+                <li>Abwesenheiten und Bestellungen</li>
+            </ul>
+            <p>Zur Verbesserung der Stabilität und Nutzbarkeit erheben wir zusätzlich technische Informationen:</p>
+            <ul>
+                <li>Loginzeiten und verwendetes Gerät (Browser/App, Auflösung, User-Agent, Geräte-ID)</li>
+                <li>Berechtigungsstatus für Benachrichtigungen sowie gewählter Darstellungsmodus</li>
+                <li>Verwendung der einzelnen Module abseits der Startseite</li>
+                <li>Historie deiner Rückmeldungen zu Terminen</li>
+            </ul>
+            <p>Diese Daten dienen ausschließlich dem Betrieb der Anwendung und der Fehleranalyse. Sie werden auf einem Server in Deutschland gespeichert, sind nicht öffentlich einsehbar und werden nicht an Dritte weitergegeben. Bei Fragen oder Löschwünschen wende dich an den Administrator.</p>
+        </Section>
+    )
+
+    const Attendance = () => (
+        <Section title="Anwesenheiten" id="attendance">
+            <h2>Rückmeldung geben</h2>
+            <p>
+                Unter <b>Anwesenheiten</b> kannst du deine Teilnahme für jeden Termin festlegen. Per Klick auf die Symbole wechselst du zwischen <i>Zusage</i> <Check theme={theme} />, <i>Absage</i> <Deny theme={theme} />, <i>Vielleicht</i> <Alert theme={theme} /> oder <i>verspäteter Teilnahme</i> <Delayed theme={theme} />. Ein <Blank theme={theme} /> bedeutet, dass noch keine Rückmeldung vorliegt. Speichere deine Änderungen über den Button am Ende der Liste.
+            </p>
+            <p>Die Terminliste ist nach Veranstaltungstyp gegliedert. Filter und Suchfeld helfen dir, schnell den passenden Termin zu finden.</p>
+            {hasPermission(7) && <>
                 <h2>Übersicht</h2>
-                <p>Hier werden die eingetragenen persönlichen Abwesenheiten angezeigt. Abgelaufene Zeiten tauchen nicht mehr auf.</p>
-                <h2>Eingabe</h2>
-                <p>In dieser Ansicht können Abwesenheiten eingetragen werden. Einfach die Felder füllen und speichern. Der Eintrag wird dann auf der linken Seite angezeigt und kann auch hier wieder bearbeitet werden.</p>
-                <p>Über die Wochentage kann ausgewählt werden, an welchen Tagen diese Abwesenheit gelten soll, gleiches gilt für die Auswahl von geraden und ungeraden Wochen.</p>
-                {auth_level > 2 ? <>
-                    <h2>Gesamtübersicht</h2>
-                    <p>Hier werden alle Anwesenheiten angezeigt.</p>
-                </> : <></>}
-            </article>
-        )
-    }
+                <p>Mit der passenden Berechtigung erhältst du einen Überblick über die Rückmeldungen aller Gruppen. So erkennst du Engpässe bereits vor dem Termin.</p>
+            </>}
+            {hasPermission(6) && <>
+                <h2>Manuelle Eingabe</h2>
+                <p>Dieser Bereich erlaubt es dir, Rückmeldungen im Namen einzelner Personen zu korrigieren oder nachzutragen – praktisch, wenn kurzfristig Änderungen notwendig sind.</p>
+            </>}
+        </Section>
+    )
 
-    const Memberadministration = () => {
-        return (
-            <article>
-                <h1>Mitglieder</h1>
-                <h2>Übersicht</h2>
-                <p>Simple Übersicht aller Nutzer mit Name und Geburtsdatum</p>
-                {hasPermission(2) && <><h2>Stammdaten</h2>
-                    <p>Hier können die Stammdaten der Nutzer angepasst werden</p></>
-                }
-            </article>
-        )
-    }
+    const Absence = () => (
+        <Section title="Urlaub &amp; Abmeldungen" id="absence">
+            <p>Trage geplante Abwesenheiten ein, damit neue Termine in diesem Zeitraum automatisch als „abwesend“ markiert werden. Bereits bestehende Termine werden beim Speichern mit aktualisiert.</p>
+            <h2>Persönliche Übersicht</h2>
+            <p>Die Liste zeigt alle zukünftigen Abwesenheiten. Vergangene Einträge verschwinden automatisch, damit du die Übersicht behältst.</p>
+            <h2>Eingabe</h2>
+            <p>Fülle die Felder für Zeitraum, betroffene Wochentage und optional geradzahlige/ungerade Wochen aus. Mit einem Klick auf <i>Speichern</i> erscheint der Eintrag links und lässt sich jederzeit bearbeiten.</p>
+            {auth_level > 2 && <>
+                <h2>Gesamtübersicht &amp; Verwaltung</h2>
+                <p>Administratoren können in der <b>Gesamtübersicht</b> alle Abwesenheiten durchsuchen und unter <b>manuelle Eingabe</b> Abmeldungen direkt für andere Personen erstellen.</p>
+            </>}
+        </Section>
+    )
 
-    const Dateadministration = () => {
-        return (
-            <article>
-                <h1>Termine</h1>
-                <h2>Übersicht</h2>
-                <p>Hier werden alle Termine angezeigt, inklusive der Zeiten für Abfahrt, Rückfahrt und Beginn</p>
-                {auth_level > 2 ? <>
-                    <h2>Details</h2>
-                    <p>Unter Details können die Termine bearbeitet werden, Datum, Uhrzeit, Bekleidung, sowie ob Partner mit angegeben werden können.</p>
-                </> : <></>}
-            </article>
-        )
-    }
+    const MemberAdministration = () => (
+        <Section title="Mitglieder" id="members">
+            <h2>Übersicht</h2>
+            <p>Die Mitgliederliste enthält Namen und Geburtsdaten aller Nutzer. Such- und Filtermöglichkeiten unterstützen dich beim schnellen Auffinden einzelner Personen.</p>
+            {hasPermission(2) && <>
+                <h2>Stammdaten</h2>
+                <p>Mit erweiterter Berechtigung bearbeitest du Stammdaten wie Kontaktinformationen oder Rollen direkt im Formular. Änderungen werden nach dem Speichern sofort übernommen.</p>
+            </>}
+        </Section>
+    )
 
-    const Administration = () => {
-        return (
-            <article>
-                <h1>Verwaltung</h1>
-                <h2>Benutzergruppen</h2>
-            </article>
-        )
-    }
+    const DateAdministration = () => (
+        <Section title="Termine" id="dates">
+            <h2>Übersicht</h2>
+            <p>Hier findest du alle Termine inklusive Treffpunkt, Abfahrt, Rückfahrt und Kleiderordnung. Sortier- und Filteroptionen erleichtern die Planung.</p>
+            {auth_level > 2 && <>
+                <h2>Details</h2>
+                <p>Über den Bereich <b>Details</b> legst du neue Termine an oder bearbeitest bestehende Daten wie Zeiten, Treffpunkte oder ob Begleitpersonen erlaubt sind.</p>
+            </>}
+        </Section>
+    )
 
-    const Upcoming = () => {
-        return (
-            <article>
-                <h1>Geplante Funktionen:</h1>
-                <ul>
-                    <li>verbesserte Marschübersicht</li>
-                    <li>Terminprotokoll zum Nachvollziehen sowie für die Chronik</li>
-                    <li>Aufstellung fürs Marschieren</li>
-                </ul>
-                
-            </article>
-        )
-    }
+    const EvaluationHelp = () => (
+        <Section title="Auswertungen" id="evaluation">
+            <p>Die Auswertungen zeigen dir persönliche und gruppenweite Statistiken zu Anwesenheiten.</p>
+            <ul>
+                <li><b>Meine Übersicht</b> fasst deine eigenen Rückmeldungen und Teilnahmequoten zusammen.</li>
+                {hasPermission(8) && <li><b>Übersicht</b> vergleicht Gruppen miteinander und hebt Auffälligkeiten hervor.</li>}
+                {hasPermission(9) && <li><b>Auswertung</b> erlaubt das Exportieren und Weiterverarbeiten der Daten.</li>}
+            </ul>
+        </Section>
+    )
+
+    const ScoreboardHelp = () => (
+        <Section title="Notenarchiv" id="scoreboard">
+            <p>Im Notenarchiv findest du digitale Partituren. Nutze das Suchfeld, um schnell nach Titeln zu filtern.</p>
+            <ul>
+                <li>Wähle einen Eintrag aus der Liste, um die Noten direkt im integrierten Viewer zu öffnen.</li>
+                <li>Über den Link „In neuem Fenster anzeigen“ öffnest du die Datei separat – ideal zum Drucken oder für große Bildschirme.</li>
+            </ul>
+        </Section>
+    )
+
+    const OrderAdministrationHelp = () => (
+        <Section title="Bestellungen" id="orders">
+            <p>Hier verwaltest du Kleider- und Materialbestellungen.</p>
+            <ul>
+                <li>Die Tabelle zeigt Status, Größen und Anmerkungen der Anfragen. Mit dem Filter wechselst du zwischen eigenen und allen Bestellungen.</li>
+                <li>Das Formular unten reicht neue Wünsche ein. Pflichtfelder sind Artikel, Größe und Anzahl.</li>
+                <li>Nach dem Speichern werden erfolgreiche Bestellungen bestätigt und erscheinen in der Liste.</li>
+            </ul>
+        </Section>
+    )
+
+    const SettingsHelp = () => (
+        <Section title="Einstellungen" id="settings">
+            <p>Die Einstellungen bündeln persönliche Informationen und Sicherheitsfunktionen.</p>
+            <ul>
+                <li>Ändere dein Passwort über das Formular. Sobald du es speicherst, gilt es sofort für den nächsten Login.</li>
+                <li>Verwalte deine Benachrichtigungskategorien. Die App aktiviert nur die Kategorien, die du hier freigibst.</li>
+                <li>Falls du aus Sicherheitsgründen auf die Einstellungsseite weitergeleitet wurdest, findest du dort eine kurze Erklärung.</li>
+            </ul>
+        </Section>
+    )
+
+    const AdministrationHelp = () => (
+        <Section title="Verwaltung" id="administration">
+            <p>Der Verwaltungsbereich richtet sich an Administratoren und Redakteure.</p>
+            <ul>
+                <li>Verwalte Vereine, Benutzergruppen und ihre Zuordnungen.</li>
+                {hasAnyPermission([3, 4]) && <li>Mit zusätzlicher Berechtigung kannst du Rollen definieren und zuweisen.</li>}
+                <li>Nutze Terminvorlagen, um wiederkehrende Veranstaltungen schneller anzulegen.</li>
+                <li>Im Bereich „Noten“ pflegst du das digitale Archiv für das Scoreboard.</li>
+            </ul>
+        </Section>
+    )
+
+    const Roadmap = () => (
+        <Section title="Geplante Funktionen" id="roadmap">
+            <ul>
+                <li>Verbesserte Marschübersicht</li>
+                <li>Terminprotokoll zur Dokumentation und für die Chronik</li>
+                <li>Digitale Aufstellungsplanung fürs Marschieren</li>
+            </ul>
+        </Section>
+    )
 
     return (
         <StyledHelpPage>
-            <Privacypolicy />
-            <Attendence />
+            <QuickStart />
+            <Notifications />
+            <PrivacyPolicy />
+            <Attendance />
             <Absence />
-            {hasAnyPermission([1, 2]) && <Memberadministration />}
-            {auth_level > 0 ? <Dateadministration /> : <></>}
-            {auth_level > 2 ? <Administration /> : <></>}
-            <Upcoming />
+            {hasAnyPermission([1, 2]) && <MemberAdministration />}
+            {auth_level > 0 && <DateAdministration />}
+            <EvaluationHelp />
+            <ScoreboardHelp />
+            <OrderAdministrationHelp />
+            <SettingsHelp />
+            {auth_level > 2 && <AdministrationHelp />}
+            <Roadmap />
         </StyledHelpPage>
     )
 }
