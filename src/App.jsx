@@ -23,6 +23,7 @@ const HelpPage = lazy(() => import('./components/helppage/HelpPage'))
 const Login = lazy(() => import('./components/login/Login'))
 const MemberAdministration = lazy(() => import('./components/memberadministration/MemberAdministration'))
 const Menu = lazy(() => import('./modules/components/menu/Menu'))
+const LineupPlanner = lazy(() => import('./components/lineupplanner/LineupPlanner'))
 const OrderAdministration = lazy(() => import('./components/orderadministration/OrderAdministration'))
 const Scoreboard = lazy(() => import('./components/scoreboard/Scoreboard'))
 const StyledApp = lazy(() => import('./App.styled'))
@@ -247,7 +248,8 @@ const View = (props) => {
         '7': <OrderAdministration />,
         '8': <Administration auth_level={props.auth_level}/>,
         '9': <Settings secure={props.secure}/>,
-        '10': <HelpPage auth_level={props.auth_level} theme={props.theme}/>
+        '10': <HelpPage auth_level={props.auth_level} theme={props.theme}/>,
+        '11': <LineupPlanner />
     };
     
     const fallbacks = {
