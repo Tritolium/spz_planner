@@ -16,7 +16,8 @@
                         "page": "Allgemein",
                         "changes":[
                             "Menü im unteren Bereich hinzugefügt, um schneller zwischen den Seiten zu wechseln",
-                            "Kleinere Designanpassungen"
+                            "Kleinere Designanpassungen",
+                            "Daten-Caching verbessert, um aktuelle Daten anzuzeigen und gleichzeitig die Ladezeiten zu reduzieren"
                         ]
                     },
                     {
