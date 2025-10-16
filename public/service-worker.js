@@ -108,7 +108,10 @@ registerRoute(
 registerRoute(
 	({ url }) => url.hostname === "api.maptiler.com",
 	new CacheFirst({
-		cacheName: "maptiler"
+		cacheName: "maptiler",
+		plugins: [
+			new ExpirationPlugin({ maxEntries: 100, maxAgeSeconds: 604800 }), // 7 days
+		],
 	})
 )
 
