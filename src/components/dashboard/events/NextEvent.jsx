@@ -53,6 +53,7 @@ const NextEvent = ({ nextEventID, auth_level, showEventInfo, practice=false, the
     }, [nextEventID])
 
     useEffect(() => {
+        if (nextEventID === undefined) return
         fetch(`${host}/api/v0/attendence/${nextEventID}?api_token=${localStorage.getItem('api_token')}`)
         .then(res => res.json())
         .then(res => {
