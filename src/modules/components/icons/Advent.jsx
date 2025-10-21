@@ -60,7 +60,7 @@ export const Advent = ({ className = "", theme, open }) => {
     }
 
     return (<>
-        <Santa visible={adventCount() >= 0} />
+        <Santa visible={adventCount() >= 0} open={open} />
         <Candle className='first' lit={adventCount() >= 1} visible={adventCount() >= 0} />
         <Candle className='second' lit={adventCount() >= 2} visible={adventCount() >= 0} />
         <Candle className='third' lit={adventCount() >= 3} visible={adventCount() >= 0} />
