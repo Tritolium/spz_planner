@@ -13,8 +13,6 @@ import { StyledEvalDiagram } from './Overview.styled';
 
 const EvalDiagram = ({ event, theme }) => {
 
-    console.log(event)
-
     ChartJS.register(
         CategoryScale,
         LinearScale,

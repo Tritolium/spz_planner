@@ -218,8 +218,6 @@ const EvalRow = ({ event, attendences, instruments, theme }) => {
             break
         }
 
-        console.log(event.Category)
-
         attending = getInstruments(attendences, 1)
         prob = getInstruments(attendences, -1)
         maybe = getInstruments(attendences, 2)

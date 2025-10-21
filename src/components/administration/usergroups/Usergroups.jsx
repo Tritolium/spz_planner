@@ -104,8 +104,6 @@ const UsergroupForm = ({ usergroup, associations, reload }) => {
             return
         }
 
-        console.log(association)
-
         if (association === undefined) {
             alert("Bitte wähl einen Verein aus!")
             return

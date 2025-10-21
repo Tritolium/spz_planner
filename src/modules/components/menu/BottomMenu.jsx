@@ -2,8 +2,6 @@ import { StyledBottomMenu, StyledMenuItem } from "./BottomMenu.styled"
 
 export const BottomMenu = ({ view, navigate}) => {
 
-    console.log(view)
-
     const buttons = [
         { id: 'bottommenu_button_0', label: 'Startseite', onClick: navigate, active: view === 0 },
         { id: 'bottommenu_button_1', label: 'Anwesenheit / Rückmeldung', onClick: navigate, active: view === 1 },
@@ -19,8 +17,6 @@ export const BottomMenu = ({ view, navigate}) => {
 }
 
 const MenuItem = (id, label, onClick, active) => {
-    console.log(active)
-
     return(
         <StyledMenuItem activeView={active} key={id} type='button' id={id} onClick={onClick}>
             {label}

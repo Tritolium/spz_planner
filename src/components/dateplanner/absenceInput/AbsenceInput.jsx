@@ -82,7 +82,6 @@ const AbsenceInput = ({ theme }) => {
             </select>
             <select id="member_select">
                 {members.filter(member => {
-                    console.log("member", member)
                     if (selectedUsergroupFilter === -1)
                         return true
                     for(let usergroup_id of member.Usergroups){

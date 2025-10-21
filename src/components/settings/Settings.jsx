@@ -122,8 +122,6 @@ const Settings = ({ secure }) => {
             method: "PATCH",
             body: JSON.stringify(notifyPermissions)
         })
-
-        console.log(notifyPermissions)
     }, [endpoint, token, ensureNotificationPermission])
 
     useEffect(() => {
