@@ -10,6 +10,7 @@ import { notificationHelper } from './modules/helper/NotificationHelper';
 import { buttonPressed } from './modules/helper/Analytics';
 import { Weather } from './modules/components/weather/Weather';
 import { BottomMenu } from './modules/components/menu/BottomMenu';
+import { Advent } from './modules/components/icons/Advent';
 
 const AbsenceAdministration = lazy(() => import('./components/absenceadministration/AbsenceAdministration'))
 const Administration = lazy(() => import('./components/administration/Administration'))
@@ -217,6 +218,7 @@ const App = () => {
             <StyledApp className="App">
                 {theme.weather ? <Weather /> : <></>}
                 {fullname !== "" ? <Burger open={open} setOpen={setOpen}/> : <></>}
+                <Advent className='advent' theme={theme} open={open}/>
                 <Menu open={open} setOpen={setOpen} navigate={navigate} auth_level={auth_level} secure={secure.current}/>
                 <Suspense fallback={<div>Lädt...</div>}>
                     <View view={view} sendLogin={sendLogin} fullname={fullname} auth_level={auth_level} theme={theme} secure={secure.current}/>
