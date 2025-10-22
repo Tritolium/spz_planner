@@ -10,6 +10,6 @@ export const EventFallback = ({ theme }) => {
         <span className="event_date fallback"></span>
         <span className="event_begin fallback"></span>
         <span className="event_diagram fallback"></span>
-        {theme.pedro ? <img src={pedro} alt="pedro-spinner" /> : <ImSpinner10 className="fallback_icon"/>}
+        {theme.pedro ? <img src={pedro} alt="pedro-spinner" className="fallback_icon" /> : <ImSpinner10 className="fallback_icon"/>}
     </StyledEvent>)
 }

@@ -54,8 +54,11 @@ export const StyledAttendenceInput = styled.div`
 
         .IconWrapper {
             position: absolute;
-            height: 64px;
-            width: 64px;
+            max-height: 64px;
+            max-width: 64px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
     }
 
