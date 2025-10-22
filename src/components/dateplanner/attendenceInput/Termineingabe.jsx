@@ -36,7 +36,6 @@ const Termineingabe = ({theme}) => {
 
     const onEventFilterChange = useCallback(e => {
         setSelectedEventFilter(e.target.value)
-        console.log(e.target.value)
     }, [setSelectedEventFilter])
 
     useEffect(() => {
