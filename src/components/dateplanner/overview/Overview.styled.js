@@ -104,14 +104,19 @@ export const StyledOverviewTable = styled.div`
     }
 
     .IconWrapper {
-        width: 32px;
-        height: 32px;
+        max-width: 32px;
+        max-height: 32px;
         position: absolute;
 
         left: 50%;
         top: 50%;
 
         transform: translateX(-50%) translateY(-50%);
+
+        &.Halloween {
+            max-width: 20px;
+            max-height: 20px;
+        }
     }
 
     .PlusOneIcon {

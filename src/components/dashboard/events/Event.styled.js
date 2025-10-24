@@ -143,7 +143,8 @@ export const StyledEvent = styled.div`
 
     .fallback_icon {
         animation: blink_icon 1s linear infinite;
-        
+        height: 52px;
+        width: 52px;
 
         @keyframes blink_icon {
             0% {fill: white; transform: rotate(0deg);}

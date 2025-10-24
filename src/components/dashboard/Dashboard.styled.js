@@ -39,11 +39,6 @@ export const StyledDashboard = styled.div`
         text-align: center;
     }
 
-    svg {
-        height: 50pt;
-        width: 50pt;
-    }
-
     .Plusone_icon {
         height: 25pt;
         width: 25pt;
