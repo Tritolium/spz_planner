@@ -37,7 +37,7 @@ const ChangelogVersion= ({ change, majmin }) => {
             <ul>
                 {change.entries?.map((entry, index) => {
                     return(
-                        <ChangelogEntry key={`${change.version}_${index}`}entry={entry} />
+                        <ChangelogEntry key={`${change.version}_${index}`} entry={entry} />
                     )
                 })}
             </ul>
