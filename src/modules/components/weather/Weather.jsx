@@ -10,10 +10,16 @@ export const Weather = () => {
     const now = new Date()
     const hour = now.getHours()
     const minute = now.getMinutes()
+    const hourString = hour.toString().padStart(2, '0')
+    const minuteString = minute.toString().padStart(2, '0')
+    const beginTime = `${hourString}:${minuteString}:00`
 
     useEffect(() => {
-        getWeather({Begin: `${hour}:${minute}`, Address: "Rönkhausen", Date: now.toISOString().split('T')[0]})
+        getWeather({Begin: beginTime, Address: "Rönkhausen", Date: now.toISOString().split('T')[0]})
         .then(data => {
+            if (!data || data.Weathercode === undefined || data.Weathercode === null) {
+                return
+            }
             const weatherMap = {
                 0: "clear",
                 36: "snow", 37: "snow", 38: "snow", 39: "snow",
