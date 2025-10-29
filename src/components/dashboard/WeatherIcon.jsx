@@ -3,6 +3,7 @@ import { TbSnowflake } from 'react-icons/tb'
 import { IoWarning } from 'react-icons/io5'
 import { StyledTooltip, StyledWeatherIcon } from './WeatherIcon.styled'
 import { useState } from 'react'
+import { IconContext } from 'react-icons'
 
 const WeatherIcon = ({ code }) => {
 
@@ -220,10 +221,12 @@ const WeatherIcon = ({ code }) => {
 
     if(icons[code] !== undefined)
         return(
+            <IconContext.Provider value={{ size: "64px" }}>
             <StyledWeatherIcon onClick={toggleTooltip} title={text[code]}>
                 {showtooltip ? <Tooltip text={text[code]} onClick={toggleTooltip}/> : <></>}
                 {icons[code]}
             </StyledWeatherIcon>
+            </IconContext.Provider>
         )
     else
         return(<></>)
