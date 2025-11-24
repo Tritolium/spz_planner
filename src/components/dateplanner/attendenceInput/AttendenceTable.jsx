@@ -148,7 +148,7 @@ const associationLogo = (association_id) => {
     case 2:
         return <img src={five} alt="Logo Dün"/>
     case 3:
-        return <img src="https://sgv.de/assets/images/1/logo_sgv_web-fc5e97ec.svg" alt="Logo SGV" />
+        return <img src="https://sgv.de/assets/images/m/logo-sgv-min-6xncret2maqs1cp.svg" alt="Logo SGV" />
     default:
         return <></>
     }
