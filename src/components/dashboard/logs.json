@@ -9,6 +9,12 @@
                         "changes": [
                             "Logo-URL angepasst"
                         ]
+                    },
+                    {
+                        "page": "Startseite",
+                        "changes": [
+                            "Fehler behoben, wodurch falsche Geburststage angezeigt wurden"
+                        ]
                     }
                 ]
             },
