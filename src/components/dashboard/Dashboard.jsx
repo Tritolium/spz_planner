@@ -175,6 +175,7 @@ const BirthdayBlog = ({ fullname }) => {
         .then(response => response.json())
         .then(members => {
             let dates = members.filter(member => {
+                if (!member.Birthdate) return false
                 let date = new Date(member.Birthdate)
                 let now = new Date()
                 date.setFullYear(now.getFullYear())
@@ -199,7 +200,7 @@ const BirthdayBlog = ({ fullname }) => {
                 }
             })
             setMembers(dates)
-    })
+        })
     }
 
     useEffect(() => {
