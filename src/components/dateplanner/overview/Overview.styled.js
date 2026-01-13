@@ -7,6 +7,27 @@ export const StyledOverview = styled.div`
     margin: auto;
     align-items: center;
 
+    .OverviewActions {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .OverviewButtons {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .OverviewButtons svg {
+        cursor: pointer;
+    }
+
+    .Disabled {
+        opacity: 0.4;
+        pointer-events: none;
+    }
+
     select {
         width: fit-content;
     }
@@ -97,6 +118,19 @@ export const StyledOverviewTable = styled.div`
         :nth-child(1) {
             z-index: 3;
         }
+    }
+
+    .AttendenceTag.Editable {
+        cursor: pointer;
+    }
+
+    .AttendenceTag.Editable .IconWrapper,
+    .AttendenceTag.Editable .ButtonWrapper {
+        cursor: pointer;
+    }
+
+    .AttendenceTag.Changed {
+        box-shadow: inset 0 0 0 2px ${({ theme }) => theme.primaryHover};
     }
 
     .Last {

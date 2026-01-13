@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 
-import { getAllAttendences, getEvalByUsergroup, getOwnUsergroups } from '../../../modules/data/DBConnect'
+import { getAllAttendences, getEvalByUsergroup, getOwnUsergroups, setAttendence } from '../../../modules/data/DBConnect'
 
 import DateField from "../attendenceInput/DateField"
 import { StyledEvalTable, StyledOverview } from "./Overview.styled"
@@ -12,6 +12,7 @@ import { hasPermission } from "../../../modules/helper/Permissions"
 import { ImSpinner10 } from "react-icons/im"
 import pedro from "../../../modules/img/racoon.gif"
 import { rateEvent } from "../../../modules/helper/Interpreter"
+import Button from "../../../modules/components/button/Button"
 
 const Overview = ({ theme }) => {
 
@@ -22,6 +23,9 @@ const Overview = ({ theme }) => {
     const [evaluation, setEvaluation] = useState(new Array(0))
 
     const [loading, setLoading] = useState(false)
+    const [saving, setSaving] = useState(false)
+    const [isEditing, setIsEditing] = useState(false)
+    const [pendingChanges, setPendingChanges] = useState({})
 
     const fetchUsergroups = async () => {
         let _usergroups = await getOwnUsergroups()
@@ -41,16 +45,118 @@ const Overview = ({ theme }) => {
 
     const onUsergroupChange = useCallback((e) => {
         setSelectedUsergroup_ID(e.target.value)
+        setIsEditing(false)
+        setPendingChanges({})
     }, [setSelectedUsergroup_ID])
 
-    const reload = useCallback(async (background = false) => {
+    const selectedUsergroup = usergroups.find((usergroup) => {
+        return parseInt(usergroup.Usergroup_ID) === parseInt(selectedUsergroup_ID)
+    })
+
+    const canEdit = selectedUsergroup?.Association_ID !== undefined
+        ? hasPermission(6, selectedUsergroup.Association_ID)
+        : false
+
+    const reload = useCallback(async (background = false, force = false) => {
+        if (isEditing && !force)
+            return
         if(!background)
             setLoading(true)
         await fetchAttendences()
         await fetchEval()
         if(!background)
             setLoading(false)
-    }, [fetchAttendences, fetchEval])
+    }, [fetchAttendences, fetchEval, isEditing])
+
+    const changesCount = useMemo(() => {
+        return Object.values(pendingChanges).reduce((count, eventChanges) => {
+            return count + Object.keys(eventChanges).length
+        }, 0)
+    }, [pendingChanges])
+
+    const startEditing = useCallback(() => {
+        setPendingChanges({})
+        setIsEditing(true)
+    }, [])
+
+    const cancelEditing = useCallback(() => {
+        setPendingChanges({})
+        setIsEditing(false)
+    }, [])
+
+    const handleEditChange = useCallback((event_id, member_id, next_attendence, original_attendence) => {
+        setPendingChanges((prev) => {
+            const next = { ...prev }
+            const eventKey = String(event_id)
+            const memberKey = String(member_id)
+            const eventChanges = next[eventKey] ? { ...next[eventKey] } : {}
+
+            if (next_attendence === original_attendence) {
+                if (!next[eventKey])
+                    return next
+
+                delete eventChanges[memberKey]
+                if (Object.keys(eventChanges).length === 0)
+                    delete next[eventKey]
+                else
+                    next[eventKey] = eventChanges
+
+                return next
+            }
+
+            eventChanges[memberKey] = next_attendence
+            next[eventKey] = eventChanges
+            return next
+        })
+    }, [])
+
+    const saveChanges = useCallback(async () => {
+        if (changesCount === 0) {
+            setIsEditing(false)
+            return
+        }
+
+        const updates = []
+        for (const [eventId, members] of Object.entries(pendingChanges)) {
+            const eventData = attendences.find((event) => parseInt(event.Event_ID) === parseInt(eventId))
+            if (!eventData)
+                continue
+
+            for (const [memberId, attendence] of Object.entries(members)) {
+                const memberData = eventData.Attendences.find((member) => parseInt(member.Member_ID) === parseInt(memberId))
+                if (!memberData)
+                    continue
+
+                updates.push({
+                    eventId: eventData.Event_ID,
+                    memberId: memberData.Member_ID,
+                    attendence: attendence,
+                    plusone: memberData.PlusOne
+                })
+            }
+        }
+
+        if (updates.length === 0) {
+            setPendingChanges({})
+            setIsEditing(false)
+            return
+        }
+
+        setSaving(true)
+        await Promise.all(
+            updates.map((update) => setAttendence(update.eventId, update.memberId, update.attendence, update.plusone))
+        )
+        setSaving(false)
+        setPendingChanges({})
+        setIsEditing(false)
+        reload(false, true)
+    }, [attendences, changesCount, pendingChanges, reload])
+
+    const handleReload = useCallback(() => {
+        if (isEditing || saving)
+            return
+        reload()
+    }, [isEditing, reload, saving])
 
     useEffect(() => {
         reload()
@@ -61,11 +167,13 @@ const Overview = ({ theme }) => {
     }, [])
 
     useEffect(() => {
+        if (isEditing)
+            return
         const interval = setInterval(() => {
             reload(true)
         }, 10000)
         return () => clearInterval(interval)
-    }, [reload])
+    }, [isEditing, reload])
 
     useEffect(() => {
         setSelectedUsergroup_ID(usergroups[0]?.Usergroup_ID)
@@ -83,36 +191,52 @@ const Overview = ({ theme }) => {
     } else {
         return(
             <StyledOverview>
-                <div>
+                <div className="OverviewActions">
                     <select name="usergroup" id="usergroup_select" onChange={onUsergroupChange}>
                         {usergroups.map((usergroup, index) => {
                             return(<option key={index} value={usergroup.Usergroup_ID}>{usergroup.Title}</option>)
                         })}
                     </select>
-                    <IoReload onClick={reload}/>
+                    <div className="OverviewButtons">
+                        <IoReload onClick={handleReload} className={isEditing || saving ? "Disabled" : ""}/>
+                        {isEditing ? (
+                            <>
+                                <Button onClick={cancelEditing} disabled={saving}>Abbrechen</Button>
+                                <Button onClick={saveChanges} disabled={saving || changesCount === 0}>Speichern</Button>
+                            </>
+                        ) : canEdit ? (
+                            <Button onClick={startEditing} disabled={saving || loading}>Bearbeiten</Button>
+                        ) : null}
+                    </div>
                 </div>
-                <OverviewTable attendences={attendences} theme={theme}/>
+                <OverviewTable
+                    attendences={attendences}
+                    theme={theme}
+                    editing={isEditing}
+                    pendingChanges={pendingChanges}
+                    onChange={handleEditChange}
+                />
                 <EvalTable evaluation={evaluation} attendences={attendences} theme={theme}/>
             </StyledOverview>
         )
     }
 }
 
-export const Zusage = ({attendence, plusone, theme, prediction, credible}) => {
+export const Zusage = ({attendence, plusone, theme, prediction, credible, onClick}) => {
     if(attendence === 1 && plusone === 1)
-        return(<PlusOne theme={theme} className="PlusOneIcon"/>)
+        return(<PlusOne theme={theme} className="PlusOneIcon" callback={onClick}/>)
     switch(attendence){
     default:
     case -1:
-        return(<Blank theme={theme} overlay={prediction}/>)
+        return(<Blank theme={theme} overlay={prediction} callback={onClick}/>)
     case 0:
-        return(<Deny theme={theme}/>)
+        return(<Deny theme={theme} callback={onClick}/>)
     case 1:
-        return(<Check theme={theme} credible={credible}/>)
+        return(<Check theme={theme} credible={credible} callback={onClick}/>)
     case 2:
-        return(<Alert theme={theme}/>)
+        return(<Alert theme={theme} callback={onClick}/>)
     case 3:
-        return(<Delayed theme={theme}/>)
+        return(<Delayed theme={theme} callback={onClick}/>)
     }
 }
 
