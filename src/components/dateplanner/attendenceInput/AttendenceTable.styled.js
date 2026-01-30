@@ -57,6 +57,13 @@ export const StyledEvent = styled.div`
         grid-row-end: 4;
         justify-self: end;
     }
+
+    .OwnArrival {
+        grid-column-start: 4;
+        grid-row-start: 1;
+        grid-row-end: 4;
+        justify-self: end;
+    }
 `
 
 export const StyledMultiEvent = styled.div`
@@ -104,6 +111,13 @@ export const StyledMultiEvent = styled.div`
 
     .PlusOne {
         grid-column-start: 4;
+        grid-row-start: 1;
+        grid-row-end: 4;
+        justify-self: end;
+    }
+
+    .OwnArrival {
+        grid-column-start: 5;
         grid-row-start: 1;
         grid-row-end: 4;
         justify-self: end;
