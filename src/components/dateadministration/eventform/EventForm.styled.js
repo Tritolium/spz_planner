@@ -56,4 +56,27 @@ export const StyledEventForm = styled.div`
         color: ${({theme}) => theme.red};
         font-style: italic;
     }
+
+    .form-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .save-indicator {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        color: ${({theme}) => theme.green};
+        opacity: 0;
+        transform: scale(0.7);
+        transition: opacity 180ms ease, transform 180ms ease;
+    }
+
+    .save-indicator.visible {
+        opacity: 1;
+        transform: scale(1);
+    }
 `

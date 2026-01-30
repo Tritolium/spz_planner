@@ -288,7 +288,6 @@ const updateEvent = async(event_id, category, state, type, location, address, da
 	})
 	switch(response.status){
 	case 200:
-		alert("Angaben übernommen")
 		return true
 	default:
 		alert("Ein Fehler ist aufgetreten")

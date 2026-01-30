@@ -1,5 +1,6 @@
 import { useCallback } from "react"
 import { useEffect, useState } from "react"
+import { useRef } from "react"
 import Button from "../../../modules/components/button/Button"
 import Filter from "../../../modules/components/Filter"
 import Form from "../../../modules/components/form/Form"
@@ -9,6 +10,7 @@ import SelectorItem from "../../../modules/components/form/SelectorItem"
 import { getDateTemplates, getEvent, getEvents, getUsergroups, newEvent, updateEvent } from "../../../modules/data/DBConnect"
 import { StyledEventForm } from "./EventForm.styled"
 import { ClothingInput, clothingStyles } from "../../../modules/components/icons/Clothing"
+import { IoCheckmarkCircle } from "react-icons/io5"
 
 export const EVENT_STATE = {
     PENDING: 0,
@@ -188,6 +190,8 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
 
     const [event, setEvent] = useState()
     const [clothing, setClothing] = useState()
+    const [saveSuccess, setSaveSuccess] = useState(false)
+    const saveTimerRef = useRef(null)
 
     useEffect(() => {
         document.getElementById('eventform_form').reset()
@@ -210,6 +214,13 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
 
         fetchEvent()
     }, [selected])
+
+    useEffect(() => {
+        return () => {
+            if(saveTimerRef.current)
+                clearTimeout(saveTimerRef.current)
+        }
+    }, [])
 
     const cancel = async (e) => {
         e.preventDefault()
@@ -241,10 +252,21 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
         if(end_date !== "" && end_time !== "")
             end = `${end_date} ${end_time}`
 
+        let success
         if(event && event.Event_ID !== -1)
-            await updateEvent(event.Event_ID, category, state, type, location, address, date, begin, end, departure, leave_dep, plusone, usergroup, clothing, fixed, push)
+            success = await updateEvent(event.Event_ID, category, state, type, location, address, date, begin, end, departure, leave_dep, plusone, usergroup, clothing, fixed, push)
         else
-            await newEvent(category, state, type, location, address, date, begin, end, departure, leave_dep, plusone, usergroup, clothing, fixed, push)
+            success = await newEvent(category, state, type, location, address, date, begin, end, departure, leave_dep, plusone, usergroup, clothing, fixed, push)
+
+        if(success){
+            setSaveSuccess(true)
+            if(saveTimerRef.current)
+                clearTimeout(saveTimerRef.current)
+            saveTimerRef.current = setTimeout(() => {
+                setSaveSuccess(false)
+                saveTimerRef.current = null
+            }, 1600)
+        }
 
         reload()
     }
@@ -353,9 +375,12 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
                     })}
                 </select>
             </FormBox>
-            <div>
+            <div className="form-actions">
                 <Button onClick={cancel}>Abbrechen</Button>
                 <Button onClick={update}>Speichern</Button>
+                <span className={`save-indicator${saveSuccess ? " visible" : ""}`} role="status" aria-live="polite">
+                    <IoCheckmarkCircle />
+                </span>
             </div>
             <DateTemplateSelector datetemplates={datetemplates} onTemplateSelect={onTemplateSelect}/>
         </Form>
