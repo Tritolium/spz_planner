@@ -18,6 +18,23 @@ export const StyledEventForm = styled.div`
 
     @media (max-width: ${({theme}) => theme.mobile}) {
         flex-direction: column;
+
+        .event-selector {
+            transition: transform 200ms ease, opacity 200ms ease, max-height 200ms ease;
+            transform-origin: left center;
+        }
+
+        &[data-event-selected="true"] .event-selector {
+            transform: translateX(-110%);
+            opacity: 0;
+            pointer-events: none;
+            max-height: 0;
+            height: 0;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
     }
 
     .confirmed {

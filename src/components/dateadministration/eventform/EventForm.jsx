@@ -83,7 +83,7 @@ const EventForm = () => {
     }, [fetchEvents, fetchUsergroups, fetchDatetemplates])
 
     return (
-        <StyledEventForm>
+        <StyledEventForm data-event-selected={selected !== -1}>
             <EventSelector events={events} onSelect={onSelect} onFilterChange={onFilterChange} date_options={date_options} usergroups={usergroups}/>
             <DetailForm usergroups={usergroups} datetemplates={datetemplates} reload={reload} selected={selected}/>
         </StyledEventForm>
@@ -118,7 +118,7 @@ const EventSelector = ({ events, onSelect, date_options, usergroups, onFilterCha
     }, [])
 
     return (
-        <Selector>
+        <Selector className="event-selector">
             <div>
                 <Filter options={date_options} onChange={onFilterChange} />
                 <Filter options={event_options} onChange={onEventFilterChange} />
