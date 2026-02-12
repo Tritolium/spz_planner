@@ -113,7 +113,9 @@ const Event = ({ att, oneAssociation, flags, theme }) => {
         }
     }
 
-    let classname = att.State === 0 ? 'event pending' : 'event'
+    let classname = 'event'
+    if (att.State === 0) classname += ' pending'
+    else if (att.State === 4) classname += ' planned'
 
     if (flags.sameDay) 
         classname += ' sameDay'

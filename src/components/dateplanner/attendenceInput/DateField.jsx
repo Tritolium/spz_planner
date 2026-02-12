@@ -6,7 +6,11 @@ const DateField = ({dateprops}) => {
     const month = date.getMonth()
     const year = date.getFullYear()
 
-    const prefix = dateprops.State === 0 ? "Anfrage": ""
+    let prefix = ""
+    if (dateprops.State === 0) 
+        prefix = "Anfrage"
+    else if (dateprops.State === 4)
+        prefix = "Vorgemerkt"
 
     return(<>
         <div className="event_type">{prefix} {dateprops.Type} {dateprops.Location}</div>

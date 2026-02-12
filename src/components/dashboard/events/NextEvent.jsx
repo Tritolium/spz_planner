@@ -86,6 +86,9 @@ const NextEvent = ({ nextEventID, auth_level, showEventInfo, practice=false, the
         case EVENT_STATE.PENDING:
             className = "PendingEvent"
             break
+        case EVENT_STATE.PLANNED:
+            className = "PlannedEvent"
+            break
         default:
             className = ""
             break

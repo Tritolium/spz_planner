@@ -57,6 +57,11 @@ export const StyledEventForm = styled.div`
         font-style: italic;
     }
 
+    .planned {
+        color: ${({theme}) => theme.blue};
+        font-style: italic;
+    }
+
     .form-actions {
         display: flex;
         align-items: center;

@@ -8,6 +8,11 @@ export const StyledAttendenceTable = styled.div`
         color: ${({theme}) => theme.orange};
     }
 
+    .planned {
+        font-style: italic;
+        color: ${({theme}) => theme.blue};
+    }
+
     .sameDay {
         border-top: 1px dashed ${({theme}) => theme.primaryHover};
     }
