@@ -18,6 +18,23 @@ export const StyledEventForm = styled.div`
 
     @media (max-width: ${({theme}) => theme.mobile}) {
         flex-direction: column;
+
+        .event-selector {
+            transition: transform 200ms ease, opacity 200ms ease, max-height 200ms ease;
+            transform-origin: left center;
+        }
+
+        &[data-event-selected="true"] .event-selector {
+            transform: translateX(-110%);
+            opacity: 0;
+            pointer-events: none;
+            max-height: 0;
+            height: 0;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
     }
 
     .confirmed {
@@ -38,5 +55,28 @@ export const StyledEventForm = styled.div`
     .canceled {
         color: ${({theme}) => theme.red};
         font-style: italic;
+    }
+
+    .form-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .save-indicator {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        color: ${({theme}) => theme.green};
+        opacity: 0;
+        transform: scale(0.7);
+        transition: opacity 180ms ease, transform 180ms ease;
+    }
+
+    .save-indicator.visible {
+        opacity: 1;
+        transform: scale(1);
     }
 `

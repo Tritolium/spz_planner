@@ -9,6 +9,12 @@
                         "changes": [
                             "Bearbeitungsmodus zur Übersicht hinzugefügt"
                         ]
+                    },
+                    {
+                        "page": "Termine",
+                        "changes": [
+                            "Mobile Anzeige verbessert, Nutzbarkeit optimiert"
+                        ]
                     }
                 ]
             }
