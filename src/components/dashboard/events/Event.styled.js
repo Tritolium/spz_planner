@@ -88,6 +88,12 @@ export const StyledEvent = styled.div`
         justify-self: end;
     }
 
+    .ownarrival_input {
+        grid-column-start: 3;
+        grid-row-start: 6;
+        justify-self: end;
+    }
+
     .weather {
         grid-column-start: 1;
         grid-row-start: 6;
