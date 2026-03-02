@@ -15,6 +15,12 @@
                         "changes": [
                             "Mobile Anzeige verbessert, Nutzbarkeit optimiert"
                         ]
+                    },
+                    {
+                        "page": "Termine",
+                        "changes": [
+                            "Kalenderfunktion für Android angepasst"
+                        ]
                     }
                 ]
             }
