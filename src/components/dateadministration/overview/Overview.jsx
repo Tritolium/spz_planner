@@ -4,6 +4,7 @@ import Filter from "../../../modules/components/Filter"
 import { getEvents } from "../../../modules/data/DBConnect"
 import { StyledEventTable, StyledEventTableMobile, StyledOverview } from "./Overview.styled"
 import { EVENT_STATE } from "../eventform/EventForm"
+import Button from "../../../modules/components/button/Button"
 
 
 const Overview = () => {
@@ -67,7 +68,17 @@ const Overview = () => {
 
     return(
         <StyledOverview>
-            <a href={`webcal://spzroenkhausen.bplaced.net/api/v0/calendar?api_token=${localStorage.getItem('api_token')}`} target="_blank">&rarr;Termine mit Kalender synchronisieren&larr;</a>
+            <Button onClick={() => {
+                /* 
+                 * ical is problematic on android devices. If mobile and not apple, copy link to clipboard and show alert. Otherwise, open link in new tab.
+                 */
+                if(/Android/i.test(navigator.userAgent) && !/iPhone|iPad|iPod|Macintosh/i.test(navigator.userAgent)) {
+                    navigator.clipboard.writeText(`webcal://spzroenkhausen.bplaced.net/api/v0/calendar?api_token=${localStorage.getItem('api_token')}`)
+                    alert('Der Link zum Synchronisieren der Termine wurde in die Zwischenablage kopiert. Bitte füge ihn in deinen Kalender ein, um die Termine zu synchronisieren.')
+                } else {
+                    window.open(`webcal://spzroenkhausen.bplaced.net/api/v0/calendar?api_token=${localStorage.getItem('api_token')}`, '_blank')
+                }
+            }}>Termine mit Kalender synchronisieren</Button>
             <div>
                 <Filter options={options} onChange={onFilterChange}/>
                 <Filter options={event_options} onChange={onEventFilterChange}/>
