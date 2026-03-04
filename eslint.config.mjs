@@ -1,5 +1,4 @@
 import { defineConfig } from "eslint/config"
-import react from "eslint-plugin-react"
 import globals from "globals"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
@@ -15,11 +14,7 @@ const compat = new FlatCompat({
 })
 
 export default defineConfig([{
-	extends: compat.extends("eslint:recommended", "plugin:react/recommended"),
-
-	plugins: {
-		react,
-	},
+	extends: compat.extends("eslint:recommended"),
 
 	languageOptions: {
 		globals: {
@@ -29,6 +24,11 @@ export default defineConfig([{
 
 		ecmaVersion: "latest",
 		sourceType: "module",
+		parserOptions: {
+			ecmaFeatures: {
+				jsx: true,
+			},
+		}
 	},
 
 	rules: {
@@ -56,10 +56,4 @@ export default defineConfig([{
 		"playwright-report/**",
 		"playwright.config.js",
 	],
-}, {
-	settings: {
-		react: {
-			version: "detect",
-		},
-	},
 }])
