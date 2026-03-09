@@ -57,6 +57,11 @@ export const StyledDashboard = styled.div`
         font-style: italic;
         color: ${({theme}) => theme.orange};
     }
+
+    .PlannedEvent {
+        font-style: italic;
+        color: ${({theme}) => theme.blue};
+    }
 `
 
 export const StyledInfoText = styled.p`

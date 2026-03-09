@@ -41,7 +41,11 @@ const Overview = () => {
             }
         })
         _events = _events.filter(event => {
-            return event.State === EVENT_STATE.CONFIRMED || event.State === EVENT_STATE.PENDING
+            return (
+                event.State === EVENT_STATE.CONFIRMED ||
+                event.State === EVENT_STATE.PENDING ||
+                event.State === EVENT_STATE.PLANNED
+            )
         })
         if(_events !== undefined)
             setEvents(_events)

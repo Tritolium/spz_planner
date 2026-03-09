@@ -16,7 +16,8 @@ export const EVENT_STATE = {
     PENDING: 0,
     CONFIRMED: 1,
     DECLINED: 2,
-    CANCELED: 3
+    CANCELED: 3,
+    PLANNED: 4
 }
 
 
@@ -177,6 +178,9 @@ const EventItem = ({ event, onSelect }) => {
     case EVENT_STATE.CANCELED:
         className = "canceled"
         break
+    case EVENT_STATE.PLANNED:
+        className = "planned"
+        break
     }
 
     return (
@@ -312,6 +316,7 @@ const DetailForm = ({ usergroups, datetemplates, reload, selected }) => {
             <FormBox>
                 <label htmlFor="type">Status</label>
                 <select name="state" id="state" defaultValue={EVENT_STATE.PENDING}>
+                    <option value={EVENT_STATE.PLANNED}>Vorgemerkt</option>
                     <option value={EVENT_STATE.PENDING}>Anfrage</option>
                     <option value={EVENT_STATE.CONFIRMED}>Angenommen</option>
                     <option value={EVENT_STATE.DECLINED}>Abgelehnt</option>
