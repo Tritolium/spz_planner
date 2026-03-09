@@ -16,6 +16,12 @@
                             "Mobile Anzeige verbessert, Nutzbarkeit optimiert",
                             "Status ergänzt, um einen Termin vorzumerken, zu dem bisher keine offizielle Anfrage eingegangen ist"
                         ]
+                    },
+                    {
+                        "page": "Termine",
+                        "changes": [
+                            "Kalenderfunktion für Android angepasst"
+                        ]
                     }
                 ]
             }
