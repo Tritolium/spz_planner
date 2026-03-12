@@ -39,17 +39,14 @@ export const AttendenceInput = ({ event, attendence, onClick, theme }) => {
         if (eventAboutToStart(event)) {
             const alertMessage = "Du kannst deine Zusage nicht mehr ändern, da der Termin in Kürze beginnt. Schick bitte eine WhatsApp zum Abmelden.";
 
-            if (active && !(new_att === ATTENDENCE_YES || new_att === ATTENDENCE_DELAYED)) {
+            if (active && attendence === ATTENDENCE_MAYBE) { // if the user is trying to change from maybe to something else, show no alert and allow the change
+                return false
+            }
+
+            if (active && !(new_att === ATTENDENCE_YES || new_att === ATTENDENCE_DELAYED)) { // if the user is trying to change to something other than yes or delayed, show the alert and block the change
                 alert(alertMessage);
                 return true;
             }
-            
-            // if (att === ATTENDENCE_YES || 
-            //     (active && att === ATTENDENCE_NONE && new_att === ATTENDENCE_NO) || 
-            //     (active && att === ATTENDENCE_MAYBE && new_att === ATTENDENCE_NO)) {
-            //     alert(alertMessage);
-            //     return true;
-            // }
         }
 
         return false
