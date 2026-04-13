@@ -2,7 +2,7 @@ import React from 'react'
 import { StyledMenu } from './Menu.styled'
 import { useCallback } from 'react'
 import Button from '../button/Button'
-import { hasAnyPermission } from '../../helper/Permissions'
+import { hasAnyPermission, hasPermission } from '../../helper/Permissions'
 
 // TODO: remove auth_level when all permissions are set
 const Menu = ({ open, navigate, auth_level, setOpen, secure }) => {
@@ -23,14 +23,15 @@ const Menu = ({ open, navigate, auth_level, setOpen, secure }) => {
         { id: 'main_button_0', label: 'Startseite', minAuth: 1, permitted: undefined, onClick: nav },
         { id: 'main_button_1', label: 'Anwesenheiten', minAuth: 1, permitted: undefined, onClick: nav },
         { id: 'main_button_2', label: 'Urlaub/Abmeldung', minAuth: 1, permitted: undefined, onClick: nav },
-        { id: 'main_button_3', label: 'Auswertung', minAuth: 3, permitted: true, onClick: nav },
-        { id: 'main_button_4', label: 'Mitglieder', minAuth: 1, permitted: hasAnyPermission([1, 2]), onClick: nav },
-        { id: 'main_button_5', label: 'Termine', minAuth: 1, permitted: undefined, onClick: nav },
-        { id: 'main_button_6', label: 'Noten', minAuth: 1, permitted: undefined, onClick: secure ? nav : insecure },
-        { id: 'main_button_7', label: 'Bestellungen', minAuth: 1, permitted: undefined, onClick: nav },
-        { id: 'main_button_8', label: 'Verwaltung', minAuth: 3, permitted: undefined, onClick: nav },
-        { id: 'main_button_9', label: 'Einstellungen', minAuth: 1, permitted: undefined, onClick: nav },
-        { id: 'main_button_10', label: 'Hilfe/Datenschutz', minAuth: 1, permitted: undefined, onClick: nav },
+        { id: 'main_button_3', label: 'Heizung Alte Schule', minAuth: 1, permitted: hasPermission(501), onClick: secure ? nav : insecure },
+        { id: 'main_button_4', label: 'Auswertung', minAuth: 3, permitted: true, onClick: nav },
+        { id: 'main_button_5', label: 'Mitglieder', minAuth: 1, permitted: hasAnyPermission([1, 2]), onClick: nav },
+        { id: 'main_button_6', label: 'Termine', minAuth: 1, permitted: undefined, onClick: nav },
+        { id: 'main_button_7', label: 'Noten', minAuth: 1, permitted: undefined, onClick: secure ? nav : insecure },
+        { id: 'main_button_8', label: 'Bestellungen', minAuth: 1, permitted: undefined, onClick: nav },
+        { id: 'main_button_9', label: 'Verwaltung', minAuth: 3, permitted: undefined, onClick: nav },
+        { id: 'main_button_10', label: 'Einstellungen', minAuth: 1, permitted: undefined, onClick: nav },
+        { id: 'main_button_11', label: 'Hilfe/Datenschutz', minAuth: 1, permitted: undefined, onClick: nav },
     ]
 
     // TODO: remove minAuth when all permissions are set

@@ -23,6 +23,12 @@
                         "changes": [
                             "Kalenderfunktion für Android angepasst"
                         ]
+                    },
+                    {
+                        "page": "Heizung Alte Schule",
+                        "changes": [
+                            "Die Heizung in der Alten Schule kann jetzt über die App gesteuert werden. Hierfür ist eine gesonderte Berechtigung notwendig, daher ist der Eintrag nicht für alle Nutzer sichtbar."
+                        ]
                     }
                 ]
             }

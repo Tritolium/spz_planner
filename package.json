@@ -3,7 +3,10 @@
   "version": "0.18.0",
   "private": true,
   "dependencies": {
-    "@maptiler/client": "^2.7.0",
+    "@fullcalendar/react": "^6.1.19",
+    "@fullcalendar/resource-timegrid": "^6.1.19",
+    "@fullcalendar/timegrid": "^6.1.19",
+    "@maptiler/client": "^2.6.0",
     "chart.js": "^4.5.1",
     "js-sha256": "^0.11.1",
     "react": "^19.2.3",

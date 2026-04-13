@@ -11,6 +11,7 @@ import { buttonPressed } from './modules/helper/Analytics';
 import { Weather } from './modules/components/weather/Weather';
 import { BottomMenu } from './modules/components/menu/BottomMenu';
 import { Advent } from './modules/components/icons/Advent';
+import { Heating } from './components/heating/Heating';
 
 const AbsenceAdministration = lazy(() => import('./components/absenceadministration/AbsenceAdministration'))
 const Administration = lazy(() => import('./components/administration/Administration'))
@@ -57,7 +58,7 @@ const App = () => {
                     if(_theme !== undefined){
                         setTheme(themes[_theme] || themes[1])
                     }
-                    _secure ? setView(0) : setView(9)
+                    _secure ? setView(0) : setView(10)
                     secure.current = _secure
                     if(window.Notification?.permission === 'granted'){
                         notificationHelper.createNotificationSubscription('BD0AbKmeW7bACNzC9m0XSUddJNx--VoOvU2X0qBF8dODOBhHvFPjrKJEBcL7Yk07l8VpePC1HBT7h2FRK3bS5uA')
@@ -92,7 +93,7 @@ const App = () => {
                 if(_theme !== undefined){
                     setTheme(themes[_theme] || themes[1])
                 }
-                _secure ? setView(0) : setView(9)
+                _secure ? setView(0) : setView(10)
                 secure.current = _secure
                 if(window.Notification?.permission === 'granted'){
                     notificationHelper.createNotificationSubscription('BD0AbKmeW7bACNzC9m0XSUddJNx--VoOvU2X0qBF8dODOBhHvFPjrKJEBcL7Yk07l8VpePC1HBT7h2FRK3bS5uA')
@@ -242,14 +243,15 @@ const View = (props) => {
         '0': <Dashboard fullname={props.fullname} auth_level={props.auth_level} theme={props.theme}/>,
         '1': <Dateplanner fullname={props.fullname} auth_level={props.auth_level} theme={props.theme}/>,
         '2': <AbsenceAdministration auth_level={props.auth_level}/>,
-        '3': <Evaluation theme={props.theme}/>,
-        '4': <MemberAdministration auth_level={props.auth_level}/>,
-        '5': <EventAdministration auth_level={props.auth_level}/>,
-        '6': <Scoreboard />,
-        '7': <OrderAdministration />,
-        '8': <Administration auth_level={props.auth_level}/>,
-        '9': <Settings secure={props.secure}/>,
-        '10': <HelpPage auth_level={props.auth_level} theme={props.theme}/>
+        '3': <Heating theme={props.theme}/>,
+        '4': <Evaluation theme={props.theme}/>,
+        '5': <MemberAdministration auth_level={props.auth_level}/>,
+        '6': <EventAdministration auth_level={props.auth_level}/>,
+        '7': <Scoreboard />,
+        '8': <OrderAdministration />,
+        '9': <Administration auth_level={props.auth_level}/>,
+        '10': <Settings secure={props.secure}/>,
+        '11': <HelpPage auth_level={props.auth_level} theme={props.theme}/>
     };
     
     const fallbacks = {
