@@ -404,6 +404,7 @@ export const updateAttendence = async (event_id, attendence, plusone) => {
 }
 
 const getEvalByUsergroup = async (usergroup_id) => {
+	let evals = new Array(0)
     
 	let token = localStorage.getItem("api_token")
 
@@ -412,10 +413,12 @@ const getEvalByUsergroup = async (usergroup_id) => {
 	})
 	switch(response.status){
 	case 200:
-		return await response.json()
+		evals = await response.json()
+		break
 	default:
-		return
+		break
 	}    
+	return evals
 }
 
 /**
