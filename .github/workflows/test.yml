@@ -27,9 +27,12 @@ jobs:
     needs: build-deploy
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    container:
+      image: node:22
+      options: --dns 8.8.8.8
     steps:
     - uses: actions/checkout@v7
-    - uses: actions/setup-node@v6
+    - uses: actions/setup-node@v7
       with:
         node-version: 22
     - name: Install dependencies
