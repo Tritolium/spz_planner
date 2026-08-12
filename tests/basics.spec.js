@@ -7,8 +7,10 @@ test("do login", async ({ page }) => {
 	page.on("request", request => console.log(">>", request.method(), request.url(), request.postData()))
 	page.on("response", response => console.log("<<", response.status(), response.url()))
 
-	await page.goto("https://spzroenkhausen.bplaced.net/alpha/index.html")
-  
+	await page.goto("https://spzroenkhausen.bplaced.net/alpha/index.html", { waitUntil: "domcontentloaded" })
+
+	await expect(page.locator("#loginname")).toBeVisible()
+	await expect(page.locator("#passwd")).toBeVisible()  
 	await page.locator("#loginname").fill("Dominik")
 	await page.locator("#passwd").fill("QzJ%6WKP")
 	await page.getByRole("button", {name: "Login"}).press("Enter")
