@@ -32,7 +32,7 @@ jobs:
       image: node:22
     strategy:
       matrix:
-        node-version: [20.x]
+        node-version: [22.x]
     steps:
       - run: echo "Deploying ${{ inputs.branch }} to RPI"
       - uses: actions/checkout@v7
