@@ -35,7 +35,7 @@ jobs:
       with:
         node-version: 22
     - name: Check alpha endpoint over IPv4
-      run: curl -4 -Iv --max-time 20 https://spzroenkhausen.bplaced.net/alpha/index.html
+      run: curl -4 -Iv --max-time 60 https://spzroenkhausen.bplaced.net/alpha/index.html --retry 5 --retry-delay 5
     - name: Check alpha endpoint over IPv6
       run: curl -6 -Iv --max-time 20 https://spzroenkhausen.bplaced.net/alpha/index.html || true
     - name: Install dependencies
