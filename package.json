@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@fullcalendar/react": "^6.1.19",
-    "@fullcalendar/resource-timegrid": "^6.1.19",
+    "@fullcalendar/resource-timegrid": "^6.1.21",
     "@fullcalendar/timegrid": "^6.1.19",
     "@maptiler/client": "^3.0.2",
     "chart.js": "^4.5.1",
