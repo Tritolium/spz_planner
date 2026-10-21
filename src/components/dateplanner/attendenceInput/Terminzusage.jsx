@@ -56,6 +56,8 @@ const Button = (props) => {
         return(<Check callback={props.callback} theme={props.theme}/>)
     case 2:
         return(<Alert callback={props.callback} theme={props.theme}/>)
+    case 3:
+        return(<Delayed callback={props.callback} theme={props.theme}/>)
     }
 }
 
