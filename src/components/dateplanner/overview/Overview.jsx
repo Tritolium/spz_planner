@@ -289,7 +289,8 @@ const EvalRow = ({ event, attendences, instruments, theme }) => {
 
     // TODO: get ratingTerm from DB
     const ratingTermEvent = "(Becken > 0 && Pauke > 0 || Becken > 0 && Schlagwerk > 0 || Pauke > 0 && Schlagwerk > 0 || Schlagwerk >= 2)" +
-        " && Sopran >=4 && Trommel >= 2 && Major >= 1"
+        " && (Trommel >= 2 || Becken > 0 && Pauke > 0 && Schlagwerk > 0 && Trommel > 0 || (Becken > 0 || Pauke > 0) && Schlagwerk > 1 && Trommel > 0)" +
+        " && Sopran >=4 && Major >= 1"
     
     const ratingTermPractice = "(Becken > 0 && Pauke > 0 || Becken > 0 && Schlagwerk > 0 || Pauke > 0 && Schlagwerk > 0 || Schlagwerk >= 1)" +
         " && Sopran >=2 && Trommel >= 1 && Major >= 1"
