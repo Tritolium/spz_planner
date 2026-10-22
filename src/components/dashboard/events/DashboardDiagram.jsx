@@ -70,12 +70,12 @@ const DashboardDiagram = ({ event, theme, association_id, practice }) => {
                 backgroundColor: theme.greenRGB
             },
             {
-                data: [event?.ProbAttending],
-                backgroundColor: theme.lightgreenRGB
-            },
-            {
                 data: [event?.Delayed],
                 backgroundColor: theme.blueRGB
+            },
+            {
+                data: [event?.ProbAttending],
+                backgroundColor: theme.lightgreenRGB
             },
             {
                 data: [event?.Maybe],
