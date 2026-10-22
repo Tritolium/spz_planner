@@ -8,7 +8,8 @@
                         "page": "Anwesenheiten",
                         "changes": [
                             "Bearbeitungsmodus zur Übersicht hinzugefügt",
-                            "Verhalten der Rückmeldung zu kürzlich stattfindenden Terminen angepasst. Abmelden ist vom Status \"Vielleicht\" möglich. Sonstige kurzfristige Abmeldungen können nur vom Übungsleiter eingetragen werden."
+                            "Verhalten der Rückmeldung zu kürzlich stattfindenden Terminen angepasst. Abmelden ist vom Status \"Vielleicht\" möglich. Sonstige kurzfristige Abmeldungen können nur vom Übungsleiter eingetragen werden.",
+                            "Verspätete Teilnahme kann vom Übungsleiter erfasst werden"
                         ]
                     },
                     {

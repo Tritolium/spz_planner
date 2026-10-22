@@ -93,7 +93,7 @@ const AbsenceInput = ({ theme }) => {
                     return(<option key={`member_${member.Member_ID}`} value={member.Member_ID}>{member.Forename} {member.Surname}</option>)
                 })}
             </select>
-            <Terminzusage states={3} attendence={attendence} onClick={onClick} theme={theme}/>
+            <Terminzusage states={4} attendence={attendence} onClick={onClick} theme={theme}/>
             <PlusOne plusOne={plusone} onClick={togglePlusone} active={attendence === 1} theme={theme}/>
             <SubmitButton type="submit" onClick={submit}>Abschicken</SubmitButton>
         </StyledAbsenceInput>
