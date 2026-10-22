@@ -29,6 +29,12 @@
                         "changes": [
                             "Die Heizung in der Alten Schule kann jetzt über die App gesteuert werden. Hierfür ist eine gesonderte Berechtigung notwendig, daher ist der Eintrag nicht für alle Nutzer sichtbar."
                         ]
+                    },
+                    {
+                        "page": "Startseite",
+                        "changes": [
+                            "Reihenfolge im Anwesenheitsdiagramm angepasst"
+                        ]
                     }
                 ]
             }
