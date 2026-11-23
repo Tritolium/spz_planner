@@ -44,6 +44,9 @@ jobs:
       run: npx playwright install --with-deps
     - name: Run Playwright tests
       run: npx playwright test
+      env:
+        E2E_LOGIN_USERNAME: ${{ secrets.E2E_LOGIN_USERNAME }}
+        E2E_LOGIN_PASSWORD: ${{ secrets.E2E_LOGIN_PASSWORD }}
     - uses: actions/upload-artifact@v7
       if: always()
       with:

@@ -1,18 +1,22 @@
 // @ts-check
 const { test, expect } = require("@playwright/test")
 
-test("do login", async ({ page }) => {
+// Playwright traces can contain credentials and session tokens.
+test.use({ trace: "off", screenshot: "off" })
 
-	page.on("console", msg => console.log(msg.text()))
-	page.on("request", request => console.log(">>", request.method(), request.url(), request.postData()))
-	page.on("response", response => console.log("<<", response.status(), response.url()))
+test("do login", async ({ page }) => {
+	const username = process.env.E2E_LOGIN_USERNAME
+	const password = process.env.E2E_LOGIN_PASSWORD
+	if (!username || !password) {
+		throw new Error("Set E2E_LOGIN_USERNAME and E2E_LOGIN_PASSWORD before running the login test.")
+	}
 
 	await page.goto("https://spzroenkhausen.bplaced.net/alpha/index.html", { waitUntil: "domcontentloaded" })
 
 	await expect(page.locator("#loginname")).toBeVisible()
-	await expect(page.locator("#passwd")).toBeVisible()  
-	await page.locator("#loginname").fill("Dominik")
-	await page.locator("#passwd").fill("QzJ%6WKP")
+	await expect(page.locator("#passwd")).toBeVisible()
+	await page.locator("#loginname").fill(username)
+	await page.locator("#passwd").fill(password)
 	await page.getByRole("button", {name: "Login"}).press("Enter")
 	await expect(page.getByRole("button", {name: "Feedback"})).toBeVisible()
 	await expect(page.getByText(/Nächste Probe/)).toBeVisible()
